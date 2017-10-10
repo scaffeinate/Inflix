@@ -1,3 +1,4 @@
 <resources>
-	<string name="app_name">PopularMovies-Udacity</string>
+	<string name="app_name">Popular Movies</string>
+	<string name="no_movies_found_error_message">No Movies Found.</string>
 </resources>
