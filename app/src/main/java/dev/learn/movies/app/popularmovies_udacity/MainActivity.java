@@ -1,18 +1,33 @@
 package dev.learn.movies.app.popularmovies_udacity;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.gson.GsonBuilder;
+
+import java.io.IOException;
+import java.net.URL;
+
+import dev.learn.movies.app.popularmovies_udacity.common.MoviesResult;
+import dev.learn.movies.app.popularmovies_udacity.network.HTTPHelper;
+
 public class MainActivity extends AppCompatActivity {
+
+    private final static String TAG = "MainActivity";
 
     private RecyclerView mRecyclerViewMovies;
     private ProgressBar mProgressBar;
     private TextView mErrorMessageDisplay;
+
     private RecyclerView.LayoutManager mLayoutManager;
+    private MoviesAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,5 +41,62 @@ public class MainActivity extends AppCompatActivity {
         mLayoutManager = new GridLayoutManager(this, 2);
         mRecyclerViewMovies.setHasFixedSize(true);
         mRecyclerViewMovies.setLayoutManager(mLayoutManager);
+
+        mAdapter = new MoviesAdapter(this);
+        mRecyclerViewMovies.setAdapter(mAdapter);
+
+        URL discoverURL = HTTPHelper.buildDiscoverURL();
+        new DiscoverMoviesTask().execute(discoverURL);
+    }
+
+    private void showProgressBar() {
+        mProgressBar.setVisibility(View.VISIBLE);
+        mRecyclerViewMovies.setVisibility(View.INVISIBLE);
+        mErrorMessageDisplay.setVisibility(View.INVISIBLE);
+    }
+
+    private void showRecyclerView() {
+        mRecyclerViewMovies.setVisibility(View.VISIBLE);
+        mProgressBar.setVisibility(View.INVISIBLE);
+        mErrorMessageDisplay.setVisibility(View.INVISIBLE);
+    }
+
+    private void showErrorMessage() {
+        mErrorMessageDisplay.setVisibility(View.VISIBLE);
+        mProgressBar.setVisibility(View.INVISIBLE);
+        mRecyclerViewMovies.setVisibility(View.INVISIBLE);
+    }
+
+    private class DiscoverMoviesTask extends AsyncTask<URL, Void, String> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            showProgressBar();
+        }
+
+        @Override
+        protected String doInBackground(URL... urls) {
+            String response = null;
+            try {
+                response = HTTPHelper.getHTTPResponse(urls[0]);
+            } catch (IOException e) {
+                Log.e(TAG, e.getMessage());
+            }
+            return response;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if (s != null) {
+                MoviesResult moviesResult = new GsonBuilder().create().fromJson(s, MoviesResult.class);
+                if (moviesResult != null && moviesResult.getResults() != null) {
+                    mAdapter.setMovieList(moviesResult.getResults());
+                }
+                showRecyclerView();
+            } else {
+                showErrorMessage();
+            }
+        }
     }
 }
