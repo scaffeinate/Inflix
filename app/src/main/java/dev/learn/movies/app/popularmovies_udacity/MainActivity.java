@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -47,6 +49,15 @@ public class MainActivity extends AppCompatActivity {
 
         URL discoverURL = HTTPHelper.buildDiscoverURL();
         new DiscoverMoviesTask().execute(discoverURL);
+    }
+
+    // TODO (2) Figure out the the best way to show the sort option
+    // TODO (3) Handle sort option clicks
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main, menu);
+        return true;
     }
 
     private void showProgressBar() {
