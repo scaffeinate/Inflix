@@ -1,11 +1,11 @@
 
-package dev.learn.movies.app.popularmovies_udacity.data;
+package dev.learn.movies.app.popularmovies_udacity.common;
 
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Result {
+public class Movie {
 
     @SerializedName("vote_count")
     @Expose
