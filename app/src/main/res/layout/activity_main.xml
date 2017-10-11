@@ -24,4 +24,11 @@
         android:layout_height="@dimen/progressbar_size"
         android:layout_gravity="center"
         android:visibility="invisible" />
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top" />
 </FrameLayout>

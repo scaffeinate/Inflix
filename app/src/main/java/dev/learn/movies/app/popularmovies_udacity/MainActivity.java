@@ -5,9 +5,11 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -24,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
 
     private final static String TAG = "MainActivity";
 
+    private Toolbar mToolbar;
+
     private RecyclerView mRecyclerViewMovies;
     private ProgressBar mProgressBar;
     private TextView mErrorMessageDisplay;
@@ -35,6 +39,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         mRecyclerViewMovies = (RecyclerView) findViewById(R.id.recyclerview_movies);
         mProgressBar = (ProgressBar) findViewById(R.id.pb_loading_indicator);
@@ -52,12 +61,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // TODO (2) Figure out the the best way to show the sort option
-    // TODO (3) Handle sort option clicks
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main, menu);
         return true;
+    }
+
+    // TODO (3) Handle sort option clicks
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_sort_popular:
+                return true;
+            case R.id.action_sort_rating:
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void showProgressBar() {
