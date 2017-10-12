@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/ic_movie_white_24dp" />
+            android:src="@drawable/ic_popcorn_white_24dp" />
 
         <TextView
             android:id="@+id/tv_toolbar_text"

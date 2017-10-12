@@ -6,7 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -23,9 +26,11 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
 
     private List<Movie> movieList;
     private Context mContext;
+    private OnItemClickHandler mHandler;
 
-    public MoviesAdapter(Context context) {
+    public MoviesAdapter(Context context, OnItemClickHandler handler) {
         this.mContext = context;
+        this.mHandler = handler;
         this.movieList = new ArrayList<>();
     }
 
@@ -50,12 +55,16 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
         notifyDataSetChanged();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
         private final ImageView mPosterImageView;
+        private final RelativeLayout mPlaceholder;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            mPosterImageView = (ImageView) itemView;
+            mPosterImageView = itemView.findViewById(R.id.imageview_poster);
+            mPlaceholder = itemView.findViewById(R.id.layout_placeholder);
+            mPosterImageView.setOnClickListener(this);
         }
 
         private void bind(int position) {
@@ -63,7 +72,26 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
             //TODO (1) Fallback if the image is not present
             Picasso.with(mContext)
                     .load(HTTPHelper.buildImageResourceUri(movie.getPosterPath()))
-                    .into(mPosterImageView);
+                    .into(mPosterImageView, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            mPosterImageView.setVisibility(View.VISIBLE);
+                            mPlaceholder.setVisibility(View.INVISIBLE);
+                        }
+
+                        @Override
+                        public void onError() {
+                        }
+                    });
         }
+
+        @Override
+        public void onClick(View view) {
+            mHandler.onClick(getAdapterPosition());
+        }
+    }
+
+    interface OnItemClickHandler {
+        void onClick(int position);
     }
 }
