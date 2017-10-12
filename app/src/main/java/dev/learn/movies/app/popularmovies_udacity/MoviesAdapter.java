@@ -6,10 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
-import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -69,20 +67,9 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
 
         private void bind(int position) {
             Movie movie = movieList.get(position);
-            //TODO (1) Fallback if the image is not present
             Picasso.with(mContext)
                     .load(HTTPHelper.buildImageResourceUri(movie.getPosterPath()))
-                    .into(mPosterImageView, new Callback() {
-                        @Override
-                        public void onSuccess() {
-                            mPosterImageView.setVisibility(View.VISIBLE);
-                            mPlaceholder.setVisibility(View.INVISIBLE);
-                        }
-
-                        @Override
-                        public void onError() {
-                        }
-                    });
+                    .into(mPosterImageView);
         }
 
         @Override
