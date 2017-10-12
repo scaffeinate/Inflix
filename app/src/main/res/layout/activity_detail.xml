@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true" />
 
+    <!--TODO (3): Finish this View component -->
     <RelativeLayout
         android:id="@+id/layout_movie_detail"
         android:layout_width="match_parent"

@@ -52,7 +52,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
         notifyDataSetChanged();
     }
 
-    //TODO (3): Add a TextView to show the Movie name in case poster loading fails
+    //TODO (1): Add a TextView to show the Movie name in case poster loading fails
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private final ImageView mPosterImageView;

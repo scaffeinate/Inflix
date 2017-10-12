@@ -38,6 +38,8 @@ public class DetailActivity extends AppCompatActivity implements NetworkTaskCall
 
     private final Gson gson = new Gson();
 
+    //TODO (2): Write MovieDetail as parceable to savedInstanceState and restore back
+    //TODO (4): Populate UI with Movie details.
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
