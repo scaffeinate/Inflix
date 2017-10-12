@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -22,7 +21,12 @@ import dev.learn.movies.app.popularmovies_udacity.common.MoviesResult;
 import dev.learn.movies.app.popularmovies_udacity.network.HTTPHelper;
 
 public class MainActivity extends AppCompatActivity implements MoviesAdapter.OnItemClickHandler, NetworkTaskCallback {
+
     private final static String TAG = "MainActivity";
+
+    private final static String DISCOVER = "discover";
+    private final static String MOST_POPULAR = "most_popular";
+    private final static String TOP_RATED = "top_rated";
 
     private Toolbar mToolbar;
 
@@ -56,11 +60,9 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.OnI
         mAdapter = new MoviesAdapter(this, this);
         mRecyclerViewMovies.setAdapter(mAdapter);
 
-        URL discoverURL = HTTPHelper.buildDiscoverURL();
-        new DiscoverMoviesTask(this).execute(discoverURL);
+        fetchMovies(DISCOVER);
     }
 
-    // TODO (2) Figure out the the best way to show the sort option
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -68,13 +70,14 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.OnI
         return true;
     }
 
-    // TODO (3) Handle sort option clicks
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_sort_popular:
+                fetchMovies(MOST_POPULAR);
                 return true;
             case R.id.action_sort_rating:
+                fetchMovies(TOP_RATED);
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -103,6 +106,25 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.OnI
             mAdapter.setMovieList(moviesResult.getResults());
             showRecyclerView();
         }
+    }
+
+    private void fetchMovies(String type) {
+        URL url = null;
+        switch (type) {
+            case DISCOVER:
+                url = HTTPHelper.buildDiscoverURL();
+                break;
+            case MOST_POPULAR:
+                url = HTTPHelper.buildMostPopularURL();
+                break;
+            case TOP_RATED:
+                url = HTTPHelper.builTopRatedURL();
+                break;
+            default:
+                url = HTTPHelper.buildDiscoverURL();
+        }
+
+        new DiscoverMoviesTask(this).execute(url);
     }
 
     private void showProgressBar() {
