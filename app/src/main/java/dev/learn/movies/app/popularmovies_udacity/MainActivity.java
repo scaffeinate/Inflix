@@ -1,6 +1,8 @@
 package dev.learn.movies.app.popularmovies_udacity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,12 +13,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 
 import java.net.URL;
+import java.util.List;
 
+import dev.learn.movies.app.popularmovies_udacity.common.Movie;
 import dev.learn.movies.app.popularmovies_udacity.common.MoviesResult;
 import dev.learn.movies.app.popularmovies_udacity.network.HTTPHelper;
 
@@ -24,9 +27,12 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.OnI
 
     private final static String TAG = "MainActivity";
 
+    private final static String TYPE = "type";
     private final static String DISCOVER = "discover";
     private final static String MOST_POPULAR = "most_popular";
     private final static String TOP_RATED = "top_rated";
+
+    private String type = DISCOVER;
 
     private Toolbar mToolbar;
 
@@ -37,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.OnI
     private RecyclerView.LayoutManager mLayoutManager;
     private MoviesAdapter mAdapter;
 
+    private List<Movie> movieList;
     private final Gson gson = new Gson();
 
     //TODO (1): Save the grid state in OnSavedInstance and restore
@@ -62,7 +69,11 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.OnI
         mAdapter = new MoviesAdapter(this, this);
         mRecyclerViewMovies.setAdapter(mAdapter);
 
-        fetchMovies(DISCOVER);
+        if (savedInstanceState != null) {
+            type = savedInstanceState.getString(TYPE);
+        }
+
+        fetchMovies();
     }
 
     @Override
@@ -76,10 +87,12 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.OnI
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_sort_popular:
-                fetchMovies(MOST_POPULAR);
+                type = MOST_POPULAR;
+                fetchMovies();
                 return true;
             case R.id.action_sort_rating:
-                fetchMovies(TOP_RATED);
+                type = TOP_RATED;
+                fetchMovies();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -87,7 +100,14 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.OnI
 
     @Override
     public void onClick(int position) {
-        Toast.makeText(this, "" + position, Toast.LENGTH_SHORT).show();
+        Intent detailActivityIntent = new Intent(this, DetailActivity.class);
+
+        if (movieList != null && position < movieList.size()) {
+            Movie movie = movieList.get(position);
+            detailActivityIntent.putExtra(DetailActivity.MOVIE_ID, movie.getId());
+        }
+
+        startActivity(detailActivityIntent);
     }
 
     @Override
@@ -105,13 +125,20 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.OnI
         if (moviesResult == null || moviesResult.getResults() == null || moviesResult.getResults().isEmpty()) {
             showErrorMessage();
         } else {
-            mAdapter.setMovieList(moviesResult.getResults());
+            this.movieList = moviesResult.getResults();
+            mAdapter.setMovieList(movieList);
             showRecyclerView();
         }
     }
 
-    private void fetchMovies(String type) {
-        URL url = null;
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+        outState.putString(TYPE, this.type);
+    }
+
+    private void fetchMovies() {
+        URL url;
         switch (type) {
             case DISCOVER:
                 url = HTTPHelper.buildDiscoverURL();
