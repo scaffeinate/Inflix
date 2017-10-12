@@ -20,6 +20,8 @@ import java.util.List;
 import dev.learn.movies.app.popularmovies_udacity.common.Movie;
 import dev.learn.movies.app.popularmovies_udacity.common.MoviesResult;
 import dev.learn.movies.app.popularmovies_udacity.network.HTTPHelper;
+import dev.learn.movies.app.popularmovies_udacity.network.NetworkTask;
+import dev.learn.movies.app.popularmovies_udacity.network.NetworkTaskCallback;
 
 public class MainActivity extends AppCompatActivity implements MoviesAdapter.OnItemClickHandler, NetworkTaskCallback {
 
@@ -151,13 +153,13 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.OnI
         mToolbarTitle.setText(requestFor);
         switch (requestFor) {
             case DISCOVER_MOVIES:
-                new DiscoverMoviesTask(this).execute(HTTPHelper.buildDiscoverURL());
+                new NetworkTask(this).execute(HTTPHelper.buildDiscoverURL());
                 break;
             case MOST_POPULAR_MOVIES:
-                new DiscoverMoviesTask(this).execute(HTTPHelper.buildMostPopularURL());
+                new NetworkTask(this).execute(HTTPHelper.buildMostPopularURL());
                 break;
             case TOP_RATED_MOVIES:
-                new DiscoverMoviesTask(this).execute(HTTPHelper.builTopRatedURL());
+                new NetworkTask(this).execute(HTTPHelper.builTopRatedURL());
                 break;
         }
     }

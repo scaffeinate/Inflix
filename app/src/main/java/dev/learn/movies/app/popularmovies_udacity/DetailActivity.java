@@ -6,15 +6,15 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import dev.learn.movies.app.popularmovies_udacity.network.NetworkTask;
+import dev.learn.movies.app.popularmovies_udacity.network.NetworkTaskCallback;
 
 /**
  * Created by sudharti on 10/11/17.
  */
-public class DetailActivity extends AppCompatActivity {
+public class DetailActivity extends AppCompatActivity implements NetworkTaskCallback {
 
     public static final String MOVIE_ID = "movie_id";
     public static final String MOVIE_NAME = "movie_name";
@@ -24,7 +24,6 @@ public class DetailActivity extends AppCompatActivity {
 
     private Toolbar mToolbar;
     private ActionBar mActionBar;
-    private ImageView mToolbarIcon;
     private TextView mToolbarTitle;
 
     @Override
@@ -33,7 +32,6 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        mToolbarIcon = (ImageView) findViewById(R.id.imageview_toolbar_icon);
         mToolbarTitle = (TextView) findViewById(R.id.tv_toolbar_title);
 
         setSupportActionBar(mToolbar);
@@ -59,7 +57,7 @@ public class DetailActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Toast.makeText(this, "" + movieId, Toast.LENGTH_SHORT).show();
+        new NetworkTask(this).execute();
     }
 
     @Override
@@ -67,5 +65,15 @@ public class DetailActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
         outState.putLong(MOVIE_ID, movieId);
         outState.putString(MOVIE_NAME, movieName);
+    }
+
+    @Override
+    public void onPreExecute() {
+
+    }
+
+    @Override
+    public void onPostExecute(String s) {
+
     }
 }

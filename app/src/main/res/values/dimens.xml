@@ -2,5 +2,5 @@
 <resources>
     <dimen name="progressbar_size">42dp</dimen>
     <dimen name="toolbar_title_margin_left">10dp</dimen>
-    <dimen name="toolbar_title_max_width">165dp</dimen>
+    <dimen name="toolbar_padding_right">30dp</dimen>
 </resources>

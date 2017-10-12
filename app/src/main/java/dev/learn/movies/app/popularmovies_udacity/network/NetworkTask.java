@@ -1,4 +1,4 @@
-package dev.learn.movies.app.popularmovies_udacity;
+package dev.learn.movies.app.popularmovies_udacity.network;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -6,19 +6,17 @@ import android.util.Log;
 import java.io.IOException;
 import java.net.URL;
 
-import dev.learn.movies.app.popularmovies_udacity.network.HTTPHelper;
-
 /**
  * Created by sudhar on 10/11/17.
  */
 
-public class DiscoverMoviesTask extends AsyncTask<URL, Void, String> {
+public class NetworkTask extends AsyncTask<URL, Void, String> {
 
-    private static final String TAG = "DiscoverMoviesTask";
+    private static final String TAG = "NetworkTask";
 
     private NetworkTaskCallback mCallback;
 
-    public DiscoverMoviesTask(NetworkTaskCallback callback) {
+    public NetworkTask(NetworkTaskCallback callback) {
         this.mCallback = callback;
     }
 
