@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -94,11 +95,21 @@ public class DetailActivity extends AppCompatActivity implements NetworkTaskCall
     @Override
     public void onPostExecute(String s) {
         MovieDetail movieDetail = (s == null) ? null : gson.fromJson(s, MovieDetail.class);
-        if(movieDetail == null) {
+        if (movieDetail == null) {
             showErrorMessage();
         } else {
             showMovieDetail();
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void showProgressBar() {
