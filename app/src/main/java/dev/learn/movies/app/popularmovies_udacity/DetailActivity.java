@@ -6,8 +6,15 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+
+import dev.learn.movies.app.popularmovies_udacity.common.MovieDetail;
+import dev.learn.movies.app.popularmovies_udacity.network.HTTPHelper;
 import dev.learn.movies.app.popularmovies_udacity.network.NetworkTask;
 import dev.learn.movies.app.popularmovies_udacity.network.NetworkTaskCallback;
 
@@ -25,6 +32,11 @@ public class DetailActivity extends AppCompatActivity implements NetworkTaskCall
     private Toolbar mToolbar;
     private ActionBar mActionBar;
     private TextView mToolbarTitle;
+    private RelativeLayout mMovieDetailLayout;
+    private ProgressBar mProgressBar;
+    private TextView mErrorMessageDisplay;
+
+    private final Gson gson = new Gson();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,6 +45,9 @@ public class DetailActivity extends AppCompatActivity implements NetworkTaskCall
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mToolbarTitle = (TextView) findViewById(R.id.tv_toolbar_title);
+        mMovieDetailLayout = (RelativeLayout) findViewById(R.id.layout_movie_detail);
+        mProgressBar = (ProgressBar) findViewById(R.id.pb_loading_indicator);
+        mErrorMessageDisplay = (TextView) findViewById(R.id.tv_error_message_display);
 
         setSupportActionBar(mToolbar);
         mActionBar = getSupportActionBar();
@@ -57,7 +72,9 @@ public class DetailActivity extends AppCompatActivity implements NetworkTaskCall
     @Override
     protected void onResume() {
         super.onResume();
-        new NetworkTask(this).execute();
+        if (movieId != 0) {
+            new NetworkTask(this).execute(HTTPHelper.buildMovieDetailsURL(String.valueOf(movieId)));
+        }
     }
 
     @Override
@@ -69,11 +86,34 @@ public class DetailActivity extends AppCompatActivity implements NetworkTaskCall
 
     @Override
     public void onPreExecute() {
-
+        showProgressBar();
     }
 
     @Override
     public void onPostExecute(String s) {
+        MovieDetail movieDetail = (s == null) ? null : gson.fromJson(s, MovieDetail.class);
+        if(movieDetail == null) {
+            showErrorMessage();
+        } else {
+            showMovieDetail();
+        }
+    }
 
+    private void showProgressBar() {
+        mProgressBar.setVisibility(View.VISIBLE);
+        mErrorMessageDisplay.setVisibility(View.INVISIBLE);
+        mMovieDetailLayout.setVisibility(View.INVISIBLE);
+    }
+
+    private void showMovieDetail() {
+        mMovieDetailLayout.setVisibility(View.VISIBLE);
+        mProgressBar.setVisibility(View.INVISIBLE);
+        mErrorMessageDisplay.setVisibility(View.INVISIBLE);
+    }
+
+    private void showErrorMessage() {
+        mErrorMessageDisplay.setVisibility(View.VISIBLE);
+        mProgressBar.setVisibility(View.INVISIBLE);
+        mMovieDetailLayout.setVisibility(View.INVISIBLE);
     }
 }

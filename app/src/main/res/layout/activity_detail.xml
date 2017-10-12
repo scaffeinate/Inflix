@@ -12,4 +12,26 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true" />
 
+    <RelativeLayout
+        android:id="@+id/layout_movie_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_error_message_display"
+        style="@style/Base.TextAppearance.AppCompat.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="@string/no_movies_found_error_message"
+        android:visibility="invisible" />
+
+    <ProgressBar
+        android:id="@+id/pb_loading_indicator"
+        android:layout_width="@dimen/progressbar_size"
+        android:layout_height="@dimen/progressbar_size"
+        android:layout_centerInParent="true"
+        android:visibility="invisible" />
 </RelativeLayout>
