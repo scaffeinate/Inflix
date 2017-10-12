@@ -2,7 +2,6 @@ package dev.learn.movies.app.popularmovies_udacity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,7 +15,6 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 
-import java.net.URL;
 import java.util.List;
 
 import dev.learn.movies.app.popularmovies_udacity.common.Movie;
@@ -27,18 +25,19 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.OnI
 
     private final static String TAG = "MainActivity";
 
-    private final static String TYPE = "type";
-    private final static String DISCOVER = "discover";
-    private final static String MOST_POPULAR = "most_popular";
-    private final static String TOP_RATED = "top_rated";
+    private final static String REQUEST_FOR = "request_for";
+    private final static String DISCOVER_MOVIES = "Discover";
+    private final static String MOST_POPULAR_MOVIES = "Most Popular";
+    private final static String TOP_RATED_MOVIES = "Top Rated";
 
-    private String type = DISCOVER;
+    private String requestFor = null;
 
     private Toolbar mToolbar;
 
     private RecyclerView mRecyclerViewMovies;
     private ProgressBar mProgressBar;
     private TextView mErrorMessageDisplay;
+    private TextView mToolbarTitle;
 
     private RecyclerView.LayoutManager mLayoutManager;
     private MoviesAdapter mAdapter;
@@ -46,8 +45,6 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.OnI
     private List<Movie> movieList;
     private final Gson gson = new Gson();
 
-    //TODO (1): Save the grid state in OnSavedInstance and restore
-    //TODO (2): OnClick Start DetailActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.OnI
         mRecyclerViewMovies = (RecyclerView) findViewById(R.id.recyclerview_movies);
         mProgressBar = (ProgressBar) findViewById(R.id.pb_loading_indicator);
         mErrorMessageDisplay = (TextView) findViewById(R.id.tv_error_message_display);
+        mToolbarTitle = (TextView) findViewById(R.id.tv_toolbar_title);
 
         mLayoutManager = new GridLayoutManager(this, 2);
         mRecyclerViewMovies.setHasFixedSize(true);
@@ -69,10 +67,16 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.OnI
         mAdapter = new MoviesAdapter(this, this);
         mRecyclerViewMovies.setAdapter(mAdapter);
 
-        if (savedInstanceState != null) {
-            type = savedInstanceState.getString(TYPE);
+        if (savedInstanceState != null && savedInstanceState.containsKey(REQUEST_FOR)) {
+            requestFor = savedInstanceState.getString(REQUEST_FOR);
+        } else {
+            requestFor = DISCOVER_MOVIES;
         }
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
         fetchMovies();
     }
 
@@ -86,12 +90,16 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.OnI
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.action_discover:
+                requestFor = DISCOVER_MOVIES;
+                fetchMovies();
+                return true;
             case R.id.action_sort_popular:
-                type = MOST_POPULAR;
+                requestFor = MOST_POPULAR_MOVIES;
                 fetchMovies();
                 return true;
             case R.id.action_sort_rating:
-                type = TOP_RATED;
+                requestFor = TOP_RATED_MOVIES;
                 fetchMovies();
                 return true;
         }
@@ -117,10 +125,7 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.OnI
 
     @Override
     public void onPostExecute(String s) {
-        MoviesResult moviesResult = null;
-        if (s != null) {
-            moviesResult = gson.fromJson(s, MoviesResult.class);
-        }
+        MoviesResult moviesResult = (s == null) ? null : gson.fromJson(s, MoviesResult.class);
 
         if (moviesResult == null || moviesResult.getResults() == null || moviesResult.getResults().isEmpty()) {
             showErrorMessage();
@@ -132,28 +137,26 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.OnI
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-        super.onSaveInstanceState(outState, outPersistentState);
-        outState.putString(TYPE, this.type);
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(REQUEST_FOR, requestFor);
     }
 
     private void fetchMovies() {
-        URL url;
-        switch (type) {
-            case DISCOVER:
-                url = HTTPHelper.buildDiscoverURL();
-                break;
-            case MOST_POPULAR:
-                url = HTTPHelper.buildMostPopularURL();
-                break;
-            case TOP_RATED:
-                url = HTTPHelper.builTopRatedURL();
-                break;
-            default:
-                url = HTTPHelper.buildDiscoverURL();
-        }
+        if (requestFor == null) return;
 
-        new DiscoverMoviesTask(this).execute(url);
+        mToolbarTitle.setText(requestFor);
+        switch (requestFor) {
+            case DISCOVER_MOVIES:
+                new DiscoverMoviesTask(this).execute(HTTPHelper.buildDiscoverURL());
+                break;
+            case MOST_POPULAR_MOVIES:
+                new DiscoverMoviesTask(this).execute(HTTPHelper.buildMostPopularURL());
+                break;
+            case TOP_RATED_MOVIES:
+                new DiscoverMoviesTask(this).execute(HTTPHelper.builTopRatedURL());
+                break;
+        }
     }
 
     private void showProgressBar() {
