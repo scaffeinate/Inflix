@@ -1,37 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-				xmlns:tools="http://schemas.android.com/tools"
-				android:layout_width="match_parent"
-				android:layout_height="match_parent"
-				tools:context="dev.learn.movies.app.popularmovies_udacity.MainActivity">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="dev.learn.movies.app.popularmovies_udacity.MainActivity">
 
-	<include
-		android:id="@+id/toolbar"
-		layout="@layout/toolbar"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_alignParentTop="true"/>
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true" />
 
-	<android.support.v7.widget.RecyclerView
-		android:id="@+id/recyclerview_movies"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:layout_below="@+id/toolbar"/>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerview_movies"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar" />
 
-	<TextView
-		android:id="@+id/tv_error_message_display"
-		style="@style/Base.TextAppearance.AppCompat.Title"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_centerInParent="true"
-		android:text="@string/no_movies_found_error_message"
-		android:visibility="invisible"/>
+    <TextView
+        android:id="@+id/tv_error_message_display"
+        style="@style/Base.TextAppearance.AppCompat.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="@string/no_movies_found_error_message"
+        android:visibility="invisible" />
 
-	<ProgressBar
-		android:id="@+id/pb_loading_indicator"
-		android:layout_width="@dimen/progressbar_size"
-		android:layout_height="@dimen/progressbar_size"
-		android:layout_centerInParent="true"
-		android:visibility="invisible"/>
+    <ProgressBar
+        android:id="@+id/pb_loading_indicator"
+        android:layout_width="@dimen/progressbar_size"
+        android:layout_height="@dimen/progressbar_size"
+        android:layout_centerInParent="true"
+        android:visibility="invisible" />
 
 </RelativeLayout>
