@@ -1,29 +1,27 @@
 package dev.learn.movies.app.popularmovies_udacity;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
+
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.google.gson.GsonBuilder;
+import com.google.gson.Gson;
 
-import java.io.IOException;
 import java.net.URL;
 
 import dev.learn.movies.app.popularmovies_udacity.common.MoviesResult;
 import dev.learn.movies.app.popularmovies_udacity.network.HTTPHelper;
 
-public class MainActivity extends AppCompatActivity {
-
+public class MainActivity extends AppCompatActivity implements MoviesAdapter.OnItemClickHandler, NetworkTaskCallback {
     private final static String TAG = "MainActivity";
 
     private Toolbar mToolbar;
@@ -34,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
 
     private RecyclerView.LayoutManager mLayoutManager;
     private MoviesAdapter mAdapter;
+
+    private final Gson gson = new Gson();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,11 +53,11 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerViewMovies.setHasFixedSize(true);
         mRecyclerViewMovies.setLayoutManager(mLayoutManager);
 
-        mAdapter = new MoviesAdapter(this);
+        mAdapter = new MoviesAdapter(this, this);
         mRecyclerViewMovies.setAdapter(mAdapter);
 
         URL discoverURL = HTTPHelper.buildDiscoverURL();
-        new DiscoverMoviesTask().execute(discoverURL);
+        new DiscoverMoviesTask(this).execute(discoverURL);
     }
 
     // TODO (2) Figure out the the best way to show the sort option
@@ -80,6 +80,31 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onClick(int position) {
+        Toast.makeText(this, "" + position, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onPreExecute() {
+        showProgressBar();
+    }
+
+    @Override
+    public void onPostExecute(String s) {
+        MoviesResult moviesResult = null;
+        if (s != null) {
+            moviesResult = gson.fromJson(s, MoviesResult.class);
+        }
+
+        if (moviesResult == null || moviesResult.getResults() == null || moviesResult.getResults().isEmpty()) {
+            showErrorMessage();
+        } else {
+            mAdapter.setMovieList(moviesResult.getResults());
+            showRecyclerView();
+        }
+    }
+
     private void showProgressBar() {
         mProgressBar.setVisibility(View.VISIBLE);
         mRecyclerViewMovies.setVisibility(View.INVISIBLE);
@@ -96,38 +121,5 @@ public class MainActivity extends AppCompatActivity {
         mErrorMessageDisplay.setVisibility(View.VISIBLE);
         mProgressBar.setVisibility(View.INVISIBLE);
         mRecyclerViewMovies.setVisibility(View.INVISIBLE);
-    }
-
-    private class DiscoverMoviesTask extends AsyncTask<URL, Void, String> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            showProgressBar();
-        }
-
-        @Override
-        protected String doInBackground(URL... urls) {
-            String response = null;
-            try {
-                response = HTTPHelper.getHTTPResponse(urls[0]);
-            } catch (IOException e) {
-                Log.e(TAG, e.getMessage());
-            }
-            return response;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            if (s != null) {
-                MoviesResult moviesResult = new GsonBuilder().create().fromJson(s, MoviesResult.class);
-                if (moviesResult != null && moviesResult.getResults() != null) {
-                    mAdapter.setMovieList(moviesResult.getResults());
-                }
-                showRecyclerView();
-            } else {
-                showErrorMessage();
-            }
-        }
     }
 }
