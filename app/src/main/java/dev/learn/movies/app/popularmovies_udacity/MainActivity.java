@@ -39,6 +39,8 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.OnI
 
     private final Gson gson = new Gson();
 
+    //TODO (1): Save the grid state in OnSavedInstance and restore
+    //TODO (2): OnClick Start DetailActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

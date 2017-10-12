@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
 import com.squareup.picasso.Picasso;
 
@@ -53,15 +52,14 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
         notifyDataSetChanged();
     }
 
+    //TODO (3): Add a TextView to show the Movie name in case poster loading fails
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private final ImageView mPosterImageView;
-        private final RelativeLayout mPlaceholder;
 
         public ViewHolder(View itemView) {
             super(itemView);
             mPosterImageView = itemView.findViewById(R.id.imageview_poster);
-            mPlaceholder = itemView.findViewById(R.id.layout_placeholder);
             mPosterImageView.setOnClickListener(this);
         }
 
