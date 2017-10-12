@@ -24,6 +24,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="@dimen/toolbar_title_margin_left"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:maxWidth="@dimen/toolbar_title_max_width"
             android:text="@string/app_name"
             android:textColor="@color/textColorWhite" />
     </LinearLayout>

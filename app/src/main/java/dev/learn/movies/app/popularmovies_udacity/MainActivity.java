@@ -112,7 +112,10 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.OnI
 
         if (movieList != null && position < movieList.size()) {
             Movie movie = movieList.get(position);
-            detailActivityIntent.putExtra(DetailActivity.MOVIE_ID, movie.getId());
+            Bundle bundle = new Bundle();
+            bundle.putLong(DetailActivity.MOVIE_ID, movie.getId());
+            bundle.putString(DetailActivity.MOVIE_NAME, movie.getTitle());
+            detailActivityIntent.putExtras(bundle);
         }
 
         startActivity(detailActivityIntent);

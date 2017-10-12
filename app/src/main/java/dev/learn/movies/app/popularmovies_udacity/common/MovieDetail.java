@@ -1,7 +1,6 @@
 
 package dev.learn.movies.app.popularmovies_udacity.common;
 
-import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -19,9 +18,6 @@ public class MovieDetail {
     @SerializedName("budget")
     @Expose
     private long budget;
-    @SerializedName("genres")
-    @Expose
-    private List<Genre> genres = null;
     @SerializedName("homepage")
     @Expose
     private String homepage;
@@ -46,12 +42,6 @@ public class MovieDetail {
     @SerializedName("poster_path")
     @Expose
     private String posterPath;
-    @SerializedName("production_companies")
-    @Expose
-    private List<ProductionCompany> productionCompanies = null;
-    @SerializedName("production_countries")
-    @Expose
-    private List<ProductionCountry> productionCountries = null;
     @SerializedName("release_date")
     @Expose
     private String releaseDate;
@@ -61,9 +51,6 @@ public class MovieDetail {
     @SerializedName("runtime")
     @Expose
     private long runtime;
-    @SerializedName("spoken_languages")
-    @Expose
-    private List<SpokenLanguage> spokenLanguages = null;
     @SerializedName("status")
     @Expose
     private String status;
@@ -113,14 +100,6 @@ public class MovieDetail {
 
     public void setBudget(long budget) {
         this.budget = budget;
-    }
-
-    public List<Genre> getGenres() {
-        return genres;
-    }
-
-    public void setGenres(List<Genre> genres) {
-        this.genres = genres;
     }
 
     public String getHomepage() {
@@ -187,22 +166,6 @@ public class MovieDetail {
         this.posterPath = posterPath;
     }
 
-    public List<ProductionCompany> getProductionCompanies() {
-        return productionCompanies;
-    }
-
-    public void setProductionCompanies(List<ProductionCompany> productionCompanies) {
-        this.productionCompanies = productionCompanies;
-    }
-
-    public List<ProductionCountry> getProductionCountries() {
-        return productionCountries;
-    }
-
-    public void setProductionCountries(List<ProductionCountry> productionCountries) {
-        this.productionCountries = productionCountries;
-    }
-
     public String getReleaseDate() {
         return releaseDate;
     }
@@ -225,14 +188,6 @@ public class MovieDetail {
 
     public void setRuntime(long runtime) {
         this.runtime = runtime;
-    }
-
-    public List<SpokenLanguage> getSpokenLanguages() {
-        return spokenLanguages;
-    }
-
-    public void setSpokenLanguages(List<SpokenLanguage> spokenLanguages) {
-        this.spokenLanguages = spokenLanguages;
     }
 
     public String getStatus() {
