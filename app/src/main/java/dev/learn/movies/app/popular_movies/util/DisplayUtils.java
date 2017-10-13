@@ -1,4 +1,4 @@
-package dev.learn.movies.app.popularmovies_udacity.util;
+package dev.learn.movies.app.popular_movies.util;
 
 import android.net.Uri;
 import android.util.Log;

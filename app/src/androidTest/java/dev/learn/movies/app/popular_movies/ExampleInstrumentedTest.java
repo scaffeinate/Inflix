@@ -1,4 +1,4 @@
-package dev.learn.movies.app.popularmovies_udacity;
+package dev.learn.movies.app.popular_movies;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

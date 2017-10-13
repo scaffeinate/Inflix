@@ -1,4 +1,4 @@
-package dev.learn.movies.app.popularmovies_udacity.network;
+package dev.learn.movies.app.popular_movies.network;
 
 import android.net.Uri;
 import android.util.Log;
@@ -122,10 +122,6 @@ public final class HTTPHelper {
         }
 
         return null;
-    }
-
-    public static Uri buildImageResourceUri(String imgFile) {
-        return buildImageResourceUri(imgFile, IMAGE_SIZE_MEDIUM);
     }
 
     public static Uri buildImageResourceUri(String imgFile, String imageSize) {

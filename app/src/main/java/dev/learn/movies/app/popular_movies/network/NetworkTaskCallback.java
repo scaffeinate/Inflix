@@ -1,4 +1,4 @@
-package dev.learn.movies.app.popularmovies_udacity.network;
+package dev.learn.movies.app.popular_movies.network;
 
 /**
  * Created by sudhar on 10/11/17.

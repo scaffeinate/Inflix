@@ -1,4 +1,4 @@
-package dev.learn.movies.app.popularmovies_udacity;
+package dev.learn.movies.app.popular_movies;
 
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
@@ -13,9 +13,9 @@ import com.squareup.picasso.Callback;
 import java.util.ArrayList;
 import java.util.List;
 
-import dev.learn.movies.app.popularmovies_udacity.common.Movie;
-import dev.learn.movies.app.popularmovies_udacity.network.HTTPHelper;
-import dev.learn.movies.app.popularmovies_udacity.util.DisplayUtils;
+import dev.learn.movies.app.popular_movies.common.Movie;
+import dev.learn.movies.app.popular_movies.network.HTTPHelper;
+import dev.learn.movies.app.popular_movies.util.DisplayUtils;
 
 /**
  * Created by sudharti on 10/10/17.
@@ -33,7 +33,8 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_grid, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_poster, parent, false);
+        view.setMinimumHeight(parent.getMeasuredHeight() / 2);
         return new ViewHolder(view);
     }
 

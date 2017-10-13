@@ -1,11 +1,12 @@
 
-package dev.learn.movies.app.popularmovies_udacity.common;
+package dev.learn.movies.app.popular_movies.common;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+@SuppressWarnings("unused")
 public class MoviesResult {
 
     @SerializedName("page")
@@ -25,16 +26,31 @@ public class MoviesResult {
         return page;
     }
 
+    public void setPage(long page) {
+        this.page = page;
+    }
+
     public long getTotalResults() {
         return totalResults;
+    }
+
+    public void setTotalResults(long totalResults) {
+        this.totalResults = totalResults;
     }
 
     public long getTotalPages() {
         return totalPages;
     }
 
+    public void setTotalPages(long totalPages) {
+        this.totalPages = totalPages;
+    }
+
     public List<Movie> getResults() {
         return results;
     }
 
+    public void setResults(List<Movie> results) {
+        this.results = results;
+    }
 }

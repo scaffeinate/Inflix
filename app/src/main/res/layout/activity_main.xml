@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="dev.learn.movies.app.popularmovies_udacity.MainActivity">
+    tools:context="dev.learn.movies.app.popular_movies.MainActivity">
 
     <include
         android:id="@+id/toolbar"

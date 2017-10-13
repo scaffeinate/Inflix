@@ -1,4 +1,4 @@
-package dev.learn.movies.app.popularmovies_udacity;
+package dev.learn.movies.app.popular_movies;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,11 +18,11 @@ import com.google.gson.Gson;
 
 import java.util.List;
 
-import dev.learn.movies.app.popularmovies_udacity.common.Movie;
-import dev.learn.movies.app.popularmovies_udacity.common.MoviesResult;
-import dev.learn.movies.app.popularmovies_udacity.network.HTTPHelper;
-import dev.learn.movies.app.popularmovies_udacity.network.NetworkTask;
-import dev.learn.movies.app.popularmovies_udacity.network.NetworkTaskCallback;
+import dev.learn.movies.app.popular_movies.common.Movie;
+import dev.learn.movies.app.popular_movies.common.MoviesResult;
+import dev.learn.movies.app.popular_movies.network.HTTPHelper;
+import dev.learn.movies.app.popular_movies.network.NetworkTask;
+import dev.learn.movies.app.popular_movies.network.NetworkTaskCallback;
 
 public class MainActivity extends AppCompatActivity implements MoviesAdapter.OnItemClickHandler, NetworkTaskCallback {
 

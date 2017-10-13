@@ -1,4 +1,4 @@
-package dev.learn.movies.app.popularmovies_udacity.network;
+package dev.learn.movies.app.popular_movies.network;
 
 import android.os.AsyncTask;
 import android.util.Log;

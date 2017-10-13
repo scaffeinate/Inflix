@@ -1,4 +1,4 @@
-package dev.learn.movies.app.popularmovies_udacity;
+package dev.learn.movies.app.popular_movies;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -7,24 +7,28 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
 
 import java.util.List;
 
-import dev.learn.movies.app.popularmovies_udacity.common.Genre;
-import dev.learn.movies.app.popularmovies_udacity.common.MovieDetail;
-import dev.learn.movies.app.popularmovies_udacity.network.HTTPHelper;
-import dev.learn.movies.app.popularmovies_udacity.network.NetworkTask;
-import dev.learn.movies.app.popularmovies_udacity.network.NetworkTaskCallback;
-import dev.learn.movies.app.popularmovies_udacity.util.DisplayUtils;
+import dev.learn.movies.app.popular_movies.common.Genre;
+import dev.learn.movies.app.popular_movies.common.MovieDetail;
+import dev.learn.movies.app.popular_movies.network.HTTPHelper;
+import dev.learn.movies.app.popular_movies.network.NetworkTask;
+import dev.learn.movies.app.popular_movies.network.NetworkTaskCallback;
+import dev.learn.movies.app.popular_movies.util.DisplayUtils;
 
 /**
  * Created by sudharti on 10/11/17.
@@ -38,6 +42,8 @@ public class DetailActivity extends AppCompatActivity implements NetworkTaskCall
     private long movieId = 0L;
 
     private LinearLayout mMovieDetailLayout;
+    private FrameLayout mBackdropLayout;
+    private FrameLayout mPosterLayout;
     private ProgressBar mProgressBar;
     private TextView mErrorMessageDisplay;
 
@@ -62,6 +68,8 @@ public class DetailActivity extends AppCompatActivity implements NetworkTaskCall
         Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
         TextView mToolbarTitle = (TextView) findViewById(R.id.tv_toolbar_title);
         mMovieDetailLayout = (LinearLayout) findViewById(R.id.layout_movie_detail);
+        mBackdropLayout = (FrameLayout) findViewById(R.id.layout_backdrop);
+        mPosterLayout = (FrameLayout) findViewById(R.id.layout_poster);
         mProgressBar = (ProgressBar) findViewById(R.id.pb_loading_indicator);
         mErrorMessageDisplay = (TextView) findViewById(R.id.tv_error_message_display);
 
@@ -96,6 +104,7 @@ public class DetailActivity extends AppCompatActivity implements NetworkTaskCall
         }
 
         mToolbarTitle.setText(movieName);
+        adjustImageSize();
     }
 
     @Override
@@ -208,5 +217,18 @@ public class DetailActivity extends AppCompatActivity implements NetworkTaskCall
         mErrorMessageDisplay.setVisibility(View.VISIBLE);
         mProgressBar.setVisibility(View.INVISIBLE);
         mMovieDetailLayout.setVisibility(View.INVISIBLE);
+    }
+
+    private void adjustImageSize() {
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int screenHeight = displayMetrics.heightPixels;
+        int screenWidth = displayMetrics.widthPixels;
+
+        int max = Math.max(screenHeight, screenWidth);
+        int min = Math.min(screenHeight, screenWidth);
+
+        mBackdropLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) (max / 2.75)));
+        mPosterLayout.setLayoutParams(new RelativeLayout.LayoutParams((min / 3), (max / 4)));
     }
 }
