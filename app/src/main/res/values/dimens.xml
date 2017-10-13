@@ -3,4 +3,7 @@
     <dimen name="progressbar_size">42dp</dimen>
     <dimen name="toolbar_title_margin_left">10dp</dimen>
     <dimen name="toolbar_padding_right">30dp</dimen>
+    <dimen name="item_grid_movie_name_margin_top">10dp</dimen>
+    <dimen name="activity_detail_poster_margin_top">20dp</dimen>
+    <dimen name="activity_detail_poster_margin_left">25dp</dimen>
 </resources>

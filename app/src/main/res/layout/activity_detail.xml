@@ -1,38 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="dev.learn.movies.app.popularmovies_udacity.DetailActivity">
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	tools:context="dev.learn.movies.app.popularmovies_udacity.DetailActivity">
 
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true" />
+	<include
+		android:id="@+id/toolbar"
+		layout="@layout/toolbar"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_alignParentTop="true"/>
 
-    <!--TODO (3): Finish this View component -->
-    <RelativeLayout
-        android:id="@+id/layout_movie_detail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+	<!--TODO (3): Finish this View component -->
+	<LinearLayout
+		android:id="@+id/layout_movie_detail"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_below="@+id/toolbar"
+		android:orientation="vertical">
 
-    </RelativeLayout>
+		<RelativeLayout
+			android:layout_width="match_parent"
+			android:layout_height="0dp"
+			android:layout_weight="1"
+			android:background="@color/posterBgColor">
 
-    <TextView
-        android:id="@+id/tv_error_message_display"
-        style="@style/Base.TextAppearance.AppCompat.Title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="@string/no_movies_found_error_message"
-        android:visibility="invisible" />
+			<ImageView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_centerInParent="true"
+				android:src="@drawable/ic_movie_roll_grey600_48dp"/>
 
-    <ProgressBar
-        android:id="@+id/pb_loading_indicator"
-        android:layout_width="@dimen/progressbar_size"
-        android:layout_height="@dimen/progressbar_size"
-        android:layout_centerInParent="true"
-        android:visibility="invisible" />
+			<ImageView
+				android:id="@+id/imageview_backdrop"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent" />
+		</RelativeLayout>
+
+		<RelativeLayout
+			android:layout_width="match_parent"
+			android:layout_height="0dp"
+			android:layout_weight="2">
+
+			<RelativeLayout
+				android:layout_width="125dp"
+				android:layout_height="125dp"
+				android:layout_marginLeft="@dimen/activity_detail_poster_margin_left"
+				android:layout_marginTop="@dimen/activity_detail_poster_margin_top"
+				android:background="@color/posterBgColor">
+
+				<ImageView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_centerInParent="true"
+					android:src="@drawable/ic_movie_roll_grey600_48dp"/>
+
+				<ImageView
+					android:id="@+id/imageview_poster"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent" />
+			</RelativeLayout>
+		</RelativeLayout>
+	</LinearLayout>
+
+	<TextView
+		android:id="@+id/tv_error_message_display"
+		style="@style/Base.TextAppearance.AppCompat.Title"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_centerInParent="true"
+		android:text="@string/movie_info_not_found_error_message"
+		android:visibility="invisible"/>
+
+	<ProgressBar
+		android:id="@+id/pb_loading_indicator"
+		android:layout_width="@dimen/progressbar_size"
+		android:layout_height="@dimen/progressbar_size"
+		android:layout_centerInParent="true"
+		android:visibility="invisible"/>
 </RelativeLayout>

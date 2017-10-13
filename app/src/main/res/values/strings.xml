@@ -1,6 +1,7 @@
 <resources>
 	<string name="app_name">Popular Movies</string>
 	<string name="no_movies_found_error_message">No Movies Found.</string>
+	<string name="movie_info_not_found_error_message">Movie info not found.</string>
 	<string name="discover">Discover</string>
     <string name="most_popular">Most Popular</string>
 	<string name="top_rated">Top Rated</string>

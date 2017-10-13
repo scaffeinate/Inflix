@@ -5,14 +5,18 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
 
 import dev.learn.movies.app.popularmovies_udacity.common.MovieDetail;
 import dev.learn.movies.app.popularmovies_udacity.network.HTTPHelper;
@@ -33,9 +37,11 @@ public class DetailActivity extends AppCompatActivity implements NetworkTaskCall
     private Toolbar mToolbar;
     private ActionBar mActionBar;
     private TextView mToolbarTitle;
-    private RelativeLayout mMovieDetailLayout;
+    private LinearLayout mMovieDetailLayout;
     private ProgressBar mProgressBar;
     private TextView mErrorMessageDisplay;
+    private ImageView mBackdropImageView;
+    private ImageView mPosterImageView;
 
     private final Gson gson = new Gson();
 
@@ -48,9 +54,11 @@ public class DetailActivity extends AppCompatActivity implements NetworkTaskCall
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mToolbarTitle = (TextView) findViewById(R.id.tv_toolbar_title);
-        mMovieDetailLayout = (RelativeLayout) findViewById(R.id.layout_movie_detail);
+        mMovieDetailLayout = (LinearLayout) findViewById(R.id.layout_movie_detail);
         mProgressBar = (ProgressBar) findViewById(R.id.pb_loading_indicator);
         mErrorMessageDisplay = (TextView) findViewById(R.id.tv_error_message_display);
+        mBackdropImageView = (ImageView) findViewById(R.id.imageview_backdrop);
+        mPosterImageView = (ImageView) findViewById(R.id.imageview_poster);
 
         setSupportActionBar(mToolbar);
         mActionBar = getSupportActionBar();
@@ -98,7 +106,8 @@ public class DetailActivity extends AppCompatActivity implements NetworkTaskCall
         if (movieDetail == null) {
             showErrorMessage();
         } else {
-            showMovieDetail();
+            loadMovieDetails(movieDetail);
+            showMovieDetails();
         }
     }
 
@@ -112,13 +121,27 @@ public class DetailActivity extends AppCompatActivity implements NetworkTaskCall
         return super.onOptionsItemSelected(item);
     }
 
+    private void loadMovieDetails(MovieDetail movieDetail) {
+        String backdropURL = movieDetail.getBackdropPath();
+        String posterURL = movieDetail.getPosterPath();
+
+        Picasso.with(this)
+                .load(HTTPHelper.buildImageResourceUri(backdropURL, HTTPHelper.IMAGE_SIZE_XLARGE))
+                .fit().centerCrop()
+                .into(mBackdropImageView);
+
+        Picasso.with(this).load(HTTPHelper.buildImageResourceUri(posterURL, HTTPHelper.IMAGE_SIZE_SMALL))
+                .fit().centerCrop()
+                .into(mPosterImageView);
+    }
+
     private void showProgressBar() {
         mProgressBar.setVisibility(View.VISIBLE);
         mErrorMessageDisplay.setVisibility(View.INVISIBLE);
         mMovieDetailLayout.setVisibility(View.INVISIBLE);
     }
 
-    private void showMovieDetail() {
+    private void showMovieDetails() {
         mMovieDetailLayout.setVisibility(View.VISIBLE);
         mProgressBar.setVisibility(View.INVISIBLE);
         mErrorMessageDisplay.setVisibility(View.INVISIBLE);
