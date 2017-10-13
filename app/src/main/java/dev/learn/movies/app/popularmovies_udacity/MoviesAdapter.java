@@ -1,6 +1,5 @@
 package dev.learn.movies.app.popularmovies_udacity;
 
-import android.content.Context;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -25,18 +24,16 @@ import dev.learn.movies.app.popularmovies_udacity.util.DisplayUtils;
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder> {
 
     private List<Movie> movieList;
-    private Context mContext;
     private OnItemClickHandler mHandler;
 
-    public MoviesAdapter(Context context, OnItemClickHandler handler) {
-        this.mContext = context;
+    public MoviesAdapter(OnItemClickHandler handler) {
         this.mHandler = handler;
         this.movieList = new ArrayList<>();
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_grid, null);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_grid, parent, false);
         return new ViewHolder(view);
     }
 

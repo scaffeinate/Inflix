@@ -78,8 +78,11 @@ public class DetailActivity extends AppCompatActivity implements NetworkTaskCall
 
         setSupportActionBar(mToolbar);
         mActionBar = getSupportActionBar();
-        mActionBar.setDisplayHomeAsUpEnabled(true);
-        mActionBar.setDisplayShowHomeEnabled(true);
+
+        if (mActionBar != null) {
+            mActionBar.setDisplayHomeAsUpEnabled(true);
+            mActionBar.setDisplayShowHomeEnabled(true);
+        }
 
         if (savedInstanceState == null) {
             Intent intent = getIntent();
@@ -161,7 +164,7 @@ public class DetailActivity extends AppCompatActivity implements NetworkTaskCall
         }
 
         mMovieTitleTextView.setText(titleBuilder.toString());
-        mMovieRuntimeTextView.setText(new StringBuilder().append(movieDetail.getRuntime()).append(" ").append("min").toString());
+        mMovieRuntimeTextView.setText(String.valueOf(movieDetail.getRuntime()) + " min");
 
         List<Genre> genres = movieDetail.getGenres();
         StringBuilder genreBuilder = new StringBuilder();
@@ -174,7 +177,7 @@ public class DetailActivity extends AppCompatActivity implements NetworkTaskCall
 
         double rating = movieDetail.getVoteAverage();
         mMovieRatingBar.setRating((float) rating);
-        mMovieRatingTextView.setText(new StringBuilder().append(rating).append("/").append(10).toString());
+        mMovieRatingTextView.setText(String.valueOf(rating) + "/10");
 
         if (movieDetail.getOverview() != null) {
             mMoviePlotTextView.setText(movieDetail.getOverview());

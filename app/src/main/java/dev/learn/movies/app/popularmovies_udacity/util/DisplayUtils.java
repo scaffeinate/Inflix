@@ -11,6 +11,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by sudharti on 10/12/17.
@@ -27,7 +28,7 @@ public final class DisplayUtils {
     }
 
     public static int getYear(String dateStr, String format) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat(format);
+        SimpleDateFormat dateFormat = new SimpleDateFormat(format, Locale.getDefault());
         try {
             Date date = dateFormat.parse(dateStr);
             Calendar calendar = Calendar.getInstance();

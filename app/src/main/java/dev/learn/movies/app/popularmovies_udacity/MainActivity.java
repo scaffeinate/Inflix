@@ -2,6 +2,7 @@ package dev.learn.movies.app.popularmovies_udacity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -55,7 +56,10 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.OnI
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
 
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayShowTitleEnabled(false);
+        }
 
         mRecyclerViewMovies = (RecyclerView) findViewById(R.id.recyclerview_movies);
         mProgressBar = (ProgressBar) findViewById(R.id.pb_loading_indicator);
@@ -66,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.OnI
         mRecyclerViewMovies.setHasFixedSize(true);
         mRecyclerViewMovies.setLayoutManager(mLayoutManager);
 
-        mAdapter = new MoviesAdapter(this, this);
+        mAdapter = new MoviesAdapter(this);
         mRecyclerViewMovies.setAdapter(mAdapter);
 
         if (savedInstanceState != null && savedInstanceState.containsKey(REQUEST_FOR)) {
