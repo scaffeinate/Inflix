@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="progressbar_size">42dp</dimen>
-    <dimen name="toolbar_padding_right">30dp</dimen>
-    <dimen name="activity_detail_margin">15dp</dimen>
-    <dimen name="activity_detail_poster_size">125dp</dimen>
-    <dimen name="activity_detail_fields_margin_top">10dp</dimen>
-    <dimen name="activity_detail_layout_rating_margin_top">25dp</dimen>
-    <dimen name="activity_detail_tv_rating_margin_left">10dp</dimen>
-    <dimen name="activity_detail_tagline_margin_top">15dp</dimen>
-    <dimen name="activity_detail_plot_title_margin_top">15dp</dimen>
-    <dimen name="activity_detail_plot_margin_top">10dp</dimen>
-    <dimen name="item_grid_movie_name_margin_top">10dp</dimen>
-    <dimen name="item_grid_placeholder_height">250dp</dimen>
+	<dimen name="progressbar_size">42dp</dimen>
+	<dimen name="toolbar_padding_right">30dp</dimen>
+	<dimen name="activity_detail_margin">15dp</dimen>
+	<dimen name="activity_detail_fields_margin_top">10dp</dimen>
+	<dimen name="activity_detail_layout_rating_margin_top">25dp</dimen>
+	<dimen name="activity_detail_tv_rating_margin_left">10dp</dimen>
+	<dimen name="activity_detail_layout_content_margin_top">15dp</dimen>
+	<dimen name="activity_detail_layout_content_margin_bottom">35dp</dimen>
+	<dimen name="activity_detail_plot_title_margin_top">15dp</dimen>
+	<dimen name="activity_detail_plot_margin_top">10dp</dimen>
+	<dimen name="item_grid_movie_name_margin_top">10dp</dimen>
 </resources>
