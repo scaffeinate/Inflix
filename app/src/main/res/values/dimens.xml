@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="progressbar_size">42dp</dimen>
-    <dimen name="toolbar_title_margin_left">10dp</dimen>
     <dimen name="toolbar_padding_right">30dp</dimen>
     <dimen name="activity_detail_margin">15dp</dimen>
     <dimen name="activity_detail_poster_size">125dp</dimen>

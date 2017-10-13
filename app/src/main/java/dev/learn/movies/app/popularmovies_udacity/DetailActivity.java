@@ -37,9 +37,6 @@ public class DetailActivity extends AppCompatActivity implements NetworkTaskCall
     private String movieName = null;
     private long movieId = 0L;
 
-    private Toolbar mToolbar;
-    private ActionBar mActionBar;
-    private TextView mToolbarTitle;
     private LinearLayout mMovieDetailLayout;
     private ProgressBar mProgressBar;
     private TextView mErrorMessageDisplay;
@@ -61,8 +58,8 @@ public class DetailActivity extends AppCompatActivity implements NetworkTaskCall
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        mToolbarTitle = (TextView) findViewById(R.id.tv_toolbar_title);
+        Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        TextView mToolbarTitle = (TextView) findViewById(R.id.tv_toolbar_title);
         mMovieDetailLayout = (LinearLayout) findViewById(R.id.layout_movie_detail);
         mProgressBar = (ProgressBar) findViewById(R.id.pb_loading_indicator);
         mErrorMessageDisplay = (TextView) findViewById(R.id.tv_error_message_display);
@@ -77,7 +74,7 @@ public class DetailActivity extends AppCompatActivity implements NetworkTaskCall
         mMovieRatingBar = (RatingBar) findViewById(R.id.rb_movie_rating);
 
         setSupportActionBar(mToolbar);
-        mActionBar = getSupportActionBar();
+        ActionBar mActionBar = getSupportActionBar();
 
         if (mActionBar != null) {
             mActionBar.setDisplayHomeAsUpEnabled(true);

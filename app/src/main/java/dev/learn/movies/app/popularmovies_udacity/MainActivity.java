@@ -33,14 +33,11 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.OnI
 
     private String requestFor = null;
 
-    private Toolbar mToolbar;
-
     private RecyclerView mRecyclerViewMovies;
     private ProgressBar mProgressBar;
     private TextView mErrorMessageDisplay;
     private TextView mToolbarTitle;
 
-    private RecyclerView.LayoutManager mLayoutManager;
     private MoviesAdapter mAdapter;
 
     private List<Movie> movieList;
@@ -51,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.OnI
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
 
         ActionBar actionBar = getSupportActionBar();
@@ -64,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.OnI
         mErrorMessageDisplay = (TextView) findViewById(R.id.tv_error_message_display);
         mToolbarTitle = (TextView) findViewById(R.id.tv_toolbar_title);
 
-        mLayoutManager = new GridLayoutManager(this, 2);
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 2);
         mRecyclerViewMovies.setHasFixedSize(true);
         mRecyclerViewMovies.setLayoutManager(mLayoutManager);
 
