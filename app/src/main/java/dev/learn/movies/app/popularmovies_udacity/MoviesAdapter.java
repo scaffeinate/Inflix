@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
@@ -52,22 +53,26 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
         notifyDataSetChanged();
     }
 
-    //TODO (1): Add a TextView to show the Movie name in case poster loading fails
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private final ImageView mPosterImageView;
+        private final TextView mMovieNameTextView;
 
         public ViewHolder(View itemView) {
             super(itemView);
             mPosterImageView = itemView.findViewById(R.id.imageview_poster);
+            mMovieNameTextView = itemView.findViewById(R.id.tv_movie_name);
             mPosterImageView.setOnClickListener(this);
         }
 
         private void bind(int position) {
             Movie movie = movieList.get(position);
-            Picasso.with(mContext)
-                    .load(HTTPHelper.buildImageResourceUri(movie.getPosterPath()))
-                    .into(mPosterImageView);
+            if (movie != null) {
+                mMovieNameTextView.setText(movie.getTitle());
+                Picasso.with(mContext)
+                        .load(HTTPHelper.buildImageResourceUri(movie.getPosterPath()))
+                        .into(mPosterImageView);
+            }
         }
 
         @Override

@@ -1,28 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+			 android:layout_width="match_parent"
+			 android:layout_height="wrap_content"
+			 android:background="@color/posterBgColor">
 
-    <RelativeLayout
-        android:id="@+id/layout_placeholder"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:background="#f0f0f0">
+	<RelativeLayout
+		android:id="@+id/layout_placeholder"
+		android:layout_width="match_parent"
+		android:layout_height="250dp">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:src="@drawable/ic_movie_roll_grey600_48dp" />
-    </RelativeLayout>
+		<ImageView
+			android:id="@+id/imageview_movie_roll"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_centerInParent="true"
+			android:src="@drawable/ic_movie_roll_grey600_48dp"/>
 
-    <ImageView
-        android:id="@+id/imageview_poster"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:adjustViewBounds="true"
-        android:clickable="true"
-        android:foreground="?selectableItemBackground"
-        android:scaleType="fitXY"
-        android:visibility="visible" />
+		<TextView
+			android:id="@+id/tv_movie_name"
+			style="@style/Base.TextAppearance.AppCompat.Caption"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_below="@+id/imageview_movie_roll"
+			android:layout_centerHorizontal="true"
+			android:textStyle="bold"
+			android:layout_marginTop="@dimen/item_grid_movie_name_margin_top"
+			android:ellipsize="end"
+			android:maxLines="1"
+			android:text="Movie"
+			android:textAllCaps="true"
+			/>
+	</RelativeLayout>
+
+	<ImageView
+		android:id="@+id/imageview_poster"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:adjustViewBounds="true"
+		android:clickable="true"
+		android:foreground="?selectableItemBackground"
+		android:scaleType="fitXY"
+		android:visibility="visible"/>
 </FrameLayout>
