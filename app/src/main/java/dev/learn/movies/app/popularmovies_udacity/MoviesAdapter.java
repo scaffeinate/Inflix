@@ -1,6 +1,7 @@
 package dev.learn.movies.app.popularmovies_udacity;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,13 +9,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Callback;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import dev.learn.movies.app.popularmovies_udacity.common.Movie;
 import dev.learn.movies.app.popularmovies_udacity.network.HTTPHelper;
+import dev.learn.movies.app.popularmovies_udacity.util.DisplayUtils;
 
 /**
  * Created by sudharti on 10/10/17.
@@ -69,9 +71,21 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
             Movie movie = movieList.get(position);
             if (movie != null) {
                 mMovieNameTextView.setText(movie.getTitle());
-                Picasso.with(mContext)
-                        .load(HTTPHelper.buildImageResourceUri(movie.getPosterPath()))
-                        .into(mPosterImageView);
+                String posterURL = movie.getPosterPath();
+                if (posterURL != null) {
+                    Uri posterUri = HTTPHelper.buildImageResourceUri(posterURL);
+                    DisplayUtils.fitImageInto(mPosterImageView, posterUri, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            mMovieNameTextView.setVisibility(View.INVISIBLE);
+                        }
+
+                        @Override
+                        public void onError() {
+                            mMovieNameTextView.setVisibility(View.VISIBLE);
+                        }
+                    });
+                }
             }
         }
 
