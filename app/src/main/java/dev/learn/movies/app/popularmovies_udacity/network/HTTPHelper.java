@@ -28,9 +28,14 @@ public final class HTTPHelper {
 
     private final static String DISCOVER_PATH = "discover/movie";
 
-    private final static String IMAGE_BASE_PATH = "/image.tmdb.org/t/p/";
+    private final static String IMAGE_BASE_PATH = "/image.tmdb.org/t/p";
 
-    private final static String IMAGE_SIZE = "w342";
+
+    public final static String IMAGE_SIZE_SMALL = "w342";
+
+    public final static String IMAGE_SIZE_MEDIUM = "w500";
+
+    public final static String IMAGE_SIZE_XLARGE = "w780";
 
     private final static String API_KEY_PARAM = "api_key";
 
@@ -120,10 +125,14 @@ public final class HTTPHelper {
     }
 
     public static Uri buildImageResourceUri(String imgFile) {
+        return buildImageResourceUri(imgFile, IMAGE_SIZE_MEDIUM);
+    }
+
+    public static Uri buildImageResourceUri(String imgFile, String imageSize) {
         return new Uri.Builder()
                 .scheme(SCHEME)
                 .appendEncodedPath(IMAGE_BASE_PATH)
-                .appendEncodedPath(IMAGE_SIZE)
+                .appendEncodedPath(imageSize)
                 .appendEncodedPath(imgFile)
                 .build();
     }
