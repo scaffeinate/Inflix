@@ -4,6 +4,8 @@ package dev.learn.movies.app.popularmovies_udacity.common;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class MovieDetail {
 
     @SerializedName("adult")
@@ -69,6 +71,10 @@ public class MovieDetail {
     @SerializedName("vote_count")
     @Expose
     private long voteCount;
+
+    @SerializedName("genres")
+    @Expose
+    private List<Genre> genres;
 
     public boolean isAdult() {
         return adult;
@@ -238,4 +244,11 @@ public class MovieDetail {
         this.voteCount = voteCount;
     }
 
+    public List<Genre> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(List<Genre> genres) {
+        this.genres = genres;
+    }
 }

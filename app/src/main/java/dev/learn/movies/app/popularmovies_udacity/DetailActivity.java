@@ -17,6 +17,9 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 
+import java.util.List;
+
+import dev.learn.movies.app.popularmovies_udacity.common.Genre;
 import dev.learn.movies.app.popularmovies_udacity.common.MovieDetail;
 import dev.learn.movies.app.popularmovies_udacity.network.HTTPHelper;
 import dev.learn.movies.app.popularmovies_udacity.network.NetworkTask;
@@ -162,9 +165,18 @@ public class DetailActivity extends AppCompatActivity implements NetworkTaskCall
         mMovieTitleTextView.setText(titleBuilder.toString());
         mMovieRuntimeTextView.setText(new StringBuilder().append(movieDetail.getRuntime()).append(" ").append("min").toString());
 
+        List<Genre> genres = movieDetail.getGenres();
+        StringBuilder genreBuilder = new StringBuilder();
+        if (genres != null && !genres.isEmpty()) {
+            for (int i = 0; i < genres.size(); i++) {
+                genreBuilder.append(genres.get(i).getName()).append((i < genres.size() - 1) ? " | " : "");
+            }
+        }
+        mMovieGenreTextView.setText(genreBuilder.toString());
+
         double rating = movieDetail.getVoteAverage();
         mMovieRatingBar.setRating((float) rating);
-        mMovieRatingTextView.setText(new StringBuilder().append(rating).append("/").append("10").toString());
+        mMovieRatingTextView.setText(new StringBuilder().append(rating).append("/").append(10).toString());
 
         if (movieDetail.getOverview() != null) {
             mMoviePlotTextView.setText(movieDetail.getOverview());
