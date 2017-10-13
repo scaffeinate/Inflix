@@ -47,6 +47,7 @@ public class DetailActivity extends AppCompatActivity implements NetworkTaskCall
     private TextView mMovieRuntimeTextView;
     private TextView mMovieGenreTextView;
     private TextView mMovieRatingTextView;
+    private TextView mMovieTaglineTextView;
     private TextView mMoviePlotTextView;
 
     private RatingBar mMovieRatingBar;
@@ -70,6 +71,7 @@ public class DetailActivity extends AppCompatActivity implements NetworkTaskCall
         mMovieRuntimeTextView = (TextView) findViewById(R.id.tv_movie_runtime);
         mMovieGenreTextView = (TextView) findViewById(R.id.tv_movie_genre);
         mMovieRatingTextView = (TextView) findViewById(R.id.tv_movie_rating);
+        mMovieTaglineTextView = (TextView) findViewById(R.id.tv_movie_tagline);
         mMoviePlotTextView = (TextView) findViewById(R.id.tv_movie_plot);
         mMovieRatingBar = (RatingBar) findViewById(R.id.rb_movie_rating);
 
@@ -178,6 +180,12 @@ public class DetailActivity extends AppCompatActivity implements NetworkTaskCall
 
         String ratingText = rating + "/10";
         mMovieRatingTextView.setText(ratingText);
+
+        if (movieDetail.getTagline() != null && !movieDetail.getTagline().isEmpty()) {
+            mMovieTaglineTextView.setText("\"" + movieDetail.getTagline() + "\"");
+        } else {
+            mMovieTaglineTextView.setVisibility(View.GONE);
+        }
 
         if (movieDetail.getOverview() != null) {
             mMoviePlotTextView.setText(movieDetail.getOverview());

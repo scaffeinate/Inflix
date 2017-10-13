@@ -8,4 +8,5 @@
     <string name="placeholder_image">Placeholder when image load fails.</string>
     <string name="backdrop_image">Backdrop Image in DetailActivity</string>
     <string name="poster_image">Poster Image shown in DetailActitiy and ImageGrid</string>
+    <string name="plot">Plot</string>
 </resources>

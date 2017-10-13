@@ -109,7 +109,6 @@
                     android:id="@+id/layout_rating"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignStart="@+id/layout_poster"
                     android:layout_below="@+id/layout_poster"
                     android:layout_marginTop="@dimen/activity_detail_layout_rating_margin_top">
 
@@ -133,12 +132,33 @@
                 </LinearLayout>
 
                 <TextView
-                    android:id="@+id/tv_movie_plot"
-                    style="@style/TextAppearance.AppCompat.Body1"
+                    android:id="@+id/tv_movie_tagline"
+                    style="@style/Base.TextAppearance.AppCompat.Medium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignStart="@+id/layout_poster"
                     android:layout_below="@+id/layout_rating"
+                    android:layout_marginTop="@dimen/activity_detail_tagline_margin_top"
+                    android:textStyle="italic"
+                    android:fontFamily="sans-serif" />
+
+                <TextView
+                    android:id="@+id/tv_movie_plot_title"
+                    style="@style/Base.TextAppearance.AppCompat.Subhead"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_movie_tagline"
+                    android:layout_marginTop="@dimen/activity_detail_plot_title_margin_top"
+                    android:fontFamily="sans-serif"
+                    android:text="@string/plot"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_movie_plot"
+                    style="@style/TextAppearance.AppCompat.Body1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_movie_plot_title"
                     android:layout_marginTop="@dimen/activity_detail_plot_margin_top"
                     android:fontFamily="sans-serif"
                     android:lineSpacingMultiplier="1.25" />
