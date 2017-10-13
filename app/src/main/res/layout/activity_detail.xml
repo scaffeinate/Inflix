@@ -139,8 +139,8 @@
                     android:layout_alignStart="@+id/layout_poster"
                     android:layout_below="@+id/layout_rating"
                     android:layout_marginTop="@dimen/activity_detail_tagline_margin_top"
-                    android:textStyle="italic"
-                    android:fontFamily="sans-serif" />
+                    android:fontFamily="sans-serif"
+                    android:textStyle="italic" />
 
                 <TextView
                     android:id="@+id/tv_movie_plot_title"

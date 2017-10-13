@@ -25,32 +25,16 @@ public class MoviesResult {
         return page;
     }
 
-    public void setPage(long page) {
-        this.page = page;
-    }
-
     public long getTotalResults() {
         return totalResults;
-    }
-
-    public void setTotalResults(long totalResults) {
-        this.totalResults = totalResults;
     }
 
     public long getTotalPages() {
         return totalPages;
     }
 
-    public void setTotalPages(long totalPages) {
-        this.totalPages = totalPages;
-    }
-
     public List<Movie> getResults() {
         return results;
-    }
-
-    public void setResults(List<Movie> results) {
-        this.results = results;
     }
 
 }

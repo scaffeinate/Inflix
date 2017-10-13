@@ -178,7 +178,7 @@ public class DetailActivity extends AppCompatActivity implements NetworkTaskCall
         double rating = movieDetail.getVoteAverage();
         mMovieRatingBar.setRating((float) rating);
 
-        String ratingText = rating + "/10";
+        String ratingText = rating + "/10 (" + movieDetail.getVoteCount() + ")";
         mMovieRatingTextView.setText(ratingText);
 
         if (movieDetail.getTagline() != null && !movieDetail.getTagline().isEmpty()) {

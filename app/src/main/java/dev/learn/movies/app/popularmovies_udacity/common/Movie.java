@@ -4,6 +4,7 @@ package dev.learn.movies.app.popularmovies_udacity.common;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+@SuppressWarnings("ALL")
 public class Movie {
 
 

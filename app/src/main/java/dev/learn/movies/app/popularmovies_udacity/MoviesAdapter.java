@@ -70,7 +70,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
                 mMovieNameTextView.setText(movie.getTitle());
                 String posterURL = movie.getPosterPath();
                 if (posterURL != null) {
-                    Uri posterUri = HTTPHelper.buildImageResourceUri(posterURL);
+                    Uri posterUri = HTTPHelper.buildImageResourceUri(posterURL, HTTPHelper.IMAGE_SIZE_MEDIUM);
                     DisplayUtils.fitImageInto(mPosterImageView, posterUri, new Callback() {
                         @Override
                         public void onSuccess() {
