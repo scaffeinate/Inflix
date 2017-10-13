@@ -5,4 +5,7 @@
 	<string name="discover">Discover</string>
     <string name="most_popular">Most Popular</string>
 	<string name="top_rated">Top Rated</string>
+    <string name="placeholder_image">Placeholder when image load fails.</string>
+    <string name="backdrop_image">Backdrop Image in DetailActivity</string>
+    <string name="poster_image">Poster Image shown in DetailActitiy and ImageGrid</string>
 </resources>

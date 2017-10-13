@@ -24,7 +24,7 @@ import dev.learn.movies.app.popularmovies_udacity.util.DisplayUtils;
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder> {
 
     private List<Movie> movieList;
-    private OnItemClickHandler mHandler;
+    private final OnItemClickHandler mHandler;
 
     public MoviesAdapter(OnItemClickHandler handler) {
         this.mHandler = handler;

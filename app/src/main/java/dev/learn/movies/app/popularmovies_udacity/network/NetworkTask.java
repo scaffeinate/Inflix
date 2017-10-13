@@ -14,7 +14,7 @@ public class NetworkTask extends AsyncTask<URL, Void, String> {
 
     private static final String TAG = "NetworkTask";
 
-    private NetworkTaskCallback mCallback;
+    private final NetworkTaskCallback mCallback;
 
     public NetworkTask(NetworkTaskCallback callback) {
         this.mCallback = callback;

@@ -14,6 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:contentDescription="@string/placeholder_image"
             android:src="@drawable/ic_movie_roll_grey600_48dp" />
 
         <TextView
@@ -38,6 +39,7 @@
         android:layout_height="match_parent"
         android:adjustViewBounds="true"
         android:clickable="true"
+        android:contentDescription="@string/poster_image"
         android:foreground="?selectableItemBackground"
         android:scaleType="fitXY"
         android:visibility="visible" />

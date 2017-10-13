@@ -27,8 +27,8 @@ public final class DisplayUtils {
                 .into(imageView, callback);
     }
 
-    public static int getYear(String dateStr, String format) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat(format, Locale.getDefault());
+    public static int getYear(String dateStr) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd", Locale.getDefault());
         try {
             Date date = dateFormat.parse(dateStr);
             Calendar calendar = Calendar.getInstance();

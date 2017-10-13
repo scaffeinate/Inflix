@@ -34,12 +34,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:contentDescription="@string/placeholder_image"
                     android:src="@drawable/ic_movie_roll_grey600_48dp" />
 
                 <ImageView
                     android:id="@+id/imageview_backdrop"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:contentDescription="@string/backdrop_image" />
             </FrameLayout>
 
             <RelativeLayout
@@ -58,12 +60,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:contentDescription="@string/placeholder_image"
                         android:src="@drawable/ic_movie_roll_grey600_48dp" />
 
                     <ImageView
                         android:id="@+id/imageview_poster"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
+                        android:layout_height="match_parent"
+                        android:contentDescription="@string/poster_image" />
                 </FrameLayout>
 
                 <TextView
@@ -72,8 +76,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignTop="@+id/layout_poster"
-                    android:layout_marginLeft="15dp"
-                    android:layout_toRightOf="@+id/layout_poster"
+                    android:layout_marginStart="15dp"
+                    android:layout_toEndOf="@+id/layout_poster"
                     android:fontFamily="sans-serif"
                     android:maxLines="3"
                     android:text="@string/app_name"
@@ -84,7 +88,7 @@
                     style="@style/Base.TextAppearance.AppCompat.Small"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignLeft="@+id/tv_movie_title"
+                    android:layout_alignStart="@+id/tv_movie_title"
                     android:layout_below="@id/tv_movie_title"
                     android:layout_marginTop="@dimen/activity_detail_fields_margin_top"
                     android:fontFamily="sans-serif"
@@ -95,7 +99,7 @@
                     style="@style/Base.TextAppearance.AppCompat.Small"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignLeft="@+id/tv_movie_title"
+                    android:layout_alignStart="@+id/tv_movie_title"
                     android:layout_below="@id/tv_movie_runtime"
                     android:layout_marginTop="@dimen/activity_detail_fields_margin_top"
                     android:fontFamily="sans-serif"
@@ -105,7 +109,7 @@
                     android:id="@+id/layout_rating"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignLeft="@+id/layout_poster"
+                    android:layout_alignStart="@+id/layout_poster"
                     android:layout_below="@+id/layout_poster"
                     android:layout_marginTop="@dimen/activity_detail_layout_rating_margin_top">
 
@@ -123,7 +127,7 @@
                         style="@style/TextAppearance.AppCompat.Body2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/activity_detail_tv_rating_margin_left"
+                        android:layout_marginStart="@dimen/activity_detail_tv_rating_margin_left"
                         android:fontFamily="sans-serif"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -133,7 +137,7 @@
                     style="@style/TextAppearance.AppCompat.Body1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignLeft="@+id/layout_poster"
+                    android:layout_alignStart="@+id/layout_poster"
                     android:layout_below="@+id/layout_rating"
                     android:layout_marginTop="@dimen/activity_detail_plot_margin_top"
                     android:fontFamily="sans-serif"

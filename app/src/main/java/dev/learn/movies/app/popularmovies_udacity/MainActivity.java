@@ -26,8 +26,6 @@ import dev.learn.movies.app.popularmovies_udacity.network.NetworkTaskCallback;
 
 public class MainActivity extends AppCompatActivity implements MoviesAdapter.OnItemClickHandler, NetworkTaskCallback {
 
-    private final static String TAG = "MainActivity";
-
     private final static String REQUEST_FOR = "request_for";
     private final static String DISCOVER_MOVIES = "Discover";
     private final static String MOST_POPULAR_MOVIES = "Most Popular";

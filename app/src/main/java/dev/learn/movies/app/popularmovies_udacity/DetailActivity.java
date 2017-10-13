@@ -158,13 +158,14 @@ public class DetailActivity extends AppCompatActivity implements NetworkTaskCall
         if (movieDetail.getTitle() != null) {
             titleBuilder.append(movieDetail.getTitle());
         }
-        int year = DisplayUtils.getYear(movieDetail.getReleaseDate(), "yyyy-mm-dd");
+        int year = DisplayUtils.getYear(movieDetail.getReleaseDate());
         if (year != -1) {
             titleBuilder.append(" ").append("(").append(String.valueOf(year)).append(")");
         }
 
         mMovieTitleTextView.setText(titleBuilder.toString());
-        mMovieRuntimeTextView.setText(String.valueOf(movieDetail.getRuntime()) + " min");
+        String runningTime = movieDetail.getRuntime() + " min";
+        mMovieRuntimeTextView.setText(runningTime);
 
         List<Genre> genres = movieDetail.getGenres();
         StringBuilder genreBuilder = new StringBuilder();
@@ -177,7 +178,9 @@ public class DetailActivity extends AppCompatActivity implements NetworkTaskCall
 
         double rating = movieDetail.getVoteAverage();
         mMovieRatingBar.setRating((float) rating);
-        mMovieRatingTextView.setText(String.valueOf(rating) + "/10");
+
+        String ratingText = rating + "/10";
+        mMovieRatingTextView.setText(ratingText);
 
         if (movieDetail.getOverview() != null) {
             mMoviePlotTextView.setText(movieDetail.getOverview());
