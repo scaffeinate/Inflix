@@ -12,7 +12,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true" />
 
-    <!--TODO (3): Finish this View component -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -126,7 +125,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/activity_detail_tv_rating_margin_left"
                         android:fontFamily="sans-serif"
-                        android:text="9.7/10"
                         android:textStyle="bold" />
                 </LinearLayout>
 
