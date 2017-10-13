@@ -24,6 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
+        android:fontFamily="sans-serif"
         android:text="@string/no_movies_found_error_message"
         android:visibility="invisible" />
 

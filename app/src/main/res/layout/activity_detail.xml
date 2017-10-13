@@ -75,6 +75,7 @@
                     android:layout_alignTop="@+id/layout_poster"
                     android:layout_marginLeft="15dp"
                     android:layout_toRightOf="@+id/layout_poster"
+                    android:fontFamily="sans-serif"
                     android:maxLines="3"
                     android:text="@string/app_name"
                     android:textStyle="bold" />
@@ -85,18 +86,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignLeft="@+id/tv_movie_title"
-                    android:layout_marginTop="@dimen/activity_detail_fields_margin_top"
                     android:layout_below="@id/tv_movie_title"
+                    android:layout_marginTop="@dimen/activity_detail_fields_margin_top"
+                    android:fontFamily="sans-serif"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/tv_movie_genre"
-                    style="@style/Base.TextAppearance.AppCompat.Medium"
+                    style="@style/Base.TextAppearance.AppCompat.Small"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignLeft="@+id/tv_movie_title"
                     android:layout_below="@id/tv_movie_runtime"
-                    android:layout_marginTop="@dimen/activity_detail_fields_margin_top" />
+                    android:layout_marginTop="@dimen/activity_detail_fields_margin_top"
+                    android:fontFamily="sans-serif"
+                    android:maxLines="2" />
 
                 <LinearLayout
                     android:id="@+id/layout_rating"
@@ -121,6 +125,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/activity_detail_tv_rating_margin_left"
+                        android:fontFamily="sans-serif"
                         android:text="9.7/10"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -133,6 +138,7 @@
                     android:layout_alignLeft="@+id/layout_poster"
                     android:layout_below="@+id/layout_rating"
                     android:layout_marginTop="@dimen/activity_detail_plot_margin_top"
+                    android:fontFamily="sans-serif"
                     android:lineSpacingMultiplier="1.25" />
             </RelativeLayout>
         </LinearLayout>
@@ -144,6 +150,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
+        android:fontFamily="sans-serif"
         android:text="@string/movie_info_not_found_error_message"
         android:visibility="invisible" />
 

@@ -25,6 +25,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/item_grid_movie_name_margin_top"
             android:ellipsize="end"
+            android:fontFamily="sans-serif"
             android:maxLines="1"
             android:textAllCaps="true"
             android:textStyle="bold"
