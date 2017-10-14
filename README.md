@@ -3,6 +3,8 @@
 
 Popular Movies App for the  Udacity Android Nanodegree Program.
 
-![Screenshot_1507943105_framed](https://github.com/scaffeinate/Popular-Movies-Android/blob/master/screenshots/Screenshot_1507943105_framed.png?raw=true)![Screenshot_1507943062_framed](https://github.com/scaffeinate/Popular-Movies-Android/blob/master/screenshots/Screenshot_1507943062_framed.png?raw=true)
+![screenshot_1](https://github.com/scaffeinate/Popular-Movies-Android/blob/master/screenshots/screenshot_1.png?raw=true)
+![screenshot_2](https://github.com/scaffeinate/Popular-Movies-Android/blob/master/screenshots/screenshot_2.png?raw=true)
+![screenshot_3](https://github.com/scaffeinate/Popular-Movies-Android/blob/master/screenshots/screenshot_3.png?raw=true)
 
 ### [Licensed under MIT](https://github.com/scaffeinate/Popular-Movies-Android/blob/master/LICENSE)
