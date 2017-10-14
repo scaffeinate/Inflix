@@ -23,6 +23,7 @@ import dev.learn.movies.app.popular_movies.common.MoviesResult;
 import dev.learn.movies.app.popular_movies.network.HTTPHelper;
 import dev.learn.movies.app.popular_movies.network.NetworkTask;
 import dev.learn.movies.app.popular_movies.network.NetworkTaskCallback;
+import dev.learn.movies.app.popular_movies.util.DisplayUtils;
 
 /**
  * MainActivity
@@ -148,17 +149,22 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.OnI
     private void fetchMovies() {
         if (requestFor == null) return;
 
-        mToolbarTitle.setText(requestFor);
-        switch (requestFor) {
-            case DISCOVER_MOVIES:
-                new NetworkTask(this).execute(HTTPHelper.buildDiscoverURL());
-                break;
-            case MOST_POPULAR_MOVIES:
-                new NetworkTask(this).execute(HTTPHelper.buildMostPopularURL());
-                break;
-            case TOP_RATED_MOVIES:
-                new NetworkTask(this).execute(HTTPHelper.builTopRatedURL());
-                break;
+        if (HTTPHelper.isNetworkEnabled(this)) {
+            mToolbarTitle.setText(requestFor);
+            switch (requestFor) {
+                case DISCOVER_MOVIES:
+                    new NetworkTask(this).execute(HTTPHelper.buildDiscoverURL());
+                    break;
+                case MOST_POPULAR_MOVIES:
+                    new NetworkTask(this).execute(HTTPHelper.buildMostPopularURL());
+                    break;
+                case TOP_RATED_MOVIES:
+                    new NetworkTask(this).execute(HTTPHelper.builTopRatedURL());
+                    break;
+            }
+        } else {
+            DisplayUtils.setNoNetworkConnectionMessage(this, mErrorMessageDisplay);
+            showErrorMessage();
         }
     }
 

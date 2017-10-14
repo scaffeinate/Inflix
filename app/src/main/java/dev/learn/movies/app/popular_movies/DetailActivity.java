@@ -38,7 +38,7 @@ public class DetailActivity extends AppCompatActivity implements NetworkTaskCall
     public static final String MOVIE_ID = "movie_id";
     public static final String MOVIE_NAME = "movie_name";
     private final Gson gson = new Gson();
-    private String movieName = null;
+    private String movieName = "";
     private long movieId = 0L;
     private LinearLayout mMovieDetailLayout;
     private FrameLayout mBackdropLayout;
@@ -91,11 +91,11 @@ public class DetailActivity extends AppCompatActivity implements NetworkTaskCall
             if (intent != null && intent.getExtras() != null) {
                 Bundle bundle = intent.getExtras();
                 movieId = bundle.getLong(MOVIE_ID, 0L);
-                movieName = bundle.getString(MOVIE_NAME, "Detail");
+                movieName = bundle.getString(MOVIE_NAME, "");
             }
         } else {
             movieId = (savedInstanceState.containsKey(MOVIE_ID)) ? savedInstanceState.getLong(MOVIE_ID) : 0L;
-            movieName = (savedInstanceState.containsKey(MOVIE_NAME) ? savedInstanceState.getString(MOVIE_NAME) : "Detail");
+            movieName = (savedInstanceState.containsKey(MOVIE_NAME) ? savedInstanceState.getString(MOVIE_NAME) : "");
         }
 
         mToolbarTitle.setText(movieName);
@@ -106,7 +106,7 @@ public class DetailActivity extends AppCompatActivity implements NetworkTaskCall
     protected void onResume() {
         super.onResume();
         if (movieId != 0) {
-            new NetworkTask(this).execute(HTTPHelper.buildMovieDetailsURL(String.valueOf(movieId)));
+            fetchMovieDetails();
         }
     }
 
@@ -143,9 +143,26 @@ public class DetailActivity extends AppCompatActivity implements NetworkTaskCall
         return super.onOptionsItemSelected(item);
     }
 
+    private void fetchMovieDetails() {
+        if (HTTPHelper.isNetworkEnabled(this)) {
+            new NetworkTask(this).execute(HTTPHelper.buildMovieDetailsURL(String.valueOf(movieId)));
+        } else {
+            DisplayUtils.setNoNetworkConnectionMessage(this, mErrorMessageDisplay);
+            showErrorMessage();
+        }
+    }
+
     private void loadMovieDetails(MovieDetail movieDetail) {
+        int year = DisplayUtils.getYear(movieDetail.getReleaseDate());
+        double voteAverage = movieDetail.getVoteAverage();
         String backdropURL = movieDetail.getBackdropPath();
         String posterURL = movieDetail.getPosterPath();
+        String title = movieDetail.getTitle();
+        String runningTime = movieDetail.getRuntime() + " min";
+        String rating = voteAverage + "/10 (" + movieDetail.getVoteCount() + ")";
+        String tagline = movieDetail.getTagline();
+        String moviePlot = movieDetail.getOverview();
+        List<Genre> genres = movieDetail.getGenres();
 
         if (backdropURL != null) {
             Uri backdropUri = HTTPHelper.buildImageResourceUri(backdropURL, HTTPHelper.IMAGE_SIZE_XLARGE);
@@ -157,42 +174,20 @@ public class DetailActivity extends AppCompatActivity implements NetworkTaskCall
             DisplayUtils.fitImageInto(mPosterImageView, posterUri, null);
         }
 
-        StringBuilder titleBuilder = new StringBuilder();
-        if (movieDetail.getTitle() != null) {
-            titleBuilder.append(movieDetail.getTitle());
-        }
-        int year = DisplayUtils.getYear(movieDetail.getReleaseDate());
-        if (year != -1) {
-            titleBuilder.append(" ").append("(").append(String.valueOf(year)).append(")");
-        }
+        mMovieTitleTextView.setText(DisplayUtils.formatTitle(title, year));
 
-        mMovieTitleTextView.setText(titleBuilder.toString());
-        String runningTime = movieDetail.getRuntime() + " min";
         mMovieRuntimeTextView.setText(runningTime);
 
-        List<Genre> genres = movieDetail.getGenres();
-        StringBuilder genreBuilder = new StringBuilder();
-        if (genres != null && !genres.isEmpty()) {
-            for (int i = 0; i < genres.size(); i++) {
-                genreBuilder.append(genres.get(i).getName()).append((i < genres.size() - 1) ? " | " : "");
-            }
-        }
-        mMovieGenreTextView.setText(genreBuilder.toString());
+        mMovieGenreTextView.setText(DisplayUtils.formatGenres(genres));
 
-        double rating = movieDetail.getVoteAverage();
-        mMovieRatingBar.setRating((float) rating);
+        mMovieRatingBar.setRating((float) voteAverage);
 
-        String ratingText = rating + "/10 (" + movieDetail.getVoteCount() + ")";
-        mMovieRatingTextView.setText(ratingText);
+        mMovieRatingTextView.setText(rating);
 
-        if (movieDetail.getTagline() != null && !movieDetail.getTagline().isEmpty()) {
-            mMovieTaglineTextView.setText("\"" + movieDetail.getTagline() + "\"");
-        } else {
-            mMovieTaglineTextView.setVisibility(View.GONE);
-        }
+        mMovieTaglineTextView.setText(DisplayUtils.formatTagline(tagline));
 
-        if (movieDetail.getOverview() != null) {
-            mMoviePlotTextView.setText(movieDetail.getOverview());
+        if (moviePlot != null && !moviePlot.isEmpty()) {
+            mMoviePlotTextView.setText(moviePlot);
         }
     }
 
