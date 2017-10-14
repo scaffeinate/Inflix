@@ -72,68 +72,22 @@
                     android:fontFamily="sans-serif"
                     android:maxLines="2" />
 
-                <LinearLayout
+                <include
                     android:id="@+id/layout_rating"
+                    layout="@layout/layout_rating"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/layout_poster"
-                    android:layout_marginTop="@dimen/activity_detail_layout_rating_margin_top">
+                    android:layout_marginTop="@dimen/activity_detail_layout_rating_margin_top" />
 
-                    <RatingBar
-                        android:id="@+id/rb_movie_rating"
-                        style="@style/Base.Widget.AppCompat.RatingBar.Small"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:isIndicator="true"
-                        android:numStars="10"
-                        android:stepSize="0.1" />
-
-                    <TextView
-                        android:id="@+id/tv_movie_rating"
-                        style="@style/TextAppearance.AppCompat.Body2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/activity_detail_tv_rating_margin_left"
-                        android:fontFamily="sans-serif"
-                        android:textStyle="bold" />
-                </LinearLayout>
-
-                <LinearLayout
+                <include
                     android:id="@+id/layout_content"
+                    layout="@layout/layout_content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/layout_rating"
                     android:layout_marginBottom="@dimen/activity_detail_layout_content_margin_bottom"
-                    android:layout_marginTop="@dimen/activity_detail_layout_content_margin_top"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/tv_movie_tagline"
-                        style="@style/Base.TextAppearance.AppCompat.Medium"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif"
-                        android:textStyle="italic" />
-
-                    <TextView
-                        android:id="@+id/tv_movie_plot_title"
-                        style="@style/Base.TextAppearance.AppCompat.Subhead"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/activity_detail_plot_title_margin_top"
-                        android:fontFamily="sans-serif"
-                        android:text="@string/plot"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/tv_movie_plot"
-                        style="@style/TextAppearance.AppCompat.Body1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/activity_detail_plot_margin_top"
-                        android:fontFamily="sans-serif"
-                        android:lineSpacingMultiplier="1.25" />
-                </LinearLayout>
+                    android:layout_marginTop="@dimen/activity_detail_layout_content_margin_top" />
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>

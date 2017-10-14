@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_movie_tagline"
+        style="@style/Base.TextAppearance.AppCompat.Medium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif"
+        android:textStyle="italic" />
+
+    <TextView
+        android:id="@+id/tv_movie_plot_title"
+        style="@style/Base.TextAppearance.AppCompat.Subhead"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_detail_plot_title_margin_top"
+        android:fontFamily="sans-serif"
+        android:text="@string/plot"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tv_movie_plot"
+        style="@style/TextAppearance.AppCompat.Body1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_detail_plot_margin_top"
+        android:fontFamily="sans-serif"
+        android:lineSpacingMultiplier="1.25" />
+</LinearLayout>
