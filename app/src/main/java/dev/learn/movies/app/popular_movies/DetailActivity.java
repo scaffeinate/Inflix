@@ -31,22 +31,20 @@ import dev.learn.movies.app.popular_movies.network.NetworkTaskCallback;
 import dev.learn.movies.app.popular_movies.util.DisplayUtils;
 
 /**
- * Created by sudharti on 10/11/17.
+ * DetailActivity
  */
 public class DetailActivity extends AppCompatActivity implements NetworkTaskCallback {
 
     public static final String MOVIE_ID = "movie_id";
     public static final String MOVIE_NAME = "movie_name";
-
+    private final Gson gson = new Gson();
     private String movieName = null;
     private long movieId = 0L;
-
     private LinearLayout mMovieDetailLayout;
     private FrameLayout mBackdropLayout;
     private FrameLayout mPosterLayout;
     private ProgressBar mProgressBar;
     private TextView mErrorMessageDisplay;
-
     private ImageView mBackdropImageView;
     private ImageView mPosterImageView;
     private TextView mMovieTitleTextView;
@@ -55,10 +53,7 @@ public class DetailActivity extends AppCompatActivity implements NetworkTaskCall
     private TextView mMovieRatingTextView;
     private TextView mMovieTaglineTextView;
     private TextView mMoviePlotTextView;
-
     private RatingBar mMovieRatingBar;
-
-    private final Gson gson = new Gson();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -73,8 +68,8 @@ public class DetailActivity extends AppCompatActivity implements NetworkTaskCall
         mProgressBar = (ProgressBar) findViewById(R.id.pb_loading_indicator);
         mErrorMessageDisplay = (TextView) findViewById(R.id.tv_error_message_display);
 
-        mBackdropImageView = (ImageView) findViewById(R.id.imageview_backdrop);
-        mPosterImageView = (ImageView) findViewById(R.id.imageview_poster);
+        mBackdropImageView = (ImageView) findViewById(R.id.image_view_backdrop);
+        mPosterImageView = (ImageView) findViewById(R.id.image_view_poster);
         mMovieTitleTextView = (TextView) findViewById(R.id.tv_movie_title);
         mMovieRuntimeTextView = (TextView) findViewById(R.id.tv_movie_runtime);
         mMovieGenreTextView = (TextView) findViewById(R.id.tv_movie_genre);

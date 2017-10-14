@@ -24,24 +24,23 @@ import dev.learn.movies.app.popular_movies.network.HTTPHelper;
 import dev.learn.movies.app.popular_movies.network.NetworkTask;
 import dev.learn.movies.app.popular_movies.network.NetworkTaskCallback;
 
+/**
+ * MainActivity
+ */
 public class MainActivity extends AppCompatActivity implements MoviesAdapter.OnItemClickHandler, NetworkTaskCallback {
 
     private final static String REQUEST_FOR = "request_for";
     private final static String DISCOVER_MOVIES = "Discover";
     private final static String MOST_POPULAR_MOVIES = "Most Popular";
     private final static String TOP_RATED_MOVIES = "Top Rated";
-
+    private final Gson gson = new Gson();
     private String requestFor = null;
-
     private RecyclerView mRecyclerViewMovies;
     private ProgressBar mProgressBar;
     private TextView mErrorMessageDisplay;
     private TextView mToolbarTitle;
-
     private MoviesAdapter mAdapter;
-
     private List<Movie> movieList;
-    private final Gson gson = new Gson();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.OnI
             actionBar.setDisplayShowTitleEnabled(false);
         }
 
-        mRecyclerViewMovies = (RecyclerView) findViewById(R.id.recyclerview_movies);
+        mRecyclerViewMovies = (RecyclerView) findViewById(R.id.recycler_view_movies);
         mProgressBar = (ProgressBar) findViewById(R.id.pb_loading_indicator);
         mErrorMessageDisplay = (TextView) findViewById(R.id.tv_error_message_display);
         mToolbarTitle = (TextView) findViewById(R.id.tv_toolbar_title);

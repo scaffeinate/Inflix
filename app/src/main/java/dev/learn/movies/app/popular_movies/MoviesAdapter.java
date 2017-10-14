@@ -18,13 +18,13 @@ import dev.learn.movies.app.popular_movies.network.HTTPHelper;
 import dev.learn.movies.app.popular_movies.util.DisplayUtils;
 
 /**
- * Created by sudharti on 10/10/17.
+ * MoviesAdapter
  */
 
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder> {
 
-    private List<Movie> movieList;
     private final OnItemClickHandler mHandler;
+    private List<Movie> movieList;
 
     public MoviesAdapter(OnItemClickHandler handler) {
         this.mHandler = handler;
@@ -53,6 +53,10 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
         notifyDataSetChanged();
     }
 
+    interface OnItemClickHandler {
+        void onClick(int position);
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private final ImageView mPosterImageView;
@@ -60,7 +64,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
 
         public ViewHolder(View itemView) {
             super(itemView);
-            mPosterImageView = itemView.findViewById(R.id.imageview_poster);
+            mPosterImageView = itemView.findViewById(R.id.image_view_poster);
             mMovieNameTextView = itemView.findViewById(R.id.tv_movie_name);
             mPosterImageView.setOnClickListener(this);
         }
@@ -91,9 +95,5 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
         public void onClick(View view) {
             mHandler.onClick(getAdapterPosition());
         }
-    }
-
-    interface OnItemClickHandler {
-        void onClick(int position);
     }
 }

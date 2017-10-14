@@ -11,32 +11,21 @@ import java.net.URL;
 import java.util.Scanner;
 
 /**
- * Created by sudharti on 10/10/17.
+ * HTTPHelper
  */
 
 public final class HTTPHelper {
 
-    private final static String TAG = HTTPHelper.class.getSimpleName();
-
-    private final static String API_KEY = "API_KEY";
-
-    private final static String SCHEME = "https";
-
-    private final static String BASE_PATH = "/api.themoviedb.org";
-
-    private final static String API_VERSION = "3";
-
-    private final static String DISCOVER_PATH = "discover/movie";
-
-    private final static String IMAGE_BASE_PATH = "/image.tmdb.org/t/p";
-
-
     public final static String IMAGE_SIZE_SMALL = "w342";
-
     public final static String IMAGE_SIZE_MEDIUM = "w500";
-
     public final static String IMAGE_SIZE_XLARGE = "w780";
-
+    private final static String TAG = HTTPHelper.class.getSimpleName();
+    private final static String API_KEY = "API_KEY";
+    private final static String SCHEME = "https";
+    private final static String BASE_PATH = "/api.themoviedb.org";
+    private final static String API_VERSION = "3";
+    private final static String DISCOVER_PATH = "discover/movie";
+    private final static String IMAGE_BASE_PATH = "/image.tmdb.org/t/p";
     private final static String API_KEY_PARAM = "api_key";
 
     private final static String MOST_POPULAR_PATH = "movie/popular";

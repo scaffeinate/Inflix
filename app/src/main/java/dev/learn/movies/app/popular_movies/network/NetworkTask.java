@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.net.URL;
 
 /**
- * Created by sudhar on 10/11/17.
+ * NetworkTask
  */
 
 public class NetworkTask extends AsyncTask<URL, Void, String> {

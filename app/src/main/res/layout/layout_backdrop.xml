@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-			 android:layout_width="match_parent"
-			 android:layout_height="wrap_content"
-			 android:background="@color/posterBgColor">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/posterBgColor">
 
-	<ImageView
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_gravity="center"
-		android:contentDescription="@string/placeholder_image"
-		android:src="@drawable/ic_movie_roll_grey600_48dp"/>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:contentDescription="@string/placeholder_image"
+        android:src="@drawable/ic_movie_roll_grey600_48dp" />
 
-	<ImageView
-		android:id="@+id/imageview_backdrop"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:contentDescription="@string/backdrop_image"/>
+    <ImageView
+        android:id="@+id/image_view_backdrop"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/backdrop_image" />
 </FrameLayout>

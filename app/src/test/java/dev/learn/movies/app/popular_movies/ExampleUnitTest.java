@@ -2,7 +2,7 @@ package dev.learn.movies.app.popular_movies;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Example local unit test, which will execute on the development machine (host).
