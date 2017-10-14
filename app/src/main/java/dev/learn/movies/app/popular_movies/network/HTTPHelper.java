@@ -158,7 +158,7 @@ public final class HTTPHelper {
      *
      * @param url Input URL
      * @return response String
-     * @throws IOException
+     * @throws IOException when an exception occurs trying to reach the URL
      */
     public static String getHTTPResponse(URL url) throws IOException {
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
