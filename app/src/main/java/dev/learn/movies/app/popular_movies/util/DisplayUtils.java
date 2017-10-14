@@ -20,19 +20,32 @@ import dev.learn.movies.app.popular_movies.R;
 import dev.learn.movies.app.popular_movies.common.Genre;
 
 /**
- * DisplayUtils
+ * DisplayUtils - Contains helper methods for common formatting and view changes
  */
 
 public final class DisplayUtils {
 
     private final static String TAG = DisplayUtils.class.getSimpleName();
 
+    /**
+     * Sets the imageView with image at uri using Picasso
+     *
+     * @param imageView ImageView to populate
+     * @param uri       URI of the image
+     * @param callback  Picasso callback override
+     */
     public static void fitImageInto(ImageView imageView, Uri uri, Callback callback) {
         Picasso.with(imageView.getContext()).load(uri)
                 .fit().centerCrop()
                 .into(imageView, callback);
     }
 
+    /**
+     * Gets the year from dateStr, If not valid returns -1
+     *
+     * @param dateStr Date String in yyyy-mm-dd format
+     * @return year if valid or -1
+     */
     public static int getYear(String dateStr) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd", Locale.getDefault());
         try {
@@ -47,6 +60,13 @@ public final class DisplayUtils {
         return -1;
     }
 
+    /**
+     * Formats title of a movie
+     *
+     * @param title Movie title
+     * @param year  Movie release year
+     * @return formatted title String
+     */
     public static String formatTitle(String title, int year) {
         StringBuilder builder = new StringBuilder();
         if (title != null && !title.isEmpty()) {
@@ -59,6 +79,12 @@ public final class DisplayUtils {
         return builder.toString();
     }
 
+    /**
+     * Formats genres using a pipe separator
+     *
+     * @param genres List of Genres
+     * @return Genres separated by a pipe separator
+     */
     public static String formatGenres(List<Genre> genres) {
         StringBuilder builder = new StringBuilder();
         if (genres != null && !genres.isEmpty()) {
@@ -69,10 +95,22 @@ public final class DisplayUtils {
         return builder.toString();
     }
 
+    /**
+     * Formats the movie tagline
+     *
+     * @param tagline Movie Tagline
+     * @return formatted tagline inside quotes
+     */
     public static String formatTagline(String tagline) {
         return (tagline == null || tagline.isEmpty()) ? "" : "\"" + tagline + "\"";
     }
 
+    /**
+     * Checks if there is a valid networj=k connection
+     *
+     * @param context       Context
+     * @param errorTextView View to which the setText is called
+     */
     public static void setNoNetworkConnectionMessage(Context context, TextView errorTextView) {
         String errorMessaage = context.getResources().getString(R.string.no_network_connection);
         errorTextView.setText(errorMessaage);

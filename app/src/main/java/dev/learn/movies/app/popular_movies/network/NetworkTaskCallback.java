@@ -1,7 +1,7 @@
 package dev.learn.movies.app.popular_movies.network;
 
 /**
- * NetworkTaskCallback
+ * NetworkTaskCallback - Callback to update the UI from the NetworkTask
  */
 
 public interface NetworkTaskCallback {

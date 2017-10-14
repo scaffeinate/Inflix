@@ -31,7 +31,7 @@ import dev.learn.movies.app.popular_movies.network.NetworkTaskCallback;
 import dev.learn.movies.app.popular_movies.util.DisplayUtils;
 
 /**
- * DetailActivity
+ * DetailActivity - To show the movie details
  */
 public class DetailActivity extends AppCompatActivity implements NetworkTaskCallback {
 
@@ -81,11 +81,15 @@ public class DetailActivity extends AppCompatActivity implements NetworkTaskCall
         setSupportActionBar(mToolbar);
         ActionBar mActionBar = getSupportActionBar();
 
+        // Show back button in ActionBar
         if (mActionBar != null) {
             mActionBar.setDisplayHomeAsUpEnabled(true);
             mActionBar.setDisplayShowHomeEnabled(true);
         }
 
+        /* If savedInstanceState is not null then fetch movieId and movieName
+         * Else try to get from Intent Bundle Extra
+         */
         if (savedInstanceState == null) {
             Intent intent = getIntent();
             if (intent != null && intent.getExtras() != null) {
@@ -99,7 +103,7 @@ public class DetailActivity extends AppCompatActivity implements NetworkTaskCall
         }
 
         mToolbarTitle.setText(movieName);
-        adjustImageSize();
+        adjustImageLayouts();
     }
 
     @Override
@@ -117,11 +121,19 @@ public class DetailActivity extends AppCompatActivity implements NetworkTaskCall
         outState.putString(MOVIE_NAME, movieName);
     }
 
+    /**
+     * Overrides onPreExecute() from NetworkTaskCallback
+     */
     @Override
     public void onPreExecute() {
         showProgressBar();
     }
 
+    /**
+     * Overrides onPostExecute() from NetworkTaskCallback
+     *
+     * @param s AsyncTask result String
+     */
     @Override
     public void onPostExecute(String s) {
         MovieDetail movieDetail = (s == null) ? null : gson.fromJson(s, MovieDetail.class);
@@ -143,6 +155,10 @@ public class DetailActivity extends AppCompatActivity implements NetworkTaskCall
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Fetches movie details using the NetworkTask if Network connection is present.
+     * Otherwise shows an error message.
+     */
     private void fetchMovieDetails() {
         if (HTTPHelper.isNetworkEnabled(this)) {
             new NetworkTask(this).execute(HTTPHelper.buildMovieDetailsURL(String.valueOf(movieId)));
@@ -152,6 +168,11 @@ public class DetailActivity extends AppCompatActivity implements NetworkTaskCall
         }
     }
 
+    /**
+     * Formats and sets the movie details into appropriate views
+     *
+     * @param movieDetail MovieDetail Bean
+     */
     private void loadMovieDetails(MovieDetail movieDetail) {
         int year = DisplayUtils.getYear(movieDetail.getReleaseDate());
         double voteAverage = movieDetail.getVoteAverage();
@@ -191,25 +212,37 @@ public class DetailActivity extends AppCompatActivity implements NetworkTaskCall
         }
     }
 
+    /**
+     * Shows ProgressBar, Hides ErrorMessage and MovieDetailLayout
+     */
     private void showProgressBar() {
         mProgressBar.setVisibility(View.VISIBLE);
         mErrorMessageDisplay.setVisibility(View.INVISIBLE);
         mMovieDetailLayout.setVisibility(View.INVISIBLE);
     }
 
+    /**
+     * Shows MovieDetailLayout, Hides ProgressBar and ErrorMessage
+     */
     private void showMovieDetails() {
         mMovieDetailLayout.setVisibility(View.VISIBLE);
         mProgressBar.setVisibility(View.INVISIBLE);
         mErrorMessageDisplay.setVisibility(View.INVISIBLE);
     }
 
+    /**
+     * Shows ErrorMessage, Hides ProgressBar and MovieDetailLayout
+     */
     private void showErrorMessage() {
         mErrorMessageDisplay.setVisibility(View.VISIBLE);
         mProgressBar.setVisibility(View.INVISIBLE);
         mMovieDetailLayout.setVisibility(View.INVISIBLE);
     }
 
-    private void adjustImageSize() {
+    /**
+     * Based on the screen size and orientation scales the parent image layouts.
+     */
+    private void adjustImageLayouts() {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         int screenHeight = displayMetrics.heightPixels;

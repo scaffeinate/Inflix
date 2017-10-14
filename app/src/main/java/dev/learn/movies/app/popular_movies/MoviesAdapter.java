@@ -18,7 +18,7 @@ import dev.learn.movies.app.popular_movies.network.HTTPHelper;
 import dev.learn.movies.app.popular_movies.util.DisplayUtils;
 
 /**
- * MoviesAdapter
+ * MoviesAdapter - RecyclerView Adapter for Movies
  */
 
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder> {
@@ -34,7 +34,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_poster, parent, false);
-        view.setMinimumHeight(parent.getMeasuredHeight() / 2);
+        view.setMinimumHeight(parent.getMeasuredHeight() / 2); // Set the minimum height of the view to scale for all screens.
         return new ViewHolder(view);
     }
 
@@ -69,6 +69,11 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
             mPosterImageView.setOnClickListener(this);
         }
 
+        /**
+         * Populates the layout with movie details
+         *
+         * @param position Adapter position to populate
+         */
         private void bind(int position) {
             Movie movie = movieList.get(position);
             if (movie != null) {

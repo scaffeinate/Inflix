@@ -13,7 +13,7 @@ import java.net.URL;
 import java.util.Scanner;
 
 /**
- * HTTPHelper
+ * HTTPHelper - Contains network related helper methods
  */
 
 public final class HTTPHelper {
@@ -40,6 +40,11 @@ public final class HTTPHelper {
 
     private final static String EN_US = "en-US";
 
+    /**
+     * Builds discover/movie url
+     *
+     * @return discover URL
+     */
     public static URL buildDiscoverURL() {
         Uri uri = new Uri.Builder()
                 .scheme(SCHEME)
@@ -58,6 +63,11 @@ public final class HTTPHelper {
         return null;
     }
 
+    /**
+     * Builds movie/popular URL
+     *
+     * @return popular URL
+     */
     public static URL buildMostPopularURL() {
         Uri uri = new Uri.Builder()
                 .scheme(SCHEME)
@@ -77,6 +87,11 @@ public final class HTTPHelper {
         return null;
     }
 
+    /**
+     * Builds movie/top_rated URL
+     *
+     * @return top_rated URL
+     */
     public static URL builTopRatedURL() {
         Uri uri = new Uri.Builder()
                 .scheme(SCHEME)
@@ -95,6 +110,12 @@ public final class HTTPHelper {
         return null;
     }
 
+    /**
+     * Builds movie/{movieId} URL
+     *
+     * @param movieId Movie Id to fetch details for
+     * @return movie_detail URL
+     */
     public static URL buildMovieDetailsURL(String movieId) {
         Uri uri = new Uri.Builder()
                 .scheme(SCHEME)
@@ -115,6 +136,13 @@ public final class HTTPHelper {
         return null;
     }
 
+    /**
+     * Builds Image URL
+     *
+     * @param imgFile   Image File name
+     * @param imageSize Image Size
+     * @return image URL
+     */
     public static Uri buildImageResourceUri(String imgFile, String imageSize) {
         return new Uri.Builder()
                 .scheme(SCHEME)
@@ -124,6 +152,13 @@ public final class HTTPHelper {
                 .build();
     }
 
+    /**
+     * Fetches the response from the url
+     *
+     * @param url Input URL
+     * @return response String
+     * @throws IOException
+     */
     public static String getHTTPResponse(URL url) throws IOException {
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         String response = null;
@@ -142,6 +177,12 @@ public final class HTTPHelper {
         return response;
     }
 
+    /**
+     * Checks whether the device is connected to the internet
+     *
+     * @param context Context
+     * @return isNetworkEnabled
+     */
     public static boolean isNetworkEnabled(Context context) {
         ConnectivityManager manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         return manager.getActiveNetworkInfo() != null;

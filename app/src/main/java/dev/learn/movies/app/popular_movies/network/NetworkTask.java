@@ -7,7 +7,10 @@ import java.io.IOException;
 import java.net.URL;
 
 /**
- * NetworkTask
+ * NetworkTask - Generic AsyncTask to fetch results from URL. Returns the response string
+ * <p>
+ * AsyncTask as an inner class has an implicit reference to the outer Activity which causes memory leaks.
+ * So declaring it as a standalone class and use callbacks to update UI.</p>
  */
 
 public class NetworkTask extends AsyncTask<URL, Void, String> {
