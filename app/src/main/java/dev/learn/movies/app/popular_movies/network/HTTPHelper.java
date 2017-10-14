@@ -2,6 +2,7 @@ package dev.learn.movies.app.popular_movies.network;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.util.Log;
 
@@ -179,12 +180,14 @@ public final class HTTPHelper {
 
     /**
      * Checks whether the device is connected to the internet
+     * Reference: https://stackoverflow.com/questions/4238921/detect-whether-there-is-an-internet-connection-available-on-android
      *
      * @param context Context
      * @return isNetworkEnabled
      */
     public static boolean isNetworkEnabled(Context context) {
         ConnectivityManager manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        return manager.getActiveNetworkInfo() != null;
+        NetworkInfo networkInfo = manager.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnectedOrConnecting();
     }
 }

@@ -31,10 +31,16 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
         this.movieList = new ArrayList<>();
     }
 
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_poster, parent, false);
-        view.setMinimumHeight(parent.getMeasuredHeight() / 2); // Set the minimum height of the view to scale for all screens.
+
+        /* Set the minimum height of the view to scale for all screens.
+         *
+         * Reference: https://stackoverflow.com/questions/35221566/how-to-set-the-height-of-an-item-row-in-gridlayoutmanager
+         */
+        view.setMinimumHeight(parent.getMeasuredHeight() / 2);
         return new ViewHolder(view);
     }
 

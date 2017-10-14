@@ -15,7 +15,7 @@ import java.net.URL;
 
 public class NetworkTask extends AsyncTask<URL, Void, String> {
 
-    private static final String TAG = "NetworkTask";
+    private static final String TAG = NetworkTask.class.getSimpleName();
 
     private final NetworkTaskCallback mCallback;
 
