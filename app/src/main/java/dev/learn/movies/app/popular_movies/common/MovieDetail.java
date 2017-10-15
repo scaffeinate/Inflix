@@ -1,12 +1,15 @@
 package dev.learn.movies.app.popular_movies.common;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
 @SuppressWarnings("unused")
-public class MovieDetail {
+public class MovieDetail implements Parcelable {
 
 
     @SerializedName("backdrop_path")
@@ -52,6 +55,31 @@ public class MovieDetail {
     @SerializedName("genres")
     @Expose
     private List<Genre> genres;
+
+    protected MovieDetail(Parcel in) {
+        backdropPath = in.readString();
+        id = in.readLong();
+        overview = in.readString();
+        posterPath = in.readString();
+        releaseDate = in.readString();
+        runtime = in.readLong();
+        tagline = in.readString();
+        title = in.readString();
+        voteAverage = in.readDouble();
+        voteCount = in.readLong();
+    }
+
+    public static final Creator<MovieDetail> CREATOR = new Creator<MovieDetail>() {
+        @Override
+        public MovieDetail createFromParcel(Parcel in) {
+            return new MovieDetail(in);
+        }
+
+        @Override
+        public MovieDetail[] newArray(int size) {
+            return new MovieDetail[size];
+        }
+    };
 
     public String getBackdropPath() {
         return backdropPath;
@@ -139,5 +167,24 @@ public class MovieDetail {
 
     public void setGenres(List<Genre> genres) {
         this.genres = genres;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(backdropPath);
+        parcel.writeLong(id);
+        parcel.writeString(overview);
+        parcel.writeString(posterPath);
+        parcel.writeString(releaseDate);
+        parcel.writeLong(runtime);
+        parcel.writeString(tagline);
+        parcel.writeString(title);
+        parcel.writeDouble(voteAverage);
+        parcel.writeLong(voteCount);
     }
 }
