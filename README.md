@@ -4,7 +4,7 @@
 Popular Movies App for the  Udacity Android Nanodegree Program.
 
 ### Setup: 
-This is based on TheMovieDB. Please obtain an api key from tmdb and add **API_KEY=<YOUR_API_KEY>** the gradle.properties(Create one if it doesn't exist alreadt).
+This is based on TheMovieDB API. Please obtain an api key from tmdb and add **API_KEY=<YOUR_API_KEY>** to the gradle.properties(Create one if it doesn't exist already) file.
 
 ### Current Features include:
 - Present the user with a grid arrangement of movie posters upon launch.
