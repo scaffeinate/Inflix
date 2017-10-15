@@ -13,6 +13,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Scanner;
 
+import dev.learn.movies.app.popular_movies.BuildConfig;
+
 /**
  * HTTPHelper - Contains network related helper methods
  */
@@ -23,7 +25,7 @@ public final class HTTPHelper {
     public final static String IMAGE_SIZE_MEDIUM = "w500";
     public final static String IMAGE_SIZE_XLARGE = "w780";
     private final static String TAG = HTTPHelper.class.getSimpleName();
-    private final static String API_KEY = "API_KEY";
+    private final static String API_KEY = BuildConfig.API_KEY;
     private final static String SCHEME = "https";
     private final static String BASE_PATH = "/api.themoviedb.org";
     private final static String API_VERSION = "3";

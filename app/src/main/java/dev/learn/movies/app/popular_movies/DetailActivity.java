@@ -84,7 +84,6 @@ public class DetailActivity extends AppCompatActivity implements NetworkTaskCall
         // Show back button in ActionBar
         if (mActionBar != null) {
             mActionBar.setDisplayHomeAsUpEnabled(true);
-            mActionBar.setDisplayShowHomeEnabled(true);
         }
 
         /* If savedInstanceState is not null then fetch movieId and movieName
@@ -143,16 +142,6 @@ public class DetailActivity extends AppCompatActivity implements NetworkTaskCall
             loadMovieDetails(movieDetail);
             showMovieDetails();
         }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     /**
