@@ -11,10 +11,13 @@ This is based on TheMovieDB API. Please obtain an api key from tmdb and add **AP
 - Add a Fav button.
 - Add a section for Reviews.
 - Add a dropdown for Favorites.
+- Tablet Layout.
 - Replace AsyncTask with Loaders.
 - Build a Content Provider and Db Contract.
 - Offline load Favorites.
 - Reuse common styles/themes.
+- Store the movie details too in Db. Cache the images.
+- Add a share link for the movie trailer.
 
 ### V1:
 - Present the user with a grid arrangement of movie posters upon launch.
