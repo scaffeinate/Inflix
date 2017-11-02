@@ -1,112 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="dev.learn.movies.app.popular_movies.DetailActivity">
 
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true" />
+        android:layout_height="wrap_content">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar"
-        android:fillViewport="true">
-
-        <LinearLayout
-            android:id="@+id/layout_movie_detail"
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_alignParentTop="true" />
 
-            <include
-                android:id="@+id/layout_backdrop"
-                layout="@layout/layout_backdrop" />
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/toolbar"
+            android:fillViewport="true">
 
-            <RelativeLayout
+            <LinearLayout
+                android:id="@+id/layout_movie_detail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/activity_detail_margin">
+                android:orientation="vertical">
 
                 <include
-                    android:id="@+id/layout_poster"
-                    layout="@layout/layout_poster" />
+                    android:id="@+id/layout_backdrop"
+                    layout="@layout/layout_backdrop" />
 
-                <TextView
-                    android:id="@+id/tv_movie_title"
-                    style="@style/Base.TextAppearance.AppCompat.Title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignTop="@+id/layout_poster"
-                    android:layout_marginStart="15dp"
-                    android:layout_toEndOf="@+id/layout_poster"
-                    android:fontFamily="sans-serif"
-                    android:maxLines="3"
-                    android:text="@string/app_name"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/tv_movie_runtime"
-                    style="@style/Base.TextAppearance.AppCompat.Small"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignStart="@+id/tv_movie_title"
-                    android:layout_below="@id/tv_movie_title"
-                    android:layout_marginTop="@dimen/activity_detail_fields_margin_top"
-                    android:fontFamily="sans-serif"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/tv_movie_genre"
-                    style="@style/Base.TextAppearance.AppCompat.Small"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignStart="@+id/tv_movie_title"
-                    android:layout_below="@id/tv_movie_runtime"
-                    android:layout_marginTop="@dimen/activity_detail_fields_margin_top"
-                    android:fontFamily="sans-serif"
-                    android:maxLines="2" />
-
-                <include
-                    android:id="@+id/layout_rating"
-                    layout="@layout/layout_rating"
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/layout_poster"
-                    android:layout_marginTop="@dimen/activity_detail_layout_rating_margin_top" />
+                    android:layout_marginBottom="@dimen/activity_detail_margin_top_bottom"
+                    android:layout_marginLeft="@dimen/activity_detail_margin_left_right"
+                    android:layout_marginRight="@dimen/activity_detail_margin_left_right"
+                    android:layout_marginTop="@dimen/activity_detail_margin_top_bottom">
 
-                <include
-                    android:id="@+id/layout_content"
-                    layout="@layout/layout_content"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/layout_rating"
-                    android:layout_marginBottom="@dimen/activity_detail_layout_content_margin_bottom"
-                    android:layout_marginTop="@dimen/activity_detail_layout_content_margin_top" />
-            </RelativeLayout>
-        </LinearLayout>
-    </ScrollView>
+                    <include
+                        android:id="@+id/layout_poster"
+                        layout="@layout/layout_poster" />
 
-    <TextView
-        android:id="@+id/tv_error_message_display"
-        style="@style/Base.TextAppearance.AppCompat.Title"
+                    <TextView
+                        android:id="@+id/tv_movie_title"
+                        style="@style/Base.TextAppearance.AppCompat.Title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@+id/layout_poster"
+                        android:layout_marginStart="15dp"
+                        android:layout_toEndOf="@+id/layout_poster"
+                        android:fontFamily="sans-serif"
+                        android:maxLines="3"
+                        android:text="@string/app_name"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_movie_runtime"
+                        style="@style/Base.TextAppearance.AppCompat.Small"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignStart="@+id/tv_movie_title"
+                        android:layout_below="@id/tv_movie_title"
+                        android:layout_marginTop="@dimen/activity_detail_fields_margin_top"
+                        android:fontFamily="sans-serif"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_movie_genre"
+                        style="@style/Base.TextAppearance.AppCompat.Small"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignStart="@+id/tv_movie_title"
+                        android:layout_below="@id/tv_movie_runtime"
+                        android:layout_marginTop="@dimen/activity_detail_fields_margin_top"
+                        android:fontFamily="sans-serif"
+                        android:maxLines="2" />
+
+                    <include
+                        android:id="@+id/layout_rating"
+                        layout="@layout/layout_rating"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/layout_poster"
+                        android:layout_marginTop="@dimen/activity_detail_layout_rating_margin_top" />
+
+                    <include
+                        android:id="@+id/layout_content"
+                        layout="@layout/layout_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/layout_rating"
+                        android:layout_marginBottom="@dimen/activity_detail_layout_content_margin_bottom"
+                        android:layout_marginTop="@dimen/activity_detail_layout_content_margin_top" />
+                </RelativeLayout>
+            </LinearLayout>
+        </ScrollView>
+
+        <TextView
+            android:id="@+id/tv_error_message_display"
+            style="@style/Base.TextAppearance.AppCompat.Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:fontFamily="sans-serif"
+            android:gravity="center"
+            android:text="@string/movie_info_not_found_error_message"
+            android:visibility="invisible" />
+
+        <ProgressBar
+            android:id="@+id/pb_loading_indicator"
+            android:layout_width="@dimen/progressbar_size"
+            android:layout_height="@dimen/progressbar_size"
+            android:layout_centerInParent="true"
+            android:visibility="invisible" />
+    </RelativeLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/btn_fav"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:fontFamily="sans-serif"
-        android:gravity="center"
-        android:text="@string/movie_info_not_found_error_message"
-        android:visibility="invisible" />
-
-    <ProgressBar
-        android:id="@+id/pb_loading_indicator"
-        android:layout_width="@dimen/progressbar_size"
-        android:layout_height="@dimen/progressbar_size"
-        android:layout_centerInParent="true"
-        android:visibility="invisible" />
-</RelativeLayout>
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_heart_outline_white_24dp"
+        app:layout_anchor="@+id/layout_backdrop"
+        app:layout_anchorGravity="bottom|right|end"
+        app:rippleColor="@color/colorPrimary" />
+</android.support.design.widget.CoordinatorLayout>

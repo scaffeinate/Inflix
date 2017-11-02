@@ -2,7 +2,8 @@
 <resources>
     <dimen name="progressbar_size">42dp</dimen>
     <dimen name="toolbar_padding_right">30dp</dimen>
-    <dimen name="activity_detail_margin">15dp</dimen>
+    <dimen name="activity_detail_margin_left_right">15dp</dimen>
+    <dimen name="activity_detail_margin_top_bottom">25dp</dimen>
     <dimen name="activity_detail_fields_margin_top">10dp</dimen>
     <dimen name="activity_detail_layout_rating_margin_top">25dp</dimen>
     <dimen name="activity_detail_tv_rating_margin_left">10dp</dimen>
