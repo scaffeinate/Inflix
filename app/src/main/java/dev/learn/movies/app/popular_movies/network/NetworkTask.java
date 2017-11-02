@@ -34,6 +34,7 @@ public class NetworkTask extends AsyncTask<URL, Void, String> {
         String response = null;
         try {
             response = HTTPHelper.getHTTPResponse(urls[0]);
+            Log.i(TAG, "Requesting Data From: " + urls[0].toString());
         } catch (IOException e) {
             Log.e(TAG, e.getMessage());
         }

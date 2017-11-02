@@ -43,12 +43,14 @@ public final class HTTPHelper {
 
     private final static String EN_US = "en-US";
 
+    private final static String PAGE = "page";
+
     /**
      * Builds discover/movie url
      *
      * @return discover URL
      */
-    public static URL buildDiscoverURL() {
+    public static URL buildDiscoverURL(int page) {
         Uri uri = new Uri.Builder()
                 .scheme(SCHEME)
                 .appendEncodedPath(BASE_PATH)
@@ -56,6 +58,7 @@ public final class HTTPHelper {
                 .appendEncodedPath(DISCOVER_PATH)
                 .appendQueryParameter(API_KEY_PARAM, API_KEY)
                 .appendQueryParameter(LANGUAGE, EN_US)
+                .appendQueryParameter(PAGE, String.valueOf(page))
                 .build();
         try {
             return new URL(uri.toString());
@@ -71,7 +74,7 @@ public final class HTTPHelper {
      *
      * @return popular URL
      */
-    public static URL buildMostPopularURL() {
+    public static URL buildMostPopularURL(int page) {
         Uri uri = new Uri.Builder()
                 .scheme(SCHEME)
                 .appendEncodedPath(BASE_PATH)
@@ -79,6 +82,7 @@ public final class HTTPHelper {
                 .appendEncodedPath(MOST_POPULAR_PATH)
                 .appendQueryParameter(API_KEY_PARAM, API_KEY)
                 .appendQueryParameter(LANGUAGE, EN_US)
+                .appendQueryParameter(PAGE, String.valueOf(page))
                 .build();
 
         try {
@@ -95,7 +99,7 @@ public final class HTTPHelper {
      *
      * @return top_rated URL
      */
-    public static URL builTopRatedURL() {
+    public static URL builTopRatedURL(int page) {
         Uri uri = new Uri.Builder()
                 .scheme(SCHEME)
                 .appendEncodedPath(BASE_PATH)
@@ -103,6 +107,7 @@ public final class HTTPHelper {
                 .appendEncodedPath(TOP_RATED_PATH)
                 .appendQueryParameter(API_KEY_PARAM, API_KEY)
                 .appendQueryParameter(LANGUAGE, EN_US)
+                .appendQueryParameter(PAGE, String.valueOf(page))
                 .build();
         try {
             return new URL(uri.toString());

@@ -13,9 +13,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import dev.learn.movies.app.popular_movies.common.Movie;
@@ -30,6 +32,7 @@ import dev.learn.movies.app.popular_movies.util.DisplayUtils;
  */
 public class MainActivity extends AppCompatActivity implements MoviesAdapter.OnItemClickHandler, NetworkTaskCallback {
 
+    private final static int STARTING_PAGE = 1;
     private final static String REQUEST_FOR = "request_for";
     private final static String DISCOVER_MOVIES = "Discover";
     private final static String MOST_POPULAR_MOVIES = "Most Popular";
@@ -65,8 +68,16 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.OnI
         mRecyclerViewMovies.setHasFixedSize(true);
         mRecyclerViewMovies.setLayoutManager(mLayoutManager);
 
+        movieList = new ArrayList<>();
+
         mAdapter = new MoviesAdapter(this);
         mRecyclerViewMovies.setAdapter(mAdapter);
+        mRecyclerViewMovies.addOnScrollListener(new EndlessRecyclerViewScrollListener(mLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                fetchMovies(page);
+            }
+        });
 
         /*
          * If savedInstanceState is not null then restore the grid type, i.e. Popular, Top Rated etc.
@@ -77,12 +88,8 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.OnI
         } else {
             requestFor = DISCOVER_MOVIES;
         }
-    }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        fetchMovies();
+        fetchMovies(STARTING_PAGE);
     }
 
     @Override
@@ -94,18 +101,19 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.OnI
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        this.movieList = new ArrayList<>();
         switch (item.getItemId()) {
             case R.id.action_discover:
                 requestFor = DISCOVER_MOVIES;
-                fetchMovies();
+                fetchMovies(STARTING_PAGE);
                 return true;
             case R.id.action_sort_popular:
                 requestFor = MOST_POPULAR_MOVIES;
-                fetchMovies();
+                fetchMovies(STARTING_PAGE);
                 return true;
             case R.id.action_sort_rating:
                 requestFor = TOP_RATED_MOVIES;
-                fetchMovies();
+                fetchMovies(STARTING_PAGE);
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -157,7 +165,7 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.OnI
         if (moviesResult == null || moviesResult.getResults() == null || moviesResult.getResults().isEmpty()) {
             showErrorMessage();
         } else {
-            this.movieList = moviesResult.getResults();
+            this.movieList.addAll(moviesResult.getResults());
             mAdapter.setMovieList(movieList);
             showRecyclerView();
         }
@@ -173,20 +181,20 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.OnI
      * Fetches movies if there is a  network connection.
      * Otherwise shows an error message.
      */
-    private void fetchMovies() {
+    private void fetchMovies(int page) {
         if (requestFor == null) return;
 
         if (HTTPHelper.isNetworkEnabled(this)) {
             mToolbarTitle.setText(requestFor);
             switch (requestFor) {
                 case DISCOVER_MOVIES:
-                    new NetworkTask(this).execute(HTTPHelper.buildDiscoverURL());
+                    new NetworkTask(this).execute(HTTPHelper.buildDiscoverURL(page));
                     break;
                 case MOST_POPULAR_MOVIES:
-                    new NetworkTask(this).execute(HTTPHelper.buildMostPopularURL());
+                    new NetworkTask(this).execute(HTTPHelper.buildMostPopularURL(page));
                     break;
                 case TOP_RATED_MOVIES:
-                    new NetworkTask(this).execute(HTTPHelper.builTopRatedURL());
+                    new NetworkTask(this).execute(HTTPHelper.builTopRatedURL(page));
                     break;
             }
         } else {
