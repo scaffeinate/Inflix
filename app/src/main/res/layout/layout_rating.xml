@@ -15,10 +15,8 @@
 
     <TextView
         android:id="@+id/tv_movie_rating"
-        style="@style/TextAppearance.AppCompat.Body2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/activity_detail_tv_rating_margin_left"
-        android:fontFamily="sans-serif"
-        android:textStyle="bold" />
+        android:textAppearance="@style/CaptionBold" />
 </LinearLayout>

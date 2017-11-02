@@ -218,7 +218,11 @@ public class DetailActivity extends AppCompatActivity implements NetworkTaskCall
 
         mMovieRatingTextView.setText(rating);
 
-        mMovieTaglineTextView.setText(DisplayUtils.formatTagline(tagline));
+        if (tagline == null || tagline.isEmpty()) {
+            mMovieTaglineTextView.setVisibility(View.GONE);
+        } else {
+            mMovieTaglineTextView.setText(DisplayUtils.formatTagline(tagline));
+        }
 
         if (moviePlot != null && !moviePlot.isEmpty()) {
             mMoviePlotTextView.setText(moviePlot);

@@ -15,4 +15,37 @@
     <style name="CustomOverflow" parent="@android:style/Widget.Holo.ActionButton.Overflow">
         <item name="android:src">@drawable/ic_sort_white_24dp</item>
     </style>
+
+    <style name="Title">
+        <item name="android:textSize">@dimen/font_size_title</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">sans-serif-condensed</item>
+    </style>
+
+    <style name="ToolbarTitle" parent="Title">
+        <item name="android:textColor">@color/textColorLight</item>
+    </style>
+
+    <style name="MovieTitle" parent="Title">
+        <item name="android:textColor">@color/textColorDark</item>
+        <item name="android:maxLines">3</item>
+    </style>
+
+    <style name="SubTitle" parent="MovieTitle">
+        <item name="android:textSize">@dimen/font_size_subheading</item>
+    </style>
+
+    <style name="CaptionBold">
+        <item name="android:textSize">@dimen/font_size_caption</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">@color/textColorDark</item>
+    </style>
+
+    <style name="BodyItalic">
+        <item name="android:textSize">@dimen/font_size_body</item>
+        <item name="android:textStyle">italic</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">@color/textColorAlternate</item>
+    </style>
 </resources>

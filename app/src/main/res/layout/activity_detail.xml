@@ -47,27 +47,22 @@
 
                     <TextView
                         android:id="@+id/tv_movie_title"
-                        style="@style/Base.TextAppearance.AppCompat.Title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignTop="@+id/layout_poster"
                         android:layout_marginStart="15dp"
                         android:layout_toEndOf="@+id/layout_poster"
-                        android:fontFamily="sans-serif"
-                        android:maxLines="3"
                         android:text="@string/app_name"
-                        android:textStyle="bold" />
+                        android:textAppearance="@style/MovieTitle" />
 
                     <TextView
                         android:id="@+id/tv_movie_runtime"
-                        style="@style/Base.TextAppearance.AppCompat.Small"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignStart="@+id/tv_movie_title"
                         android:layout_below="@id/tv_movie_title"
                         android:layout_marginTop="@dimen/activity_detail_fields_margin_top"
-                        android:fontFamily="sans-serif"
-                        android:textStyle="bold" />
+                        android:textAppearance="@style/CaptionBold" />
 
                     <TextView
                         android:id="@+id/tv_movie_genre"

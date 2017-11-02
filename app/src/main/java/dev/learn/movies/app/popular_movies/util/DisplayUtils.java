@@ -102,7 +102,7 @@ public final class DisplayUtils {
      * @return formatted tagline inside quotes
      */
     public static String formatTagline(String tagline) {
-        return (tagline == null || tagline.isEmpty()) ? "" : "\"" + tagline + "\"";
+        return "\"" + tagline + "\"";
     }
 
     /**
