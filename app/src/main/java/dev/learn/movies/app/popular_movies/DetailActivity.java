@@ -23,22 +23,24 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 
+import java.net.URL;
 import java.util.List;
 
 import dev.learn.movies.app.popular_movies.common.Genre;
 import dev.learn.movies.app.popular_movies.common.MovieDetail;
 import dev.learn.movies.app.popular_movies.network.HTTPHelper;
-import dev.learn.movies.app.popular_movies.network.NetworkTask;
-import dev.learn.movies.app.popular_movies.network.NetworkTaskCallback;
+import dev.learn.movies.app.popular_movies.network.NetworkLoader;
+import dev.learn.movies.app.popular_movies.network.NetworkLoaderCallback;
 import dev.learn.movies.app.popular_movies.util.DisplayUtils;
 
 /**
  * DetailActivity - To show the movie details
  */
-public class DetailActivity extends AppCompatActivity implements NetworkTaskCallback {
+public class DetailActivity extends AppCompatActivity implements NetworkLoaderCallback {
 
     public static final String MOVIE_ID = "movie_id";
     public static final String MOVIE_NAME = "movie_name";
+    private static final int NETWORK_LOADER_ID = 532;
     private final Gson gson = new Gson();
     private String movieName = "";
     private long movieId = 0L;
@@ -58,11 +60,14 @@ public class DetailActivity extends AppCompatActivity implements NetworkTaskCall
     private RatingBar mMovieRatingBar;
     private FloatingActionButton mFavoriteButton;
     private boolean favored = false;
+    private NetworkLoader mNetworkLoader;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+
+        mNetworkLoader = new NetworkLoader(this, this);
 
         Toolbar mToolbar = findViewById(R.id.toolbar);
         TextView mToolbarTitle = findViewById(R.id.tv_toolbar_title);
@@ -145,20 +150,20 @@ public class DetailActivity extends AppCompatActivity implements NetworkTaskCall
     }
 
     /**
-     * Overrides onPreExecute() from NetworkTaskCallback
+     * Overrides onLoadStarted() from NetworkLoaderCallback
      */
     @Override
-    public void onPreExecute() {
+    public void onLoadStarted() {
         showProgressBar();
     }
 
     /**
-     * Overrides onPostExecute() from NetworkTaskCallback
+     * Overrides onLoadFinished() from NetworkLoaderCallback
      *
      * @param s AsyncTask result String
      */
     @Override
-    public void onPostExecute(String s) {
+    public void onLoadFinished(String s) {
         MovieDetail movieDetail = (s == null) ? null : gson.fromJson(s, MovieDetail.class);
         if (movieDetail == null) {
             showErrorMessage();
@@ -169,12 +174,15 @@ public class DetailActivity extends AppCompatActivity implements NetworkTaskCall
     }
 
     /**
-     * Fetches movie details using the NetworkTask if Network connection is present.
+     * Fetches movie details using the NetworkLoader if Network connection is present.
      * Otherwise shows an error message.
      */
     private void fetchMovieDetails() {
         if (HTTPHelper.isNetworkEnabled(this)) {
-            new NetworkTask(this).execute(HTTPHelper.buildMovieDetailsURL(String.valueOf(movieId)));
+            URL url = HTTPHelper.buildMovieDetailsURL(String.valueOf(movieId));
+            Bundle args = new Bundle();
+            args.putSerializable(NetworkLoader.URL_EXTRA, url);
+            getSupportLoaderManager().initLoader(NETWORK_LOADER_ID, args, mNetworkLoader);
         } else {
             DisplayUtils.setNoNetworkConnectionMessage(this, mErrorMessageDisplay);
             showErrorMessage();
@@ -236,6 +244,7 @@ public class DetailActivity extends AppCompatActivity implements NetworkTaskCall
         mProgressBar.setVisibility(View.VISIBLE);
         mErrorMessageDisplay.setVisibility(View.INVISIBLE);
         mMovieDetailLayout.setVisibility(View.INVISIBLE);
+        mFavoriteButton.setVisibility(View.INVISIBLE);
     }
 
     /**
@@ -243,6 +252,7 @@ public class DetailActivity extends AppCompatActivity implements NetworkTaskCall
      */
     private void showMovieDetails() {
         mMovieDetailLayout.setVisibility(View.VISIBLE);
+        mFavoriteButton.setVisibility(View.VISIBLE);
         mProgressBar.setVisibility(View.INVISIBLE);
         mErrorMessageDisplay.setVisibility(View.INVISIBLE);
     }
@@ -253,6 +263,7 @@ public class DetailActivity extends AppCompatActivity implements NetworkTaskCall
     private void showErrorMessage() {
         mErrorMessageDisplay.setVisibility(View.VISIBLE);
         mProgressBar.setVisibility(View.INVISIBLE);
+        mFavoriteButton.setVisibility(View.INVISIBLE);
         mMovieDetailLayout.setVisibility(View.INVISIBLE);
     }
 

@@ -13,30 +13,31 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 import dev.learn.movies.app.popular_movies.common.Movie;
 import dev.learn.movies.app.popular_movies.common.MoviesResult;
 import dev.learn.movies.app.popular_movies.network.HTTPHelper;
-import dev.learn.movies.app.popular_movies.network.NetworkTask;
-import dev.learn.movies.app.popular_movies.network.NetworkTaskCallback;
+import dev.learn.movies.app.popular_movies.network.NetworkLoader;
+import dev.learn.movies.app.popular_movies.network.NetworkLoaderCallback;
 import dev.learn.movies.app.popular_movies.util.DisplayUtils;
 
 /**
  * MainActivity - To show the movies grid
  */
-public class MainActivity extends AppCompatActivity implements MoviesAdapter.OnItemClickHandler, NetworkTaskCallback {
+public class MainActivity extends AppCompatActivity implements MoviesAdapter.OnItemClickHandler, NetworkLoaderCallback {
 
     private final static int STARTING_PAGE = 1;
     private final static String REQUEST_FOR = "request_for";
     private final static String DISCOVER_MOVIES = "Discover";
     private final static String MOST_POPULAR_MOVIES = "Most Popular";
     private final static String TOP_RATED_MOVIES = "Top Rated";
+    private final static int NETWORK_LOADER_ID = 424;
     private final Gson gson = new Gson();
     private String requestFor = null;
     private RecyclerView mRecyclerViewMovies;
@@ -45,13 +46,16 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.OnI
     private TextView mToolbarTitle;
     private MoviesAdapter mAdapter;
     private List<Movie> movieList;
+    private NetworkLoader mNetworkLoader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mNetworkLoader = new NetworkLoader(this, this);
+
+        Toolbar mToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
 
         ActionBar actionBar = getSupportActionBar();
@@ -59,10 +63,10 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.OnI
             actionBar.setDisplayShowTitleEnabled(false);
         }
 
-        mRecyclerViewMovies = (RecyclerView) findViewById(R.id.recycler_view_movies);
-        mProgressBar = (ProgressBar) findViewById(R.id.pb_loading_indicator);
-        mErrorMessageDisplay = (TextView) findViewById(R.id.tv_error_message_display);
-        mToolbarTitle = (TextView) findViewById(R.id.tv_toolbar_title);
+        mRecyclerViewMovies = findViewById(R.id.recycler_view_movies);
+        mProgressBar = findViewById(R.id.pb_loading_indicator);
+        mErrorMessageDisplay = findViewById(R.id.tv_error_message_display);
+        mToolbarTitle = findViewById(R.id.tv_toolbar_title);
 
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 2);
         mRecyclerViewMovies.setHasFixedSize(true);
@@ -75,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.OnI
         mRecyclerViewMovies.addOnScrollListener(new EndlessRecyclerViewScrollListener(mLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                fetchMovies(page);
+                fetchMovies(page, false);
             }
         });
 
@@ -89,7 +93,8 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.OnI
             requestFor = DISCOVER_MOVIES;
         }
 
-        fetchMovies(STARTING_PAGE);
+        getSupportLoaderManager().initLoader(NETWORK_LOADER_ID, null, mNetworkLoader);
+        fetchMovies(STARTING_PAGE, true);
     }
 
     @Override
@@ -105,15 +110,15 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.OnI
         switch (item.getItemId()) {
             case R.id.action_discover:
                 requestFor = DISCOVER_MOVIES;
-                fetchMovies(STARTING_PAGE);
+                fetchMovies(STARTING_PAGE, true);
                 return true;
             case R.id.action_sort_popular:
                 requestFor = MOST_POPULAR_MOVIES;
-                fetchMovies(STARTING_PAGE);
+                fetchMovies(STARTING_PAGE, true);
                 return true;
             case R.id.action_sort_rating:
                 requestFor = TOP_RATED_MOVIES;
-                fetchMovies(STARTING_PAGE);
+                fetchMovies(STARTING_PAGE, true);
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -143,22 +148,21 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.OnI
     }
 
     /**
-     * Overrides onPreExecute() from NetworkTaskCallback
+     * Overrides onLoadStarted() from NetworkLoaderCallback
      */
     @Override
-    public void onPreExecute() {
+    public void onLoadStarted() {
         showProgressBar();
     }
 
     /**
-     * Overrides onPostExecute() from NetworkTaskCallback
+     * Overrides onLoadFinished() from NetworkLoaderCallback
      *
      * @param s AsyncTask result String
      */
     @Override
-    public void onPostExecute(String s) {
+    public void onLoadFinished(String s) {
         MoviesResult moviesResult = (s == null) ? null : gson.fromJson(s, MoviesResult.class);
-
         /*
          * Shows recycler_view if moviesResult is not null and the movies list is non empty
          */
@@ -181,22 +185,27 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.OnI
      * Fetches movies if there is a  network connection.
      * Otherwise shows an error message.
      */
-    private void fetchMovies(int page) {
+    private void fetchMovies(int page, boolean shouldCallOnLoadStarted) {
         if (requestFor == null) return;
 
         if (HTTPHelper.isNetworkEnabled(this)) {
             mToolbarTitle.setText(requestFor);
+            URL url = null;
             switch (requestFor) {
                 case DISCOVER_MOVIES:
-                    new NetworkTask(this).execute(HTTPHelper.buildDiscoverURL(page));
+                    url = HTTPHelper.buildDiscoverURL(page);
                     break;
                 case MOST_POPULAR_MOVIES:
-                    new NetworkTask(this).execute(HTTPHelper.buildMostPopularURL(page));
+                    url = HTTPHelper.buildMostPopularURL(page);
                     break;
                 case TOP_RATED_MOVIES:
-                    new NetworkTask(this).execute(HTTPHelper.builTopRatedURL(page));
+                    url = HTTPHelper.builTopRatedURL(page);
                     break;
             }
+            Bundle args = new Bundle();
+            args.putSerializable(NetworkLoader.URL_EXTRA, url);
+            args.putBoolean(NetworkLoader.SHOULD_CALL_LOAD_STARTED_EXTRA, shouldCallOnLoadStarted);
+            getSupportLoaderManager().restartLoader(NETWORK_LOADER_ID, args, mNetworkLoader);
         } else {
             DisplayUtils.setNoNetworkConnectionMessage(this, mErrorMessageDisplay);
             showErrorMessage();
