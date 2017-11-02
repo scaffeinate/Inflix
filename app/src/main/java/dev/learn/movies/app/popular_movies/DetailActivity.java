@@ -4,11 +4,13 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
-import android.view.MenuItem;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -54,29 +56,44 @@ public class DetailActivity extends AppCompatActivity implements NetworkTaskCall
     private TextView mMovieTaglineTextView;
     private TextView mMoviePlotTextView;
     private RatingBar mMovieRatingBar;
+    private FloatingActionButton mFavoriteButton;
+    private boolean favored = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-        Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        TextView mToolbarTitle = (TextView) findViewById(R.id.tv_toolbar_title);
-        mMovieDetailLayout = (LinearLayout) findViewById(R.id.layout_movie_detail);
-        mBackdropLayout = (FrameLayout) findViewById(R.id.layout_backdrop);
-        mPosterLayout = (FrameLayout) findViewById(R.id.layout_poster);
-        mProgressBar = (ProgressBar) findViewById(R.id.pb_loading_indicator);
-        mErrorMessageDisplay = (TextView) findViewById(R.id.tv_error_message_display);
+        Toolbar mToolbar = findViewById(R.id.toolbar);
+        TextView mToolbarTitle = findViewById(R.id.tv_toolbar_title);
+        mMovieDetailLayout = findViewById(R.id.layout_movie_detail);
+        mBackdropLayout = findViewById(R.id.layout_backdrop);
+        mPosterLayout = findViewById(R.id.layout_poster);
+        mProgressBar = findViewById(R.id.pb_loading_indicator);
+        mErrorMessageDisplay = findViewById(R.id.tv_error_message_display);
 
-        mBackdropImageView = (ImageView) findViewById(R.id.image_view_backdrop);
-        mPosterImageView = (ImageView) findViewById(R.id.image_view_poster);
-        mMovieTitleTextView = (TextView) findViewById(R.id.tv_movie_title);
-        mMovieRuntimeTextView = (TextView) findViewById(R.id.tv_movie_runtime);
-        mMovieGenreTextView = (TextView) findViewById(R.id.tv_movie_genre);
-        mMovieRatingTextView = (TextView) findViewById(R.id.tv_movie_rating);
-        mMovieTaglineTextView = (TextView) findViewById(R.id.tv_movie_tagline);
-        mMoviePlotTextView = (TextView) findViewById(R.id.tv_movie_plot);
-        mMovieRatingBar = (RatingBar) findViewById(R.id.rb_movie_rating);
+        mBackdropImageView = findViewById(R.id.image_view_backdrop);
+        mPosterImageView = findViewById(R.id.image_view_poster);
+        mMovieTitleTextView = findViewById(R.id.tv_movie_title);
+        mMovieRuntimeTextView = findViewById(R.id.tv_movie_runtime);
+        mMovieGenreTextView = findViewById(R.id.tv_movie_genre);
+        mMovieRatingTextView = findViewById(R.id.tv_movie_rating);
+        mMovieTaglineTextView = findViewById(R.id.tv_movie_tagline);
+        mMoviePlotTextView = findViewById(R.id.tv_movie_plot);
+        mMovieRatingBar = findViewById(R.id.rb_movie_rating);
+        mFavoriteButton = findViewById(R.id.btn_fav);
+
+        mFavoriteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (favored) {
+                    mFavoriteButton.setImageResource(R.drawable.ic_heart_outline_white_24dp);
+                } else {
+                    mFavoriteButton.setImageResource(R.drawable.ic_heart_white_24dp);
+                }
+                favored = !favored;
+            }
+        });
 
         setSupportActionBar(mToolbar);
         ActionBar mActionBar = getSupportActionBar();
@@ -118,6 +135,13 @@ public class DetailActivity extends AppCompatActivity implements NetworkTaskCall
         super.onSaveInstanceState(outState);
         outState.putLong(MOVIE_ID, movieId);
         outState.putString(MOVIE_NAME, movieName);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.detail, menu);
+        return true;
     }
 
     /**
