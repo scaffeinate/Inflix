@@ -1,31 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+<android.support.constraint.ConstraintLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/tv_movie_tagline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/no_tagline"
-        android:background="@color/posterBgColor"
-        android:padding="5dp"
-        android:textAppearance="@style/CaptionItalic" />
+	<TextView
+		android:id="@+id/tv_movie_synopsis_title"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="10dp"
+		android:text="@string/synopsis"
+		android:textAppearance="@style/SubHeading"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent"/>
 
-    <TextView
-        android:id="@+id/tv_movie_plot_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/activity_detail_plot_title_margin_top"
-        android:text="@string/plot"
-        android:textAppearance="@style/SubHeading" />
+	<TextView
+		android:id="@+id/tv_movie_tagline"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="10dp"
+		android:layout_marginRight="10dp"
+		android:layout_marginTop="10dp"
+		android:text="@string/no_tagline"
+		android:textAppearance="@style/CaptionItalic"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintRight_toRightOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/tv_movie_synopsis_title"/>
 
-    <TextView
-        android:id="@+id/tv_movie_plot"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/activity_detail_plot_margin_top"
-        android:textAppearance="@style/Body"
-        android:lineSpacingMultiplier="1.25" />
-</LinearLayout>
+	<TextView
+		android:id="@+id/tv_movie_plot_title"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="10dp"
+		android:layout_marginTop="10dp"
+		android:text="@string/plot"
+		android:textAppearance="@style/SubHeading"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/tv_movie_tagline"/>
+
+	<TextView
+		android:id="@+id/tv_movie_plot"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_margin="10dp"
+		android:lineSpacingMultiplier="1.25"
+		android:textAppearance="@style/Body"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintRight_toRightOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/tv_movie_plot_title"
+		tools:text="Lorem Ipsum"/>
+</android.support.constraint.ConstraintLayout>

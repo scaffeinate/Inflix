@@ -6,7 +6,7 @@
     <dimen name="activity_detail_margin_top_bottom">50dp</dimen>
     <dimen name="activity_detail_fields_margin_top">10dp</dimen>
     <dimen name="activity_detail_layout_rating_margin_top">10dp</dimen>
-    <dimen name="activity_detail_tv_rating_margin_left">10dp</dimen>
+    <dimen name="activity_detail_tv_rating_margin_left">3dp</dimen>
     <dimen name="activity_detail_layout_content_margin_top">15dp</dimen>
     <dimen name="activity_detail_layout_content_margin_bottom">35dp</dimen>
     <dimen name="activity_detail_plot_title_margin_top">15dp</dimen>
