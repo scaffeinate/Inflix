@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -46,22 +47,24 @@ public class DetailActivity extends AppCompatActivity implements NetworkLoaderCa
     private final Gson gson = new Gson();
     private String movieName = "";
     private long movieId = 0L;
-    private LinearLayout mMovieDetailLayout;
+    private ConstraintLayout mMovieDetailLayout;
     private AppBarLayout mAppBarLayout;
     private FrameLayout mPosterLayout;
-    private ProgressBar mProgressBar;
-    private TextView mErrorMessageDisplay;
+    //private ProgressBar mProgressBar;
+    //private TextView mErrorMessageDisplay;
     private ImageView mBackdropImageView;
     private ImageView mPosterImageView;
     private TextView mMovieTitleTextView;
     private TextView mMovieRuntimeTextView;
-    private TextView mMovieGenreTextView;
+    //private TextView mMovieGenreTextView;
     private TextView mMovieRatingTextView;
+    private TextView mNumMovieRatingTextView;
     private TextView mMovieTaglineTextView;
     private TextView mMoviePlotTextView;
     private FloatingActionButton mFavoriteButton;
     private boolean favored = false;
     private NetworkLoader mNetworkLoader;
+    private RatingBar mMovieRatingBar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -74,18 +77,20 @@ public class DetailActivity extends AppCompatActivity implements NetworkLoaderCa
         mMovieDetailLayout = findViewById(R.id.layout_movie_detail);
         mAppBarLayout = findViewById(R.id.app_bar_layout);
         mPosterLayout = findViewById(R.id.layout_poster);
-        mProgressBar = findViewById(R.id.pb_loading_indicator);
-        mErrorMessageDisplay = findViewById(R.id.tv_error_message_display);
+        //mProgressBar = findViewById(R.id.pb_loading_indicator);
+        //mErrorMessageDisplay = findViewById(R.id.tv_error_message_display);
 
         mBackdropImageView = findViewById(R.id.image_view_backdrop);
         mPosterImageView = findViewById(R.id.image_view_poster);
         mMovieTitleTextView = findViewById(R.id.tv_movie_title);
         mMovieRuntimeTextView = findViewById(R.id.tv_movie_runtime);
-        mMovieGenreTextView = findViewById(R.id.tv_movie_genre);
+        //mMovieGenreTextView = findViewById(R.id.tv_movie_genre);
         mMovieRatingTextView = findViewById(R.id.tv_movie_rating);
+        mNumMovieRatingTextView = findViewById(R.id.tv_movie_rating_num);
         mMovieTaglineTextView = findViewById(R.id.tv_movie_tagline);
         mMoviePlotTextView = findViewById(R.id.tv_movie_plot);
         mFavoriteButton = findViewById(R.id.btn_fav);
+        mMovieRatingBar = findViewById(R.id.rb_movie_rating);
 
         mFavoriteButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -182,7 +187,7 @@ public class DetailActivity extends AppCompatActivity implements NetworkLoaderCa
             args.putSerializable(NetworkLoader.URL_EXTRA, url);
             getSupportLoaderManager().initLoader(NETWORK_LOADER_ID, args, mNetworkLoader);
         } else {
-            DisplayUtils.setNoNetworkConnectionMessage(this, mErrorMessageDisplay);
+            //DisplayUtils.setNoNetworkConnectionMessage(this, mErrorMessageDisplay);
             showErrorMessage();
         }
     }
@@ -199,7 +204,8 @@ public class DetailActivity extends AppCompatActivity implements NetworkLoaderCa
         String posterURL = movieDetail.getPosterPath();
         String title = movieDetail.getTitle();
         String runningTime = movieDetail.getRuntime() + " min";
-        String rating = voteAverage + "/10 (" + movieDetail.getVoteCount() + ")";
+        String rating = String.valueOf(voteAverage);
+        String voteCount = "(" + movieDetail.getVoteCount() + ")";
         String tagline = movieDetail.getTagline();
         String moviePlot = movieDetail.getOverview();
         List<Genre> genres = movieDetail.getGenres();
@@ -218,9 +224,13 @@ public class DetailActivity extends AppCompatActivity implements NetworkLoaderCa
 
         mMovieRuntimeTextView.setText(runningTime);
 
-        mMovieGenreTextView.setText(DisplayUtils.formatGenres(genres));
+        //mMovieGenreTextView.setText(DisplayUtils.formatGenres(genres));
+
+        mMovieRatingBar.setRating((float) voteAverage);
 
         mMovieRatingTextView.setText(rating);
+
+        mNumMovieRatingTextView.setText(voteCount);
 
         if (tagline == null || tagline.isEmpty()) {
             mMovieTaglineTextView.setVisibility(View.GONE);
@@ -237,8 +247,8 @@ public class DetailActivity extends AppCompatActivity implements NetworkLoaderCa
      * Shows ProgressBar, Hides ErrorMessage and MovieDetailLayout
      */
     private void showProgressBar() {
-        mProgressBar.setVisibility(View.VISIBLE);
-        mErrorMessageDisplay.setVisibility(View.INVISIBLE);
+        /*mProgressBar.setVisibility(View.VISIBLE);
+        mErrorMessageDisplay.setVisibility(View.INVISIBLE);*/
         mMovieDetailLayout.setVisibility(View.INVISIBLE);
         mFavoriteButton.setVisibility(View.INVISIBLE);
     }
@@ -249,16 +259,16 @@ public class DetailActivity extends AppCompatActivity implements NetworkLoaderCa
     private void showMovieDetails() {
         mMovieDetailLayout.setVisibility(View.VISIBLE);
         mFavoriteButton.setVisibility(View.VISIBLE);
-        mProgressBar.setVisibility(View.INVISIBLE);
-        mErrorMessageDisplay.setVisibility(View.INVISIBLE);
+        /*mProgressBar.setVisibility(View.INVISIBLE);
+        mErrorMessageDisplay.setVisibility(View.INVISIBLE);*/
     }
 
     /**
      * Shows ErrorMessage, Hides ProgressBar and MovieDetailLayout
      */
     private void showErrorMessage() {
-        mErrorMessageDisplay.setVisibility(View.VISIBLE);
-        mProgressBar.setVisibility(View.INVISIBLE);
+        /*mErrorMessageDisplay.setVisibility(View.VISIBLE);
+        mProgressBar.setVisibility(View.INVISIBLE);*/
         mFavoriteButton.setVisibility(View.INVISIBLE);
         mMovieDetailLayout.setVisibility(View.INVISIBLE);
     }
@@ -277,6 +287,6 @@ public class DetailActivity extends AppCompatActivity implements NetworkLoaderCa
 
         //mBackdropLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) (max / 2.75)));
         mAppBarLayout.setLayoutParams(new CoordinatorLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) (max / 2.25)));
-        mPosterLayout.setLayoutParams(new RelativeLayout.LayoutParams((min / 3), (max / 4)));
+        mPosterLayout.setLayoutParams(new ConstraintLayout.LayoutParams((min / 3), (max / 4)));
     }
 }
