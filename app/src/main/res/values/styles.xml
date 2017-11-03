@@ -47,4 +47,8 @@
     <style name="BodyBold" parent="Body">
         <item name="android:textStyle">bold</item>
     </style>
+
+    <style name="BodyBoldCondensed" parent="BodyBold">
+        <item name="android:fontFamily">sans-serif-condensed</item>
+    </style>
 </resources>

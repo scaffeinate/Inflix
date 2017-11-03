@@ -9,6 +9,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/no_tagline"
+        android:background="@color/posterBgColor"
+        android:padding="5dp"
         android:textAppearance="@style/CaptionItalic" />
 
     <TextView
@@ -21,10 +23,9 @@
 
     <TextView
         android:id="@+id/tv_movie_plot"
-        style="@style/TextAppearance.AppCompat.Body1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/activity_detail_plot_margin_top"
-        android:fontFamily="sans-serif"
+        android:textAppearance="@style/Body"
         android:lineSpacingMultiplier="1.25" />
 </LinearLayout>

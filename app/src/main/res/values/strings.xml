@@ -8,6 +8,7 @@
     <string name="placeholder_image">Placeholder when image load fails.</string>
     <string name="backdrop_image">Backdrop Image in activity_detail</string>
     <string name="poster_image">Poster Image shown in activity_detail and ImageGrid</string>
+    <string name="watch_trailer">Watch Trailer</string>
     <string name="plot">Plot</string>
     <string name="no_tagline">No Tagline</string>
     <string name="no_network_connection">No network connection :(</string>

@@ -53,7 +53,6 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/activity_detail_margin_top_bottom"
                 android:layout_marginLeft="@dimen/activity_detail_margin_left_right"
                 android:layout_marginRight="@dimen/activity_detail_margin_left_right"
                 android:layout_marginTop="@dimen/activity_detail_margin_top_bottom">
@@ -81,11 +80,11 @@
                     android:layout_below="@id/tv_movie_title"
                     android:layout_marginTop="@dimen/activity_detail_fields_margin_top"
                     android:background="@color/colorPrimary"
+                    android:paddingBottom="2dp"
                     android:paddingLeft="5dp"
                     android:paddingRight="5dp"
                     android:paddingTop="2dp"
-                    android:paddingBottom="2dp"
-                    android:textAppearance="@style/BodyBold"
+                    android:textAppearance="@style/BodyBoldCondensed"
                     android:textColor="@color/textColorLight" />
 
                 <include
@@ -105,9 +104,10 @@
                     android:layout_alignStart="@+id/tv_movie_title"
                     android:layout_below="@id/layout_rating"
                     android:layout_marginTop="@dimen/activity_detail_fields_margin_top"
-                    android:textAppearance="@style/Body"
                     android:background="@color/colorAccent"
-                    android:maxLines="2" />
+                    android:maxLines="2"
+                    android:textAppearance="@style/Body"
+                    android:visibility="gone" />
 
                 <include
                     android:id="@+id/layout_content"
@@ -115,7 +115,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/layout_poster"
-                    android:layout_marginBottom="@dimen/activity_detail_layout_content_margin_bottom"
                     android:layout_marginTop="@dimen/activity_detail_layout_content_margin_top" />
             </RelativeLayout>
 
