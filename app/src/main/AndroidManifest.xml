@@ -22,6 +22,7 @@
         </activity>
         <activity
             android:name="dev.learn.movies.app.popular_movies.DetailActivity"
+            android:theme="@style/TranslucentStatusBar"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
