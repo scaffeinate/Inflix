@@ -1,45 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:background="@color/posterBgColor"
-    tools:ignore="Overdraw">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+				xmlns:tools="http://schemas.android.com/tools"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:background="@color/posterBgColor"
+				tools:ignore="Overdraw">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+	<ImageView
+		android:id="@+id/image_view_movie_roll"
+		android:layout_width="70dp"
+		android:layout_height="70dp"
+		android:layout_centerInParent="true"
+		android:contentDescription="@string/placeholder_image"
+		android:src="@drawable/ic_movie_roll_grey600_48dp"/>
 
-        <ImageView
-            android:id="@+id/image_view_movie_roll"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:contentDescription="@string/placeholder_image"
-            android:src="@drawable/ic_movie_roll_grey600_48dp" />
-
-        <TextView
-            android:id="@+id/tv_movie_name"
-            style="@style/Base.TextAppearance.AppCompat.Caption"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/image_view_movie_roll"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/item_grid_movie_name_margin_top"
-            android:ellipsize="end"
-            android:fontFamily="sans-serif"
-            android:maxLines="1"
-            android:textAllCaps="true"
-            android:textStyle="bold"
-            android:visibility="invisible" />
-    </RelativeLayout>
-
-    <ImageView
-        android:id="@+id/image_view_poster"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clickable="true"
-        android:contentDescription="@string/poster_image"
-        android:foreground="?selectableItemBackground"
-        android:visibility="visible" />
-</FrameLayout>
+	<ImageView
+		android:id="@+id/image_view_poster"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_alignParentStart="true"
+		android:layout_alignParentTop="true"
+		android:clickable="true"
+		android:contentDescription="@string/poster_image"
+		android:foreground="?selectableItemBackground"/>
+</RelativeLayout>

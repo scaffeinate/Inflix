@@ -40,8 +40,10 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
          *
          * Reference: https://stackoverflow.com/questions/35221566/how-to-set-the-height-of-an-item-row-in-gridlayoutmanager
          */
-        view.setMinimumHeight(parent.getMeasuredHeight() / 2);
-        return new ViewHolder(view);
+        int height = parent.getMeasuredHeight() / 2;
+        ViewHolder viewHolder = new ViewHolder(view);
+        viewHolder.mPosterImageView.setMinimumHeight(height);
+        return viewHolder;
     }
 
     @Override
@@ -66,12 +68,10 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private final ImageView mPosterImageView;
-        private final TextView mMovieNameTextView;
 
         public ViewHolder(View itemView) {
             super(itemView);
             mPosterImageView = itemView.findViewById(R.id.image_view_poster);
-            mMovieNameTextView = itemView.findViewById(R.id.tv_movie_name);
             mPosterImageView.setOnClickListener(this);
         }
 
@@ -83,21 +83,10 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
         private void bind(int position) {
             Movie movie = movieList.get(position);
             if (movie != null) {
-                mMovieNameTextView.setText(movie.getTitle());
                 String posterURL = movie.getPosterPath();
                 if (posterURL != null) {
                     Uri posterUri = HTTPHelper.buildImageResourceUri(posterURL, HTTPHelper.IMAGE_SIZE_MEDIUM);
-                    DisplayUtils.fitImageInto(mPosterImageView, posterUri, new Callback() {
-                        @Override
-                        public void onSuccess() {
-                            mMovieNameTextView.setVisibility(View.INVISIBLE);
-                        }
-
-                        @Override
-                        public void onError() {
-                            mMovieNameTextView.setVisibility(View.VISIBLE);
-                        }
-                    });
+                    DisplayUtils.fitImageInto(mPosterImageView, posterUri, null);
                 }
             }
         }

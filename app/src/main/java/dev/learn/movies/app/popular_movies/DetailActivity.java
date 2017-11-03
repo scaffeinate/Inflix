@@ -46,7 +46,7 @@ public class DetailActivity extends AppCompatActivity implements NetworkLoaderCa
     private long movieId = 0L;
     private LinearLayout mMovieDetailLayout;
     private FrameLayout mBackdropLayout;
-    private FrameLayout mPosterLayout;
+    private RelativeLayout mPosterLayout;
     private ProgressBar mProgressBar;
     private TextView mErrorMessageDisplay;
     private ImageView mBackdropImageView;
