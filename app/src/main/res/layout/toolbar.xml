@@ -21,7 +21,8 @@
             android:layout_gravity="center_vertical"
             android:ellipsize="end"
             android:maxLines="1"
+            android:textColor="@color/textColorLight"
             android:text="@string/app_name"
-            android:textAppearance="@style/ToolbarTitle" />
+            android:textAppearance="@style/Title" />
     </LinearLayout>
 </android.support.v7.widget.Toolbar>

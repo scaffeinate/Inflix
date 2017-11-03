@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/no_tagline"
-        android:textAppearance="@style/BodyItalic" />
+        android:textAppearance="@style/CaptionItalic" />
 
     <TextView
         android:id="@+id/tv_movie_plot_title"
@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/activity_detail_plot_title_margin_top"
         android:text="@string/plot"
-        android:textAppearance="@style/SubTitle" />
+        android:textAppearance="@style/SubHeading" />
 
     <TextView
         android:id="@+id/tv_movie_plot"

@@ -4,19 +4,17 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <RatingBar
-        android:id="@+id/rb_movie_rating"
-        style="@style/Base.Widget.AppCompat.RatingBar.Small"
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:isIndicator="true"
-        android:numStars="10"
-        android:stepSize="0.1" />
+        android:src="@drawable/ic_star_white_36dp"
+        android:tint="@color/colorAccent" />
 
     <TextView
         android:id="@+id/tv_movie_rating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
         android:layout_marginStart="@dimen/activity_detail_tv_rating_margin_left"
-        android:textAppearance="@style/CaptionBold" />
+        android:textAppearance="@style/BodyBold" />
 </LinearLayout>

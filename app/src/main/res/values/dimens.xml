@@ -5,7 +5,7 @@
     <dimen name="activity_detail_margin_left_right">15dp</dimen>
     <dimen name="activity_detail_margin_top_bottom">35dp</dimen>
     <dimen name="activity_detail_fields_margin_top">10dp</dimen>
-    <dimen name="activity_detail_layout_rating_margin_top">25dp</dimen>
+    <dimen name="activity_detail_layout_rating_margin_top">10dp</dimen>
     <dimen name="activity_detail_tv_rating_margin_left">10dp</dimen>
     <dimen name="activity_detail_layout_content_margin_top">15dp</dimen>
     <dimen name="activity_detail_layout_content_margin_bottom">35dp</dimen>
@@ -15,7 +15,7 @@
 
     <dimen name="font_size_title">20sp</dimen>
     <dimen name="font_size_subheading">18sp</dimen>
-    <dimen name="font_size_body">16sp</dimen>
-    <dimen name="font_size_caption">14sp</dimen>
+    <dimen name="font_size_caption">16sp</dimen>
+    <dimen name="font_size_body">14sp</dimen>
     <dimen name="font_size_button">14sp</dimen>
 </resources>

@@ -6,9 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
-
-import com.squareup.picasso.Callback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,12 +79,10 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
          */
         private void bind(int position) {
             Movie movie = movieList.get(position);
-            if (movie != null) {
-                String posterURL = movie.getPosterPath();
-                if (posterURL != null) {
-                    Uri posterUri = HTTPHelper.buildImageResourceUri(posterURL, HTTPHelper.IMAGE_SIZE_MEDIUM);
-                    DisplayUtils.fitImageInto(mPosterImageView, posterUri, null);
-                }
+            String posterURL;
+            if (movie != null && (posterURL = movie.getPosterPath()) != null) {
+                Uri posterUri = HTTPHelper.buildImageResourceUri(posterURL, HTTPHelper.IMAGE_SIZE_MEDIUM);
+                DisplayUtils.fitImageInto(mPosterImageView, posterUri, null);
             }
         }
 
