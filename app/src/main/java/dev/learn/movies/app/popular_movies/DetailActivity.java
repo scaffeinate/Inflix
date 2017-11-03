@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -45,8 +47,8 @@ public class DetailActivity extends AppCompatActivity implements NetworkLoaderCa
     private String movieName = "";
     private long movieId = 0L;
     private LinearLayout mMovieDetailLayout;
-    private FrameLayout mBackdropLayout;
-    private RelativeLayout mPosterLayout;
+    private AppBarLayout mAppBarLayout;
+    private FrameLayout mPosterLayout;
     private ProgressBar mProgressBar;
     private TextView mErrorMessageDisplay;
     private ImageView mBackdropImageView;
@@ -57,7 +59,6 @@ public class DetailActivity extends AppCompatActivity implements NetworkLoaderCa
     private TextView mMovieRatingTextView;
     private TextView mMovieTaglineTextView;
     private TextView mMoviePlotTextView;
-    private RatingBar mMovieRatingBar;
     private FloatingActionButton mFavoriteButton;
     private boolean favored = false;
     private NetworkLoader mNetworkLoader;
@@ -70,9 +71,8 @@ public class DetailActivity extends AppCompatActivity implements NetworkLoaderCa
         mNetworkLoader = new NetworkLoader(this, this);
 
         Toolbar mToolbar = findViewById(R.id.toolbar);
-        TextView mToolbarTitle = findViewById(R.id.tv_toolbar_title);
         mMovieDetailLayout = findViewById(R.id.layout_movie_detail);
-        mBackdropLayout = findViewById(R.id.layout_backdrop);
+        mAppBarLayout = findViewById(R.id.app_bar_layout);
         mPosterLayout = findViewById(R.id.layout_poster);
         mProgressBar = findViewById(R.id.pb_loading_indicator);
         mErrorMessageDisplay = findViewById(R.id.tv_error_message_display);
@@ -85,7 +85,6 @@ public class DetailActivity extends AppCompatActivity implements NetworkLoaderCa
         mMovieRatingTextView = findViewById(R.id.tv_movie_rating);
         mMovieTaglineTextView = findViewById(R.id.tv_movie_tagline);
         mMoviePlotTextView = findViewById(R.id.tv_movie_plot);
-        mMovieRatingBar = findViewById(R.id.rb_movie_rating);
         mFavoriteButton = findViewById(R.id.btn_fav);
 
         mFavoriteButton.setOnClickListener(new View.OnClickListener() {
@@ -106,6 +105,7 @@ public class DetailActivity extends AppCompatActivity implements NetworkLoaderCa
         // Show back button in ActionBar
         if (mActionBar != null) {
             mActionBar.setDisplayHomeAsUpEnabled(true);
+            mActionBar.setTitle("");
         }
 
         /* If savedInstanceState is not null then fetch movieId and movieName
@@ -122,8 +122,6 @@ public class DetailActivity extends AppCompatActivity implements NetworkLoaderCa
             movieId = (savedInstanceState.containsKey(MOVIE_ID)) ? savedInstanceState.getLong(MOVIE_ID) : 0L;
             movieName = (savedInstanceState.containsKey(MOVIE_NAME) ? savedInstanceState.getString(MOVIE_NAME) : "");
         }
-
-        mToolbarTitle.setText(movieName);
         adjustImageLayouts();
     }
 
@@ -222,8 +220,6 @@ public class DetailActivity extends AppCompatActivity implements NetworkLoaderCa
 
         mMovieGenreTextView.setText(DisplayUtils.formatGenres(genres));
 
-        mMovieRatingBar.setRating((float) voteAverage);
-
         mMovieRatingTextView.setText(rating);
 
         if (tagline == null || tagline.isEmpty()) {
@@ -279,7 +275,8 @@ public class DetailActivity extends AppCompatActivity implements NetworkLoaderCa
         int max = Math.max(screenHeight, screenWidth);
         int min = Math.min(screenHeight, screenWidth);
 
-        mBackdropLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) (max / 2.75)));
+        //mBackdropLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) (max / 2.75)));
+        mAppBarLayout.setLayoutParams(new CoordinatorLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) (max / 2.25)));
         mPosterLayout.setLayoutParams(new RelativeLayout.LayoutParams((min / 3), (max / 4)));
     }
 }
