@@ -79,7 +79,7 @@ public class NetworkLoader implements LoaderManager.LoaderCallbacks<String> {
 
     @Override
     public void onLoadFinished(Loader<String> loader, String data) {
-        mCallback.onLoadFinished(data);
+        mCallback.onLoadFinished(loader, data);
     }
 
     @Override

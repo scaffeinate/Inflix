@@ -2,6 +2,7 @@ package dev.learn.movies.app.popular_movies;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.Loader;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -37,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.OnI
     private final static String DISCOVER_MOVIES = "Discover";
     private final static String MOST_POPULAR_MOVIES = "Most Popular";
     private final static String TOP_RATED_MOVIES = "Top Rated";
-    private final static int NETWORK_LOADER_ID = 424;
+    private final static int MOVIES_LOADER_ID = 200;
     private final Gson gson = new Gson();
     private String requestFor = null;
     private RecyclerView mRecyclerViewMovies;
@@ -93,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.OnI
             requestFor = DISCOVER_MOVIES;
         }
 
-        getSupportLoaderManager().initLoader(NETWORK_LOADER_ID, null, mNetworkLoader);
+        getSupportLoaderManager().initLoader(MOVIES_LOADER_ID, null, mNetworkLoader);
         fetchMovies(STARTING_PAGE, true);
     }
 
@@ -161,17 +162,21 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.OnI
      * @param s AsyncTask result String
      */
     @Override
-    public void onLoadFinished(String s) {
-        MoviesResult moviesResult = (s == null) ? null : gson.fromJson(s, MoviesResult.class);
-        /*
-         * Shows recycler_view if moviesResult is not null and the movies list is non empty
-         */
-        if (moviesResult == null || moviesResult.getResults() == null || moviesResult.getResults().isEmpty()) {
-            showErrorMessage();
-        } else {
-            this.movieList.addAll(moviesResult.getResults());
-            mAdapter.setMovieList(movieList);
-            showRecyclerView();
+    public void onLoadFinished(Loader loader, String s) {
+        switch (loader.getId()) {
+            case MOVIES_LOADER_ID:
+                MoviesResult moviesResult = (s == null) ? null : gson.fromJson(s, MoviesResult.class);
+                /*
+                 * Shows recycler_view if moviesResult is not null and the movies list is non empty
+                */
+                if (moviesResult == null || moviesResult.getResults() == null || moviesResult.getResults().isEmpty()) {
+                    showErrorMessage();
+                } else {
+                    this.movieList.addAll(moviesResult.getResults());
+                    mAdapter.setMovieList(movieList);
+                    showRecyclerView();
+                }
+                break;
         }
     }
 
@@ -205,7 +210,7 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.OnI
             Bundle args = new Bundle();
             args.putSerializable(NetworkLoader.URL_EXTRA, url);
             args.putBoolean(NetworkLoader.SHOULD_CALL_LOAD_STARTED_EXTRA, shouldCallOnLoadStarted);
-            getSupportLoaderManager().restartLoader(NETWORK_LOADER_ID, args, mNetworkLoader);
+            getSupportLoaderManager().restartLoader(MOVIES_LOADER_ID, args, mNetworkLoader);
         } else {
             DisplayUtils.setNoNetworkConnectionMessage(this, mErrorMessageDisplay);
             showErrorMessage();

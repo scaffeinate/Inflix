@@ -1,5 +1,7 @@
 package dev.learn.movies.app.popular_movies.network;
 
+import android.support.v4.content.Loader;
+
 /**
  * NetworkLoaderCallback - Callback to update the UI from the NetworkLoader
  */
@@ -7,5 +9,5 @@ package dev.learn.movies.app.popular_movies.network;
 public interface NetworkLoaderCallback {
     void onLoadStarted();
 
-    void onLoadFinished(String s);
+    void onLoadFinished(Loader loader, String s);
 }
