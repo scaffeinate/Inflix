@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    card_view:cardElevation="2dp"
+    card_view:cardElevation="5dp"
+    card_view:layout_goneMarginTop="5dp"
     card_view:contentPadding="20dp">
 
     <LinearLayout

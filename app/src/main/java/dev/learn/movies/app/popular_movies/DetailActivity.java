@@ -15,16 +15,15 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.nex3z.flowlayout.FlowLayout;
@@ -36,6 +35,8 @@ import dev.learn.movies.app.popular_movies.common.Genre;
 import dev.learn.movies.app.popular_movies.common.MovieDetail;
 import dev.learn.movies.app.popular_movies.common.Review;
 import dev.learn.movies.app.popular_movies.common.ReviewsResult;
+import dev.learn.movies.app.popular_movies.common.Video;
+import dev.learn.movies.app.popular_movies.common.VideosResult;
 import dev.learn.movies.app.popular_movies.network.HTTPHelper;
 import dev.learn.movies.app.popular_movies.network.NetworkLoader;
 import dev.learn.movies.app.popular_movies.network.NetworkLoaderCallback;
@@ -79,18 +80,14 @@ public class DetailActivity extends AppCompatActivity implements NetworkLoaderCa
     private NetworkLoader mMovieReviewsLoader;
     private NetworkLoader mMovieTrailersLoader;
 
+    private List<Video> videoList = null;
+
     private boolean mFavored = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-
-        mMovieDetailsLoader = new NetworkLoader(this, this);
-        mMovieReviewsLoader = new NetworkLoader(this, this);
-        mMovieTrailersLoader = new NetworkLoader(this, this);
-
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
 
         Toolbar mToolbar = findViewById(R.id.toolbar);
         mMovieDetailLayout = findViewById(R.id.layout_movie_detail);
@@ -112,21 +109,26 @@ public class DetailActivity extends AppCompatActivity implements NetworkLoaderCa
         mFavoriteButton = findViewById(R.id.btn_fav);
         mMovieRatingBar = findViewById(R.id.rb_movie_rating);
 
-        mFavoriteButton.setOnClickListener(this);
-
-        mMovieReviewsAdapter = new MovieReviewsAdapter();
-        mReviewsRecyclerView.setAdapter(mMovieReviewsAdapter);
-        mReviewsRecyclerView.setLayoutManager(layoutManager);
-        mReviewsRecyclerView.setNestedScrollingEnabled(false);
-
         setSupportActionBar(mToolbar);
         ActionBar mActionBar = getSupportActionBar();
 
         // Show back button in ActionBar
         if (mActionBar != null) {
             mActionBar.setDisplayHomeAsUpEnabled(true);
-            mActionBar.setTitle("");
+            mActionBar.setDisplayShowTitleEnabled(false);
         }
+
+        mFavoriteButton.setOnClickListener(this);
+
+        mReviewsRecyclerView.setNestedScrollingEnabled(false);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        mReviewsRecyclerView.setLayoutManager(layoutManager);
+        mMovieReviewsAdapter = new MovieReviewsAdapter();
+        mReviewsRecyclerView.setAdapter(mMovieReviewsAdapter);
+
+        mMovieDetailsLoader = new NetworkLoader(this, this);
+        mMovieReviewsLoader = new NetworkLoader(this, this);
+        mMovieTrailersLoader = new NetworkLoader(this, this);
 
         /* If savedInstanceState is not null then fetch movieId and movieName
          * Else try to get from Intent Bundle Extra
@@ -163,6 +165,17 @@ public class DetailActivity extends AppCompatActivity implements NetworkLoaderCa
         return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_share:
+                return true;
+            case R.id.action_watch_trailer:
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     /**
      * Overrides onLoadStarted() from NetworkLoaderCallback
      */
@@ -189,7 +202,6 @@ public class DetailActivity extends AppCompatActivity implements NetworkLoaderCa
                 }
                 break;
             case MOVIE_REVIEWS_LOADER_ID:
-                Log.i("TAG", s);
                 ReviewsResult reviewsResult = (s == null) ? null : gson.fromJson(s, ReviewsResult.class);
                 if (reviewsResult == null || reviewsResult.getResults() == null) {
                     showErrorMessage();
@@ -199,6 +211,12 @@ public class DetailActivity extends AppCompatActivity implements NetworkLoaderCa
                 }
                 break;
             case MOVIE_TRAILERS_LOADER_ID:
+                VideosResult videosResult = (s == null) ? null : gson.fromJson(s, VideosResult.class);
+                if (videosResult == null || videosResult.getVideos() == null) {
+                    showErrorMessage();
+                } else {
+                    videoList = videosResult.getVideos();
+                }
                 break;
         }
     }
@@ -328,7 +346,6 @@ public class DetailActivity extends AppCompatActivity implements NetworkLoaderCa
         int max = Math.max(screenHeight, screenWidth);
         int min = Math.min(screenHeight, screenWidth);
 
-        //mBackdropLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) (max / 2.75)));
         mAppBarLayout.setLayoutParams(new CoordinatorLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) (max / 2.25)));
         mPosterLayout.setLayoutParams(new ConstraintLayout.LayoutParams((min / 3), (int) (max / 3.5)));
     }
