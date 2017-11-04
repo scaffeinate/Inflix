@@ -39,6 +39,8 @@ public final class HTTPHelper {
 
     private final static String MOVIE_DETAIL_PATH = "movie";
 
+    private final static String MOVIE_REVIEWS_PATH = "reviews";
+
     private final static String LANGUAGE = "language";
 
     private final static String EN_US = "en-US";
@@ -158,6 +160,27 @@ public final class HTTPHelper {
                 .appendEncodedPath(imageSize)
                 .appendEncodedPath(imgFile)
                 .build();
+    }
+
+    public static URL buildMovieReviewsURL(String movieId) {
+        Uri uri = new Uri.Builder()
+                .scheme(SCHEME)
+                .appendEncodedPath(BASE_PATH)
+                .appendEncodedPath(API_VERSION)
+                .appendEncodedPath(MOVIE_DETAIL_PATH)
+                .appendPath(movieId)
+                .appendEncodedPath(MOVIE_REVIEWS_PATH)
+                .appendQueryParameter(API_KEY_PARAM, API_KEY)
+                .appendQueryParameter(LANGUAGE, EN_US)
+                .build();
+
+        try {
+            return new URL(uri.toString());
+        } catch (MalformedURLException e) {
+            Log.e(TAG, e.getMessage());
+        }
+
+        return null;
     }
 
     /**
