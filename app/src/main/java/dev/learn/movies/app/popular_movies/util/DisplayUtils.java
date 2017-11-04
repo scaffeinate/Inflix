@@ -3,6 +3,8 @@ package dev.learn.movies.app.popular_movies.util;
 import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -85,14 +87,14 @@ public final class DisplayUtils {
      * @param genres List of Genres
      * @return Genres separated by a pipe separator
      */
-    public static String formatGenres(List<Genre> genres) {
-        StringBuilder builder = new StringBuilder();
+    public static void addGenres(List<Genre> genres, ViewGroup parent, Context context) {
         if (genres != null && !genres.isEmpty()) {
             for (int i = 0; i < genres.size(); i++) {
-                builder.append(genres.get(i).getName()).append((i < genres.size() - 1) ? " | " : "");
+                TextView tagView = (TextView) LayoutInflater.from(context).inflate(R.layout.layout_tag, null);
+                tagView.setText(genres.get(i).getName());
+                parent.addView(tagView);
             }
         }
-        return builder.toString();
     }
 
     /**
@@ -101,9 +103,9 @@ public final class DisplayUtils {
      * @param tagline Movie Tagline
      * @return formatted tagline inside quotes
      */
-    public static String formatTagline(String tagline) {
+    public static String formatTagline(Context context, String tagline) {
         if (tagline == null || tagline.isEmpty()) {
-            tagline = "No Synopsis available.";
+            tagline = context.getString(R.string.no_tagline_available);
         }
         return "\"" + tagline + "\"";
     }

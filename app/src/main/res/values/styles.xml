@@ -51,4 +51,16 @@
     <style name="BodyBoldCondensed" parent="BodyBold">
         <item name="android:fontFamily">sans-serif-condensed</item>
     </style>
+
+    <style name="TagStyle">
+        <item name="android:textSize">@dimen/font_size_button</item>
+        <item name="android:fontFamily">sans-serif-condensed</item>
+        <item name="android:textColor">@color/textColorLight</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">5dp</item>
+        <item name="android:background">@color/tagColor</item>
+    </style>
 </resources>

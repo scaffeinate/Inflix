@@ -10,7 +10,11 @@
     <string name="poster_image">Poster Image shown in activity_detail and ImageGrid</string>
     <string name="watch_trailer">Watch Trailer</string>
     <string name="plot">Plot</string>
-    <string name="synopsis">Synopsis</string>
-    <string name="no_tagline">No Tagline</string>
+    <string name="tagline">Tagline</string>
+    <string name="no_tagline_available">No Tagline available.</string>
+    <string name="user_reviews">User Reviews</string>
+    <string name="genres">Genres</string>
     <string name="no_network_connection">No network connection :(</string>
+    <string name="lorem_ipsum">Lorem Ipsum</string>
+    <string name="tag">Tag</string>
 </resources>

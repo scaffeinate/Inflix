@@ -22,6 +22,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.nex3z.flowlayout.FlowLayout;
 
 import java.net.URL;
 import java.util.List;
@@ -53,6 +54,7 @@ public class DetailActivity extends AppCompatActivity implements NetworkLoaderCa
     private ImageView mPosterImageView;
     private TextView mMovieTitleTextView;
     private TextView mMovieRuntimeTextView;
+    private FlowLayout mGenresLayout;
     //private TextView mMovieGenreTextView;
     private TextView mMovieRatingTextView;
     private TextView mNumMovieRatingTextView;
@@ -81,6 +83,7 @@ public class DetailActivity extends AppCompatActivity implements NetworkLoaderCa
         mPosterImageView = findViewById(R.id.image_view_poster);
         mMovieTitleTextView = findViewById(R.id.tv_movie_title);
         mMovieRuntimeTextView = findViewById(R.id.tv_movie_runtime);
+        mGenresLayout = findViewById(R.id.layout_genres);
         //mMovieGenreTextView = findViewById(R.id.tv_movie_genre);
         mMovieRatingTextView = findViewById(R.id.tv_movie_rating);
         mNumMovieRatingTextView = findViewById(R.id.tv_movie_rating_num);
@@ -221,7 +224,7 @@ public class DetailActivity extends AppCompatActivity implements NetworkLoaderCa
 
         mMovieRuntimeTextView.setText(runningTime);
 
-        //mMovieGenreTextView.setText(DisplayUtils.formatGenres(genres));
+        DisplayUtils.addGenres(genres, mGenresLayout, this);
 
         mMovieRatingBar.setRating((float) voteAverage);
 
@@ -229,7 +232,7 @@ public class DetailActivity extends AppCompatActivity implements NetworkLoaderCa
 
         mNumMovieRatingTextView.setText(voteCount);
 
-        mMovieTaglineTextView.setText(DisplayUtils.formatTagline(tagline));
+        mMovieTaglineTextView.setText(DisplayUtils.formatTagline(this, tagline));
 
         if (moviePlot != null && !moviePlot.isEmpty()) {
             mMoviePlotTextView.setText(moviePlot);
