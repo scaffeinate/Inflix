@@ -1,5 +1,6 @@
 package dev.learn.movies.app.popular_movies;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -179,6 +180,9 @@ public class DetailActivity extends AppCompatActivity implements NetworkLoaderCa
                 }
                 return true;
             case R.id.action_watch_trailer:
+                if (mVideoList != null && !mVideoList.isEmpty()) {
+                    watchVideo(mVideoList.get(0));
+                }
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -380,6 +384,22 @@ public class DetailActivity extends AppCompatActivity implements NetworkLoaderCa
                         .setChooserTitle("Share " + title)
                         .setText(url.toString())
                         .startChooser();
+            }
+        }
+    }
+
+    private void watchVideo(Video video) {
+        if (video != null && video.getKey() != null) {
+            String key = video.getKey();
+            try {
+                Intent youtubeAppIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd:youtube:" + key));
+                startActivity(youtubeAppIntent);
+            } catch (ActivityNotFoundException e) {
+                URL url = HTTPHelper.buildYouTubeURL(key);
+                if (url != null) {
+                    Intent webIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url.toString()));
+                    startActivity(webIntent);
+                }
             }
         }
     }
