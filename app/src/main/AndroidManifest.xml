@@ -22,11 +22,16 @@
         </activity>
         <activity
             android:name="dev.learn.movies.app.popular_movies.DetailActivity"
-            android:theme="@style/TranslucentStatusBar"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/TranslucentStatusBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
+
+        <provider
+            android:name=".data.FavoriteContentProvider"
+            android:authorities="dev.learn.movies.app.popular_movies"
+            android:exported="false" />
     </application>
 </manifest>
