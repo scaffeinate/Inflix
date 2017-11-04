@@ -8,6 +8,7 @@ import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ShareCompat;
 import android.support.v4.content.Loader;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -29,6 +30,7 @@ import com.google.gson.Gson;
 import com.nex3z.flowlayout.FlowLayout;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 import dev.learn.movies.app.popular_movies.common.Genre;
@@ -80,7 +82,7 @@ public class DetailActivity extends AppCompatActivity implements NetworkLoaderCa
     private NetworkLoader mMovieReviewsLoader;
     private NetworkLoader mMovieTrailersLoader;
 
-    private List<Video> videoList = null;
+    private List<Video> mVideoList = null;
 
     private boolean mFavored = false;
 
@@ -130,6 +132,8 @@ public class DetailActivity extends AppCompatActivity implements NetworkLoaderCa
         mMovieReviewsLoader = new NetworkLoader(this, this);
         mMovieTrailersLoader = new NetworkLoader(this, this);
 
+        mVideoList = new ArrayList<>();
+
         /* If savedInstanceState is not null then fetch movieId and movieName
          * Else try to get from Intent Bundle Extra
          */
@@ -169,11 +173,25 @@ public class DetailActivity extends AppCompatActivity implements NetworkLoaderCa
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_share:
+                if (mVideoList != null && !mVideoList.isEmpty()) {
+                    Video video = mVideoList.get(0);
+                    shareVideo(video);
+                }
                 return true;
             case R.id.action_watch_trailer:
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (mFavored) {
+            mFavoriteButton.setImageResource(R.drawable.ic_heart_outline_white_24dp);
+        } else {
+            mFavoriteButton.setImageResource(R.drawable.ic_heart_white_24dp);
+        }
+        mFavored = !mFavored;
     }
 
     /**
@@ -215,7 +233,7 @@ public class DetailActivity extends AppCompatActivity implements NetworkLoaderCa
                 if (videosResult == null || videosResult.getVideos() == null) {
                     showErrorMessage();
                 } else {
-                    videoList = videosResult.getVideos();
+                    mVideoList = videosResult.getVideos();
                 }
                 break;
         }
@@ -350,13 +368,19 @@ public class DetailActivity extends AppCompatActivity implements NetworkLoaderCa
         mPosterLayout.setLayoutParams(new ConstraintLayout.LayoutParams((min / 3), (int) (max / 3.5)));
     }
 
-    @Override
-    public void onClick(View v) {
-        if (mFavored) {
-            mFavoriteButton.setImageResource(R.drawable.ic_heart_outline_white_24dp);
-        } else {
-            mFavoriteButton.setImageResource(R.drawable.ic_heart_white_24dp);
+    private void shareVideo(Video video) {
+        if (video != null && video.getKey() != null) {
+            String mimeType = "text/plain";
+            String title = (video.getName() == null) ? getResources().getString(R.string.trailer_1) : video.getName();
+            URL url = HTTPHelper.buildYouTubeURL(video.getKey());
+            if (url != null) {
+                ShareCompat.IntentBuilder
+                        .from(this)
+                        .setType(mimeType)
+                        .setChooserTitle("Share " + title)
+                        .setText(url.toString())
+                        .startChooser();
+            }
         }
-        mFavored = !mFavored;
     }
 }

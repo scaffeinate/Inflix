@@ -49,6 +49,10 @@ public final class HTTPHelper {
 
     private final static String PAGE = "page";
 
+    private static final String YOUTUBE_BASE_PATH = "/youtube.com";
+
+    private static final String YOUTUBE_WATCH_PATH = "watch";
+
     /**
      * Builds discover/movie url
      *
@@ -179,6 +183,23 @@ public final class HTTPHelper {
                 .appendEncodedPath(MOVIE_TRAILERS_PATH)
                 .appendQueryParameter(API_KEY_PARAM, API_KEY)
                 .appendQueryParameter(LANGUAGE, EN_US)
+                .build();
+
+        try {
+            return new URL(uri.toString());
+        } catch (MalformedURLException e) {
+            Log.e(TAG, e.getMessage());
+        }
+
+        return null;
+    }
+
+    public static URL buildYouTubeURL(String key) {
+        Uri uri = new Uri.Builder()
+                .scheme(SCHEME)
+                .appendEncodedPath(YOUTUBE_BASE_PATH)
+                .appendEncodedPath(YOUTUBE_WATCH_PATH)
+                .appendQueryParameter("v", key)
                 .build();
 
         try {
