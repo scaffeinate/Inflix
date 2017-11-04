@@ -79,9 +79,7 @@ public class DetailActivity extends AppCompatActivity implements NetworkLoaderCa
     private RecyclerView mReviewsRecyclerView;
     private MovieReviewsAdapter mMovieReviewsAdapter;
 
-    private NetworkLoader mMovieDetailsLoader;
-    private NetworkLoader mMovieReviewsLoader;
-    private NetworkLoader mMovieTrailersLoader;
+    private NetworkLoader mNetworkLoader;
 
     private List<Video> mVideoList = null;
 
@@ -129,9 +127,7 @@ public class DetailActivity extends AppCompatActivity implements NetworkLoaderCa
         mMovieReviewsAdapter = new MovieReviewsAdapter();
         mReviewsRecyclerView.setAdapter(mMovieReviewsAdapter);
 
-        mMovieDetailsLoader = new NetworkLoader(this, this);
-        mMovieReviewsLoader = new NetworkLoader(this, this);
-        mMovieTrailersLoader = new NetworkLoader(this, this);
+        mNetworkLoader = new NetworkLoader(this, this);
 
         mVideoList = new ArrayList<>();
 
@@ -262,21 +258,21 @@ public class DetailActivity extends AppCompatActivity implements NetworkLoaderCa
         URL url = HTTPHelper.buildMovieDetailsURL(String.valueOf(movieId));
         Bundle args = new Bundle();
         args.putSerializable(NetworkLoader.URL_EXTRA, url);
-        getSupportLoaderManager().initLoader(MOVIE_DETAILS_LOADER_ID, args, mMovieDetailsLoader);
+        getSupportLoaderManager().initLoader(MOVIE_DETAILS_LOADER_ID, args, mNetworkLoader);
     }
 
     private void loadMovieReviews() {
         URL url = HTTPHelper.buildMovieReviewsURL(String.valueOf(movieId));
         Bundle args = new Bundle();
         args.putSerializable(NetworkLoader.URL_EXTRA, url);
-        getSupportLoaderManager().initLoader(MOVIE_REVIEWS_LOADER_ID, args, mMovieReviewsLoader);
+        getSupportLoaderManager().initLoader(MOVIE_REVIEWS_LOADER_ID, args, mNetworkLoader);
     }
 
     private void loadMovieTrailers() {
         URL url = HTTPHelper.buildMovieTrailersURL(String.valueOf(movieId));
         Bundle args = new Bundle();
         args.putSerializable(NetworkLoader.URL_EXTRA, url);
-        getSupportLoaderManager().initLoader(MOVIE_TRAILERS_LOADER_ID, args, mMovieTrailersLoader);
+        getSupportLoaderManager().initLoader(MOVIE_TRAILERS_LOADER_ID, args, mNetworkLoader);
     }
 
     /**
