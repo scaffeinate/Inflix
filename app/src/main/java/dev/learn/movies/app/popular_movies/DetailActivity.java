@@ -15,6 +15,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -23,6 +24,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.nex3z.flowlayout.FlowLayout;
@@ -49,6 +51,7 @@ public class DetailActivity extends AppCompatActivity implements NetworkLoaderCa
 
     private static final int MOVIE_DETAILS_LOADER_ID = 100;
     private static final int MOVIE_REVIEWS_LOADER_ID = 101;
+    private static final int MOVIE_TRAILERS_LOADER_ID = 102;
 
     private final Gson gson = new Gson();
     private String movieName = "";
@@ -68,12 +71,15 @@ public class DetailActivity extends AppCompatActivity implements NetworkLoaderCa
     private TextView mMovieTaglineTextView;
     private TextView mMoviePlotTextView;
     private FloatingActionButton mFavoriteButton;
-    private boolean favored = false;
-    private NetworkLoader mMovieDetailsLoader;
-    private NetworkLoader mMovieReviewsLoader;
     private RatingBar mMovieRatingBar;
     private RecyclerView mReviewsRecyclerView;
     private MovieReviewsAdapter mMovieReviewsAdapter;
+
+    private NetworkLoader mMovieDetailsLoader;
+    private NetworkLoader mMovieReviewsLoader;
+    private NetworkLoader mMovieTrailersLoader;
+
+    private boolean mFavored = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -82,6 +88,9 @@ public class DetailActivity extends AppCompatActivity implements NetworkLoaderCa
 
         mMovieDetailsLoader = new NetworkLoader(this, this);
         mMovieReviewsLoader = new NetworkLoader(this, this);
+        mMovieTrailersLoader = new NetworkLoader(this, this);
+
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
 
         Toolbar mToolbar = findViewById(R.id.toolbar);
         mMovieDetailLayout = findViewById(R.id.layout_movie_detail);
@@ -180,6 +189,7 @@ public class DetailActivity extends AppCompatActivity implements NetworkLoaderCa
                 }
                 break;
             case MOVIE_REVIEWS_LOADER_ID:
+                Log.i("TAG", s);
                 ReviewsResult reviewsResult = (s == null) ? null : gson.fromJson(s, ReviewsResult.class);
                 if (reviewsResult == null || reviewsResult.getResults() == null) {
                     showErrorMessage();
@@ -187,6 +197,8 @@ public class DetailActivity extends AppCompatActivity implements NetworkLoaderCa
                     List<Review> reviewList = reviewsResult.getResults();
                     mMovieReviewsAdapter.setReviewList(reviewList);
                 }
+                break;
+            case MOVIE_TRAILERS_LOADER_ID:
                 break;
         }
     }
@@ -199,6 +211,7 @@ public class DetailActivity extends AppCompatActivity implements NetworkLoaderCa
         if (HTTPHelper.isNetworkEnabled(this)) {
             loadMovieDetails();
             loadMovieReviews();
+            loadMovieTrailers();
         } else {
             //DisplayUtils.setNoNetworkConnectionMessage(this, mErrorMessageDisplay);
             showErrorMessage();
@@ -217,6 +230,13 @@ public class DetailActivity extends AppCompatActivity implements NetworkLoaderCa
         Bundle args = new Bundle();
         args.putSerializable(NetworkLoader.URL_EXTRA, url);
         getSupportLoaderManager().initLoader(MOVIE_REVIEWS_LOADER_ID, args, mMovieReviewsLoader);
+    }
+
+    private void loadMovieTrailers() {
+        URL url = HTTPHelper.buildMovieTrailersURL(String.valueOf(movieId));
+        Bundle args = new Bundle();
+        args.putSerializable(NetworkLoader.URL_EXTRA, url);
+        getSupportLoaderManager().initLoader(MOVIE_TRAILERS_LOADER_ID, args, mMovieTrailersLoader);
     }
 
     /**
@@ -315,11 +335,11 @@ public class DetailActivity extends AppCompatActivity implements NetworkLoaderCa
 
     @Override
     public void onClick(View v) {
-        if (favored) {
+        if (mFavored) {
             mFavoriteButton.setImageResource(R.drawable.ic_heart_outline_white_24dp);
         } else {
             mFavoriteButton.setImageResource(R.drawable.ic_heart_white_24dp);
         }
-        favored = !favored;
+        mFavored = !mFavored;
     }
 }

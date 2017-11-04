@@ -18,10 +18,10 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_user_reviews"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_margin="10dp"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_user_reviews_title" />
 </android.support.constraint.ConstraintLayout>
