@@ -18,10 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.RatingBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -232,11 +229,7 @@ public class DetailActivity extends AppCompatActivity implements NetworkLoaderCa
 
         mNumMovieRatingTextView.setText(voteCount);
 
-        if (tagline == null || tagline.isEmpty()) {
-            mMovieTaglineTextView.setVisibility(View.GONE);
-        } else {
-            mMovieTaglineTextView.setText(DisplayUtils.formatTagline(tagline));
-        }
+        mMovieTaglineTextView.setText(DisplayUtils.formatTagline(tagline));
 
         if (moviePlot != null && !moviePlot.isEmpty()) {
             mMoviePlotTextView.setText(moviePlot);
@@ -287,6 +280,6 @@ public class DetailActivity extends AppCompatActivity implements NetworkLoaderCa
 
         //mBackdropLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) (max / 2.75)));
         mAppBarLayout.setLayoutParams(new CoordinatorLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) (max / 2.25)));
-        mPosterLayout.setLayoutParams(new ConstraintLayout.LayoutParams((min / 3), (max / 4)));
+        mPosterLayout.setLayoutParams(new ConstraintLayout.LayoutParams((min / 3), (int) (max / 3.5)));
     }
 }

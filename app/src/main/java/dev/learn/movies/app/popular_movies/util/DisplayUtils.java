@@ -102,6 +102,9 @@ public final class DisplayUtils {
      * @return formatted tagline inside quotes
      */
     public static String formatTagline(String tagline) {
+        if (tagline == null || tagline.isEmpty()) {
+            tagline = "No Synopsis available.";
+        }
         return "\"" + tagline + "\"";
     }
 
