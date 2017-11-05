@@ -2,6 +2,7 @@ package dev.learn.movies.app.popular_movies.fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,8 +13,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.google.gson.Gson;
 
@@ -23,15 +22,16 @@ import java.util.List;
 
 import dev.learn.movies.app.popular_movies.DetailActivity;
 import dev.learn.movies.app.popular_movies.EndlessRecyclerViewScrollListener;
-import dev.learn.movies.app.popular_movies.adapters.MoviesAdapter;
 import dev.learn.movies.app.popular_movies.R;
+import dev.learn.movies.app.popular_movies.adapters.MoviesAdapter;
 import dev.learn.movies.app.popular_movies.adapters.OnItemClickHandler;
 import dev.learn.movies.app.popular_movies.common.Movie;
 import dev.learn.movies.app.popular_movies.common.MoviesResult;
-import dev.learn.movies.app.popular_movies.util.HTTPHelper;
+import dev.learn.movies.app.popular_movies.databinding.FragmentMoviesBinding;
 import dev.learn.movies.app.popular_movies.loaders.NetworkLoader;
 import dev.learn.movies.app.popular_movies.loaders.NetworkLoaderCallback;
 import dev.learn.movies.app.popular_movies.util.DisplayUtils;
+import dev.learn.movies.app.popular_movies.util.HTTPHelper;
 
 import static dev.learn.movies.app.popular_movies.MainActivity.DISCOVER;
 import static dev.learn.movies.app.popular_movies.MainActivity.MOST_POPULAR;
@@ -53,16 +53,14 @@ public class MoviesFragment extends Fragment implements OnItemClickHandler, Netw
     private Context mContext;
     private final Gson gson = new Gson();
 
-    private RecyclerView mRecyclerViewMovies;
-    private ProgressBar mProgressBar;
-    private TextView mErrorMessageDisplay;
-
     RecyclerView.LayoutManager mLayoutManager;
     private MoviesAdapter mAdapter;
     private List<Movie> movieList;
 
     private EndlessRecyclerViewScrollListener mEndlessScollListener;
     private NetworkLoader mNetworkLoader;
+
+    private FragmentMoviesBinding mBinding;
 
     public static MoviesFragment newInstance(String type) {
         MoviesFragment moviesFragment = new MoviesFragment();
@@ -92,20 +90,18 @@ public class MoviesFragment extends Fragment implements OnItemClickHandler, Netw
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_movies, container, false);
+
+        mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_movies, container, false);
+        View view = mBinding.getRoot();
 
         mType = getArguments().getString(TYPE, DISCOVER);
 
-        mRecyclerViewMovies = view.findViewById(R.id.recycler_view_movies);
-        mProgressBar = view.findViewById(R.id.pb_loading_indicator);
-        mErrorMessageDisplay = view.findViewById(R.id.tv_error_message_display);
-
-        mRecyclerViewMovies.setHasFixedSize(true);
-        mRecyclerViewMovies.setLayoutManager(mLayoutManager);
+        mBinding.recyclerViewMovies.setHasFixedSize(true);
+        mBinding.recyclerViewMovies.setLayoutManager(mLayoutManager);
 
         mAdapter = new MoviesAdapter(this);
-        mRecyclerViewMovies.setAdapter(mAdapter);
-        mRecyclerViewMovies.addOnScrollListener(mEndlessScollListener);
+        mBinding.recyclerViewMovies.setAdapter(mAdapter);
+        mBinding.recyclerViewMovies.addOnScrollListener(mEndlessScollListener);
 
         return view;
     }
@@ -186,7 +182,7 @@ public class MoviesFragment extends Fragment implements OnItemClickHandler, Netw
             getActivity().getSupportLoaderManager().restartLoader(MOVIES_LOADER_ID, args, mNetworkLoader);
 
         } else {
-            DisplayUtils.setNoNetworkConnectionMessage(mContext, mErrorMessageDisplay);
+            DisplayUtils.setNoNetworkConnectionMessage(mContext, mBinding.tvErrorMessageDisplay);
             showErrorMessage();
         }
     }
@@ -195,26 +191,26 @@ public class MoviesFragment extends Fragment implements OnItemClickHandler, Netw
      * Shows ProgressBar, Hides ErrorMessage and RecyclerView
      */
     private void showProgressBar() {
-        mProgressBar.setVisibility(View.VISIBLE);
-        mErrorMessageDisplay.setVisibility(View.INVISIBLE);
-        mRecyclerViewMovies.setVisibility(View.INVISIBLE);
+        mBinding.pbLoadingIndicator.setVisibility(View.VISIBLE);
+        mBinding.tvErrorMessageDisplay.setVisibility(View.INVISIBLE);
+        mBinding.recyclerViewMovies.setVisibility(View.INVISIBLE);
     }
 
     /**
      * Shows RecyclerView, Hides ProgressBar and ErrorMessage
      */
     private void showRecyclerView() {
-        mRecyclerViewMovies.setVisibility(View.VISIBLE);
-        mProgressBar.setVisibility(View.INVISIBLE);
-        mErrorMessageDisplay.setVisibility(View.INVISIBLE);
+        mBinding.recyclerViewMovies.setVisibility(View.VISIBLE);
+        mBinding.pbLoadingIndicator.setVisibility(View.INVISIBLE);
+        mBinding.tvErrorMessageDisplay.setVisibility(View.INVISIBLE);
     }
 
     /**
      * Shows ErrorMessage, Hides ProgressBar and RecyclerView
      */
     private void showErrorMessage() {
-        mErrorMessageDisplay.setVisibility(View.VISIBLE);
-        mProgressBar.setVisibility(View.INVISIBLE);
-        mRecyclerViewMovies.setVisibility(View.INVISIBLE);
+        mBinding.tvErrorMessageDisplay.setVisibility(View.VISIBLE);
+        mBinding.pbLoadingIndicator.setVisibility(View.INVISIBLE);
+        mBinding.recyclerViewMovies.setVisibility(View.INVISIBLE);
     }
 }

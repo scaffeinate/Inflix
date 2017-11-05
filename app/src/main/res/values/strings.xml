@@ -20,4 +20,6 @@
     <string name="tag">Tag</string>
     <string name="user">User</string>
     <string name="trailer_1">Trailer 1</string>
+    <string name="added_to_favorites">Added to Favorites</string>
+    <string name="removed_from_favorites">Removed from Favorites</string>
 </resources>
