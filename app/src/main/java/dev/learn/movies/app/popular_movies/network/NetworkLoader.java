@@ -45,7 +45,7 @@ public class NetworkLoader implements LoaderManager.LoaderCallbacks<String> {
                 if (args == null) return;
                 if (mResponse == null) {
                     if (mShouldCallOnLoadStarted) {
-                        mCallback.onLoadStarted();
+                        mCallback.onNetworkLoadStarted();
                     }
                     forceLoad();
                 } else {
@@ -79,7 +79,7 @@ public class NetworkLoader implements LoaderManager.LoaderCallbacks<String> {
 
     @Override
     public void onLoadFinished(Loader<String> loader, String data) {
-        mCallback.onLoadFinished(loader, data);
+        mCallback.onNetworkLoadFinished(loader, data);
     }
 
     @Override

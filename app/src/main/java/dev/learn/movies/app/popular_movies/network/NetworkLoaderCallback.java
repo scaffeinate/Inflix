@@ -7,7 +7,7 @@ import android.support.v4.content.Loader;
  */
 
 public interface NetworkLoaderCallback {
-    void onLoadStarted();
+    void onNetworkLoadStarted();
 
-    void onLoadFinished(Loader loader, String s);
+    void onNetworkLoadFinished(Loader loader, String s);
 }
