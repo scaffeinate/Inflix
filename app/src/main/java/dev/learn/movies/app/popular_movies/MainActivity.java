@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 import dev.learn.movies.app.popular_movies.databinding.ActivityMainBinding;
 import dev.learn.movies.app.popular_movies.fragments.LocalMoviesFragment;
@@ -20,6 +19,7 @@ import dev.learn.movies.app.popular_movies.fragments.MoviesFragment;
  */
 public class MainActivity extends AppCompatActivity {
 
+    private static final String TITLE = "title";
 
     public final static String DISCOVER = "discover";
     public final static String MOST_POPULAR = "most_popular";
@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
     private FragmentManager mFragmentManager;
     private ActivityMainBinding mBinding;
+    private String mTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,9 +44,16 @@ public class MainActivity extends AppCompatActivity {
             actionBar.setDisplayShowTitleEnabled(false);
         }
 
-        mFragmentManager.beginTransaction()
-                .replace(R.id.layout_content, MoviesFragment.newInstance(DISCOVER))
-                .commit();
+        if (savedInstanceState == null) {
+            mTitle = getResources().getString(R.string.discover);
+            mFragmentManager.beginTransaction()
+                    .replace(R.id.layout_content, MoviesFragment.newInstance(DISCOVER))
+                    .commit();
+        } else {
+            mTitle = savedInstanceState.getString(TITLE);
+        }
+
+        mBinding.toolbar.tvToolbarTitle.setText(mTitle);
     }
 
     @Override
@@ -63,30 +71,37 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_discover:
                 fragment = MoviesFragment.newInstance(DISCOVER);
-                mBinding.toolbar.tvToolbarTitle.setText(getResources().getString(R.string.discover));
+                mTitle = getResources().getString(R.string.discover);
                 selected = true;
                 break;
             case R.id.action_sort_popular:
                 fragment = MoviesFragment.newInstance(MOST_POPULAR);
-                mBinding.toolbar.tvToolbarTitle.setText(getResources().getString(R.string.most_popular));
+                mTitle = getResources().getString(R.string.most_popular);
                 selected = true;
                 break;
             case R.id.action_sort_rating:
                 fragment = MoviesFragment.newInstance(TOP_RATED);
-                mBinding.toolbar.tvToolbarTitle.setText(getResources().getString(R.string.top_rated));
+                mTitle = getResources().getString(R.string.top_rated);
                 selected = true;
                 break;
             case R.id.action_favorites:
                 fragment = LocalMoviesFragment.newInstance(FAVORITES);
-                mBinding.toolbar.tvToolbarTitle.setText(getResources().getString(R.string.favorites));
+                mTitle = getResources().getString(R.string.favorites);
                 selected = true;
                 break;
         }
 
+        mBinding.toolbar.tvToolbarTitle.setText(mTitle);
         mFragmentManager.beginTransaction()
                 .replace(R.id.layout_content, fragment)
                 .commit();
 
         return selected;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(TITLE, mTitle);
     }
 }
