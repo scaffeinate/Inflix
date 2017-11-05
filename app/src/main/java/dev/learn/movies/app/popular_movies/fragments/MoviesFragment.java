@@ -107,8 +107,8 @@ public class MoviesFragment extends Fragment implements OnItemClickHandler, Netw
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         fetchMovies(START_PAGE);
     }
 

@@ -123,6 +123,10 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         if (movieId != 0) {
             //Move this to onResume and reset the lists for reviews
             fetchMovie();
+
+            Bundle args = new Bundle();
+            args.putParcelable(URI_EXTRA, FavoriteEntry.CONTENT_URI.buildUpon().appendPath(String.valueOf(movieId)).build());
+            getSupportLoaderManager().initLoader(FAVORITE_LOADER_ID, args, mContentLoader);
         }
     }
 
@@ -212,9 +216,6 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                     mMovieDetail = movieDetail;
                     loadIntoView(movieDetail);
                     showMovieDetails();
-                    Bundle args = new Bundle();
-                    args.putParcelable(URI_EXTRA, FavoriteEntry.CONTENT_URI.buildUpon().appendPath(String.valueOf(movieId)).build());
-                    getSupportLoaderManager().initLoader(FAVORITE_LOADER_ID, args, mContentLoader);
                 }
                 break;
             case MOVIE_REVIEWS_LOADER_ID:
