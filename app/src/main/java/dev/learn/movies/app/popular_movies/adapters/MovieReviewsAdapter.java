@@ -1,4 +1,4 @@
-package dev.learn.movies.app.popular_movies;
+package dev.learn.movies.app.popular_movies.adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,6 +9,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import dev.learn.movies.app.popular_movies.R;
 import dev.learn.movies.app.popular_movies.common.Review;
 
 /**

@@ -1,4 +1,4 @@
-package dev.learn.movies.app.popular_movies;
+package dev.learn.movies.app.popular_movies.adapters;
 
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import java.util.ArrayList;
 import java.util.List;
 
+import dev.learn.movies.app.popular_movies.R;
 import dev.learn.movies.app.popular_movies.common.Movie;
 import dev.learn.movies.app.popular_movies.network.HTTPHelper;
 import dev.learn.movies.app.popular_movies.util.DisplayUtils;
@@ -58,10 +59,6 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
         notifyDataSetChanged();
     }
 
-    interface OnItemClickHandler {
-        void onClick(int position);
-    }
-
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private final ImageView mPosterImageView;
@@ -88,7 +85,8 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
 
         @Override
         public void onClick(View view) {
-            mHandler.onClick(getAdapterPosition());
+            int position = getAdapterPosition();
+            mHandler.onClick(position);
         }
     }
 }
