@@ -20,11 +20,15 @@
         <item name="android:src">@drawable/ic_sort_white_24dp</item>
     </style>
 
-    <style name="Title">
-        <item name="android:textSize">@dimen/font_size_title</item>
+    <style name="Display">
+        <item name="android:textSize">@dimen/font_size_display</item>
         <item name="android:textStyle">bold</item>
         <item name="android:fontFamily">sans-serif-condensed</item>
         <item name="android:textColor">@color/textColorDark</item>
+    </style>
+
+    <style name="Title" parent="Display">
+        <item name="android:textSize">@dimen/font_size_title</item>
     </style>
 
     <style name="SubHeading" parent="Title">
@@ -62,5 +66,15 @@
         <item name="android:paddingTop">5dp</item>
         <item name="android:paddingBottom">5dp</item>
         <item name="android:background">@color/tagColor</item>
+    </style>
+
+    <style name="RatingBarStyle" parent="Base.Widget.AppCompat.RatingBar.Small">
+        <item name="android:isIndicator">true</item>
+        <item name="android:numStars">10</item>
+        <item name="android:scaleX">1.20</item>
+        <item name="android:scaleY">1.20</item>
+        <item name="android:stepSize">0.1</item>
+        <item name="android:transformPivotX">0dp</item>
+        <item name="android:transformPivotY">0dp</item>
     </style>
 </resources>

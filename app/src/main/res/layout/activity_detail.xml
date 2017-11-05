@@ -48,19 +48,19 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:descendantFocusability="blocksDescendants"
-            android:paddingLeft="@dimen/activity_detail_margin_left_right"
-            android:paddingRight="@dimen/activity_detail_margin_left_right"
-            android:paddingTop="@dimen/activity_detail_margin_top_bottom">
+            android:layout_marginTop="@dimen/activity_detail_margin_top"
+            android:padding="@dimen/activity_detail_padding">
 
             <include
                 android:id="@+id/layout_movie_info"
                 layout="@layout/layout_movie_info"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <include
                 android:id="@+id/layout_content"

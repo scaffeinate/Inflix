@@ -161,6 +161,7 @@ public class DetailActivity extends AppCompatActivity implements NetworkLoaderCa
 
         adjustImageLayouts();
         if (movieId != 0) {
+            //Move this to onResume and reset the lists for reviews
             Bundle args = new Bundle();
             args.putParcelable(URI_EXTRA, FavoriteEntry.CONTENT_URI.buildUpon().appendPath(String.valueOf(movieId)).build());
             getSupportLoaderManager().initLoader(FAVORITE_LOADER_ID, args, mContentLoader);
@@ -402,7 +403,7 @@ public class DetailActivity extends AppCompatActivity implements NetworkLoaderCa
         int min = Math.min(screenHeight, screenWidth);
 
         mAppBarLayout.setLayoutParams(new CoordinatorLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) (max / 2.25)));
-        mPosterLayout.setLayoutParams(new ConstraintLayout.LayoutParams((min / 3), (int) (max / 3.5)));
+        mPosterLayout.setLayoutParams(new ConstraintLayout.LayoutParams((min / 3), (int) (max / 3.15)));
     }
 
     private void shareVideo(Video video) {

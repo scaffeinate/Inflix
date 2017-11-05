@@ -16,10 +16,16 @@
     <string name="user_reviews">User Reviews</string>
     <string name="genres">Genres</string>
     <string name="no_network_connection">No network connection :(</string>
-    <string name="lorem_ipsum">Lorem Ipsum</string>
-    <string name="tag">Tag</string>
-    <string name="user">User</string>
     <string name="trailer_1">Trailer 1</string>
     <string name="added_to_favorites">Added to Favorites</string>
     <string name="removed_from_favorites">Removed from Favorites</string>
+    <string name="out_of_10">/10</string>
+
+
+    <string name="hundred_min">100 min</string>
+    <string name="seven_point_five">7.5</string>
+    <string name="ten_thousand">(10000)</string>
+    <string name="lorem_ipsum">Lorem Ipsum</string>
+    <string name="tag">Tag</string>
+    <string name="user">User</string>
 </resources>

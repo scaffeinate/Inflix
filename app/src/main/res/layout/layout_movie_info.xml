@@ -12,13 +12,13 @@
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tv_movie_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="12dp"
+        android:layout_marginLeft="@dimen/layout_movie_info_title_margin_left"
         android:maxLines="3"
         android:textAppearance="@style/Title"
         app:layout_constraintEnd_toEndOf="parent"
@@ -30,36 +30,22 @@
 
     <TextView
         android:id="@+id/tv_movie_runtime"
+        style="@style/TagStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/layout_movie_info_field_margin_top"
         android:background="@color/colorPrimary"
-        android:paddingBottom="2dp"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        android:paddingTop="2dp"
-        android:textAppearance="@style/BodyBoldCondensed"
-        android:textColor="@color/textColorLight"
         app:layout_constraintLeft_toLeftOf="@+id/tv_movie_title"
         app:layout_constraintStart_toStartOf="@+id/tv_movie_title"
         app:layout_constraintTop_toBottomOf="@+id/tv_movie_title"
-        tools:text="0 min" />
+        tools:text="@string/hundred_min" />
 
     <RatingBar
         android:id="@+id/rb_movie_rating"
-        style="@style/Base.Widget.AppCompat.RatingBar.Small"
+        style="@style/RatingBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:isIndicator="true"
-        android:numStars="10"
-        android:progressBackgroundTint="#707070"
-        android:progressTint="@color/colorAccent"
-        android:scaleX="1.25"
-        android:scaleY="1.25"
-        android:stepSize="0.1"
-        android:transformPivotX="0dp"
-        android:transformPivotY="0dp"
+        android:layout_marginTop="@dimen/layout_movie_info_field_margin_top"
         app:layout_constraintLeft_toLeftOf="@+id/tv_movie_runtime"
         app:layout_constraintStart_toStartOf="@+id/tv_movie_runtime"
         app:layout_constraintTop_toBottomOf="@+id/tv_movie_runtime" />
@@ -68,23 +54,21 @@
         android:id="@+id/tv_movie_rating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/activity_detail_tv_rating_margin_left"
-        android:layout_marginTop="5dp"
-        android:textAppearance="@style/SubHeading"
-        android:textSize="30sp"
+        android:layout_marginTop="@dimen/layout_movie_info_field_margin_top"
+        android:textAppearance="@style/Display"
         app:layout_constraintLeft_toLeftOf="@+id/rb_movie_rating"
         app:layout_constraintStart_toStartOf="@+id/rb_movie_rating"
         app:layout_constraintTop_toBottomOf="@+id/rb_movie_rating"
-        tools:text="7.5" />
+        tools:text="@string/seven_point_five" />
 
     <TextView
         android:id="@+id/tv_movie_rating_out_of"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
-        android:text="/10"
+        android:layout_marginBottom="@dimen/layout_movie_info_rating_out_of_margin_bottom"
+        android:layout_marginLeft="@dimen/layout_movie_info_rating_out_of_margin_left"
+        android:layout_marginStart="@dimen/layout_movie_info_rating_out_of_margin_left"
+        android:text="@string/out_of_10"
         android:textAppearance="@style/SubHeading"
         app:layout_constraintBottom_toBottomOf="@+id/tv_movie_rating"
         app:layout_constraintLeft_toRightOf="@+id/tv_movie_rating"
@@ -94,12 +78,12 @@
         android:id="@+id/tv_movie_rating_num"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginLeft="@dimen/layout_movie_info_rating_num_margin_left"
+        android:layout_marginStart="@dimen/layout_movie_info_rating_num_margin_left"
         android:textAppearance="@style/SubHeading"
         app:layout_constraintBaseline_toBaselineOf="@+id/tv_movie_rating_out_of"
         app:layout_constraintLeft_toRightOf="@+id/tv_movie_rating_out_of"
         app:layout_constraintStart_toEndOf="@+id/tv_movie_rating_out_of"
-        tools:text="(10000)" />
+        tools:text="@string/ten_thousand" />
 
 </android.support.constraint.ConstraintLayout>
