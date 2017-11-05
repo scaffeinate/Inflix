@@ -8,13 +8,13 @@ This is based on TheMovieDB API. Please obtain an api key from tmdb and add **AP
 
 ### V2 TODO:
 - Add a video button to watch movie trailer.
-- Add a Fav button.
+- ~~Add a Fav button.~~
 - ~~Add a section for Reviews.~~
-- Add a dropdown for Favorites.
+- ~~Add a dropdown for Favorites.~~
 - Tablet Layout.
 - ~~Replace AsyncTask with Loaders.~~
-- Build a Content Provider and Db Contract.
-- Offline load Favorites.
+- ~~Build a Content Provider and Db Contract.~~
+- ~~Offline load Favorites.~~
 - Reuse common styles/themes.
 - Store the movie details too in Db. Cache the images.
 - ~~Add a share link for the movie trailer.~~
