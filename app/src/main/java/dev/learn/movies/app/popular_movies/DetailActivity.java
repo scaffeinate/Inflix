@@ -1,6 +1,7 @@
 package dev.learn.movies.app.popular_movies;
 
 import android.content.ActivityNotFoundException;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -34,12 +35,14 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import dev.learn.movies.app.popular_movies.adapters.MovieReviewsAdapter;
 import dev.learn.movies.app.popular_movies.common.Genre;
 import dev.learn.movies.app.popular_movies.common.MovieDetail;
 import dev.learn.movies.app.popular_movies.common.Review;
 import dev.learn.movies.app.popular_movies.common.ReviewsResult;
 import dev.learn.movies.app.popular_movies.common.Video;
 import dev.learn.movies.app.popular_movies.common.VideosResult;
+import dev.learn.movies.app.popular_movies.data.DataContract.FavoriteEntry;
 import dev.learn.movies.app.popular_movies.network.HTTPHelper;
 import dev.learn.movies.app.popular_movies.network.NetworkLoader;
 import dev.learn.movies.app.popular_movies.network.NetworkLoaderCallback;
@@ -82,6 +85,7 @@ public class DetailActivity extends AppCompatActivity implements NetworkLoaderCa
     private NetworkLoader mNetworkLoader;
 
     private List<Video> mVideoList = null;
+    private MovieDetail mMovieDetail = null;
 
     private boolean mFavored = false;
 
@@ -188,8 +192,15 @@ public class DetailActivity extends AppCompatActivity implements NetworkLoaderCa
     public void onClick(View v) {
         if (mFavored) {
             mFavoriteButton.setImageResource(R.drawable.ic_heart_outline_white_24dp);
+            Uri uri = FavoriteEntry.CONTENT_URI.buildUpon().appendPath(String.valueOf(movieId)).build();
+            getContentResolver().delete(uri, null, null);
         } else {
             mFavoriteButton.setImageResource(R.drawable.ic_heart_white_24dp);
+            Uri uri = FavoriteEntry.CONTENT_URI;
+            ContentValues cv = getContentValues();
+            if (cv != null) {
+                getContentResolver().insert(uri, cv);
+            }
         }
         mFavored = !mFavored;
     }
@@ -198,7 +209,7 @@ public class DetailActivity extends AppCompatActivity implements NetworkLoaderCa
      * Overrides onLoadStarted() from NetworkLoaderCallback
      */
     @Override
-    public void onLoadStarted() {
+    public void onNetworkLoadStarted() {
         showProgressBar();
     }
 
@@ -208,13 +219,14 @@ public class DetailActivity extends AppCompatActivity implements NetworkLoaderCa
      * @param s AsyncTask result String
      */
     @Override
-    public void onLoadFinished(Loader loader, String s) {
+    public void onNetworkLoadFinished(Loader loader, String s) {
         switch (loader.getId()) {
             case MOVIE_DETAILS_LOADER_ID:
                 MovieDetail movieDetail = (s == null) ? null : gson.fromJson(s, MovieDetail.class);
                 if (movieDetail == null) {
                     showErrorMessage();
                 } else {
+                    mMovieDetail = movieDetail;
                     loadIntoView(movieDetail);
                     showMovieDetails();
                 }
@@ -398,5 +410,31 @@ public class DetailActivity extends AppCompatActivity implements NetworkLoaderCa
                 }
             }
         }
+    }
+
+    private ContentValues getContentValues() {
+        ContentValues cv = null;
+        if (mMovieDetail != null) {
+            cv = new ContentValues();
+            cv.put(FavoriteEntry.COLUMN_MOVIE_ID, mMovieDetail.getId());
+            cv.put(FavoriteEntry.COLUMN_TITLE, mMovieDetail.getTitle());
+            cv.put(FavoriteEntry.COLUMN_TAGLINE, mMovieDetail.getTagline());
+            cv.put(FavoriteEntry.COLUMN_OVERVIEW, mMovieDetail.getOverview());
+            cv.put(FavoriteEntry.COLUMN_POSTER_PATH, mMovieDetail.getPosterPath());
+            cv.put(FavoriteEntry.COLUMN_BACKDROP_PATH, mMovieDetail.getBackdropPath());
+            cv.put(FavoriteEntry.COLUMN_RELEASE_DATE, mMovieDetail.getReleaseDate());
+            cv.put(FavoriteEntry.COLUMN_RUNTIME, mMovieDetail.getRuntime());
+            cv.put(FavoriteEntry.COLUMN_VOTE_AVG, mMovieDetail.getVoteAverage());
+            cv.put(FavoriteEntry.COLUMN_VOTE_COUNT, mMovieDetail.getVoteCount());
+            StringBuilder builder = new StringBuilder();
+            List<Genre> genres = mMovieDetail.getGenres();
+            if (genres != null && !genres.isEmpty()) {
+                for (Genre genre : genres) {
+                    builder.append(genre.getName()).append(",");
+                }
+            }
+            cv.put(FavoriteEntry.COLUMN_GENRES, builder.toString());
+        }
+        return cv;
     }
 }
