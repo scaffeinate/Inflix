@@ -138,12 +138,12 @@ public class MoviesFragment extends Fragment implements OnItemClickHandler, Netw
     }
 
     @Override
-    public void onStartLoading() {
+    public void onNetworkStartLoading() {
         showProgressBar();
     }
 
     @Override
-    public void onLoadFinished(Loader loader, String s) {
+    public void onNetworkLoadFinished(Loader loader, String s) {
         switch (loader.getId()) {
             case MOVIES_LOADER_ID:
                 MoviesResult moviesResult = (s == null) ? null : gson.fromJson(s, MoviesResult.class);
