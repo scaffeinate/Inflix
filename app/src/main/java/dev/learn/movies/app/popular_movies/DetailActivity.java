@@ -3,6 +3,7 @@ package dev.learn.movies.app.popular_movies;
 import android.content.ActivityNotFoundException;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -27,6 +28,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.nex3z.flowlayout.FlowLayout;
@@ -43,15 +45,19 @@ import dev.learn.movies.app.popular_movies.common.ReviewsResult;
 import dev.learn.movies.app.popular_movies.common.Video;
 import dev.learn.movies.app.popular_movies.common.VideosResult;
 import dev.learn.movies.app.popular_movies.data.DataContract.FavoriteEntry;
-import dev.learn.movies.app.popular_movies.util.HTTPHelper;
+import dev.learn.movies.app.popular_movies.loaders.ContentLoader;
+import dev.learn.movies.app.popular_movies.loaders.ContentLoaderCallback;
 import dev.learn.movies.app.popular_movies.loaders.NetworkLoader;
 import dev.learn.movies.app.popular_movies.loaders.NetworkLoaderCallback;
 import dev.learn.movies.app.popular_movies.util.DisplayUtils;
+import dev.learn.movies.app.popular_movies.util.HTTPHelper;
+
+import static dev.learn.movies.app.popular_movies.loaders.ContentLoader.URI_EXTRA;
 
 /**
  * DetailActivity - To show the movie details
  */
-public class DetailActivity extends AppCompatActivity implements NetworkLoaderCallback, View.OnClickListener {
+public class DetailActivity extends AppCompatActivity implements NetworkLoaderCallback, View.OnClickListener, ContentLoaderCallback {
 
     public static final String MOVIE_ID = "movie_id";
     public static final String MOVIE_NAME = "movie_name";
@@ -59,6 +65,7 @@ public class DetailActivity extends AppCompatActivity implements NetworkLoaderCa
     private static final int MOVIE_DETAILS_LOADER_ID = 100;
     private static final int MOVIE_REVIEWS_LOADER_ID = 101;
     private static final int MOVIE_TRAILERS_LOADER_ID = 102;
+    private static final int FAVORITE_LOADER_ID = 301;
 
     private final Gson gson = new Gson();
     private String movieName = "";
@@ -83,6 +90,7 @@ public class DetailActivity extends AppCompatActivity implements NetworkLoaderCa
     private MovieReviewsAdapter mMovieReviewsAdapter;
 
     private NetworkLoader mNetworkLoader;
+    private ContentLoader mContentLoader;
 
     private List<Video> mVideoList = null;
     private MovieDetail mMovieDetail = null;
@@ -93,6 +101,9 @@ public class DetailActivity extends AppCompatActivity implements NetworkLoaderCa
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+
+        mNetworkLoader = new NetworkLoader(this, this);
+        mContentLoader = new ContentLoader(this, this);
 
         Toolbar mToolbar = findViewById(R.id.toolbar);
         mMovieDetailLayout = findViewById(R.id.layout_movie_detail);
@@ -131,8 +142,6 @@ public class DetailActivity extends AppCompatActivity implements NetworkLoaderCa
         mMovieReviewsAdapter = new MovieReviewsAdapter();
         mReviewsRecyclerView.setAdapter(mMovieReviewsAdapter);
 
-        mNetworkLoader = new NetworkLoader(this, this);
-
         mVideoList = new ArrayList<>();
 
         /* If savedInstanceState is not null then fetch movieId and movieName
@@ -152,6 +161,9 @@ public class DetailActivity extends AppCompatActivity implements NetworkLoaderCa
 
         adjustImageLayouts();
         if (movieId != 0) {
+            Bundle args = new Bundle();
+            args.putParcelable(URI_EXTRA, FavoriteEntry.CONTENT_URI.buildUpon().appendPath(String.valueOf(movieId)).build());
+            getSupportLoaderManager().initLoader(FAVORITE_LOADER_ID, args, mContentLoader);
             fetchMovie();
         }
     }
@@ -191,26 +203,35 @@ public class DetailActivity extends AppCompatActivity implements NetworkLoaderCa
     @Override
     public void onClick(View v) {
         if (mFavored) {
-            mFavoriteButton.setImageResource(R.drawable.ic_heart_outline_white_24dp);
             Uri uri = FavoriteEntry.CONTENT_URI.buildUpon().appendPath(String.valueOf(movieId)).build();
             getContentResolver().delete(uri, null, null);
+            Toast.makeText(this, getResources().getString(R.string.removed_from_favorites), Toast.LENGTH_SHORT).show();
         } else {
-            mFavoriteButton.setImageResource(R.drawable.ic_heart_white_24dp);
             Uri uri = FavoriteEntry.CONTENT_URI;
             ContentValues cv = getContentValues();
             if (cv != null) {
                 getContentResolver().insert(uri, cv);
+                Toast.makeText(this, getResources().getString(R.string.added_to_favorites), Toast.LENGTH_SHORT).show();
             }
         }
         mFavored = !mFavored;
+        setFavored();
     }
 
     /**
      * Overrides onLoadStarted() from NetworkLoaderCallback
      */
     @Override
-    public void onNetworkLoadStarted() {
+    public void onStartLoading() {
         showProgressBar();
+    }
+
+    @Override
+    public void onLoadFinished(Loader loader, Cursor cursor) {
+        if (cursor != null && cursor.getCount() > 0) {
+            mFavored = true;
+        }
+        setFavored();
     }
 
     /**
@@ -219,7 +240,7 @@ public class DetailActivity extends AppCompatActivity implements NetworkLoaderCa
      * @param s AsyncTask result String
      */
     @Override
-    public void onNetworkLoadFinished(Loader loader, String s) {
+    public void onLoadFinished(Loader loader, String s) {
         switch (loader.getId()) {
             case MOVIE_DETAILS_LOADER_ID:
                 MovieDetail movieDetail = (s == null) ? null : gson.fromJson(s, MovieDetail.class);
@@ -249,6 +270,10 @@ public class DetailActivity extends AppCompatActivity implements NetworkLoaderCa
                 }
                 break;
         }
+    }
+
+    private void setFavored() {
+        mFavoriteButton.setImageResource(mFavored ? R.drawable.ic_heart_white_24dp : R.drawable.ic_heart_outline_white_24dp);
     }
 
     /**

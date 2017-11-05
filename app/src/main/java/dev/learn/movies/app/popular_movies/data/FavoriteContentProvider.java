@@ -55,7 +55,12 @@ public class FavoriteContentProvider extends ContentProvider {
                 cursor = db.query(FavoriteEntry.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
                 break;
             case FAVORITE_WITH_MOVIE_ID:
-                cursor = db.query(FavoriteEntry.TABLE_NAME, projection, FavoriteEntry.COLUMN_MOVIE_ID + " = ?", selectionArgs, null, null, sortOrder);
+                List<String> pathSegments = uri.getPathSegments();
+                String id = "0";
+                if (pathSegments != null && pathSegments.size() > 1) {
+                    id = uri.getPathSegments().get(1);
+                }
+                cursor = db.query(FavoriteEntry.TABLE_NAME, projection, FavoriteEntry.COLUMN_MOVIE_ID + " = ? ", new String[]{id}, null, null, sortOrder);
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);

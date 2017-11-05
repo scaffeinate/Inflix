@@ -1,6 +1,7 @@
 package dev.learn.movies.app.popular_movies.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -15,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import dev.learn.movies.app.popular_movies.DetailActivity;
 import dev.learn.movies.app.popular_movies.R;
 import dev.learn.movies.app.popular_movies.adapters.FavoritesAdapter;
 import dev.learn.movies.app.popular_movies.adapters.OnItemClickHandler;
@@ -23,6 +25,8 @@ import dev.learn.movies.app.popular_movies.loaders.ContentLoader;
 import dev.learn.movies.app.popular_movies.loaders.ContentLoaderCallback;
 
 import static dev.learn.movies.app.popular_movies.MainActivity.FAVORITES;
+import static dev.learn.movies.app.popular_movies.data.DataContract.FavoriteEntry.COLUMN_MOVIE_ID;
+import static dev.learn.movies.app.popular_movies.data.DataContract.FavoriteEntry.COLUMN_TITLE;
 
 /**
  * Created by sudharti on 11/5/17.
@@ -94,7 +98,23 @@ public class LocalMoviesFragment extends Fragment implements ContentLoaderCallba
 
     @Override
     public void onClick(int position) {
+        if (position >= 0 && mCursor != null && position < mCursor.getCount()) {
+            /*
+             * Starts DetailActivity with movieId and movieName passed in a bundle.
+             */
+            Intent detailActivityIntent = new Intent(mContext, DetailActivity.class);
 
+            Bundle bundle = new Bundle();
+            if (mCursor.moveToPosition(position)) {
+                long movieId = mCursor.getLong(mCursor.getColumnIndex(COLUMN_MOVIE_ID));
+                String title = mCursor.getString(mCursor.getColumnIndex(COLUMN_TITLE));
+                bundle.putLong(DetailActivity.MOVIE_ID, movieId);
+                bundle.putString(DetailActivity.MOVIE_NAME, title);
+                detailActivityIntent.putExtras(bundle);
+            }
+
+            startActivity(detailActivityIntent);
+        }
     }
 
     @Override
@@ -122,7 +142,7 @@ public class LocalMoviesFragment extends Fragment implements ContentLoaderCallba
             case FAVORITES:
                 Bundle args = new Bundle();
                 args.putParcelable(ContentLoader.URI_EXTRA, FavoriteEntry.CONTENT_URI);
-                getActivity().getSupportLoaderManager().initLoader(FAVORITES_LOADER_ID, args, mContentLoader);
+                getActivity().getSupportLoaderManager().restartLoader(FAVORITES_LOADER_ID, args, mContentLoader);
                 break;
         }
     }
