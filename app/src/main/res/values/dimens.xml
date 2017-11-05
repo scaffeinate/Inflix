@@ -5,12 +5,17 @@
 
     <dimen name="activity_detail_padding">15dp</dimen>
     <dimen name="activity_detail_margin_top">30dp</dimen>
+    <dimen name="actvity_detail_section_margin_top">20dp</dimen>
 
     <dimen name="layout_movie_info_title_margin_left">15dp</dimen>
     <dimen name="layout_movie_info_field_margin_top">10dp</dimen>
     <dimen name="layout_movie_info_rating_out_of_margin_bottom">8dp</dimen>
     <dimen name="layout_movie_info_rating_out_of_margin_left">4dp</dimen>
     <dimen name="layout_movie_info_rating_num_margin_left">8dp</dimen>
+
+    <dimen name="layout_content_field_margin_top">10dp</dimen>
+    <dimen name="layout_content_tag_horizontal_spacing">10dp</dimen>
+    <dimen name="layout_content_tag_vertical_spacing">10dp</dimen>
 
     <dimen name="activity_detail_layout_content_margin_top">15dp</dimen>
     <dimen name="activity_detail_layout_content_margin_bottom">35dp</dimen>
