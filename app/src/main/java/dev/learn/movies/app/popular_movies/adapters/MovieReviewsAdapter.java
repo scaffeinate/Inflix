@@ -4,13 +4,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+
+import com.android.databinding.library.baseAdapters.BR;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import dev.learn.movies.app.popular_movies.R;
 import dev.learn.movies.app.popular_movies.common.Review;
+import dev.learn.movies.app.popular_movies.databinding.ItemUserReviewBinding;
 
 /**
  * Created by sudharti on 11/4/17.
@@ -18,7 +20,7 @@ import dev.learn.movies.app.popular_movies.common.Review;
 
 public class MovieReviewsAdapter extends RecyclerView.Adapter<MovieReviewsAdapter.ViewHolder> {
 
-    List<Review> mReviewList;
+    private List<Review> mReviewList;
 
     public MovieReviewsAdapter() {
         this.mReviewList = new ArrayList<>();
@@ -26,7 +28,8 @@ public class MovieReviewsAdapter extends RecyclerView.Adapter<MovieReviewsAdapte
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_user_review, null);
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        View view = inflater.inflate(R.layout.item_user_review, null);
         return new ViewHolder(view);
     }
 
@@ -46,26 +49,25 @@ public class MovieReviewsAdapter extends RecyclerView.Adapter<MovieReviewsAdapte
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        final TextView mUserNameTextView;
-        final TextView mReviewTextView;
+        private final ItemUserReviewBinding mBinding;
 
-        public ViewHolder(View itemView) {
-            super(itemView);
-            mUserNameTextView = itemView.findViewById(R.id.tv_user_name);
-            mReviewTextView = itemView.findViewById(R.id.tv_user_review);
+        public ViewHolder(View view) {
+            super(view);
+            this.mBinding = ItemUserReviewBinding.bind(view);
         }
 
         private void bind(int position) {
             Review review = mReviewList.get(position);
             if (review != null) {
                 if (review.getAuthor() != null) {
-                    mUserNameTextView.setText(review.getAuthor());
+                    mBinding.setUsername(review.getAuthor());
                 }
 
                 if (review.getContent() != null) {
-                    mReviewTextView.setText(review.getContent());
+                    mBinding.setReview(review.getContent());
                 }
             }
+            mBinding.executePendingBindings();
         }
     }
 }
