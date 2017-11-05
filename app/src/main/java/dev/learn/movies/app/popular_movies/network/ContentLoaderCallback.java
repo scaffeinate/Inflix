@@ -8,7 +8,7 @@ import android.support.v4.content.Loader;
  */
 
 public interface ContentLoaderCallback {
-    void onContentLoadStarted();
+    void onStartLoading();
 
-    void onContentLoadFinished(Loader loader, Cursor cursor);
+    void onLoadFinished(Loader loader, Cursor cursor);
 }

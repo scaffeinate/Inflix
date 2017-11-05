@@ -98,12 +98,12 @@ public class LocalMoviesFragment extends Fragment implements ContentLoaderCallba
     }
 
     @Override
-    public void onContentLoadStarted() {
+    public void onStartLoading() {
         showProgressBar();
     }
 
     @Override
-    public void onContentLoadFinished(Loader loader, Cursor cursor) {
+    public void onLoadFinished(Loader loader, Cursor cursor) {
         switch (loader.getId()) {
             case FAVORITES_LOADER_ID:
                 if (cursor == null || cursor.getCount() == 0) {

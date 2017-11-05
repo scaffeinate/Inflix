@@ -35,7 +35,7 @@ public class ContentLoader implements LoaderManager.LoaderCallbacks<Cursor> {
                 @Override
                 protected void onStartLoading() {
                     super.onStartLoading();
-                    mCallback.onContentLoadStarted();
+                    mCallback.onStartLoading();
                 }
             };
         }
@@ -46,7 +46,7 @@ public class ContentLoader implements LoaderManager.LoaderCallbacks<Cursor> {
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if (mCallback != null) {
-            mCallback.onContentLoadFinished(loader, data);
+            mCallback.onLoadFinished(loader, data);
         }
     }
 
