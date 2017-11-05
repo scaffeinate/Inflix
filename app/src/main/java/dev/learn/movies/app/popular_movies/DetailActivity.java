@@ -43,9 +43,9 @@ import dev.learn.movies.app.popular_movies.common.ReviewsResult;
 import dev.learn.movies.app.popular_movies.common.Video;
 import dev.learn.movies.app.popular_movies.common.VideosResult;
 import dev.learn.movies.app.popular_movies.data.DataContract.FavoriteEntry;
-import dev.learn.movies.app.popular_movies.network.HTTPHelper;
-import dev.learn.movies.app.popular_movies.network.NetworkLoader;
-import dev.learn.movies.app.popular_movies.network.NetworkLoaderCallback;
+import dev.learn.movies.app.popular_movies.util.HTTPHelper;
+import dev.learn.movies.app.popular_movies.loaders.NetworkLoader;
+import dev.learn.movies.app.popular_movies.loaders.NetworkLoaderCallback;
 import dev.learn.movies.app.popular_movies.util.DisplayUtils;
 
 /**

@@ -1,4 +1,4 @@
-package dev.learn.movies.app.popular_movies.network;
+package dev.learn.movies.app.popular_movies.loaders;
 
 import android.content.Context;
 import android.database.Cursor;

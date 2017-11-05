@@ -19,8 +19,8 @@ import dev.learn.movies.app.popular_movies.R;
 import dev.learn.movies.app.popular_movies.adapters.FavoritesAdapter;
 import dev.learn.movies.app.popular_movies.adapters.OnItemClickHandler;
 import dev.learn.movies.app.popular_movies.data.DataContract.FavoriteEntry;
-import dev.learn.movies.app.popular_movies.network.ContentLoader;
-import dev.learn.movies.app.popular_movies.network.ContentLoaderCallback;
+import dev.learn.movies.app.popular_movies.loaders.ContentLoader;
+import dev.learn.movies.app.popular_movies.loaders.ContentLoaderCallback;
 
 import static dev.learn.movies.app.popular_movies.MainActivity.FAVORITES;
 

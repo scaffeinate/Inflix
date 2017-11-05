@@ -12,7 +12,7 @@ import java.util.List;
 
 import dev.learn.movies.app.popular_movies.R;
 import dev.learn.movies.app.popular_movies.common.Movie;
-import dev.learn.movies.app.popular_movies.network.HTTPHelper;
+import dev.learn.movies.app.popular_movies.util.HTTPHelper;
 import dev.learn.movies.app.popular_movies.util.DisplayUtils;
 
 /**

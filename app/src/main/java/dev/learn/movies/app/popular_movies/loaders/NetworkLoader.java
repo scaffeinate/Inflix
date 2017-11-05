@@ -1,4 +1,4 @@
-package dev.learn.movies.app.popular_movies.network;
+package dev.learn.movies.app.popular_movies.loaders;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -10,6 +10,8 @@ import android.util.Log;
 
 import java.io.IOException;
 import java.net.URL;
+
+import dev.learn.movies.app.popular_movies.util.HTTPHelper;
 
 /**
  * NetworkLoader - Generic AsyncTask to fetch results from URL. Returns the response string
