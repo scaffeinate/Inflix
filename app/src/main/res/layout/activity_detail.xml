@@ -55,7 +55,8 @@
                     android:layout_height="match_parent"
                     android:layout_marginTop="@dimen/activity_detail_margin_top"
                     android:descendantFocusability="blocksDescendants"
-                    android:padding="@dimen/activity_detail_padding">
+                    android:padding="@dimen/activity_detail_padding"
+                    android:visibility="invisible">
 
                     <include
                         android:id="@+id/layout_movie_info"
@@ -112,7 +113,7 @@
                     android:layout_height="@dimen/progressbar_size"
                     android:layout_gravity="top|center_horizontal"
                     android:layout_marginTop="@dimen/activity_detail_margin_top"
-                    android:visibility="invisible" />
+                    android:visibility="visible" />
             </FrameLayout>
         </android.support.v4.widget.NestedScrollView>
 
@@ -122,6 +123,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:src="@drawable/ic_heart_outline_white_24dp"
+            android:visibility="invisible"
             app:layout_anchor="@+id/app_bar_layout"
             app:layout_anchorGravity="bottom|right|end"
             app:rippleColor="@color/colorPrimary" />

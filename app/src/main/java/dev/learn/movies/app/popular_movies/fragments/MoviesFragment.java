@@ -29,7 +29,6 @@ import dev.learn.movies.app.popular_movies.common.Movie;
 import dev.learn.movies.app.popular_movies.common.MoviesResult;
 import dev.learn.movies.app.popular_movies.databinding.FragmentMoviesBinding;
 import dev.learn.movies.app.popular_movies.loaders.NetworkLoader;
-import dev.learn.movies.app.popular_movies.loaders.NetworkLoaderCallback;
 import dev.learn.movies.app.popular_movies.util.DisplayUtils;
 import dev.learn.movies.app.popular_movies.util.HTTPHelper;
 
@@ -41,7 +40,7 @@ import static dev.learn.movies.app.popular_movies.MainActivity.TOP_RATED;
  * Created by sudharti on 11/4/17.
  */
 
-public class MoviesFragment extends Fragment implements OnItemClickHandler, NetworkLoaderCallback {
+public class MoviesFragment extends Fragment implements NetworkLoader.NetworkLoaderCallback, OnItemClickHandler {
 
     private static final String TYPE = "type";
 
@@ -129,7 +128,6 @@ public class MoviesFragment extends Fragment implements OnItemClickHandler, Netw
             Movie movie = movieList.get(position);
             if (movie != null) {
                 bundle.putLong(DetailActivity.MOVIE_ID, movie.getId());
-                bundle.putString(DetailActivity.MOVIE_NAME, movie.getTitle());
                 detailActivityIntent.putExtras(bundle);
             }
 
@@ -138,12 +136,7 @@ public class MoviesFragment extends Fragment implements OnItemClickHandler, Netw
     }
 
     @Override
-    public void onNetworkStartLoading() {
-        showProgressBar();
-    }
-
-    @Override
-    public void onNetworkLoadFinished(Loader loader, String s) {
+    public void onLoadFinished(Loader loader, String s) {
         switch (loader.getId()) {
             case MOVIES_LOADER_ID:
                 MoviesResult moviesResult = (s == null) ? null : gson.fromJson(s, MoviesResult.class);
@@ -178,22 +171,12 @@ public class MoviesFragment extends Fragment implements OnItemClickHandler, Netw
 
             Bundle args = new Bundle();
             args.putSerializable(NetworkLoader.URL_EXTRA, url);
-            args.putBoolean(NetworkLoader.SHOULD_CALL_LOAD_STARTED_EXTRA, (page == START_PAGE));
             getActivity().getSupportLoaderManager().restartLoader(MOVIES_LOADER_ID, args, mNetworkLoader);
 
         } else {
             DisplayUtils.setNoNetworkConnectionMessage(mContext, mBinding.tvErrorMessageDisplay);
             showErrorMessage();
         }
-    }
-
-    /**
-     * Shows ProgressBar, Hides ErrorMessage and RecyclerView
-     */
-    private void showProgressBar() {
-        mBinding.pbLoadingIndicator.setVisibility(View.VISIBLE);
-        mBinding.tvErrorMessageDisplay.setVisibility(View.INVISIBLE);
-        mBinding.recyclerViewMovies.setVisibility(View.INVISIBLE);
     }
 
     /**

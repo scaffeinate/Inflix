@@ -22,17 +22,15 @@ import dev.learn.movies.app.popular_movies.adapters.OnItemClickHandler;
 import dev.learn.movies.app.popular_movies.data.DataContract.FavoriteEntry;
 import dev.learn.movies.app.popular_movies.databinding.FragmentMoviesBinding;
 import dev.learn.movies.app.popular_movies.loaders.ContentLoader;
-import dev.learn.movies.app.popular_movies.loaders.ContentLoaderCallback;
 
 import static dev.learn.movies.app.popular_movies.MainActivity.FAVORITES;
 import static dev.learn.movies.app.popular_movies.data.DataContract.FavoriteEntry.COLUMN_MOVIE_ID;
-import static dev.learn.movies.app.popular_movies.data.DataContract.FavoriteEntry.COLUMN_TITLE;
 
 /**
  * Created by sudharti on 11/5/17.
  */
 
-public class LocalMoviesFragment extends Fragment implements ContentLoaderCallback, OnItemClickHandler {
+public class LocalMoviesFragment extends Fragment implements ContentLoader.ContentLoaderCallback, OnItemClickHandler {
 
     private static final String TYPE = "type";
 
@@ -101,9 +99,7 @@ public class LocalMoviesFragment extends Fragment implements ContentLoaderCallba
             Bundle bundle = new Bundle();
             if (mCursor.moveToPosition(position)) {
                 long movieId = mCursor.getLong(mCursor.getColumnIndex(COLUMN_MOVIE_ID));
-                String title = mCursor.getString(mCursor.getColumnIndex(COLUMN_TITLE));
                 bundle.putLong(DetailActivity.MOVIE_ID, movieId);
-                bundle.putString(DetailActivity.MOVIE_NAME, title);
                 detailActivityIntent.putExtras(bundle);
             }
 
@@ -112,12 +108,7 @@ public class LocalMoviesFragment extends Fragment implements ContentLoaderCallba
     }
 
     @Override
-    public void onContentStartLoading() {
-        showProgressBar();
-    }
-
-    @Override
-    public void onContentLoadFinished(Loader loader, Cursor cursor) {
+    public void onLoadFinished(Loader loader, Cursor cursor) {
         switch (loader.getId()) {
             case FAVORITES_LOADER_ID:
                 if (cursor == null || cursor.getCount() == 0) {
@@ -139,15 +130,6 @@ public class LocalMoviesFragment extends Fragment implements ContentLoaderCallba
                 getActivity().getSupportLoaderManager().restartLoader(FAVORITES_LOADER_ID, args, mContentLoader);
                 break;
         }
-    }
-
-    /**
-     * Shows ProgressBar, Hides ErrorMessage and RecyclerView
-     */
-    private void showProgressBar() {
-        mBinding.pbLoadingIndicator.setVisibility(View.VISIBLE);
-        mBinding.tvErrorMessageDisplay.setVisibility(View.INVISIBLE);
-        mBinding.recyclerViewMovies.setVisibility(View.INVISIBLE);
     }
 
     /**

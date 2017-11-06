@@ -56,6 +56,8 @@ public class MovieDetail implements Parcelable {
     @Expose
     private List<Genre> genres;
 
+    public MovieDetail() {}
+
     protected MovieDetail(Parcel in) {
         backdropPath = in.readString();
         id = in.readLong();
