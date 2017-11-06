@@ -23,6 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/layout_content_field_margin_top"
             android:textAppearance="@style/CaptionItalic"
+            android:textColor="@color/textColorAlternate"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"

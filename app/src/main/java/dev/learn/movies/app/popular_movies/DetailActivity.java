@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.CoordinatorLayout;
@@ -69,6 +70,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     private static final int MOVIE_REVIEWS_LOADER_ID = 101;
     private static final int MOVIE_TRAILERS_LOADER_ID = 102;
     private static final int FAVORITE_LOADER_ID = 301;
+    private static final int LAZY_LOAD_DELAY_IN_MS = 350;
 
     private final Gson gson = new Gson();
     private long movieId = 0L;
@@ -119,8 +121,17 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
             showErrorMessage();
         } else {
             loadMovieDetailsFromDatabase();
-            loadMovieReviewsFromNetwork();
-            loadMovieTrailersFromNetwork();
+            if (HTTPHelper.isNetworkEnabled(this)) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        loadMovieReviewsFromNetwork();
+                        loadMovieTrailersFromNetwork();
+                    }
+                }, LAZY_LOAD_DELAY_IN_MS);
+            } else {
+                showReviewsErrorMessage();
+            }
         }
     }
 
@@ -198,7 +209,12 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
             showMovieDetails();
         } else {
             mFavored = false;
-            loadMovieDetailsFromNetwork();
+            if (HTTPHelper.isNetworkEnabled(this)) {
+                loadMovieDetailsFromNetwork();
+            } else {
+                DisplayUtils.setNoNetworkConnectionMessage(this, mBinding.tvErrorMessageDisplay);
+                showErrorMessage();
+            }
         }
     }
 
@@ -217,9 +233,12 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                 break;
             case MOVIE_REVIEWS_LOADER_ID:
                 ReviewsResult reviewsResult = (s == null) ? null : gson.fromJson(s, ReviewsResult.class);
-                if (reviewsResult != null && reviewsResult.getResults() != null) {
+                if (reviewsResult != null && reviewsResult.getResults() != null && reviewsResult.getResults().size() > 0) {
                     List<Review> reviewList = reviewsResult.getResults();
                     mMovieReviewsAdapter.setReviewList(reviewList);
+                    showReviews();
+                } else {
+                    showReviewsErrorMessage();
                 }
                 break;
             case MOVIE_TRAILERS_LOADER_ID:
@@ -338,6 +357,24 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     /**
+     * Shows MovieDetailLayout, Hides ProgressBar and ErrorMessage
+     */
+    private void showReviews() {
+        mBinding.layoutUserReviews.rvUserReviews.setVisibility(View.VISIBLE);
+        mBinding.layoutUserReviews.pbUserReviews.setVisibility(View.INVISIBLE);
+        mBinding.layoutUserReviews.tvErrorMessageDisplay.setVisibility(View.INVISIBLE);
+    }
+
+    /**
+     * Shows ErrorMessage, Hides ProgressBar and MovieDetailLayout
+     */
+    private void showReviewsErrorMessage() {
+        mBinding.layoutUserReviews.tvErrorMessageDisplay.setVisibility(View.VISIBLE);
+        mBinding.layoutUserReviews.pbUserReviews.setVisibility(View.INVISIBLE);
+        mBinding.layoutUserReviews.rvUserReviews.setVisibility(View.INVISIBLE);
+    }
+
+    /**
      * Based on the screen size and orientation scales the parent image layouts.
      */
     private void adjustImageLayouts() {
@@ -413,7 +450,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
     private MovieDetail fromCursor(Cursor cursor) {
         MovieDetail movieDetail = null;
-        if(cursor.moveToFirst()) {
+        if (cursor.moveToFirst()) {
             movieDetail = new MovieDetail();
             movieDetail.setId(cursor.getLong(cursor.getColumnIndex(COLUMN_MOVIE_ID)));
             movieDetail.setTitle(cursor.getString(cursor.getColumnIndex(COLUMN_TITLE)));

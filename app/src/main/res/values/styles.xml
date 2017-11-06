@@ -35,11 +35,14 @@
         <item name="android:textSize">@dimen/font_size_subheading</item>
     </style>
 
-    <style name="CaptionItalic">
+    <style name="Caption">
         <item name="android:textSize">@dimen/font_size_caption</item>
-        <item name="android:textStyle">italic</item>
         <item name="android:fontFamily">sans-serif</item>
-        <item name="android:textColor">@color/textColorAlternate</item>
+        <item name="android:textColor">@color/textColorDark</item>
+    </style>
+
+    <style name="CaptionItalic" parent="Caption">
+        <item name="android:textStyle">italic</item>
     </style>
 
     <style name="Body">

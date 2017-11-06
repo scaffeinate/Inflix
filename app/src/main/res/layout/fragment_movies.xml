@@ -15,11 +15,10 @@
 
         <TextView
             android:id="@+id/tv_error_message_display"
-            style="@style/Base.TextAppearance.AppCompat.Title"
+            style="@style/Caption"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:fontFamily="sans-serif"
             android:gravity="center"
             android:text="@string/no_movies_found_error_message"
             android:visibility="invisible" />
