@@ -15,7 +15,7 @@ import android.support.v4.content.Loader;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.RecyclerView.LayoutManager;
 import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -40,22 +40,30 @@ import dev.learn.movies.app.popular_movies.common.VideosResult;
 import dev.learn.movies.app.popular_movies.data.DataContract.FavoriteEntry;
 import dev.learn.movies.app.popular_movies.databinding.ActivityDetailBinding;
 import dev.learn.movies.app.popular_movies.loaders.ContentLoader;
-import dev.learn.movies.app.popular_movies.loaders.ContentLoaderCallback;
 import dev.learn.movies.app.popular_movies.loaders.NetworkLoader;
-import dev.learn.movies.app.popular_movies.loaders.NetworkLoaderCallback;
 import dev.learn.movies.app.popular_movies.util.DisplayUtils;
 import dev.learn.movies.app.popular_movies.util.HTTPHelper;
 
+import static dev.learn.movies.app.popular_movies.data.DataContract.FavoriteEntry.COLUMN_BACKDROP_PATH;
+import static dev.learn.movies.app.popular_movies.data.DataContract.FavoriteEntry.COLUMN_GENRES;
+import static dev.learn.movies.app.popular_movies.data.DataContract.FavoriteEntry.COLUMN_MOVIE_ID;
+import static dev.learn.movies.app.popular_movies.data.DataContract.FavoriteEntry.COLUMN_OVERVIEW;
+import static dev.learn.movies.app.popular_movies.data.DataContract.FavoriteEntry.COLUMN_POSTER_PATH;
+import static dev.learn.movies.app.popular_movies.data.DataContract.FavoriteEntry.COLUMN_RELEASE_DATE;
+import static dev.learn.movies.app.popular_movies.data.DataContract.FavoriteEntry.COLUMN_RUNTIME;
+import static dev.learn.movies.app.popular_movies.data.DataContract.FavoriteEntry.COLUMN_TAGLINE;
+import static dev.learn.movies.app.popular_movies.data.DataContract.FavoriteEntry.COLUMN_TITLE;
+import static dev.learn.movies.app.popular_movies.data.DataContract.FavoriteEntry.COLUMN_VOTE_AVG;
+import static dev.learn.movies.app.popular_movies.data.DataContract.FavoriteEntry.COLUMN_VOTE_COUNT;
 import static dev.learn.movies.app.popular_movies.loaders.ContentLoader.URI_EXTRA;
 
 /**
  * DetailActivity - To show the movie details
  */
 public class DetailActivity extends AppCompatActivity implements View.OnClickListener,
-        NetworkLoaderCallback, ContentLoaderCallback {
+        NetworkLoader.NetworkLoaderCallback, ContentLoader.ContentLoaderCallback {
 
     public static final String MOVIE_ID = "movie_id";
-    public static final String MOVIE_NAME = "movie_name";
 
     private static final int MOVIE_DETAILS_LOADER_ID = 100;
     private static final int MOVIE_REVIEWS_LOADER_ID = 101;
@@ -63,17 +71,16 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     private static final int FAVORITE_LOADER_ID = 301;
 
     private final Gson gson = new Gson();
-    private String movieName = "";
     private long movieId = 0L;
     private MovieReviewsAdapter mMovieReviewsAdapter;
     private ActivityDetailBinding mBinding;
+    private Toast mFavToast;
 
     private NetworkLoader mNetworkLoader;
     private ContentLoader mContentLoader;
 
     private List<Video> mVideoList = null;
     private MovieDetail mMovieDetail = null;
-
     private boolean mFavored = false;
 
     @Override
@@ -82,59 +89,39 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_detail);
 
+        LayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        mVideoList = new ArrayList<>();
+        mMovieReviewsAdapter = new MovieReviewsAdapter();
         mNetworkLoader = new NetworkLoader(this, this);
         mContentLoader = new ContentLoader(this, this);
 
         setSupportActionBar(mBinding.toolbar);
         ActionBar mActionBar = getSupportActionBar();
-
-        // Show back button in ActionBar
         if (mActionBar != null) {
             mActionBar.setDisplayHomeAsUpEnabled(true);
             mActionBar.setDisplayShowTitleEnabled(false);
         }
 
-        mBinding.btnFav.setOnClickListener(this);
+        adjustImageLayouts();
 
+        mBinding.btnFav.setOnClickListener(this);
         mBinding.layoutUserReviews.rvUserReviews.setNestedScrollingEnabled(false);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mBinding.layoutUserReviews.rvUserReviews.setLayoutManager(layoutManager);
-        mMovieReviewsAdapter = new MovieReviewsAdapter();
         mBinding.layoutUserReviews.rvUserReviews.setAdapter(mMovieReviewsAdapter);
 
-        mVideoList = new ArrayList<>();
+        if (savedInstanceState != null) {
+            movieId = savedInstanceState.getLong(MOVIE_ID, 0);
+        } else if (getIntent().getExtras() != null) {
+            movieId = getIntent().getExtras().getLong(MOVIE_ID, 0);
+        }
 
-        /* If savedInstanceState is not null then fetch movieId and movieName
-         * Else try to get from Intent Bundle Extra
-         */
-        if (savedInstanceState == null) {
-            Intent intent = getIntent();
-            if (intent != null && intent.getExtras() != null) {
-                Bundle bundle = intent.getExtras();
-                movieId = bundle.getLong(MOVIE_ID, 0L);
-                movieName = bundle.getString(MOVIE_NAME, "");
-            }
+        if (movieId == 0) {
+            showErrorMessage();
         } else {
-            movieId = (savedInstanceState.containsKey(MOVIE_ID)) ? savedInstanceState.getLong(MOVIE_ID) : 0L;
-            movieName = (savedInstanceState.containsKey(MOVIE_NAME) ? savedInstanceState.getString(MOVIE_NAME) : "");
+            loadMovieDetailsFromDatabase();
+            loadMovieReviewsFromNetwork();
+            loadMovieTrailersFromNetwork();
         }
-
-        adjustImageLayouts();
-        if (movieId != 0) {
-            //Move this to onResume and reset the lists for reviews
-            fetchMovie();
-
-            Bundle args = new Bundle();
-            args.putParcelable(URI_EXTRA, FavoriteEntry.CONTENT_URI.buildUpon().appendPath(String.valueOf(movieId)).build());
-            getSupportLoaderManager().initLoader(FAVORITE_LOADER_ID, args, mContentLoader);
-        }
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putLong(MOVIE_ID, movieId);
-        outState.putString(MOVIE_NAME, movieName);
     }
 
     @Override
@@ -164,49 +151,59 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
+        String toastMessage;
+
         if (mFavored) {
             Uri uri = FavoriteEntry.CONTENT_URI.buildUpon().appendPath(String.valueOf(movieId)).build();
+            toastMessage = getResources().getString(R.string.removed_from_favorites);
             getContentResolver().delete(uri, null, null);
-            Toast.makeText(this, getResources().getString(R.string.removed_from_favorites), Toast.LENGTH_SHORT).show();
         } else {
             Uri uri = FavoriteEntry.CONTENT_URI;
-            ContentValues cv = getContentValues();
+            toastMessage = getResources().getString(R.string.added_to_favorites);
+            ContentValues cv = toContentValues(mMovieDetail);
             if (cv != null) {
                 getContentResolver().insert(uri, cv);
-                Toast.makeText(this, getResources().getString(R.string.added_to_favorites), Toast.LENGTH_SHORT).show();
             }
         }
+
         mFavored = !mFavored;
-        setFavored();
-    }
-
-    /**
-     * Overrides onLoadStarted() from NetworkLoaderCallback
-     */
-    @Override
-    public void onNetworkStartLoading() {
-        showProgressBar();
-    }
-
-    @Override
-    public void onContentStartLoading() {
-    }
-
-    @Override
-    public void onContentLoadFinished(Loader loader, Cursor cursor) {
-        if (cursor != null && cursor.getCount() > 0) {
-            mFavored = true;
+        if (mFavToast != null) {
+            mFavToast.cancel();
         }
-        setFavored();
+        mFavToast = Toast.makeText(this, toastMessage, Toast.LENGTH_SHORT);
+        mFavToast.show();
+        updateFavButton();
     }
 
-    /**
-     * Overrides onLoadFinished() from NetworkLoaderCallback
-     *
-     * @param s AsyncTask result String
-     */
     @Override
-    public void onNetworkLoadFinished(Loader loader, String s) {
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putLong(MOVIE_ID, movieId);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mFavToast != null) {
+            mFavToast.cancel();
+        }
+    }
+
+    @Override
+    public void onLoadFinished(Loader loader, Cursor cursor) {
+        if (cursor != null && cursor.moveToFirst()) {
+            mFavored = true;
+            mMovieDetail = fromCursor(cursor);
+            loadDataIntoView(mMovieDetail);
+            showMovieDetails();
+        } else {
+            mFavored = false;
+            loadMovieDetailsFromNetwork();
+        }
+    }
+
+    @Override
+    public void onLoadFinished(Loader loader, String s) {
         switch (loader.getId()) {
             case MOVIE_DETAILS_LOADER_ID:
                 MovieDetail movieDetail = (s == null) ? null : gson.fromJson(s, MovieDetail.class);
@@ -214,68 +211,52 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                     showErrorMessage();
                 } else {
                     mMovieDetail = movieDetail;
-                    loadIntoView(movieDetail);
+                    loadDataIntoView(movieDetail);
                     showMovieDetails();
                 }
                 break;
             case MOVIE_REVIEWS_LOADER_ID:
                 ReviewsResult reviewsResult = (s == null) ? null : gson.fromJson(s, ReviewsResult.class);
-                if (reviewsResult == null || reviewsResult.getResults() == null) {
-                    showErrorMessage();
-                } else {
+                if (reviewsResult != null && reviewsResult.getResults() != null) {
                     List<Review> reviewList = reviewsResult.getResults();
                     mMovieReviewsAdapter.setReviewList(reviewList);
                 }
                 break;
             case MOVIE_TRAILERS_LOADER_ID:
                 VideosResult videosResult = (s == null) ? null : gson.fromJson(s, VideosResult.class);
-                if (videosResult == null || videosResult.getVideos() == null) {
-                    showErrorMessage();
-                } else {
+                if (videosResult != null && videosResult.getVideos() != null) {
                     mVideoList = videosResult.getVideos();
                 }
                 break;
         }
     }
 
-    private void setFavored() {
-        mBinding.btnFav.setImageResource(mFavored ? R.drawable.ic_heart_white_24dp : R.drawable.ic_heart_outline_white_24dp);
+    private void loadMovieDetailsFromDatabase() {
+        Bundle args = new Bundle();
+        Uri uri = FavoriteEntry.CONTENT_URI.buildUpon().appendPath(String.valueOf(movieId)).build();
+        args.putParcelable(URI_EXTRA, uri);
+        getSupportLoaderManager().restartLoader(FAVORITE_LOADER_ID, args, mContentLoader);
     }
 
-    /**
-     * Fetches movie details using the NetworkLoader if Network connection is present.
-     * Otherwise shows an error message.
-     */
-    private void fetchMovie() {
-        if (HTTPHelper.isNetworkEnabled(this)) {
-            loadMovieDetails();
-            loadMovieReviews();
-            loadMovieTrailers();
-        } else {
-            DisplayUtils.setNoNetworkConnectionMessage(this, mBinding.tvErrorMessageDisplay);
-            showErrorMessage();
-        }
-    }
-
-    private void loadMovieDetails() {
+    private void loadMovieDetailsFromNetwork() {
         URL url = HTTPHelper.buildMovieDetailsURL(String.valueOf(movieId));
         Bundle args = new Bundle();
         args.putSerializable(NetworkLoader.URL_EXTRA, url);
-        getSupportLoaderManager().initLoader(MOVIE_DETAILS_LOADER_ID, args, mNetworkLoader);
+        getSupportLoaderManager().restartLoader(MOVIE_DETAILS_LOADER_ID, args, mNetworkLoader);
     }
 
-    private void loadMovieReviews() {
+    private void loadMovieReviewsFromNetwork() {
         URL url = HTTPHelper.buildMovieReviewsURL(String.valueOf(movieId));
         Bundle args = new Bundle();
         args.putSerializable(NetworkLoader.URL_EXTRA, url);
-        getSupportLoaderManager().initLoader(MOVIE_REVIEWS_LOADER_ID, args, mNetworkLoader);
+        getSupportLoaderManager().restartLoader(MOVIE_REVIEWS_LOADER_ID, args, mNetworkLoader);
     }
 
-    private void loadMovieTrailers() {
+    private void loadMovieTrailersFromNetwork() {
         URL url = HTTPHelper.buildMovieTrailersURL(String.valueOf(movieId));
         Bundle args = new Bundle();
         args.putSerializable(NetworkLoader.URL_EXTRA, url);
-        getSupportLoaderManager().initLoader(MOVIE_TRAILERS_LOADER_ID, args, mNetworkLoader);
+        getSupportLoaderManager().restartLoader(MOVIE_TRAILERS_LOADER_ID, args, mNetworkLoader);
     }
 
     /**
@@ -283,7 +264,8 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
      *
      * @param movieDetail MovieDetail Bean
      */
-    private void loadIntoView(MovieDetail movieDetail) {
+    private void loadDataIntoView(MovieDetail movieDetail) {
+        if (movieDetail == null) return;
         int year = DisplayUtils.getYear(movieDetail.getReleaseDate());
         double voteAverage = movieDetail.getVoteAverage();
         String backdropURL = movieDetail.getBackdropPath();
@@ -323,16 +305,16 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         if (moviePlot != null && !moviePlot.isEmpty()) {
             mBinding.layoutContent.tvMoviePlot.setText(moviePlot);
         }
+
+        updateFavButton();
     }
 
-    /**
-     * Shows ProgressBar, Hides ErrorMessage and MovieDetailLayout
-     */
-    private void showProgressBar() {
-        mBinding.pbLoadingIndicator.setVisibility(View.VISIBLE);
-        mBinding.tvErrorMessageDisplay.setVisibility(View.INVISIBLE);
-        mBinding.layoutMovieDetail.setVisibility(View.INVISIBLE);
-        mBinding.btnFav.setVisibility(View.INVISIBLE);
+    private void updateFavButton() {
+        if (mFavored) {
+            mBinding.btnFav.setImageResource(R.drawable.ic_heart_white_24dp);
+        } else {
+            mBinding.btnFav.setImageResource(R.drawable.ic_heart_outline_white_24dp);
+        }
     }
 
     /**
@@ -403,29 +385,54 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-    private ContentValues getContentValues() {
+    private ContentValues toContentValues(MovieDetail movieDetail) {
         ContentValues cv = null;
-        if (mMovieDetail != null) {
+        if (movieDetail != null) {
             cv = new ContentValues();
-            cv.put(FavoriteEntry.COLUMN_MOVIE_ID, mMovieDetail.getId());
-            cv.put(FavoriteEntry.COLUMN_TITLE, mMovieDetail.getTitle());
-            cv.put(FavoriteEntry.COLUMN_TAGLINE, mMovieDetail.getTagline());
-            cv.put(FavoriteEntry.COLUMN_OVERVIEW, mMovieDetail.getOverview());
-            cv.put(FavoriteEntry.COLUMN_POSTER_PATH, mMovieDetail.getPosterPath());
-            cv.put(FavoriteEntry.COLUMN_BACKDROP_PATH, mMovieDetail.getBackdropPath());
-            cv.put(FavoriteEntry.COLUMN_RELEASE_DATE, mMovieDetail.getReleaseDate());
-            cv.put(FavoriteEntry.COLUMN_RUNTIME, mMovieDetail.getRuntime());
-            cv.put(FavoriteEntry.COLUMN_VOTE_AVG, mMovieDetail.getVoteAverage());
-            cv.put(FavoriteEntry.COLUMN_VOTE_COUNT, mMovieDetail.getVoteCount());
+            cv.put(COLUMN_MOVIE_ID, movieDetail.getId());
+            cv.put(COLUMN_TITLE, movieDetail.getTitle());
+            cv.put(COLUMN_TAGLINE, movieDetail.getTagline());
+            cv.put(COLUMN_OVERVIEW, movieDetail.getOverview());
+            cv.put(COLUMN_POSTER_PATH, movieDetail.getPosterPath());
+            cv.put(COLUMN_BACKDROP_PATH, movieDetail.getBackdropPath());
+            cv.put(COLUMN_RELEASE_DATE, movieDetail.getReleaseDate());
+            cv.put(COLUMN_RUNTIME, movieDetail.getRuntime());
+            cv.put(COLUMN_VOTE_AVG, movieDetail.getVoteAverage());
+            cv.put(COLUMN_VOTE_COUNT, movieDetail.getVoteCount());
             StringBuilder builder = new StringBuilder();
-            List<Genre> genres = mMovieDetail.getGenres();
-            if (genres != null && !genres.isEmpty()) {
-                for (Genre genre : genres) {
+            List<Genre> genreList = movieDetail.getGenres();
+            if (genreList != null && !genreList.isEmpty()) {
+                for (Genre genre : genreList) {
                     builder.append(genre.getName()).append(",");
                 }
             }
-            cv.put(FavoriteEntry.COLUMN_GENRES, builder.toString());
+            cv.put(COLUMN_GENRES, builder.toString());
         }
         return cv;
+    }
+
+    private MovieDetail fromCursor(Cursor cursor) {
+        MovieDetail movieDetail = null;
+        if(cursor.moveToFirst()) {
+            movieDetail = new MovieDetail();
+            movieDetail.setId(cursor.getLong(cursor.getColumnIndex(COLUMN_MOVIE_ID)));
+            movieDetail.setTitle(cursor.getString(cursor.getColumnIndex(COLUMN_TITLE)));
+            movieDetail.setTagline(cursor.getString(cursor.getColumnIndex(COLUMN_TAGLINE)));
+            movieDetail.setOverview(cursor.getString(cursor.getColumnIndex(COLUMN_OVERVIEW)));
+            movieDetail.setPosterPath(cursor.getString(cursor.getColumnIndex(COLUMN_POSTER_PATH)));
+            movieDetail.setBackdropPath(cursor.getString(cursor.getColumnIndex(COLUMN_BACKDROP_PATH)));
+            movieDetail.setReleaseDate(cursor.getString(cursor.getColumnIndex(COLUMN_RELEASE_DATE)));
+            movieDetail.setRuntime(cursor.getLong(cursor.getColumnIndex(COLUMN_RUNTIME)));
+            movieDetail.setVoteAverage(cursor.getDouble(cursor.getColumnIndex(COLUMN_VOTE_AVG)));
+            movieDetail.setVoteCount(cursor.getLong(cursor.getColumnIndex(COLUMN_VOTE_COUNT)));
+            String genresStr = cursor.getString(cursor.getColumnIndex(COLUMN_GENRES));
+            List<Genre> genreList = new ArrayList<>();
+            String[] genresArr = genresStr.split(",");
+            for (String genre : genresArr) {
+                genreList.add(new Genre(0, genre));
+            }
+            movieDetail.setGenres(genreList);
+        }
+        return movieDetail;
     }
 }
