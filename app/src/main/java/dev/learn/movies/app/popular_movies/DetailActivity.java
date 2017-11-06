@@ -2,6 +2,7 @@ package dev.learn.movies.app.popular_movies;
 
 import android.content.ActivityNotFoundException;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.databinding.DataBindingUtil;
@@ -42,6 +43,7 @@ import dev.learn.movies.app.popular_movies.data.DataContract.FavoriteEntry;
 import dev.learn.movies.app.popular_movies.databinding.ActivityDetailBinding;
 import dev.learn.movies.app.popular_movies.loaders.ContentLoader;
 import dev.learn.movies.app.popular_movies.loaders.NetworkLoader;
+import dev.learn.movies.app.popular_movies.util.DialogBuilderHelper;
 import dev.learn.movies.app.popular_movies.util.DisplayUtils;
 import dev.learn.movies.app.popular_movies.util.HTTPHelper;
 
@@ -147,13 +149,30 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         switch (item.getItemId()) {
             case R.id.action_share:
                 if (mVideoList != null && !mVideoList.isEmpty()) {
-                    Video video = mVideoList.get(0);
-                    shareVideo(video);
+                    List<String> values = new ArrayList<>();
+                    for (Video video : mVideoList) {
+                        values.add(video.getName());
+                    }
+                    DialogBuilderHelper.build(this, "Share Trailer", values, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            shareVideo(mVideoList.get(which));
+                        }
+                    });
                 }
                 return true;
             case R.id.action_watch_trailer:
                 if (mVideoList != null && !mVideoList.isEmpty()) {
-                    watchVideo(mVideoList.get(0));
+                    List<String> values = new ArrayList<>();
+                    for (Video video : mVideoList) {
+                        values.add(video.getName());
+                    }
+                    DialogBuilderHelper.build(this, "Watch Trailer", values, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            watchVideo(mVideoList.get(which));
+                        }
+                    });
                 }
                 return true;
         }
