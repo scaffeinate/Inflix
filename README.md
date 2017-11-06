@@ -7,7 +7,7 @@ Popular Movies App for the  Udacity Android Nanodegree Program.
 This is based on TheMovieDB API. Please obtain an api key from tmdb and add **API_KEY=<YOUR_API_KEY>** to the gradle.properties(Create one if it doesn't exist already) file.
 
 ### V2 TODO:
-- Add a video button to watch movie trailer.
+- ~~Add a video button to watch movie trailer.~~
 - ~~Add a Fav button.~~
 - ~~Add a section for Reviews.~~
 - ~~Add a dropdown for Favorites.~~
