@@ -25,11 +25,9 @@ public class NetworkLoader implements LoaderManager.LoaderCallbacks<String> {
     private static final String TAG = NetworkLoader.class.getSimpleName();
 
     public static final String URL_EXTRA = "url_extra";
-    public static final String SHOULD_CALL_LOAD_STARTED_EXTRA = "should_call_load_started_extra";
 
     private final Context mContext;
     private final NetworkLoaderCallback mCallback;
-    private boolean mShouldCallOnLoadStarted = true;
 
     public NetworkLoader(Context context, NetworkLoaderCallback callback) {
         this.mContext = context;
@@ -46,9 +44,6 @@ public class NetworkLoader implements LoaderManager.LoaderCallbacks<String> {
             protected void onStartLoading() {
                 if (args == null) return;
                 if (mResponse == null) {
-                    if (mShouldCallOnLoadStarted) {
-                        mCallback.onNetworkStartLoading();
-                    }
                     forceLoad();
                 } else {
                     deliverResult(mResponse);
@@ -59,7 +54,6 @@ public class NetworkLoader implements LoaderManager.LoaderCallbacks<String> {
             @Override
             public String loadInBackground() {
                 URL url = (java.net.URL) args.getSerializable(URL_EXTRA);
-                mShouldCallOnLoadStarted = args.getBoolean(SHOULD_CALL_LOAD_STARTED_EXTRA, true);
                 if (url != null) {
                     try {
                         Log.i(TAG, "Requesting Data From: " + url.toString());
@@ -81,11 +75,15 @@ public class NetworkLoader implements LoaderManager.LoaderCallbacks<String> {
 
     @Override
     public void onLoadFinished(Loader<String> loader, String data) {
-        mCallback.onNetworkLoadFinished(loader, data);
+        mCallback.onLoadFinished(loader, data);
     }
 
     @Override
     public void onLoaderReset(Loader<String> loader) {
 
+    }
+
+    public interface NetworkLoaderCallback {
+        void onLoadFinished(Loader loader, String s);
     }
 }

@@ -30,14 +30,8 @@ public class ContentLoader implements LoaderManager.LoaderCallbacks<Cursor> {
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         Uri uri = (args == null) ? null : (Uri) args.getParcelable(URI_EXTRA);
         Log.i(TAG, "Fetching content from uri: " + uri);
-        if(uri != null) {
-            return new CursorLoader(mContext, uri, null, null, null, null) {
-                @Override
-                protected void onStartLoading() {
-                    super.onStartLoading();
-                    mCallback.onContentStartLoading();
-                }
-            };
+        if (uri != null) {
+            return new CursorLoader(mContext, uri, null, null, null, null);
         }
 
         return null;
@@ -46,12 +40,16 @@ public class ContentLoader implements LoaderManager.LoaderCallbacks<Cursor> {
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if (mCallback != null) {
-            mCallback.onContentLoadFinished(loader, data);
+            mCallback.onLoadFinished(loader, data);
         }
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
 
+    }
+
+    public interface ContentLoaderCallback {
+        void onLoadFinished(Loader loader, Cursor cursor);
     }
 }
