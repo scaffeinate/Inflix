@@ -15,10 +15,10 @@ This is based on TheMovieDB API. Please obtain an api key from tmdb and add **AP
 - ~~Replace AsyncTask with Loaders.~~
 - ~~Build a Content Provider and Db Contract.~~
 - ~~Offline load Favorites.~~
-- Reuse common styles/themes.
-- Store the movie details too in Db. Cache the images.
+- ~~Reuse common styles/themes.~~
+- ~~Store the movie details too in Db. Cache the images.~~
 - ~~Add a share link for the movie trailer.~~
-- Add View Binding.
+- ~~Add View Binding.~~
 
 ### V1:
 - Present the user with a grid arrangement of movie posters upon launch.
