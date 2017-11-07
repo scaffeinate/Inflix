@@ -105,7 +105,7 @@ public final class DisplayUtils {
      */
     public static String formatTagline(Context context, String tagline) {
         if (tagline == null || tagline.isEmpty()) {
-            tagline = context.getString(R.string.no_tagline_available);
+            tagline = context.getString(R.string.no_tagline_error_message);
         }
         return "\"" + tagline + "\"";
     }
@@ -117,7 +117,7 @@ public final class DisplayUtils {
      * @param errorTextView View to which the setText is called
      */
     public static void setNoNetworkConnectionMessage(Context context, TextView errorTextView) {
-        String errorMessaage = context.getResources().getString(R.string.no_network_connection);
+        String errorMessaage = context.getResources().getString(R.string.no_network_connection_error_message);
         errorTextView.setText(errorMessaage);
     }
 }

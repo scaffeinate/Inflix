@@ -29,7 +29,7 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_movie_synopsis_title"
-            tools:text="@string/no_tagline_available" />
+            tools:text="@string/no_tagline_error_message" />
 
         <TextView
             android:id="@+id/tv_movie_plot_title"

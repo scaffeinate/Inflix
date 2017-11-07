@@ -1,28 +1,30 @@
 <resources>
     <string name="app_name">Popular Movies</string>
 
-    <string name="no_movies_found_error_message">No Movies Found.</string>
-    <string name="movie_info_not_found_error_message">Movie info not found.</string>
-    <string name="no_movie_reviews_error_message">No Reviews Found.</string>
+    <string name="no_movies_found_error_message">No movies found.</string>
+    <string name="couldnt_load_movie_info_error_message">Couldn\'t load movie info :(</string>
+    <string name="no_user_reviews_error_message">No user reviews.</string>
+    <string name="no_network_connection_error_message">No network connection :(</string>
+    <string name="no_tagline_error_message">No Tagline.</string>
 
     <string name="discover">Discover</string>
     <string name="most_popular">Most Popular</string>
     <string name="top_rated">Top Rated</string>
     <string name="favorites">Favorites</string>
-    <string name="placeholder_image">Placeholder when image load fails.</string>
-    <string name="backdrop_image">Backdrop Image in activity_detail</string>
-    <string name="poster_image">Poster Image shown in activity_detail and ImageGrid</string>
+
     <string name="watch_trailer">Watch Trailer</string>
     <string name="plot">Plot</string>
     <string name="tagline">Tagline</string>
-    <string name="no_tagline_available">No Tagline available.</string>
     <string name="user_reviews">User Reviews</string>
     <string name="genres">Genres</string>
-    <string name="no_network_connection">No network connection :(</string>
     <string name="trailer_1">Trailer 1</string>
     <string name="added_to_favorites">Added to Favorites</string>
     <string name="removed_from_favorites">Removed from Favorites</string>
     <string name="out_of_10">/10</string>
+
+    <string name="placeholder_image">Placeholder when image load fails.</string>
+    <string name="backdrop_image">Backdrop Image in activity_detail</string>
+    <string name="poster_image">Poster Image shown in activity_detail and ImageGrid</string>
 
 
     <string name="hundred_min">100 min</string>

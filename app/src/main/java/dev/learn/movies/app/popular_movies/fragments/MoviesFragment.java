@@ -174,8 +174,14 @@ public class MoviesFragment extends Fragment implements NetworkLoader.NetworkLoa
             getActivity().getSupportLoaderManager().restartLoader(MOVIES_LOADER_ID, args, mNetworkLoader);
 
         } else {
-            DisplayUtils.setNoNetworkConnectionMessage(mContext, mBinding.tvErrorMessageDisplay);
-            showErrorMessage();
+            if(page == 1) {
+                DisplayUtils.setNoNetworkConnectionMessage(mContext, mBinding.tvErrorMessageDisplay);
+                showErrorMessage();
+            } else {
+                Toast.makeText(mContext, getResources().getString(R.string.no_network_connection_error_message), Toast.LENGTH_SHORT).show();
+                mAdapter.showLoading(false);
+                mAdapter.notifyDataSetChanged();
+            }
         }
     }
 

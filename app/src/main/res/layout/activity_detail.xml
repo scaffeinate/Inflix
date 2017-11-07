@@ -104,7 +104,7 @@
                     android:layout_marginTop="@dimen/activity_detail_margin_top"
                     android:fontFamily="sans-serif"
                     android:gravity="center"
-                    android:text="@string/movie_info_not_found_error_message"
+                    android:text="@string/couldnt_load_movie_info_error_message"
                     android:visibility="invisible" />
 
                 <ProgressBar
