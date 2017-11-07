@@ -22,8 +22,8 @@ import static dev.learn.movies.app.popular_movies.data.DataContract.FavoriteEntr
 
 public class FavoriteContentProvider extends ContentProvider {
 
-    protected static final int FAVORITES = 100;
-    protected static final int FAVORITE_WITH_MOVIE_ID = 101;
+    private static final int FAVORITES = 100;
+    private static final int FAVORITE_WITH_MOVIE_ID = 101;
 
     private static final UriMatcher sUriMatcher = builderUriMatcher();
 

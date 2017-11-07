@@ -318,12 +318,12 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
         if (backdropURL != null) {
             Uri backdropUri = HTTPHelper.buildImageResourceUri(backdropURL, HTTPHelper.IMAGE_SIZE_XLARGE);
-            DisplayUtils.fitImageInto(mBinding.imageViewBackdrop, backdropUri, null);
+            DisplayUtils.fitImageInto(mBinding.imageViewBackdrop, backdropUri);
         }
 
         if (posterURL != null) {
             Uri posterUri = HTTPHelper.buildImageResourceUri(posterURL, HTTPHelper.IMAGE_SIZE_SMALL);
-            DisplayUtils.fitImageInto(mBinding.layoutMovieInfo.layoutPoster.imageViewPoster, posterUri, null);
+            DisplayUtils.fitImageInto(mBinding.layoutMovieInfo.layoutPoster.imageViewPoster, posterUri);
         }
 
         mBinding.layoutMovieInfo.tvMovieTitle.setText(DisplayUtils.formatTitle(title, year));

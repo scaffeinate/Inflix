@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
@@ -34,12 +33,11 @@ public final class DisplayUtils {
      *
      * @param imageView ImageView to populate
      * @param uri       URI of the image
-     * @param callback  Picasso callback override
      */
-    public static void fitImageInto(ImageView imageView, Uri uri, Callback callback) {
+    public static void fitImageInto(ImageView imageView, Uri uri) {
         Picasso.with(imageView.getContext()).load(uri)
                 .fit().centerCrop()
-                .into(imageView, callback);
+                .into(imageView);
     }
 
     /**
@@ -85,12 +83,12 @@ public final class DisplayUtils {
      * Formats genres using a pipe separator
      *
      * @param genres List of Genres
-     * @return Genres separated by a pipe separator
+     *               return Genres separated by a pipe separator
      */
     public static void addGenres(List<Genre> genres, ViewGroup parent, Context context) {
         if (genres != null && !genres.isEmpty()) {
             for (int i = 0; i < genres.size(); i++) {
-                TextView tagView = (TextView) LayoutInflater.from(context).inflate(R.layout.layout_tag, null);
+                TextView tagView = (TextView) LayoutInflater.from(context).inflate(R.layout.layout_tag, parent, false);
                 tagView.setText(genres.get(i).getName());
                 parent.addView(tagView);
             }

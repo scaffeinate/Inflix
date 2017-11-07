@@ -15,13 +15,13 @@ public abstract class EndlessRecyclerViewScrollListener extends RecyclerView.OnS
 
     private int mCurrentPage = 1;
 
-    private int mStartingPage = 1;
+    private static final int mStartingPage = 1;
 
     private int mCurrentNumberOfItems = 1;
 
     private boolean isLoading = true;
 
-    RecyclerView.LayoutManager mLayoutManager;
+    private final RecyclerView.LayoutManager mLayoutManager;
 
     public EndlessRecyclerViewScrollListener(RecyclerView.LayoutManager layoutManager) {
         this.mLayoutManager = layoutManager;
@@ -38,10 +38,10 @@ public abstract class EndlessRecyclerViewScrollListener extends RecyclerView.OnS
         int lastVisiblePosition = 0;
         int itemCount = mLayoutManager.getItemCount();
 
-        if (mLayoutManager instanceof LinearLayoutManager) {
-            lastVisiblePosition = ((LinearLayoutManager) mLayoutManager).findLastVisibleItemPosition();
-        } else if (mLayoutManager instanceof GridLayoutManager) {
+        if (mLayoutManager instanceof GridLayoutManager) {
             lastVisiblePosition = ((GridLayoutManager) mLayoutManager).findLastVisibleItemPosition();
+        } else if (mLayoutManager instanceof LinearLayoutManager) {
+            lastVisiblePosition = ((LinearLayoutManager) mLayoutManager).findLastVisibleItemPosition();
         }
 
         if (itemCount < mCurrentNumberOfItems) {
@@ -66,7 +66,7 @@ public abstract class EndlessRecyclerViewScrollListener extends RecyclerView.OnS
 
     public void reset() {
         mCurrentPage = mStartingPage;
-        mCurrentNumberOfItems = 0;
+        mCurrentNumberOfItems = 1;
         isLoading = true;
     }
 

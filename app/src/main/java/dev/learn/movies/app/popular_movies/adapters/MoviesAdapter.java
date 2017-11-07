@@ -107,7 +107,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<ViewHolder> {
             String posterURL;
             if (movie != null && (posterURL = movie.getPosterPath()) != null) {
                 Uri posterUri = HTTPHelper.buildImageResourceUri(posterURL, HTTPHelper.IMAGE_SIZE_MEDIUM);
-                DisplayUtils.fitImageInto(mPosterImageView, posterUri, null);
+                DisplayUtils.fitImageInto(mPosterImageView, posterUri);
             }
         }
 

@@ -38,9 +38,9 @@ public class LocalMoviesFragment extends Fragment implements ContentLoader.Conte
     private final static int FAVORITES_LOADER_ID = 300;
 
     private Context mContext;
-    private String mType;
+    private String mType = FAVORITES;
 
-    RecyclerView.LayoutManager mLayoutManager;
+    private RecyclerView.LayoutManager mLayoutManager;
     private FavoritesAdapter mAdapter;
     private Cursor mCursor;
 
@@ -71,7 +71,9 @@ public class LocalMoviesFragment extends Fragment implements ContentLoader.Conte
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_movies, container, false);
         View view = mBinding.getRoot();
 
-        mType = getArguments().getString(TYPE, FAVORITES);
+        if (getArguments() != null) {
+            mType = getArguments().getString(TYPE, FAVORITES);
+        }
 
         mBinding.recyclerViewMovies.setHasFixedSize(true);
         mBinding.recyclerViewMovies.setLayoutManager(mLayoutManager);
@@ -127,7 +129,9 @@ public class LocalMoviesFragment extends Fragment implements ContentLoader.Conte
             case FAVORITES:
                 Bundle args = new Bundle();
                 args.putParcelable(ContentLoader.URI_EXTRA, FavoriteEntry.CONTENT_URI);
-                getActivity().getSupportLoaderManager().restartLoader(FAVORITES_LOADER_ID, args, mContentLoader);
+                if (getActivity().getSupportLoaderManager() != null) {
+                    getActivity().getSupportLoaderManager().restartLoader(FAVORITES_LOADER_ID, args, mContentLoader);
+                }
                 break;
         }
     }

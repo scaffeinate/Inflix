@@ -49,11 +49,11 @@ public class MoviesFragment extends Fragment implements NetworkLoader.NetworkLoa
     private final static int GRID_COUNT = 2;
     private final static int MOVIES_LOADER_ID = 200;
 
-    private String mType;
+    private String mType = DISCOVER;
     private Context mContext;
     private final Gson gson = new Gson();
 
-    GridLayoutManager mLayoutManager;
+    private GridLayoutManager mLayoutManager;
     private MoviesAdapter mAdapter;
     private List<Movie> movieList;
 
@@ -101,7 +101,9 @@ public class MoviesFragment extends Fragment implements NetworkLoader.NetworkLoa
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_movies, container, false);
         View view = mBinding.getRoot();
 
-        mType = getArguments().getString(TYPE, DISCOVER);
+        if (getArguments() != null) {
+            mType = getArguments().getString(TYPE, DISCOVER);
+        }
 
         mBinding.recyclerViewMovies.setHasFixedSize(true);
         mBinding.recyclerViewMovies.setLayoutManager(mLayoutManager);
@@ -185,10 +187,12 @@ public class MoviesFragment extends Fragment implements NetworkLoader.NetworkLoa
 
             Bundle args = new Bundle();
             args.putSerializable(NetworkLoader.URL_EXTRA, url);
-            getActivity().getSupportLoaderManager().restartLoader(MOVIES_LOADER_ID, args, mNetworkLoader);
+            if (getActivity().getSupportLoaderManager() != null) {
+                getActivity().getSupportLoaderManager().restartLoader(MOVIES_LOADER_ID, args, mNetworkLoader);
+            }
 
         } else {
-            if(page == 1) {
+            if (page == 1) {
                 DisplayUtils.setNoNetworkConnectionMessage(mContext, mBinding.tvErrorMessageDisplay);
                 showErrorMessage();
             } else {

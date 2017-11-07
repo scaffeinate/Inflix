@@ -23,6 +23,8 @@
     <dimen name="item_user_review_card_padding">20dp</dimen>
     <dimen name="item_user_review_margin_top">10dp</dimen>
 
+    <dimen name="item_footer_loader_padding">12dp</dimen>
+
     <dimen name="font_size_display">32dp</dimen>
     <dimen name="font_size_title">20sp</dimen>
     <dimen name="font_size_subheading">18sp</dimen>

@@ -15,9 +15,9 @@ public class DataContract {
 
     public static final String AUTHORITY = "dev.learn.movies.app.popular_movies";
 
-    public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + AUTHORITY);
-
     public static final String FAVORITES_PATH = "favorites";
+
+    private static final Uri BASE_CONTENT_URI = Uri.parse("content://" + AUTHORITY);
 
     public static class FavoriteEntry implements BaseColumns {
 

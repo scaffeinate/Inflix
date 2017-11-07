@@ -20,7 +20,7 @@ import static dev.learn.movies.app.popular_movies.data.DataContract.FavoriteEntr
 
 public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.ViewHolder> {
 
-    private OnItemClickHandler mHandler;
+    private final OnItemClickHandler mHandler;
     private Cursor mCursor;
 
     public FavoritesAdapter(OnItemClickHandler onItemClickHandler) {
@@ -71,7 +71,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.View
             String posterURL = mCursor.getString(mCursor.getColumnIndex(COLUMN_POSTER_PATH));
             if (posterURL != null) {
                 Uri posterUri = HTTPHelper.buildImageResourceUri(posterURL, HTTPHelper.IMAGE_SIZE_MEDIUM);
-                DisplayUtils.fitImageInto(mPosterImageView, posterUri, null);
+                DisplayUtils.fitImageInto(mPosterImageView, posterUri);
             }
         }
 
