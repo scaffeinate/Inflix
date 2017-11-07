@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         boolean selected = super.onOptionsItemSelected(item);
-        Fragment fragment = null;
+        Fragment fragment;
 
         switch (item.getItemId()) {
             case R.id.action_discover:
@@ -88,6 +88,10 @@ public class MainActivity extends AppCompatActivity {
                 fragment = LocalMoviesFragment.newInstance(FAVORITES);
                 mTitle = getResources().getString(R.string.favorites);
                 selected = true;
+                break;
+            default:
+                mTitle = getResources().getString(R.string.discover);
+                fragment = MoviesFragment.newInstance(DISCOVER);
                 break;
         }
 
