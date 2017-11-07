@@ -22,10 +22,8 @@ import dev.learn.movies.app.popular_movies.util.HTTPHelper;
 
 public class NetworkLoader implements LoaderManager.LoaderCallbacks<String> {
 
-    private static final String TAG = NetworkLoader.class.getSimpleName();
-
     public static final String URL_EXTRA = "url_extra";
-
+    private static final String TAG = NetworkLoader.class.getSimpleName();
     private final Context mContext;
     private final NetworkLoaderCallback mCallback;
 

@@ -11,17 +11,12 @@ import static dev.learn.movies.app.popular_movies.util.AppConstants.ENDLESS_PAGI
  */
 public abstract class EndlessRecyclerViewScrollListener extends RecyclerView.OnScrollListener {
 
-    private int mVisibleThreshold = ENDLESS_PAGINATION_THRESHOLD;
-
-    private int mCurrentPage = 1;
-
     private static final int mStartingPage = 1;
-
-    private int mCurrentNumberOfItems = 1;
-
-    private boolean isLoading = true;
-
     private final RecyclerView.LayoutManager mLayoutManager;
+    private int mVisibleThreshold = ENDLESS_PAGINATION_THRESHOLD;
+    private int mCurrentPage = 1;
+    private int mCurrentNumberOfItems = 1;
+    private boolean isLoading = true;
 
     public EndlessRecyclerViewScrollListener(RecyclerView.LayoutManager layoutManager) {
         this.mLayoutManager = layoutManager;

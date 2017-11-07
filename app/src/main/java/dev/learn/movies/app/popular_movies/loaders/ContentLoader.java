@@ -15,9 +15,8 @@ import android.util.Log;
 
 public class ContentLoader implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    private static final String TAG = ContentLoader.class.getSimpleName();
     public static final String URI_EXTRA = "url_extra";
-
+    private static final String TAG = ContentLoader.class.getSimpleName();
     private final Context mContext;
     private final ContentLoaderCallback mCallback;
 

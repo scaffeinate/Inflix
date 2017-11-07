@@ -1,4 +1,3 @@
-
 package dev.learn.movies.app.popular_movies.common;
 
 import com.google.gson.annotations.Expose;

@@ -13,7 +13,8 @@ public class Genre {
     @Expose
     private String name;
 
-    public Genre() {}
+    public Genre() {
+    }
 
     public Genre(long id, String name) {
         this.id = id;

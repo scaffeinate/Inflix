@@ -12,51 +12,53 @@ import java.util.List;
 public class MovieDetail implements Parcelable {
 
 
+    public static final Creator<MovieDetail> CREATOR = new Creator<MovieDetail>() {
+        @Override
+        public MovieDetail createFromParcel(Parcel in) {
+            return new MovieDetail(in);
+        }
+
+        @Override
+        public MovieDetail[] newArray(int size) {
+            return new MovieDetail[size];
+        }
+    };
     @SerializedName("backdrop_path")
     @Expose
     private String backdropPath;
-
     @SerializedName("id")
     @Expose
     private long id;
-
     @SerializedName("overview")
     @Expose
     private String overview;
-
     @SerializedName("poster_path")
     @Expose
     private String posterPath;
-
     @SerializedName("release_date")
     @Expose
     private String releaseDate;
-
     @SerializedName("runtime")
     @Expose
     private long runtime;
-
     @SerializedName("tagline")
     @Expose
     private String tagline;
-
     @SerializedName("title")
     @Expose
     private String title;
-
     @SerializedName("vote_average")
     @Expose
     private double voteAverage;
-
     @SerializedName("vote_count")
     @Expose
     private long voteCount;
-
     @SerializedName("genres")
     @Expose
     private List<Genre> genres;
 
-    public MovieDetail() {}
+    public MovieDetail() {
+    }
 
     protected MovieDetail(Parcel in) {
         backdropPath = in.readString();
@@ -70,18 +72,6 @@ public class MovieDetail implements Parcelable {
         voteAverage = in.readDouble();
         voteCount = in.readLong();
     }
-
-    public static final Creator<MovieDetail> CREATOR = new Creator<MovieDetail>() {
-        @Override
-        public MovieDetail createFromParcel(Parcel in) {
-            return new MovieDetail(in);
-        }
-
-        @Override
-        public MovieDetail[] newArray(int size) {
-            return new MovieDetail[size];
-        }
-    };
 
     public String getBackdropPath() {
         return backdropPath;

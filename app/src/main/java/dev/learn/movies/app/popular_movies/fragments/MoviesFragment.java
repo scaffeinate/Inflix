@@ -48,10 +48,9 @@ import static dev.learn.movies.app.popular_movies.util.AppConstants.TOP_RATED;
 public class MoviesFragment extends Fragment implements NetworkLoader.NetworkLoaderCallback, OnItemClickHandler {
 
     private static final String TYPE = "type";
-
+    private final Gson gson = new Gson();
     private String mType = DISCOVER;
     private Context mContext;
-    private final Gson gson = new Gson();
     private int mGridCount = DEFAULT_GRID_COUNT;
 
     private GridLayoutManager mLayoutManager;

@@ -47,11 +47,6 @@ import dev.learn.movies.app.popular_movies.util.DialogBuilderHelper;
 import dev.learn.movies.app.popular_movies.util.DisplayUtils;
 import dev.learn.movies.app.popular_movies.util.HTTPHelper;
 
-import static dev.learn.movies.app.popular_movies.util.AppConstants.ACTIVITY_DETAIL_LAZY_LOAD_DELAY_IN_MS;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.FAVORITE_LOADER_ID;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.MOVIE_DETAILS_LOADER_ID;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.MOVIE_REVIEWS_LOADER_ID;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.MOVIE_TRAILERS_LOADER_ID;
 import static dev.learn.movies.app.popular_movies.data.DataContract.FavoriteEntry.COLUMN_BACKDROP_PATH;
 import static dev.learn.movies.app.popular_movies.data.DataContract.FavoriteEntry.COLUMN_GENRES;
 import static dev.learn.movies.app.popular_movies.data.DataContract.FavoriteEntry.COLUMN_MOVIE_ID;
@@ -64,6 +59,11 @@ import static dev.learn.movies.app.popular_movies.data.DataContract.FavoriteEntr
 import static dev.learn.movies.app.popular_movies.data.DataContract.FavoriteEntry.COLUMN_VOTE_AVG;
 import static dev.learn.movies.app.popular_movies.data.DataContract.FavoriteEntry.COLUMN_VOTE_COUNT;
 import static dev.learn.movies.app.popular_movies.loaders.ContentLoader.URI_EXTRA;
+import static dev.learn.movies.app.popular_movies.util.AppConstants.ACTIVITY_DETAIL_LAZY_LOAD_DELAY_IN_MS;
+import static dev.learn.movies.app.popular_movies.util.AppConstants.FAVORITE_LOADER_ID;
+import static dev.learn.movies.app.popular_movies.util.AppConstants.MOVIE_DETAILS_LOADER_ID;
+import static dev.learn.movies.app.popular_movies.util.AppConstants.MOVIE_REVIEWS_LOADER_ID;
+import static dev.learn.movies.app.popular_movies.util.AppConstants.MOVIE_TRAILERS_LOADER_ID;
 
 /**
  * DetailActivity - To show the movie details

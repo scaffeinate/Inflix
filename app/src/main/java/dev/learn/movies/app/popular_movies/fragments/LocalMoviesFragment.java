@@ -23,11 +23,11 @@ import dev.learn.movies.app.popular_movies.data.DataContract.FavoriteEntry;
 import dev.learn.movies.app.popular_movies.databinding.FragmentMoviesBinding;
 import dev.learn.movies.app.popular_movies.loaders.ContentLoader;
 
+import static dev.learn.movies.app.popular_movies.data.DataContract.FavoriteEntry.COLUMN_MOVIE_ID;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.DEFAULT_GRID_COUNT;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.FAVORITES;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.FAVORITES_LOADER_ID;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.TABLET_GRID_COUNT;
-import static dev.learn.movies.app.popular_movies.data.DataContract.FavoriteEntry.COLUMN_MOVIE_ID;
 
 /**
  * Created by sudharti on 11/5/17.
@@ -43,7 +43,6 @@ public class LocalMoviesFragment extends Fragment implements ContentLoader.Conte
     private RecyclerView.LayoutManager mLayoutManager;
     private FavoritesAdapter mAdapter;
     private Cursor mCursor;
-    private int mGridCount = DEFAULT_GRID_COUNT;
 
     private ContentLoader mContentLoader;
     private FragmentMoviesBinding mBinding;
@@ -64,7 +63,7 @@ public class LocalMoviesFragment extends Fragment implements ContentLoader.Conte
         mContext = getContext();
         mContentLoader = new ContentLoader(mContext, this);
         boolean isTablet = getResources().getBoolean(R.bool.is_tablet);
-        mGridCount = isTablet ? TABLET_GRID_COUNT : DEFAULT_GRID_COUNT;
+        int mGridCount = isTablet ? TABLET_GRID_COUNT : DEFAULT_GRID_COUNT;
         mLayoutManager = new GridLayoutManager(mContext, mGridCount);
     }
 
