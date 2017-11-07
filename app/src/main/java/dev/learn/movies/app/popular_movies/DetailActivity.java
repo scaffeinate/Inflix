@@ -415,14 +415,14 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     private void showReviews() {
         mBinding.layoutUserReviews.rvUserReviews.setVisibility(View.VISIBLE);
         mBinding.layoutUserReviews.pbUserReviews.setVisibility(View.INVISIBLE);
-        mBinding.layoutUserReviews.tvReviewsErrorMessageDisplay.setVisibility(View.INVISIBLE);
+        mBinding.layoutUserReviews.cvReviewsErrorMessage.setVisibility(View.INVISIBLE);
     }
 
     /**
      * Shows ErrorMessage, Hides ProgressBar and MovieDetailLayout
      */
     private void showReviewsErrorMessage() {
-        mBinding.layoutUserReviews.tvReviewsErrorMessageDisplay.setVisibility(View.VISIBLE);
+        mBinding.layoutUserReviews.cvReviewsErrorMessage.setVisibility(View.VISIBLE);
         mBinding.layoutUserReviews.pbUserReviews.setVisibility(View.INVISIBLE);
         mBinding.layoutUserReviews.rvUserReviews.setVisibility(View.INVISIBLE);
     }

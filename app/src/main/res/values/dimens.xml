@@ -19,6 +19,7 @@
     <dimen name="layout_content_tag_vertical_spacing">10dp</dimen>
 
     <dimen name="layout_user_reviews_field_margin_top">10dp</dimen>
+    <dimen name="layout_user_reviews_error_message_margin">20dp</dimen>
 
     <dimen name="item_user_review_card_elevation">5dp</dimen>
     <dimen name="item_user_review_card_padding">20dp</dimen>

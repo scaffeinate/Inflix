@@ -35,17 +35,25 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_user_reviews_title" />
 
-        <TextView
-            android:id="@+id/tv_reviews_error_message_display"
-            style="@style/Caption"
-            android:layout_width="wrap_content"
+        <android.support.v7.widget.CardView
+            android:id="@+id/cv_reviews_error_message"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/layout_user_reviews_field_margin_top"
-            android:gravity="center"
-            android:text="@string/no_user_reviews_error_message"
             android:visibility="invisible"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_user_reviews_title" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_user_reviews_title">
+
+            <TextView
+                android:id="@+id/tv_reviews_error_message_display"
+                style="@style/Caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/layout_user_reviews_error_message_margin"
+                android:gravity="center"
+                android:text="@string/no_user_reviews_error_message" />
+        </android.support.v7.widget.CardView>
     </android.support.constraint.ConstraintLayout>
 </layout>
