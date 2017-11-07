@@ -45,13 +45,13 @@ public class MoviesFragment extends Fragment implements NetworkLoader.NetworkLoa
 
     private static final String TYPE = "type";
 
-    private final static int START_PAGE = 1;
-    private final static int GRID_COUNT = 2;
-    private final static int MOVIES_LOADER_ID = 200;
+    private static final int START_PAGE = 1;
+    private static final int MOVIES_LOADER_ID = 200;
 
     private String mType = DISCOVER;
     private Context mContext;
     private final Gson gson = new Gson();
+    private int mGridCount = 2;
 
     private GridLayoutManager mLayoutManager;
     private MoviesAdapter mAdapter;
@@ -78,11 +78,16 @@ public class MoviesFragment extends Fragment implements NetworkLoader.NetworkLoa
         mContext = getContext();
         movieList = new ArrayList<>();
         mNetworkLoader = new NetworkLoader(mContext, this);
-        mLayoutManager = new GridLayoutManager(mContext, GRID_COUNT);
+        boolean isTablet = getResources().getBoolean(R.bool.is_tablet);
+        if (isTablet) {
+            mGridCount = 4;
+        }
+
+        mLayoutManager = new GridLayoutManager(mContext, mGridCount);
         mLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
-                return (position == mAdapter.getItemCount() - 1) ? GRID_COUNT : 1;
+                return (position == mAdapter.getItemCount() - 1) ? mGridCount : 1;
             }
         });
         mEndlessScollListener = new EndlessRecyclerViewScrollListener(mLayoutManager) {

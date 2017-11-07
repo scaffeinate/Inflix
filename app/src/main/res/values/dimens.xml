@@ -6,6 +6,7 @@
     <dimen name="activity_detail_padding">15dp</dimen>
     <dimen name="activity_detail_margin_top">30dp</dimen>
     <dimen name="actvity_detail_section_margin_top">20dp</dimen>
+    <dimen name="actvity_detail_section_margin_left">0dp</dimen>
 
     <dimen name="layout_movie_info_title_margin_left">15dp</dimen>
     <dimen name="layout_movie_info_field_margin_top">10dp</dimen>
