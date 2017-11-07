@@ -11,7 +11,7 @@ This is based on TheMovieDB API. Please obtain an api key from tmdb and add **AP
 - ~~Add a Fav button.~~
 - ~~Add a section for Reviews.~~
 - ~~Add a dropdown for Favorites.~~
-- Tablet Layout.
+- ~~Tablet Layout.~~
 - ~~Replace AsyncTask with Loaders.~~
 - ~~Build a Content Provider and Db Contract.~~
 - ~~Offline load Favorites.~~
