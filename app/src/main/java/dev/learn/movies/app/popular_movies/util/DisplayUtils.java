@@ -80,10 +80,9 @@ public final class DisplayUtils {
     }
 
     /**
-     * Formats genres using a pipe separator
+     * Creates TextViews for each genre and adds to the parent layout
      *
      * @param genres List of Genres
-     *               return Genres separated by a pipe separator
      */
     public static void addGenres(List<Genre> genres, ViewGroup parent, Context context) {
         if (genres != null && !genres.isEmpty()) {

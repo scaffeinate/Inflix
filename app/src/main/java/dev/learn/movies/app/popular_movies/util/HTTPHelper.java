@@ -105,7 +105,7 @@ public final class HTTPHelper {
     /**
      * Builds movie/top_rated URL
      *
-     * @return top_rated URL
+     * @return topRated URL
      */
     public static URL builTopRatedURL(int page) {
         Uri uri = new Uri.Builder()
@@ -130,7 +130,7 @@ public final class HTTPHelper {
      * Builds movie/{movieId} URL
      *
      * @param movieId Movie Id to fetch details for
-     * @return movie_detail URL
+     * @return movieDetail URL
      */
     public static URL buildMovieDetailsURL(String movieId) {
         Uri uri = new Uri.Builder()
@@ -152,6 +152,12 @@ public final class HTTPHelper {
         return null;
     }
 
+    /**
+     * Builds movie/{movieId}/reviews URL
+     *
+     * @param movieId Movie Id to fetch details for
+     * @return movieReviews URL
+     */
     public static URL buildMovieReviewsURL(String movieId) {
         Uri uri = new Uri.Builder()
                 .scheme(SCHEME)
@@ -173,6 +179,12 @@ public final class HTTPHelper {
         return null;
     }
 
+    /**
+     * Builds movie/{movieId}/videos URL
+     *
+     * @param movieId Movie Id to fetch details for
+     * @return movieTrailers URL
+     */
     public static URL buildMovieTrailersURL(String movieId) {
         Uri uri = new Uri.Builder()
                 .scheme(SCHEME)
@@ -194,6 +206,12 @@ public final class HTTPHelper {
         return null;
     }
 
+    /**
+     * Builds YouTube url given the key
+     *
+     * @param key YouTube video key
+     * @return youtubeURL
+     */
     public static URL buildYouTubeURL(String key) {
         Uri uri = new Uri.Builder()
                 .scheme(SCHEME)

@@ -15,9 +15,8 @@ import dev.learn.movies.app.popular_movies.util.HTTPHelper;
 import static dev.learn.movies.app.popular_movies.data.DataContract.FavoriteEntry.COLUMN_POSTER_PATH;
 
 /**
- * Created by sudharti on 11/5/17.
+ * FavoritesAdapter - RecyclerView Adapter for Movies
  */
-
 public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.ViewHolder> {
 
     private final OnItemClickHandler mHandler;
@@ -46,11 +45,19 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.View
         return (mCursor == null) ? 0 : mCursor.getCount();
     }
 
+    /**
+     * Swaps the current mCursor with cursor provided and calls notifyDataSetChanged()
+     *
+     * @param cursor Cursor
+     */
     public void swapCursor(Cursor cursor) {
         mCursor = cursor;
         notifyDataSetChanged();
     }
 
+    /**
+     * ViewHolder class to show item content
+     */
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private final ImageView mPosterImageView;

@@ -13,9 +13,8 @@ import dev.learn.movies.app.popular_movies.common.Review;
 import dev.learn.movies.app.popular_movies.databinding.ItemUserReviewBinding;
 
 /**
- * Created by sudharti on 11/4/17.
+ * MovieReviewsAdapter - RecyclerView Adapter for Movie reviews
  */
-
 public class MovieReviewsAdapter extends RecyclerView.Adapter<MovieReviewsAdapter.ViewHolder> {
 
     private List<Review> mReviewList;
@@ -41,11 +40,19 @@ public class MovieReviewsAdapter extends RecyclerView.Adapter<MovieReviewsAdapte
         holder.bind(position);
     }
 
+    /**
+     * Sets the reviewList
+     *
+     * @param reviewList reviewList
+     */
     public void setReviewList(List<Review> reviewList) {
         this.mReviewList = reviewList;
         notifyDataSetChanged();
     }
 
+    /**
+     * ViewHolder class to show review content
+     */
     class ViewHolder extends RecyclerView.ViewHolder {
         private final ItemUserReviewBinding mBinding;
 

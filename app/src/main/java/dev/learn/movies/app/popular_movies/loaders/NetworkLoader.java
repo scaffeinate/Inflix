@@ -14,12 +14,9 @@ import java.net.URL;
 import dev.learn.movies.app.popular_movies.util.HTTPHelper;
 
 /**
- * NetworkLoader - Generic AsyncTask to fetch results from URL. Returns the response string
- * <p>
- * AsyncTask as an inner class has an implicit reference to the outer Activity which causes memory leaks.
- * So declaring it as a standalone class and use callbacks to update UI.</p>
+ * NetworkLoader - Generic Loader class which implements LoaderCallbacks
+ * <p>Creates a new AsyncLoader when onCreateLoader() is called. Fetches data from a Network call.</p>
  */
-
 public class NetworkLoader implements LoaderManager.LoaderCallbacks<String> {
 
     public static final String URL_EXTRA = "url_extra";
@@ -78,9 +75,12 @@ public class NetworkLoader implements LoaderManager.LoaderCallbacks<String> {
 
     @Override
     public void onLoaderReset(Loader<String> loader) {
-
+        // Do nothing
     }
 
+    /**
+     * NetworkLoaderCallback - Callbacks to communicate back to the Activity/Fragment
+     */
     public interface NetworkLoaderCallback {
         void onLoadFinished(Loader loader, String s);
     }

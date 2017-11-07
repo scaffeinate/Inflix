@@ -4,9 +4,8 @@ import android.net.Uri;
 import android.provider.BaseColumns;
 
 /**
- * Created by sudharti on 11/4/17.
+ * DataContract
  */
-
 public class DataContract {
 
     public static final String DATABASE_NAME = "moviesDb";
@@ -19,6 +18,9 @@ public class DataContract {
 
     private static final Uri BASE_CONTENT_URI = Uri.parse("content://" + AUTHORITY);
 
+    /**
+     * FavoriteEntry class
+     */
     public static class FavoriteEntry implements BaseColumns {
 
         public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendPath(FAVORITES_PATH).build();

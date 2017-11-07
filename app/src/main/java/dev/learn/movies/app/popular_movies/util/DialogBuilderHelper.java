@@ -10,9 +10,8 @@ import java.util.List;
 import dev.learn.movies.app.popular_movies.R;
 
 /**
- * Created by sudharti on 11/6/17.
+ * DialogBuilderHelper - Contains helpers to build and show a dialog
  */
-
 public final class DialogBuilderHelper {
 
     public static void build(Context context, String title, List<String> list, Dialog.OnClickListener onClickListener) {

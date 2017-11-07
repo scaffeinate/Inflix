@@ -66,7 +66,7 @@ import static dev.learn.movies.app.popular_movies.util.AppConstants.MOVIE_REVIEW
 import static dev.learn.movies.app.popular_movies.util.AppConstants.MOVIE_TRAILERS_LOADER_ID;
 
 /**
- * DetailActivity - To show the movie details
+ * DetailActivity - Movie Details Screen
  */
 public class DetailActivity extends AppCompatActivity implements View.OnClickListener,
         NetworkLoader.NetworkLoaderCallback, ContentLoader.ContentLoaderCallback {
@@ -121,7 +121,9 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         if (movieId == 0) {
             showErrorMessage();
         } else {
-            loadMovieDetailsFromDatabase();
+            loadMovieDetailsFromDatabase(); //Check if the movieDetails are available from local
+
+            // If Network is available lazy load the reviews and trailers
             if (HTTPHelper.isNetworkEnabled(this)) {
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -218,8 +220,16 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
+    /**
+     * Implement onLoadFinished(Loader,Cursor) from ContentLoader.ContentLoaderCallback
+     *
+     * @param loader Loader instance
+     * @param cursor Cursor
+     */
     @Override
     public void onLoadFinished(Loader loader, Cursor cursor) {
+        // If movie details are stored locally then populate views
+        // Otherwise make an API call if the Network is available
         if (cursor != null && cursor.moveToFirst()) {
             mFavored = true;
             mMovieDetail = fromCursor(cursor);
@@ -236,10 +246,18 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
+    /**
+     * Implement onLoadFinished(Loader,Cursor) from NetworkLoader.NetworkLoaderCallback
+     *
+     * @param loader Loader instance
+     * @param s      Response string
+     */
     @Override
     public void onLoadFinished(Loader loader, String s) {
+        // Handle responses for the different loaderId calls
         switch (loader.getId()) {
             case MOVIE_DETAILS_LOADER_ID:
+                // Handle movie info
                 MovieDetail movieDetail = (s == null) ? null : gson.fromJson(s, MovieDetail.class);
                 if (movieDetail == null) {
                     showErrorMessage();
@@ -250,6 +268,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                 }
                 break;
             case MOVIE_REVIEWS_LOADER_ID:
+                // Handle reviews response
                 ReviewsResult reviewsResult = (s == null) ? null : gson.fromJson(s, ReviewsResult.class);
                 if (reviewsResult != null && reviewsResult.getResults() != null && reviewsResult.getResults().size() > 0) {
                     List<Review> reviewList = reviewsResult.getResults();
@@ -260,6 +279,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                 }
                 break;
             case MOVIE_TRAILERS_LOADER_ID:
+                // Handle videos response
                 VideosResult videosResult = (s == null) ? null : gson.fromJson(s, VideosResult.class);
                 if (videosResult != null && videosResult.getVideos() != null) {
                     mVideoList = videosResult.getVideos();
@@ -268,6 +288,9 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
+    /**
+     * Loads movie details from local ContentProvider
+     */
     private void loadMovieDetailsFromDatabase() {
         Bundle args = new Bundle();
         Uri uri = FavoriteEntry.CONTENT_URI.buildUpon().appendPath(String.valueOf(movieId)).build();
@@ -275,6 +298,9 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         getSupportLoaderManager().restartLoader(FAVORITE_LOADER_ID, args, mContentLoader);
     }
 
+    /**
+     * Loads movie details from Network API call
+     */
     private void loadMovieDetailsFromNetwork() {
         URL url = HTTPHelper.buildMovieDetailsURL(String.valueOf(movieId));
         Bundle args = new Bundle();
@@ -282,6 +308,9 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         getSupportLoaderManager().restartLoader(MOVIE_DETAILS_LOADER_ID, args, mNetworkLoader);
     }
 
+    /**
+     * Loads movie reviews from Network API call
+     */
     private void loadMovieReviewsFromNetwork() {
         URL url = HTTPHelper.buildMovieReviewsURL(String.valueOf(movieId));
         Bundle args = new Bundle();
@@ -289,6 +318,9 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         getSupportLoaderManager().restartLoader(MOVIE_REVIEWS_LOADER_ID, args, mNetworkLoader);
     }
 
+    /**
+     * Loads movie trailers from Network API call
+     */
     private void loadMovieTrailersFromNetwork() {
         URL url = HTTPHelper.buildMovieTrailersURL(String.valueOf(movieId));
         Bundle args = new Bundle();
@@ -346,6 +378,9 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         updateFavButton();
     }
 
+    /**
+     * Updates fav button based on mFavored
+     */
     private void updateFavButton() {
         if (mFavored) {
             mBinding.btnFav.setImageResource(R.drawable.ic_heart_white_24dp);
@@ -380,14 +415,14 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     private void showReviews() {
         mBinding.layoutUserReviews.rvUserReviews.setVisibility(View.VISIBLE);
         mBinding.layoutUserReviews.pbUserReviews.setVisibility(View.INVISIBLE);
-        mBinding.layoutUserReviews.tvErrorMessageDisplay.setVisibility(View.INVISIBLE);
+        mBinding.layoutUserReviews.tvReviewsErrorMessageDisplay.setVisibility(View.INVISIBLE);
     }
 
     /**
      * Shows ErrorMessage, Hides ProgressBar and MovieDetailLayout
      */
     private void showReviewsErrorMessage() {
-        mBinding.layoutUserReviews.tvErrorMessageDisplay.setVisibility(View.VISIBLE);
+        mBinding.layoutUserReviews.tvReviewsErrorMessageDisplay.setVisibility(View.VISIBLE);
         mBinding.layoutUserReviews.pbUserReviews.setVisibility(View.INVISIBLE);
         mBinding.layoutUserReviews.rvUserReviews.setVisibility(View.INVISIBLE);
     }
@@ -408,6 +443,11 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         mBinding.layoutMovieInfo.layoutPoster.getRoot().setLayoutParams(new ConstraintLayout.LayoutParams((min / 3), (int) (max / 3.15)));
     }
 
+    /**
+     * Build and call Share intent for a video
+     *
+     * @param video Video
+     */
     private void shareVideo(Video video) {
         if (video != null && video.getKey() != null) {
             String mimeType = "text/plain";
@@ -424,6 +464,11 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
+    /**
+     * Build and call Youtube intent
+     *
+     * @param video Video
+     */
     private void watchVideo(Video video) {
         if (video != null && video.getKey() != null) {
             String key = video.getKey();
@@ -440,6 +485,12 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
+    /**
+     * Convert MovieDetail into ContentValues
+     *
+     * @param movieDetail MovieDetail object
+     * @return contentValues
+     */
     private ContentValues toContentValues(MovieDetail movieDetail) {
         ContentValues cv = null;
         if (movieDetail != null) {
@@ -466,6 +517,12 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         return cv;
     }
 
+    /**
+     * Create a MovieDetail object from cursor
+     *
+     * @param cursor Cursor
+     * @return movieDetail object
+     */
     private MovieDetail fromCursor(Cursor cursor) {
         MovieDetail movieDetail = null;
         if (cursor.moveToFirst()) {

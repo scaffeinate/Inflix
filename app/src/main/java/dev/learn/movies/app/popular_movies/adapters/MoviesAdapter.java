@@ -19,7 +19,6 @@ import dev.learn.movies.app.popular_movies.util.HTTPHelper;
 /**
  * MoviesAdapter - RecyclerView Adapter for Movies
  */
-
 public class MoviesAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     private static final int VIEWTYPE_LOADING = 1;
@@ -34,17 +33,14 @@ public class MoviesAdapter extends RecyclerView.Adapter<ViewHolder> {
         this.movieList = new ArrayList<>();
     }
 
-
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         if (viewType == VIEWTYPE_CONTENT) {
             View view = layoutInflater.inflate(R.layout.item_poster, parent, false);
 
-        /* Set the minimum height of the view to scale for all screens.
-         *
-         * Reference: https://stackoverflow.com/questions/35221566/how-to-set-the-height-of-an-item-row-in-gridlayoutmanager
-         */
+            // Set the minimum height of the view to scale for all screens.
+            // Reference: https://stackoverflow.com/questions/35221566/how-to-set-the-height-of-an-item-row-in-gridlayoutmanager
             int height = parent.getMeasuredHeight() / 2;
             ContentViewHolder viewHolder = new ContentViewHolder(view);
             viewHolder.mPosterImageView.setMinimumHeight(height);
@@ -57,6 +53,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     @Override
     public int getItemCount() {
+        // Add size() + 1 for the footer loader
         return movieList.size() + 1;
     }
 
@@ -78,15 +75,28 @@ public class MoviesAdapter extends RecyclerView.Adapter<ViewHolder> {
         return VIEWTYPE_CONTENT;
     }
 
+    /**
+     * Sets the movieList and calls notifyDataSetChanged()
+     *
+     * @param movieList movieList
+     */
     public void setMovieList(List<Movie> movieList) {
         this.movieList = movieList;
         notifyDataSetChanged();
     }
 
+    /**
+     * Toggles progressBar footer view
+     *
+     * @param showLoading showLoading
+     */
     public void showLoading(boolean showLoading) {
         this.mShowLoading = showLoading;
     }
 
+    /**
+     * ViewHolder class to show item content
+     */
     class ContentViewHolder extends ViewHolder implements View.OnClickListener {
 
         private final ImageView mPosterImageView;
@@ -118,6 +128,9 @@ public class MoviesAdapter extends RecyclerView.Adapter<ViewHolder> {
         }
     }
 
+    /**
+     * ViewHolder class to show loading progress footer
+     */
     class LoaderViewHolder extends ViewHolder {
         public LoaderViewHolder(View itemView) {
             super(itemView);

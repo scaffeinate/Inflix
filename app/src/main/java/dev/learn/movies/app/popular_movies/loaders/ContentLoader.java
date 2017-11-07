@@ -10,9 +10,9 @@ import android.support.v4.content.Loader;
 import android.util.Log;
 
 /**
- * Created by sudharti on 11/4/17.
+ * ContentLoader - Generic Loader class which implements LoaderCallbacks
+ * <p>Creates a new CursorLoader when onCreateLoader() is called. Fetches content from a ContentProvider.</p>
  */
-
 public class ContentLoader implements LoaderManager.LoaderCallbacks<Cursor> {
 
     public static final String URI_EXTRA = "url_extra";
@@ -45,9 +45,12 @@ public class ContentLoader implements LoaderManager.LoaderCallbacks<Cursor> {
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-
+        // Do nothing
     }
 
+    /**
+     * ContentLoaderCallback - Callbacks to communicate back to the Activity/Fragment
+     */
     public interface ContentLoaderCallback {
         void onLoadFinished(Loader loader, Cursor cursor);
     }

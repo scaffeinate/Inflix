@@ -30,9 +30,8 @@ import static dev.learn.movies.app.popular_movies.util.AppConstants.FAVORITES_LO
 import static dev.learn.movies.app.popular_movies.util.AppConstants.TABLET_GRID_COUNT;
 
 /**
- * Created by sudharti on 11/5/17.
+ * LocalMoviesFragment - Fetch and show favored movies from content provider
  */
-
 public class LocalMoviesFragment extends Fragment implements ContentLoader.ContentLoaderCallback, OnItemClickHandler {
 
     private static final String TYPE = "type";
@@ -92,12 +91,15 @@ public class LocalMoviesFragment extends Fragment implements ContentLoader.Conte
         fetchFavorites();
     }
 
+    /**
+     * Overrides onClick(position) from MoviesAdapter.OnItemClickHandler
+     *
+     * @param position Position
+     */
     @Override
     public void onClick(int position) {
         if (position >= 0 && mCursor != null && position < mCursor.getCount()) {
-            /*
-             * Starts DetailActivity with movieId and movieName passed in a bundle.
-             */
+            // Starts DetailActivity with movieId passed in a bundle.
             Intent detailActivityIntent = new Intent(mContext, DetailActivity.class);
 
             Bundle bundle = new Bundle();
@@ -111,6 +113,12 @@ public class LocalMoviesFragment extends Fragment implements ContentLoader.Conte
         }
     }
 
+    /**
+     * Implement onLoadFinished(Loader, Cursor) from NetworkLoader.NetworkLoaderCallback
+     *
+     * @param loader Loader instance
+     * @param cursor Cursor
+     */
     @Override
     public void onLoadFinished(Loader loader, Cursor cursor) {
         switch (loader.getId()) {
@@ -126,6 +134,9 @@ public class LocalMoviesFragment extends Fragment implements ContentLoader.Conte
         }
     }
 
+    /**
+     * Fetches local movies based on mType
+     */
     private void fetchFavorites() {
         switch (mType) {
             case FAVORITES:

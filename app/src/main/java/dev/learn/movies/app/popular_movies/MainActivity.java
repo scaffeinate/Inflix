@@ -20,7 +20,7 @@ import static dev.learn.movies.app.popular_movies.util.AppConstants.MOST_POPULAR
 import static dev.learn.movies.app.popular_movies.util.AppConstants.TOP_RATED;
 
 /**
- * MainActivity - To show the movies grid
+ * MainActivity - Movies Grid
  */
 public class MainActivity extends AppCompatActivity {
 

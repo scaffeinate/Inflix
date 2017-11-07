@@ -17,9 +17,8 @@ import java.util.List;
 import static dev.learn.movies.app.popular_movies.data.DataContract.FavoriteEntry;
 
 /**
- * Created by sudharti on 11/4/17.
+ * FavoriteContentProvider - CRUD for Favorites
  */
-
 public class FavoriteContentProvider extends ContentProvider {
 
     private static final int FAVORITES = 100;

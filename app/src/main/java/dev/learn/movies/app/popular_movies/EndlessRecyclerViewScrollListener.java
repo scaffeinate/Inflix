@@ -7,8 +7,12 @@ import android.support.v7.widget.RecyclerView;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.ENDLESS_PAGINATION_THRESHOLD;
 
 /**
- * Created by sudhar on 11/1/17.
+ * EndlessRecyclerViewScrollListener - OnScollListener to implement endless pagination
+ * <p>
+ * Reference: https://guides.codepath.com/android/Endless-Scrolling-with-AdapterViews-and-RecyclerView
+ * </p>
  */
+@SuppressWarnings("ALL")
 public abstract class EndlessRecyclerViewScrollListener extends RecyclerView.OnScrollListener {
 
     private static final int mStartingPage = 1;

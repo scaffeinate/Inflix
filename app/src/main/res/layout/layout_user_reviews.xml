@@ -36,7 +36,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_user_reviews_title" />
 
         <TextView
-            android:id="@+id/tv_error_message_display"
+            android:id="@+id/tv_reviews_error_message_display"
             style="@style/Caption"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

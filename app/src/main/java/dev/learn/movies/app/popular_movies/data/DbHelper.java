@@ -9,11 +9,11 @@ import static dev.learn.movies.app.popular_movies.data.DataContract.DATABASE_VER
 import static dev.learn.movies.app.popular_movies.data.DataContract.FavoriteEntry;
 
 /**
- * Created by sudharti on 11/4/17.
+ * DbHelper class
  */
-
 public class DbHelper extends SQLiteOpenHelper {
 
+    // Create favorites table query
     private static final String CREATE_FAVORITES_TABLE = " CREATE TABLE " + FavoriteEntry.TABLE_NAME +
             " ( " +
             FavoriteEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +

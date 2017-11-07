@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+@SuppressWarnings("ALL")
 public class VideosResult {
 
     @SerializedName("id")

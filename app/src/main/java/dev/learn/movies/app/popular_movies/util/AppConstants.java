@@ -1,9 +1,8 @@
 package dev.learn.movies.app.popular_movies.util;
 
 /**
- * Created by sudharti on 11/4/17.
+ * AppConstants - Store all the app constants here
  */
-
 public final class AppConstants {
 
     public static final int DEFAULT_GRID_COUNT = 2;

@@ -3,6 +3,7 @@ package dev.learn.movies.app.popular_movies.common;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+@SuppressWarnings("ALL")
 public class Video {
 
     @SerializedName("id")

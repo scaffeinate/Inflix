@@ -42,9 +42,8 @@ import static dev.learn.movies.app.popular_movies.util.AppConstants.TABLET_GRID_
 import static dev.learn.movies.app.popular_movies.util.AppConstants.TOP_RATED;
 
 /**
- * Created by sudharti on 11/4/17.
+ * MoviesFragment - Fetch and show Movies Grid from API
  */
-
 public class MoviesFragment extends Fragment implements NetworkLoader.NetworkLoaderCallback, OnItemClickHandler {
 
     private static final String TYPE = "type";
@@ -88,6 +87,8 @@ public class MoviesFragment extends Fragment implements NetworkLoader.NetworkLoa
                 return (position == mAdapter.getItemCount() - 1) ? mGridCount : 1;
             }
         });
+
+        //onScrollListener to handle endless pagination
         mEndlessScollListener = new EndlessRecyclerViewScrollListener(mLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
@@ -125,16 +126,14 @@ public class MoviesFragment extends Fragment implements NetworkLoader.NetworkLoa
     }
 
     /**
-     * Overrides onClick(position) from MoviesAdapter.OnItemClickHandler
+     * Implement onClick(position) from MoviesAdapter.OnItemClickHandler
      *
-     * @param position
+     * @param position Position
      */
     @Override
     public void onClick(int position) {
         if (position >= 0 && position < this.movieList.size()) {
-            /*
-             * Starts DetailActivity with movieId and movieName passed in a bundle.
-             */
+            // Starts DetailActivity with movieId passed in a bundle.
             Intent detailActivityIntent = new Intent(mContext, DetailActivity.class);
 
             Bundle bundle = new Bundle();
@@ -148,21 +147,28 @@ public class MoviesFragment extends Fragment implements NetworkLoader.NetworkLoa
         }
     }
 
+    /**
+     * Implement onLoadFinished(Loader loader, String s) from NetworkLoader.NetworkLoaderCallback
+     *
+     * @param loader Loader instance
+     * @param s      responseString
+     */
     @Override
     public void onLoadFinished(Loader loader, String s) {
         switch (loader.getId()) {
             case MOVIES_LOADER_ID:
                 MoviesResult moviesResult = (s == null) ? null : gson.fromJson(s, MoviesResult.class);
-                /*
-                 * Shows recycler_view if moviesResult is not null and the movies list is non empty
-                */
                 if (moviesResult == null || moviesResult.getResults() == null || moviesResult.getResults().isEmpty()) {
+                    // If the first request failed then show error message hiding the content
+                    // Otherwise stop loading further
                     if (movieList.isEmpty()) {
                         showErrorMessage();
                     } else {
                         mAdapter.showLoading(false);
+                        mAdapter.notifyDataSetChanged();
                     }
                 } else {
+                    // For the first request change visibility of recyclerview
                     if (movieList.isEmpty()) {
                         showRecyclerView();
                     }
@@ -173,6 +179,11 @@ public class MoviesFragment extends Fragment implements NetworkLoader.NetworkLoa
         }
     }
 
+    /**
+     * Fetches Movies for the requested page
+     *
+     * @param page page number
+     */
     private void fetchMovies(int page) {
         if (HTTPHelper.isNetworkEnabled(mContext)) {
             URL url = null;
@@ -195,7 +206,9 @@ public class MoviesFragment extends Fragment implements NetworkLoader.NetworkLoa
             }
 
         } else {
-            if (page == 1) {
+            // If network is unavailable for the first request show the error textview
+            // Otherview show Toast message
+            if (page == START_PAGE) {
                 DisplayUtils.setNoNetworkConnectionMessage(mContext, mBinding.tvErrorMessageDisplay);
                 showErrorMessage();
             } else {
