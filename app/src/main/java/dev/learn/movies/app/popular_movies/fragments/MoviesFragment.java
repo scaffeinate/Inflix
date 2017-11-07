@@ -33,9 +33,13 @@ import dev.learn.movies.app.popular_movies.loaders.NetworkLoader;
 import dev.learn.movies.app.popular_movies.util.DisplayUtils;
 import dev.learn.movies.app.popular_movies.util.HTTPHelper;
 
-import static dev.learn.movies.app.popular_movies.MainActivity.DISCOVER;
-import static dev.learn.movies.app.popular_movies.MainActivity.MOST_POPULAR;
-import static dev.learn.movies.app.popular_movies.MainActivity.TOP_RATED;
+import static dev.learn.movies.app.popular_movies.util.AppConstants.DEFAULT_GRID_COUNT;
+import static dev.learn.movies.app.popular_movies.util.AppConstants.DISCOVER;
+import static dev.learn.movies.app.popular_movies.util.AppConstants.MOST_POPULAR;
+import static dev.learn.movies.app.popular_movies.util.AppConstants.MOVIES_LOADER_ID;
+import static dev.learn.movies.app.popular_movies.util.AppConstants.START_PAGE;
+import static dev.learn.movies.app.popular_movies.util.AppConstants.TABLET_GRID_COUNT;
+import static dev.learn.movies.app.popular_movies.util.AppConstants.TOP_RATED;
 
 /**
  * Created by sudharti on 11/4/17.
@@ -45,13 +49,10 @@ public class MoviesFragment extends Fragment implements NetworkLoader.NetworkLoa
 
     private static final String TYPE = "type";
 
-    private static final int START_PAGE = 1;
-    private static final int MOVIES_LOADER_ID = 200;
-
     private String mType = DISCOVER;
     private Context mContext;
     private final Gson gson = new Gson();
-    private int mGridCount = 2;
+    private int mGridCount = DEFAULT_GRID_COUNT;
 
     private GridLayoutManager mLayoutManager;
     private MoviesAdapter mAdapter;
@@ -79,9 +80,7 @@ public class MoviesFragment extends Fragment implements NetworkLoader.NetworkLoa
         movieList = new ArrayList<>();
         mNetworkLoader = new NetworkLoader(mContext, this);
         boolean isTablet = getResources().getBoolean(R.bool.is_tablet);
-        if (isTablet) {
-            mGridCount = 4;
-        }
+        mGridCount = isTablet ? TABLET_GRID_COUNT : DEFAULT_GRID_COUNT;
 
         mLayoutManager = new GridLayoutManager(mContext, mGridCount);
         mLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {

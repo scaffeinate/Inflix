@@ -47,6 +47,11 @@ import dev.learn.movies.app.popular_movies.util.DialogBuilderHelper;
 import dev.learn.movies.app.popular_movies.util.DisplayUtils;
 import dev.learn.movies.app.popular_movies.util.HTTPHelper;
 
+import static dev.learn.movies.app.popular_movies.util.AppConstants.ACTIVITY_DETAIL_LAZY_LOAD_DELAY_IN_MS;
+import static dev.learn.movies.app.popular_movies.util.AppConstants.FAVORITE_LOADER_ID;
+import static dev.learn.movies.app.popular_movies.util.AppConstants.MOVIE_DETAILS_LOADER_ID;
+import static dev.learn.movies.app.popular_movies.util.AppConstants.MOVIE_REVIEWS_LOADER_ID;
+import static dev.learn.movies.app.popular_movies.util.AppConstants.MOVIE_TRAILERS_LOADER_ID;
 import static dev.learn.movies.app.popular_movies.data.DataContract.FavoriteEntry.COLUMN_BACKDROP_PATH;
 import static dev.learn.movies.app.popular_movies.data.DataContract.FavoriteEntry.COLUMN_GENRES;
 import static dev.learn.movies.app.popular_movies.data.DataContract.FavoriteEntry.COLUMN_MOVIE_ID;
@@ -67,12 +72,6 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         NetworkLoader.NetworkLoaderCallback, ContentLoader.ContentLoaderCallback {
 
     public static final String MOVIE_ID = "movie_id";
-
-    private static final int MOVIE_DETAILS_LOADER_ID = 100;
-    private static final int MOVIE_REVIEWS_LOADER_ID = 101;
-    private static final int MOVIE_TRAILERS_LOADER_ID = 102;
-    private static final int FAVORITE_LOADER_ID = 301;
-    private static final int LAZY_LOAD_DELAY_IN_MS = 350;
 
     private final Gson gson = new Gson();
     private long movieId = 0L;
@@ -130,7 +129,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                         loadMovieReviewsFromNetwork();
                         loadMovieTrailersFromNetwork();
                     }
-                }, LAZY_LOAD_DELAY_IN_MS);
+                }, ACTIVITY_DETAIL_LAZY_LOAD_DELAY_IN_MS);
             } else {
                 showReviewsErrorMessage();
             }

@@ -14,17 +14,17 @@ import dev.learn.movies.app.popular_movies.databinding.ActivityMainBinding;
 import dev.learn.movies.app.popular_movies.fragments.LocalMoviesFragment;
 import dev.learn.movies.app.popular_movies.fragments.MoviesFragment;
 
+import static dev.learn.movies.app.popular_movies.util.AppConstants.DISCOVER;
+import static dev.learn.movies.app.popular_movies.util.AppConstants.FAVORITES;
+import static dev.learn.movies.app.popular_movies.util.AppConstants.MOST_POPULAR;
+import static dev.learn.movies.app.popular_movies.util.AppConstants.TOP_RATED;
+
 /**
  * MainActivity - To show the movies grid
  */
 public class MainActivity extends AppCompatActivity {
 
     private static final String TITLE = "title";
-
-    public final static String DISCOVER = "discover";
-    public final static String MOST_POPULAR = "most_popular";
-    public final static String TOP_RATED = "top_rated";
-    public final static String FAVORITES = "favorites";
 
     private FragmentManager mFragmentManager;
     private ActivityMainBinding mBinding;

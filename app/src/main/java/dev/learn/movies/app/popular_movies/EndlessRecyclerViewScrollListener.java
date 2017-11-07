@@ -4,14 +4,14 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import static dev.learn.movies.app.popular_movies.util.AppConstants.ENDLESS_PAGINATION_THRESHOLD;
+
 /**
  * Created by sudhar on 11/1/17.
  */
 public abstract class EndlessRecyclerViewScrollListener extends RecyclerView.OnScrollListener {
 
-    private static final int THRESHOLD = 1;
-
-    private int mVisibleThreshold = THRESHOLD;
+    private int mVisibleThreshold = ENDLESS_PAGINATION_THRESHOLD;
 
     private int mCurrentPage = 1;
 
