@@ -84,12 +84,12 @@
                         layout="@layout/layout_user_reviews"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/actvity_detail_section_margin_top"
+                        android:layout_marginTop="@dimen/actvity_detail_user_reviews_margin_top"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/layout_content" />
+                        app:layout_constraintTop_toBottomOf="@+id/layout_movie_info" />
 
                 </android.support.constraint.ConstraintLayout>
 

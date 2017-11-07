@@ -4,7 +4,7 @@ package dev.learn.movies.app.popular_movies.util;
  * Created by sudharti on 11/4/17.
  */
 
-public class AppConstants {
+public final class AppConstants {
 
     public static final int DEFAULT_GRID_COUNT = 2;
 
