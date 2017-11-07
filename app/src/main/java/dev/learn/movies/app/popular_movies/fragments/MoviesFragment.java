@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -52,7 +53,7 @@ public class MoviesFragment extends Fragment implements NetworkLoader.NetworkLoa
     private Context mContext;
     private final Gson gson = new Gson();
 
-    RecyclerView.LayoutManager mLayoutManager;
+    GridLayoutManager mLayoutManager;
     private MoviesAdapter mAdapter;
     private List<Movie> movieList;
 
@@ -78,9 +79,16 @@ public class MoviesFragment extends Fragment implements NetworkLoader.NetworkLoa
         movieList = new ArrayList<>();
         mNetworkLoader = new NetworkLoader(mContext, this);
         mLayoutManager = new GridLayoutManager(mContext, GRID_COUNT);
+        mLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                return (position == mAdapter.getItemCount() - 1) ? GRID_COUNT : 1;
+            }
+        });
         mEndlessScollListener = new EndlessRecyclerViewScrollListener(mLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                mAdapter.showLoading(true);
                 fetchMovies(page);
             }
         };
@@ -144,11 +152,17 @@ public class MoviesFragment extends Fragment implements NetworkLoader.NetworkLoa
                  * Shows recycler_view if moviesResult is not null and the movies list is non empty
                 */
                 if (moviesResult == null || moviesResult.getResults() == null || moviesResult.getResults().isEmpty()) {
-                    showErrorMessage();
+                    if (movieList.isEmpty()) {
+                        showErrorMessage();
+                    } else {
+                        mAdapter.showLoading(false);
+                    }
                 } else {
+                    if (movieList.isEmpty()) {
+                        showRecyclerView();
+                    }
                     this.movieList.addAll(moviesResult.getResults());
                     mAdapter.setMovieList(movieList);
-                    showRecyclerView();
                 }
                 break;
         }

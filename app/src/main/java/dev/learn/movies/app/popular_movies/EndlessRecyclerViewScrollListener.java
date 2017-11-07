@@ -17,7 +17,7 @@ public abstract class EndlessRecyclerViewScrollListener extends RecyclerView.OnS
 
     private int mStartingPage = 1;
 
-    private int mCurrentNumberOfItems = 0;
+    private int mCurrentNumberOfItems = 1;
 
     private boolean isLoading = true;
 

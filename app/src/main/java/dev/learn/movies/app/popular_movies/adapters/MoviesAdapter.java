@@ -1,22 +1,20 @@
 package dev.learn.movies.app.popular_movies.adapters;
 
 import android.net.Uri;
-import android.support.v4.content.Loader;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import dev.learn.movies.app.popular_movies.R;
 import dev.learn.movies.app.popular_movies.common.Movie;
-import dev.learn.movies.app.popular_movies.util.HTTPHelper;
 import dev.learn.movies.app.popular_movies.util.DisplayUtils;
+import dev.learn.movies.app.popular_movies.util.HTTPHelper;
 
 /**
  * MoviesAdapter - RecyclerView Adapter for Movies
@@ -29,7 +27,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     private final OnItemClickHandler mHandler;
     private List<Movie> movieList;
-    private boolean mShowLoading = false;
+    private boolean mShowLoading = true;
 
     public MoviesAdapter(OnItemClickHandler handler) {
         this.mHandler = handler;
@@ -121,12 +119,8 @@ public class MoviesAdapter extends RecyclerView.Adapter<ViewHolder> {
     }
 
     class LoaderViewHolder extends ViewHolder {
-
-        private final ProgressBar mProgressBar;
-
         public LoaderViewHolder(View itemView) {
             super(itemView);
-            mProgressBar = itemView.findViewById(R.id.pb_footer_loading);
         }
 
         private void bind() {
