@@ -72,6 +72,10 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         NetworkLoader.NetworkLoaderCallback, ContentLoader.ContentLoaderCallback {
 
     public static final String MOVIE_ID = "movie_id";
+    private static final String MOVIE_DETAILS = "movie_details";
+    private static final String MOVIE_REVIEWS = "movie_reviews";
+    private static final String MOVIE_TRAILERS = "movie_trailers";
+    private static final String FAVORED = "favored";
 
     private final Gson gson = new Gson();
     private long movieId = 0L;
@@ -82,8 +86,9 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     private NetworkLoader mNetworkLoader;
     private ContentLoader mContentLoader;
 
-    private List<Video> mVideoList = null;
-    private MovieDetail mMovieDetail = null;
+    private ArrayList<Video> mVideoList;
+    private ArrayList<Review> mReviewsList;
+    private MovieDetail mMovieDetail;
     private boolean mFavored = false;
 
     @Override
@@ -94,6 +99,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
         LayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mVideoList = new ArrayList<>();
+        mReviewsList = new ArrayList<>();
         mMovieReviewsAdapter = new MovieReviewsAdapter();
         mNetworkLoader = new NetworkLoader(this, this);
         mContentLoader = new ContentLoader(this, this);
@@ -112,29 +118,23 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         mBinding.layoutUserReviews.rvUserReviews.setLayoutManager(layoutManager);
         mBinding.layoutUserReviews.rvUserReviews.setAdapter(mMovieReviewsAdapter);
 
-        if (savedInstanceState != null) {
-            movieId = savedInstanceState.getLong(MOVIE_ID, 0);
-        } else if (getIntent().getExtras() != null) {
-            movieId = getIntent().getExtras().getLong(MOVIE_ID, 0);
-        }
-
-        if (movieId == 0) {
-            showErrorMessage();
-        } else {
-            loadMovieDetailsFromDatabase(); //Check if the movieDetails are available from local
-
-            // If Network is available lazy load the reviews and trailers
-            if (HTTPHelper.isNetworkEnabled(this)) {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        loadMovieReviewsFromNetwork();
-                        loadMovieTrailersFromNetwork();
-                    }
-                }, ACTIVITY_DETAIL_LAZY_LOAD_DELAY_IN_MS);
+        if (savedInstanceState == null) {
+            Bundle extras = getIntent().getExtras();
+            if (extras != null && extras.containsKey(MOVIE_ID)) {
+                movieId = getIntent().getExtras().getLong(MOVIE_ID);
+                loadMovieDetailsFromDatabase(); //Check if the movieDetails are available from local
+                lazyLoadAdditionalInfoFromNetwork();
             } else {
-                showReviewsErrorMessage();
+                showErrorMessage();
             }
+        } else {
+            movieId = savedInstanceState.getLong(MOVIE_ID);
+            mMovieDetail = savedInstanceState.getParcelable(MOVIE_DETAILS);
+            mReviewsList = savedInstanceState.getParcelableArrayList(MOVIE_REVIEWS);
+            mVideoList = savedInstanceState.getParcelableArrayList(MOVIE_TRAILERS);
+            mFavored = savedInstanceState.getBoolean(FAVORED);
+            updateMovieDetailsUI(mMovieDetail);
+            updateReviewsUI(mReviewsList);
         }
     }
 
@@ -147,6 +147,11 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        if (!HTTPHelper.isNetworkEnabled(this)) {
+            Toast.makeText(this, getResources().getString(R.string.no_network_connection_error_message), Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
         switch (item.getItemId()) {
             case R.id.action_share:
                 if (mVideoList != null && !mVideoList.isEmpty()) {
@@ -210,6 +215,10 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putLong(MOVIE_ID, movieId);
+        outState.putParcelable(MOVIE_DETAILS, mMovieDetail);
+        outState.putParcelableArrayList(MOVIE_REVIEWS, mReviewsList);
+        outState.putParcelableArrayList(MOVIE_TRAILERS, mVideoList);
+        outState.putBoolean(FAVORED, mFavored);
     }
 
     @Override
@@ -232,9 +241,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         // Otherwise make an API call if the Network is available
         if (cursor != null && cursor.moveToFirst()) {
             mFavored = true;
-            mMovieDetail = fromCursor(cursor);
-            loadDataIntoView(mMovieDetail);
-            showMovieDetails();
+            updateMovieDetailsUI(fromCursor(cursor));
         } else {
             mFavored = false;
             if (HTTPHelper.isNetworkEnabled(this)) {
@@ -259,30 +266,19 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
             case MOVIE_DETAILS_LOADER_ID:
                 // Handle movie info
                 MovieDetail movieDetail = (s == null) ? null : gson.fromJson(s, MovieDetail.class);
-                if (movieDetail == null) {
-                    showErrorMessage();
-                } else {
-                    mMovieDetail = movieDetail;
-                    loadDataIntoView(movieDetail);
-                    showMovieDetails();
-                }
+                updateMovieDetailsUI(movieDetail);
                 break;
             case MOVIE_REVIEWS_LOADER_ID:
                 // Handle reviews response
                 ReviewsResult reviewsResult = (s == null) ? null : gson.fromJson(s, ReviewsResult.class);
-                if (reviewsResult != null && reviewsResult.getResults() != null && reviewsResult.getResults().size() > 0) {
-                    List<Review> reviewList = reviewsResult.getResults();
-                    mMovieReviewsAdapter.setReviewList(reviewList);
-                    showReviews();
-                } else {
-                    showReviewsErrorMessage();
-                }
+                List<Review> reviewList = (reviewsResult == null) ? null : reviewsResult.getResults();
+                updateReviewsUI(reviewList);
                 break;
             case MOVIE_TRAILERS_LOADER_ID:
                 // Handle videos response
                 VideosResult videosResult = (s == null) ? null : gson.fromJson(s, VideosResult.class);
-                if (videosResult != null && videosResult.getVideos() != null) {
-                    mVideoList = videosResult.getVideos();
+                if (videosResult != null) {
+                    mVideoList = (ArrayList<Video>) videosResult.getVideos();
                 }
                 break;
         }
@@ -299,7 +295,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     /**
-     * Loads movie details from Network API call
+     * Loads movie details from Network
      */
     private void loadMovieDetailsFromNetwork() {
         URL url = HTTPHelper.buildMovieDetailsURL(String.valueOf(movieId));
@@ -309,7 +305,24 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     /**
-     * Loads movie reviews from Network API call
+     * Lazy loads reviews and trailers
+     */
+    private void lazyLoadAdditionalInfoFromNetwork() {
+        if (HTTPHelper.isNetworkEnabled(this)) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    loadMovieReviewsFromNetwork();
+                    loadMovieTrailersFromNetwork();
+                }
+            }, ACTIVITY_DETAIL_LAZY_LOAD_DELAY_IN_MS);
+        } else {
+            showReviewsErrorMessage();
+        }
+    }
+
+    /**
+     * Loads movie reviews from Network
      */
     private void loadMovieReviewsFromNetwork() {
         URL url = HTTPHelper.buildMovieReviewsURL(String.valueOf(movieId));
@@ -319,7 +332,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     /**
-     * Loads movie trailers from Network API call
+     * Loads movie trailers from Network
      */
     private void loadMovieTrailersFromNetwork() {
         URL url = HTTPHelper.buildMovieTrailersURL(String.valueOf(movieId));
@@ -333,8 +346,13 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
      *
      * @param movieDetail MovieDetail Bean
      */
-    private void loadDataIntoView(MovieDetail movieDetail) {
-        if (movieDetail == null) return;
+    private void updateMovieDetailsUI(MovieDetail movieDetail) {
+        if (movieDetail == null) {
+            showErrorMessage();
+            return;
+        }
+
+        mMovieDetail = movieDetail;
         int year = DisplayUtils.getYear(movieDetail.getReleaseDate());
         double voteAverage = movieDetail.getVoteAverage();
         String backdropURL = movieDetail.getBackdropPath();
@@ -376,6 +394,23 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         }
 
         updateFavButton();
+        showMovieDetails();
+    }
+
+    /**
+     * Updates Reviews list
+     *
+     * @param reviewsList
+     */
+    private void updateReviewsUI(List<Review> reviewsList) {
+        if (reviewsList == null || reviewsList.size() <= 0) {
+            showReviewsErrorMessage();
+            return;
+        }
+
+        mReviewsList = (ArrayList<Review>) reviewsList;
+        mMovieReviewsAdapter.setReviewList(mReviewsList);
+        showReviews();
     }
 
     /**

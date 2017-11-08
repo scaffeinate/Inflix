@@ -19,7 +19,6 @@ import com.google.gson.Gson;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 
 import dev.learn.movies.app.popular_movies.DetailActivity;
 import dev.learn.movies.app.popular_movies.EndlessRecyclerViewScrollListener;
@@ -47,6 +46,9 @@ import static dev.learn.movies.app.popular_movies.util.AppConstants.TOP_RATED;
 public class MoviesFragment extends Fragment implements NetworkLoader.NetworkLoaderCallback, OnItemClickHandler {
 
     private static final String TYPE = "type";
+    private static final String PAGE = "page";
+    private static final String RESPONSE = "response";
+
     private final Gson gson = new Gson();
     private String mType = DISCOVER;
     private Context mContext;
@@ -54,7 +56,8 @@ public class MoviesFragment extends Fragment implements NetworkLoader.NetworkLoa
 
     private GridLayoutManager mLayoutManager;
     private MoviesAdapter mAdapter;
-    private List<Movie> movieList;
+    private ArrayList<Movie> movieList;
+    private int mPage = START_PAGE;
 
     private EndlessRecyclerViewScrollListener mEndlessScollListener;
     private NetworkLoader mNetworkLoader;
@@ -88,11 +91,16 @@ public class MoviesFragment extends Fragment implements NetworkLoader.NetworkLoa
             }
         });
 
+        if (savedInstanceState != null && savedInstanceState.containsKey(PAGE)) {
+            mPage = savedInstanceState.getInt(PAGE, START_PAGE);
+        }
+
         //onScrollListener to handle endless pagination
-        mEndlessScollListener = new EndlessRecyclerViewScrollListener(mLayoutManager) {
+        mEndlessScollListener = new EndlessRecyclerViewScrollListener(mPage, mLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 mAdapter.showLoading(true);
+                mPage = page;
                 fetchMovies(page);
             }
         };
@@ -122,7 +130,22 @@ public class MoviesFragment extends Fragment implements NetworkLoader.NetworkLoa
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        fetchMovies(START_PAGE);
+        if (savedInstanceState != null && savedInstanceState.containsKey(RESPONSE)) {
+            movieList = savedInstanceState.getParcelableArrayList(RESPONSE);
+            mAdapter.setMovieList(movieList);
+            showRecyclerView();
+        } else {
+            fetchMovies(START_PAGE);
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (!movieList.isEmpty()) {
+            outState.putInt(PAGE, mPage);
+            outState.putParcelableArrayList(RESPONSE, movieList);
+        }
     }
 
     /**

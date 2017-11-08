@@ -5,6 +5,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import static dev.learn.movies.app.popular_movies.util.AppConstants.ENDLESS_PAGINATION_THRESHOLD;
+import static dev.learn.movies.app.popular_movies.util.AppConstants.START_PAGE;
 
 /**
  * EndlessRecyclerViewScrollListener - OnScollListener to implement endless pagination
@@ -15,14 +16,15 @@ import static dev.learn.movies.app.popular_movies.util.AppConstants.ENDLESS_PAGI
 @SuppressWarnings("ALL")
 public abstract class EndlessRecyclerViewScrollListener extends RecyclerView.OnScrollListener {
 
-    private static final int mStartingPage = 1;
+    private static final int mStartingPage = START_PAGE;
     private final RecyclerView.LayoutManager mLayoutManager;
     private int mVisibleThreshold = ENDLESS_PAGINATION_THRESHOLD;
-    private int mCurrentPage = 1;
+    private int mCurrentPage = START_PAGE;
     private int mCurrentNumberOfItems = 1;
     private boolean isLoading = true;
 
-    public EndlessRecyclerViewScrollListener(RecyclerView.LayoutManager layoutManager) {
+    public EndlessRecyclerViewScrollListener(int currentPage, RecyclerView.LayoutManager layoutManager) {
+        this.mCurrentPage = currentPage;
         this.mLayoutManager = layoutManager;
 
         if (layoutManager instanceof GridLayoutManager) {
