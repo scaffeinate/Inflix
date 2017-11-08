@@ -5,7 +5,7 @@ Popular Movies App for the  Udacity Android Nanodegree Program.
 
 ### Setup: 
 - Clone the project. ```git clone https://github.com/scaffeinate/Popular-Movies-Android.git```
-- Obtain an api key from tmdb and add **API_KEY=<YOUR_API_KEY>** to the gradle.properties(Create one if it doesn't exist already) file.
+- Obtain an api key from [The Movie DB(TMDB)](https://www.themoviedb.org/documentation/api) and add **API_KEY=<YOUR_API_KEY>** to the gradle.properties(Create one if it doesn't exist already) file.
 
 ### Screenshots:
 ![screenshot_1](https://github.com/scaffeinate/Popular-Movies-Android/blob/master/screenshots/screenshot_merged_0.jpg?raw=true)
@@ -31,4 +31,5 @@ Popular Movies App for the  Udacity Android Nanodegree Program.
    - user rating (called vote_average in the api)
    - release date
 
-### [Licensed under MIT](https://github.com/scaffeinate/Popular-Movies-Android/blob/master/LICENSE)
+### License:
+[**MIT**](https://github.com/scaffeinate/Popular-Movies-Android/blob/master/LICENSE)
