@@ -32,8 +32,6 @@ This is based on TheMovieDB API. Please obtain an api key from tmdb and add **AP
    - release date
 
 ### Screenshots:
-![screenshot_1](https://github.com/scaffeinate/Popular-Movies-Android/blob/master/screenshots/screenshot_1.png?raw=true)
-![screenshot_2](https://github.com/scaffeinate/Popular-Movies-Android/blob/master/screenshots/screenshot_2.png?raw=true)
-![screenshot_3](https://github.com/scaffeinate/Popular-Movies-Android/blob/master/screenshots/screenshot_3.png?raw=true)
-
+![screenshot_1](https://github.com/scaffeinate/Popular-Movies-Android/blob/master/screenshots/screenshot_merged_0.jpg?raw=true)
+![screenshot_2](https://github.com/scaffeinate/Popular-Movies-Android/blob/master/screenshots/screenshot_merged_1.jpg?raw=true)
 ### [Licensed under MIT](https://github.com/scaffeinate/Popular-Movies-Android/blob/master/LICENSE)
