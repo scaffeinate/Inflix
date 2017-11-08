@@ -94,15 +94,15 @@ public class LocalMoviesFragment extends Fragment implements ContentLoader.Conte
 
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onResume() {
+        super.onResume();
         fetchFavorites();
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        if(mLayoutManager != null) {
+        if (mLayoutManager != null) {
             outState.putParcelable(SAVED_STATE, mLayoutManager.onSaveInstanceState());
         }
     }
@@ -168,7 +168,7 @@ public class LocalMoviesFragment extends Fragment implements ContentLoader.Conte
 
     /**
      * Restores the state of the RecyclerView LayoutManager
-     *
+     * <p>
      * Reference: http://panavtec.me/retain-restore-recycler-view-scroll-position
      */
     private void restoreState() {
