@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -19,6 +20,7 @@ import com.google.gson.Gson;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 import dev.learn.movies.app.popular_movies.DetailActivity;
 import dev.learn.movies.app.popular_movies.EndlessRecyclerViewScrollListener;
@@ -56,7 +58,7 @@ public class MoviesFragment extends Fragment implements NetworkLoader.NetworkLoa
 
     private GridLayoutManager mLayoutManager;
     private MoviesAdapter mAdapter;
-    private ArrayList<Movie> movieList;
+    private List<Movie> mMovieList;
     private int mPage = START_PAGE;
 
     private EndlessRecyclerViewScrollListener mEndlessScollListener;
@@ -78,7 +80,7 @@ public class MoviesFragment extends Fragment implements NetworkLoader.NetworkLoa
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = getContext();
-        movieList = new ArrayList<>();
+        mMovieList = new ArrayList<>();
         mNetworkLoader = new NetworkLoader(mContext, this);
         boolean isTablet = getResources().getBoolean(R.bool.is_tablet);
         mGridCount = isTablet ? TABLET_GRID_COUNT : DEFAULT_GRID_COUNT;
@@ -131,8 +133,8 @@ public class MoviesFragment extends Fragment implements NetworkLoader.NetworkLoa
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (savedInstanceState != null && savedInstanceState.containsKey(RESPONSE)) {
-            movieList = savedInstanceState.getParcelableArrayList(RESPONSE);
-            mAdapter.setMovieList(movieList);
+            mMovieList = savedInstanceState.getParcelableArrayList(RESPONSE);
+            mAdapter.setMovieList(mMovieList);
             showRecyclerView();
         } else {
             fetchMovies(START_PAGE);
@@ -142,9 +144,9 @@ public class MoviesFragment extends Fragment implements NetworkLoader.NetworkLoa
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        if (!movieList.isEmpty()) {
+        if (!mMovieList.isEmpty()) {
             outState.putInt(PAGE, mPage);
-            outState.putParcelableArrayList(RESPONSE, movieList);
+            outState.putParcelableArrayList(RESPONSE, (ArrayList<? extends Parcelable>) mMovieList);
         }
     }
 
@@ -155,12 +157,12 @@ public class MoviesFragment extends Fragment implements NetworkLoader.NetworkLoa
      */
     @Override
     public void onClick(int position) {
-        if (position >= 0 && position < this.movieList.size()) {
+        if (position >= 0 && position < this.mMovieList.size()) {
             // Starts DetailActivity with movieId passed in a bundle.
             Intent detailActivityIntent = new Intent(mContext, DetailActivity.class);
 
             Bundle bundle = new Bundle();
-            Movie movie = movieList.get(position);
+            Movie movie = mMovieList.get(position);
             if (movie != null) {
                 bundle.putLong(DetailActivity.MOVIE_ID, movie.getId());
                 detailActivityIntent.putExtras(bundle);
@@ -184,7 +186,7 @@ public class MoviesFragment extends Fragment implements NetworkLoader.NetworkLoa
                 if (moviesResult == null || moviesResult.getResults() == null || moviesResult.getResults().isEmpty()) {
                     // If the first request failed then show error message hiding the content
                     // Otherwise stop loading further
-                    if (movieList.isEmpty()) {
+                    if (mMovieList.isEmpty()) {
                         showErrorMessage();
                     } else {
                         mAdapter.showLoading(false);
@@ -192,11 +194,11 @@ public class MoviesFragment extends Fragment implements NetworkLoader.NetworkLoa
                     }
                 } else {
                     // For the first request change visibility of recyclerview
-                    if (movieList.isEmpty()) {
+                    if (mMovieList.isEmpty()) {
                         showRecyclerView();
                     }
-                    this.movieList.addAll(moviesResult.getResults());
-                    mAdapter.setMovieList(movieList);
+                    this.mMovieList.addAll(moviesResult.getResults());
+                    mAdapter.setMovieList(mMovieList);
                 }
                 break;
         }

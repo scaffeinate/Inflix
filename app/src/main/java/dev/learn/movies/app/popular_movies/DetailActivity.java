@@ -9,6 +9,7 @@ import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.CoordinatorLayout;
@@ -86,8 +87,8 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     private NetworkLoader mNetworkLoader;
     private ContentLoader mContentLoader;
 
-    private ArrayList<Video> mVideoList;
-    private ArrayList<Review> mReviewsList;
+    private List<Video> mVideoList;
+    private List<Review> mReviewsList;
     private MovieDetail mMovieDetail;
     private boolean mFavored = false;
 
@@ -216,8 +217,8 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         super.onSaveInstanceState(outState);
         outState.putLong(MOVIE_ID, movieId);
         outState.putParcelable(MOVIE_DETAILS, mMovieDetail);
-        outState.putParcelableArrayList(MOVIE_REVIEWS, mReviewsList);
-        outState.putParcelableArrayList(MOVIE_TRAILERS, mVideoList);
+        outState.putParcelableArrayList(MOVIE_REVIEWS, (ArrayList<? extends Parcelable>) mReviewsList);
+        outState.putParcelableArrayList(MOVIE_TRAILERS, (ArrayList<? extends Parcelable>) mVideoList);
         outState.putBoolean(FAVORED, mFavored);
     }
 
@@ -278,7 +279,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                 // Handle videos response
                 VideosResult videosResult = (s == null) ? null : gson.fromJson(s, VideosResult.class);
                 if (videosResult != null) {
-                    mVideoList = (ArrayList<Video>) videosResult.getVideos();
+                    mVideoList = videosResult.getVideos();
                 }
                 break;
         }
@@ -400,7 +401,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     /**
      * Updates Reviews list
      *
-     * @param reviewsList
+     * @param reviewsList ReviewsList
      */
     private void updateReviewsUI(List<Review> reviewsList) {
         if (reviewsList == null || reviewsList.size() <= 0) {
@@ -408,7 +409,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
             return;
         }
 
-        mReviewsList = (ArrayList<Review>) reviewsList;
+        mReviewsList = reviewsList;
         mMovieReviewsAdapter.setReviewList(mReviewsList);
         showReviews();
     }
