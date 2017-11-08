@@ -501,6 +501,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
     /**
      * Build and call Youtube intent
+     * Reference: https://stackoverflow.com/questions/574195/android-youtube-app-play-video-intent
      *
      * @param video Video
      */

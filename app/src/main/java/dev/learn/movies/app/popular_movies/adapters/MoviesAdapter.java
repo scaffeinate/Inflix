@@ -130,6 +130,8 @@ public class MoviesAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     /**
      * ViewHolder class to show loading progress footer
+     *
+     * Reference: http://www.jayrambhia.com/blog/footer-loader
      */
     class LoaderViewHolder extends ViewHolder {
         public LoaderViewHolder(View itemView) {
