@@ -4,23 +4,23 @@
 Popular Movies App for the  Udacity Android Nanodegree Program.
 
 ### Setup: 
-This is based on TheMovieDB API. Please obtain an api key from tmdb and add **API_KEY=<YOUR_API_KEY>** to the gradle.properties(Create one if it doesn't exist already) file.
+- Clone the project. ```git clone https://github.com/scaffeinate/Popular-Movies-Android.git```
+- Obtain an api key from tmdb and add **API_KEY=<YOUR_API_KEY>** to the gradle.properties(Create one if it doesn't exist already) file.
 
-### V2 TODO:
-- ~~Add a video button to watch movie trailer.~~
-- ~~Add a Fav button.~~
-- ~~Add a section for Reviews.~~
-- ~~Add a dropdown for Favorites.~~
-- ~~Tablet Layout.~~
-- ~~Replace AsyncTask with Loaders.~~
-- ~~Build a Content Provider and Db Contract.~~
-- ~~Offline load Favorites.~~
-- ~~Reuse common styles/themes.~~
-- ~~Store the movie details too in Db. Cache the images.~~
-- ~~Add a share link for the movie trailer.~~
-- ~~Add View Binding.~~
+### Screenshots:
+![screenshot_1](https://github.com/scaffeinate/Popular-Movies-Android/blob/master/screenshots/screenshot_merged_0.jpg?raw=true)
+![screenshot_2](https://github.com/scaffeinate/Popular-Movies-Android/blob/master/screenshots/screenshot_merged_1.jpg?raw=true)
+![screenshot_3](https://github.com/scaffeinate/Popular-Movies-Android/blob/master/screenshots/screenshot_merged_2.jpg?raw=true)
 
-### V1:
+### Changelog:
+#### V2:
+- Allow users to view and play trailers ( either in the youtube app or a web browser).
+- Allow users to read reviews of a selected movie.
+- Allow users to mark a movie as a favorite in the details view by tapping a button(star).
+- Create a database and content provider to store the names and ids of the user's favorite movies (and optionally, the rest of the information needed to display their favorites collection while offline).
+- Modify the existing sorting criteria for the main view to include an additional pivot to show their favorites collection.
+
+#### V1:
 - Present the user with a grid arrangement of movie posters upon launch.
    - Allow your user to change sort order via a setting:
    - The sort order can be by most popular or by highest-rated
@@ -31,7 +31,4 @@ This is based on TheMovieDB API. Please obtain an api key from tmdb and add **AP
    - user rating (called vote_average in the api)
    - release date
 
-### Screenshots:
-![screenshot_1](https://github.com/scaffeinate/Popular-Movies-Android/blob/master/screenshots/screenshot_merged_0.jpg?raw=true)
-![screenshot_2](https://github.com/scaffeinate/Popular-Movies-Android/blob/master/screenshots/screenshot_merged_1.jpg?raw=true)
 ### [Licensed under MIT](https://github.com/scaffeinate/Popular-Movies-Android/blob/master/LICENSE)
