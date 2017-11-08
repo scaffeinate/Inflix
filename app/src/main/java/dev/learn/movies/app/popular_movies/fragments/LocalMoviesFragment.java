@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -35,6 +36,7 @@ import static dev.learn.movies.app.popular_movies.util.AppConstants.TABLET_GRID_
 public class LocalMoviesFragment extends Fragment implements ContentLoader.ContentLoaderCallback, OnItemClickHandler {
 
     private static final String TYPE = "type";
+    private static final String SAVED_STATE = "saved_save";
 
     private Context mContext;
     private String mType = FAVORITES;
@@ -42,6 +44,7 @@ public class LocalMoviesFragment extends Fragment implements ContentLoader.Conte
     private RecyclerView.LayoutManager mLayoutManager;
     private FavoritesAdapter mAdapter;
     private Cursor mCursor;
+    private Parcelable mSavedState = null;
 
     private ContentLoader mContentLoader;
     private FragmentMoviesBinding mBinding;
@@ -64,6 +67,10 @@ public class LocalMoviesFragment extends Fragment implements ContentLoader.Conte
         boolean isTablet = getResources().getBoolean(R.bool.is_tablet);
         int mGridCount = isTablet ? TABLET_GRID_COUNT : DEFAULT_GRID_COUNT;
         mLayoutManager = new GridLayoutManager(mContext, mGridCount);
+
+        if (savedInstanceState != null) {
+            mSavedState = savedInstanceState.getParcelable(SAVED_STATE);
+        }
     }
 
     @Nullable
@@ -85,10 +92,19 @@ public class LocalMoviesFragment extends Fragment implements ContentLoader.Conte
         return view;
     }
 
+
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         fetchFavorites();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if(mLayoutManager != null) {
+            outState.putParcelable(SAVED_STATE, mLayoutManager.onSaveInstanceState());
+        }
     }
 
     /**
@@ -129,6 +145,7 @@ public class LocalMoviesFragment extends Fragment implements ContentLoader.Conte
                     mCursor = cursor;
                     mAdapter.swapCursor(mCursor);
                     showRecyclerView();
+                    restoreState();
                 }
                 break;
         }
@@ -146,6 +163,17 @@ public class LocalMoviesFragment extends Fragment implements ContentLoader.Conte
                     getActivity().getSupportLoaderManager().restartLoader(FAVORITES_LOADER_ID, args, mContentLoader);
                 }
                 break;
+        }
+    }
+
+    /**
+     * Restores the state of the RecyclerView LayoutManager
+     *
+     * Reference: http://panavtec.me/retain-restore-recycler-view-scroll-position
+     */
+    private void restoreState() {
+        if (mSavedState != null) {
+            mLayoutManager.onRestoreInstanceState(mSavedState);
         }
     }
 
