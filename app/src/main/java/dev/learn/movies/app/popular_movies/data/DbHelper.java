@@ -41,7 +41,8 @@ public class DbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL(" DROP TABLE IF EXISTS " + FavoriteEntry.TABLE_NAME);
-        onCreate(db);
+        // Check version and add conditional statement
+        // Reference: https://thebhwgroup.com/blog/how-android-sqlite-onupgrade
+
     }
 }
