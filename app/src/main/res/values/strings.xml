@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Popular Movies</string>
+    <string name="app_name">Inflix</string>
 
     <string name="no_movies_found_error_message">No movies found.</string>
     <string name="couldnt_load_movie_info_error_message">Couldn\'t load movie info :(</string>
