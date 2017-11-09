@@ -1,10 +1,12 @@
 package dev.learn.movies.app.popular_movies;
 
+import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -30,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding mBinding;
     private String mTitle;
 
+    private ActionBarDrawerToggle mDrawerToggle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,31 +48,44 @@ public class MainActivity extends AppCompatActivity {
             actionBar.setDisplayShowTitleEnabled(false);
         }
 
-        if (savedInstanceState == null) {
+        setupToolbar();
+        /*if (savedInstanceState == null) {
             mTitle = getResources().getString(R.string.discover);
             mFragmentManager.beginTransaction()
                     .replace(R.id.layout_content, MoviesFragment.newInstance(DISCOVER))
                     .commit();
         } else {
             mTitle = savedInstanceState.getString(TITLE);
-        }
+        }*/
 
-        mBinding.toolbar.tvToolbarTitle.setText(mTitle);
+        mBinding.toolbar.tvToolbarTitle.setText("");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mDrawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main, menu);
+        inflater.inflate(R.menu.menu_main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         boolean selected = super.onOptionsItemSelected(item);
-        Fragment fragment;
+        //Fragment fragment;
 
-        switch (item.getItemId()) {
+        /*switch (item.getItemId()) {
             case R.id.action_discover:
                 fragment = MoviesFragment.newInstance(DISCOVER);
                 mTitle = getResources().getString(R.string.discover);
@@ -93,12 +110,12 @@ public class MainActivity extends AppCompatActivity {
                 mTitle = getResources().getString(R.string.discover);
                 fragment = MoviesFragment.newInstance(DISCOVER);
                 break;
-        }
+        }*/
 
-        mBinding.toolbar.tvToolbarTitle.setText(mTitle);
+        /*mBinding.toolbar.tvToolbarTitle.setText(mTitle);
         mFragmentManager.beginTransaction()
                 .replace(R.id.layout_content, fragment)
-                .commit();
+                .commit();*/
 
         return selected;
     }
@@ -107,5 +124,14 @@ public class MainActivity extends AppCompatActivity {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString(TITLE, mTitle);
+    }
+
+    private void setupToolbar() {
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
+        mDrawerToggle = new ActionBarDrawerToggle(this, mBinding.drawerLayout, mBinding.toolbar.toolbar, R.string.open, R.string.close);
+        mBinding.drawerLayout.addDrawerListener(mDrawerToggle);
     }
 }

@@ -5,6 +5,9 @@
     <dimen name="progressbar_size">42dp</dimen>
     <dimen name="toolbar_padding_right">30dp</dimen>
 
+    <dimen name="nav_drawer_width">285dp</dimen>
+    <dimen name="nav_drawer_header_height">125dp</dimen>
+
     <dimen name="activity_detail_padding">15dp</dimen>
     <dimen name="activity_detail_margin_top">30dp</dimen>
     <dimen name="actvity_detail_section_margin_top">20dp</dimen>

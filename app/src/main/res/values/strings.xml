@@ -1,6 +1,25 @@
 <resources>
     <string name="app_name">Inflix</string>
 
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+
+    <string name="nav_sub_header_movies">MOVIES</string>
+    <string name="action_now_playing">Now playing</string>
+    <string name="action_popular">Popular</string>
+    <string name="action_top_rated">Top Rated</string>
+    <string name="action_latest">Latest</string>
+    <string name="action_upcoming">Upcoming</string>
+
+    <string name="nav_sub_header_tv">TV</string>
+    <string name="action_tv_airing_today">Airing Today</string>
+    <string name="action_tv_on_the_air">On The Air</string>
+    <string name="action_tv_latest">Latest</string>
+    <string name="action_tv_popular">Popular</string>
+    <string name="action_tv_top_rated">Top Rated</string>
+
+    <string name="action_search">Search</string>
+
     <string name="no_movies_found_error_message">No movies found.</string>
     <string name="couldnt_load_movie_info_error_message">Couldn\'t load movie info :(</string>
     <string name="no_user_reviews_error_message">No user reviews.</string>
