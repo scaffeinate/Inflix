@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="iv_logo_size">80dp</dimen>
+
     <dimen name="progressbar_size">42dp</dimen>
     <dimen name="toolbar_padding_right">30dp</dimen>
 
@@ -7,6 +9,7 @@
     <dimen name="activity_detail_margin_top">30dp</dimen>
     <dimen name="actvity_detail_section_margin_top">20dp</dimen>
     <dimen name="actvity_detail_section_margin_left">0dp</dimen>
+    <dimen name="activity_detail_btn_fav_margin">16dp</dimen>
 
     <dimen name="layout_movie_info_title_margin_left">15dp</dimen>
     <dimen name="layout_movie_info_field_margin_top">10dp</dimen>
