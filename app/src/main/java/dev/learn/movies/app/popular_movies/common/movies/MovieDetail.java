@@ -1,4 +1,4 @@
-package dev.learn.movies.app.popular_movies.common;
+package dev.learn.movies.app.popular_movies.common.movies;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -7,6 +7,8 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
+
+import dev.learn.movies.app.popular_movies.common.Genre;
 
 @SuppressWarnings("unused")
 public class MovieDetail implements Parcelable {

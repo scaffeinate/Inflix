@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dev.learn.movies.app.popular_movies.R;
-import dev.learn.movies.app.popular_movies.common.TVShow;
+import dev.learn.movies.app.popular_movies.common.tv_show.TVShow;
 import dev.learn.movies.app.popular_movies.util.DisplayUtils;
 import dev.learn.movies.app.popular_movies.util.HTTPHelper;
 

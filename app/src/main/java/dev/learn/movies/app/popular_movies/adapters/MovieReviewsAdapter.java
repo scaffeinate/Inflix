@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dev.learn.movies.app.popular_movies.R;
-import dev.learn.movies.app.popular_movies.common.Review;
+import dev.learn.movies.app.popular_movies.common.movies.Review;
 import dev.learn.movies.app.popular_movies.databinding.ItemUserReviewBinding;
 
 /**

@@ -13,7 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SplashActivity">
+        <activity android:name=".activities.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,15 +21,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="dev.learn.movies.app.popular_movies.MainActivity"
+            android:name="dev.learn.movies.app.popular_movies.activities.MainActivity"
             android:launchMode="singleTop" />
         <activity
-            android:name="dev.learn.movies.app.popular_movies.DetailActivity"
-            android:parentActivityName=".MainActivity"
+            android:name="dev.learn.movies.app.popular_movies.activities.DetailActivity"
+            android:parentActivityName=".activities.MainActivity"
             android:theme="@style/TranslucentStatusBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value=".activities.MainActivity" />
         </activity>
 
         <provider

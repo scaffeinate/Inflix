@@ -1,4 +1,4 @@
-package dev.learn.movies.app.popular_movies.common;
+package dev.learn.movies.app.popular_movies.common.movies;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

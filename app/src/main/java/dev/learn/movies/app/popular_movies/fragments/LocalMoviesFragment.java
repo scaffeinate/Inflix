@@ -16,7 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import dev.learn.movies.app.popular_movies.DetailActivity;
+import dev.learn.movies.app.popular_movies.activities.DetailActivity;
 import dev.learn.movies.app.popular_movies.R;
 import dev.learn.movies.app.popular_movies.adapters.FavoritesAdapter;
 import dev.learn.movies.app.popular_movies.adapters.OnItemClickHandler;

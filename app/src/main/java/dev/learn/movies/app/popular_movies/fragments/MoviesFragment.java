@@ -22,13 +22,13 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import dev.learn.movies.app.popular_movies.DetailActivity;
-import dev.learn.movies.app.popular_movies.EndlessRecyclerViewScrollListener;
+import dev.learn.movies.app.popular_movies.activities.DetailActivity;
+import dev.learn.movies.app.popular_movies.util.EndlessRecyclerViewScrollListener;
 import dev.learn.movies.app.popular_movies.R;
 import dev.learn.movies.app.popular_movies.adapters.MoviesAdapter;
 import dev.learn.movies.app.popular_movies.adapters.OnItemClickHandler;
-import dev.learn.movies.app.popular_movies.common.Movie;
-import dev.learn.movies.app.popular_movies.common.MoviesResult;
+import dev.learn.movies.app.popular_movies.common.movies.Movie;
+import dev.learn.movies.app.popular_movies.common.movies.MoviesResult;
 import dev.learn.movies.app.popular_movies.databinding.FragmentMoviesBinding;
 import dev.learn.movies.app.popular_movies.loaders.NetworkLoader;
 import dev.learn.movies.app.popular_movies.util.DisplayUtils;

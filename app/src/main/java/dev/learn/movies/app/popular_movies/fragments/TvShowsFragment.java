@@ -20,12 +20,12 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import dev.learn.movies.app.popular_movies.EndlessRecyclerViewScrollListener;
+import dev.learn.movies.app.popular_movies.util.EndlessRecyclerViewScrollListener;
 import dev.learn.movies.app.popular_movies.R;
 import dev.learn.movies.app.popular_movies.adapters.OnItemClickHandler;
 import dev.learn.movies.app.popular_movies.adapters.TvShowsAdapter;
-import dev.learn.movies.app.popular_movies.common.TVShow;
-import dev.learn.movies.app.popular_movies.common.TVShowsResult;
+import dev.learn.movies.app.popular_movies.common.tv_show.TVShow;
+import dev.learn.movies.app.popular_movies.common.tv_show.TVShowsResult;
 import dev.learn.movies.app.popular_movies.databinding.FragmentMoviesBinding;
 import dev.learn.movies.app.popular_movies.loaders.NetworkLoader;
 import dev.learn.movies.app.popular_movies.util.DisplayUtils;

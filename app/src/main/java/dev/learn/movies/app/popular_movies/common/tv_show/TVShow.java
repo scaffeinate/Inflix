@@ -1,5 +1,5 @@
 
-package dev.learn.movies.app.popular_movies.common;
+package dev.learn.movies.app.popular_movies.common.tv_show;
 
 import android.os.Parcel;
 import android.os.Parcelable;
