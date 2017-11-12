@@ -24,7 +24,7 @@
     <style name="Display">
         <item name="android:textSize">@dimen/font_size_display</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:fontFamily">@font/lato</item>
+        <item name="android:fontFamily">@font/fira_sans_condensed_extrabold</item>
         <item name="android:textColor">@color/textColorDark</item>
     </style>
 
@@ -36,33 +36,28 @@
         <item name="android:textSize">@dimen/font_size_subheading</item>
     </style>
 
-    <style name="Caption">
-        <item name="android:textSize">@dimen/font_size_caption</item>
-        <item name="android:fontFamily">sans-serif</item>
+    <style name="Body">
+        <item name="android:textSize">@dimen/font_size_body</item>
+        <item name="android:fontFamily">@font/lato</item>
         <item name="android:textColor">@color/textColorDark</item>
+    </style>
+
+
+    <style name="BodyBold" parent="Body">
+        <item name="android:fontFamily">@font/lato_black</item>
+    </style>
+
+    <style name="Caption" parent="Body">
+        <item name="android:textSize">@dimen/font_size_caption</item>
     </style>
 
     <style name="CaptionItalic" parent="Caption">
         <item name="android:textStyle">italic</item>
     </style>
 
-    <style name="Body">
-        <item name="android:textSize">@dimen/font_size_body</item>
-        <item name="android:fontFamily">sans-serif</item>
-        <item name="android:textColor">@color/textColorDark</item>
-    </style>
-
-    <style name="BodyBold" parent="Body">
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="BodyBoldCondensed" parent="BodyBold">
-        <item name="android:fontFamily">sans-serif-condensed</item>
-    </style>
-
     <style name="TagStyle">
+        <item name="fontFamily">@font/lato_black</item>
         <item name="android:textSize">@dimen/font_size_button</item>
-        <item name="android:fontFamily">sans-serif-condensed</item>
         <item name="android:textColor">@color/textColorLight</item>
         <item name="android:textStyle">bold</item>
         <item name="android:paddingLeft">10dp</item>

@@ -74,7 +74,7 @@ public final class DisplayUtils {
         }
 
         if (year != -1) {
-            builder.append("(").append(year).append(")");
+            builder.append(" (").append(year).append(")");
         }
         return builder.toString();
     }
@@ -104,7 +104,7 @@ public final class DisplayUtils {
         if (tagline == null || tagline.isEmpty()) {
             tagline = context.getString(R.string.no_tagline_error_message);
         }
-        return "\"" + tagline + "\"";
+        return "“" + tagline + "”";
     }
 
     /**

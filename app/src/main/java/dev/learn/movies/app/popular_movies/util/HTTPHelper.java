@@ -34,23 +34,23 @@ public final class HTTPHelper {
     private final static String SCHEME = "https";
     private final static String BASE_PATH = "/api.themoviedb.org";
     private final static String API_VERSION = "3";
-    private final static String DISCOVER_PATH = "discover/movie";
+
     private final static String IMAGE_BASE_PATH = "/image.tmdb.org/t/p";
     private final static String API_KEY_PARAM = "api_key";
 
-    private final static String MOVIE_DETAIL_PATH = "movie/";
+    private final static String MOVIE_DETAIL_PATH = "movie";
 
-    private final static String MOVIE_REVIEWS_PATH = "reviews/";
+    private final static String MOVIE_REVIEWS_PATH = "reviews";
 
-    private final static String MOVIE_TRAILERS_PATH = "videos/";
+    private final static String MOVIE_TRAILERS_PATH = "videos";
 
-    private final static String NOW_PLAYING_PATH = MOVIE_DETAIL_PATH + NOW_PLAYING;
+    private final static String NOW_PLAYING_PATH = MOVIE_DETAIL_PATH + "/" + NOW_PLAYING;
 
-    private final static String MOST_POPULAR_PATH = MOVIE_DETAIL_PATH + MOST_POPULAR;
+    private final static String MOST_POPULAR_PATH = MOVIE_DETAIL_PATH + "/" + MOST_POPULAR;
 
-    private final static String TOP_RATED_PATH = MOVIE_DETAIL_PATH + TOP_RATED;
+    private final static String TOP_RATED_PATH = MOVIE_DETAIL_PATH + "/" + TOP_RATED;
 
-    private final static String UPCOMING_PATH = MOVIE_DETAIL_PATH + UPCOMING;
+    private final static String UPCOMING_PATH = MOVIE_DETAIL_PATH + "/" + UPCOMING;
 
     private final static String LANGUAGE = "language";
 
@@ -96,7 +96,7 @@ public final class HTTPHelper {
      * @return movieDetail URL
      */
     public static URL buildMovieDetailsURL(String movieId) {
-        return buildTMDBURL(MOVIE_DETAIL_PATH + movieId, -1);
+        return buildTMDBURL(MOVIE_DETAIL_PATH + "/" + movieId, -1);
     }
 
     /**
@@ -106,7 +106,7 @@ public final class HTTPHelper {
      * @return movieReviews URL
      */
     public static URL buildMovieReviewsURL(String movieId) {
-        String path = MOVIE_DETAIL_PATH + movieId + "/" + MOVIE_REVIEWS_PATH;
+        String path = MOVIE_DETAIL_PATH + "/" + movieId + "/" + MOVIE_REVIEWS_PATH;
         return buildTMDBURL(path, -1);
     }
 
@@ -117,7 +117,7 @@ public final class HTTPHelper {
      * @return movieTrailers URL
      */
     public static URL buildMovieTrailersURL(String movieId) {
-        String path = MOVIE_DETAIL_PATH + movieId + "/" + MOVIE_TRAILERS_PATH;
+        String path = MOVIE_DETAIL_PATH + "/" + movieId + "/" + MOVIE_TRAILERS_PATH;
         return buildTMDBURL(path, -1);
     }
 
