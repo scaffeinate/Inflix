@@ -18,6 +18,10 @@ import dev.learn.movies.app.popular_movies.BuildConfig;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.MOST_POPULAR;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.NOW_PLAYING;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.TOP_RATED;
+import static dev.learn.movies.app.popular_movies.util.AppConstants.TV_AIRING_TODAY;
+import static dev.learn.movies.app.popular_movies.util.AppConstants.TV_ON_THE_AIR;
+import static dev.learn.movies.app.popular_movies.util.AppConstants.TV_POPULAR;
+import static dev.learn.movies.app.popular_movies.util.AppConstants.TV_TOP_RATED;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.UPCOMING;
 
 /**
@@ -26,51 +30,76 @@ import static dev.learn.movies.app.popular_movies.util.AppConstants.UPCOMING;
 
 public final class HTTPHelper {
 
-    public final static String IMAGE_SIZE_SMALL = "w342";
-    public final static String IMAGE_SIZE_MEDIUM = "w500";
-    public final static String IMAGE_SIZE_XLARGE = "w780";
-    private final static String TAG = HTTPHelper.class.getSimpleName();
-    private final static String API_KEY = BuildConfig.API_KEY;
-    private final static String SCHEME = "https";
-    private final static String BASE_PATH = "/api.themoviedb.org";
-    private final static String API_VERSION = "3";
+    public static final String IMAGE_SIZE_SMALL = "w342";
+    public static final String IMAGE_SIZE_MEDIUM = "w500";
+    public static final String IMAGE_SIZE_XLARGE = "w780";
+    private static final String TAG = HTTPHelper.class.getSimpleName();
+    private static final String API_KEY = BuildConfig.API_KEY;
+    private static final String SCHEME = "https";
+    private static final String BASE_PATH = "/api.themoviedb.org";
+    private static final String API_VERSION = "3";
 
-    private final static String IMAGE_BASE_PATH = "/image.tmdb.org/t/p";
-    private final static String API_KEY_PARAM = "api_key";
+    private static final String IMAGE_BASE_PATH = "/image.tmdb.org/t/p";
+    private static final String API_KEY_PARAM = "api_key";
+    private static final String SEPARATOR = "/";
 
-    private final static String MOVIE_DETAIL_PATH = "movie";
+    private static final String MOVIE_DETAIL_PATH = "movie";
 
-    private final static String MOVIE_REVIEWS_PATH = "reviews";
+    private static final String TV_PATH = "tv";
 
-    private final static String MOVIE_TRAILERS_PATH = "videos";
+    private static final String MOVIE_REVIEWS_PATH = "reviews";
 
-    private final static String NOW_PLAYING_PATH = MOVIE_DETAIL_PATH + "/" + NOW_PLAYING;
+    private static final String MOVIE_TRAILERS_PATH = "videos";
 
-    private final static String MOST_POPULAR_PATH = MOVIE_DETAIL_PATH + "/" + MOST_POPULAR;
+    private static final String NOW_PLAYING_PATH = MOVIE_DETAIL_PATH + SEPARATOR + NOW_PLAYING;
 
-    private final static String TOP_RATED_PATH = MOVIE_DETAIL_PATH + "/" + TOP_RATED;
+    private static final String MOST_POPULAR_PATH = MOVIE_DETAIL_PATH + SEPARATOR + MOST_POPULAR;
 
-    private final static String UPCOMING_PATH = MOVIE_DETAIL_PATH + "/" + UPCOMING;
+    private static final String TOP_RATED_PATH = MOVIE_DETAIL_PATH + SEPARATOR + TOP_RATED;
 
-    private final static String LANGUAGE = "language";
+    private static final String UPCOMING_PATH = MOVIE_DETAIL_PATH + SEPARATOR + UPCOMING;
 
-    private final static String EN_US = "en-US";
+    private static final String TV_AIRING_TODAY_PATH = TV_PATH + SEPARATOR + TV_AIRING_TODAY;
 
-    private final static String PAGE = "page";
+    private static final String TV_ON_THE_AIR_PATH = TV_PATH + SEPARATOR + TV_ON_THE_AIR;
+
+    private static final String TV_POPULAR_PATH = TV_PATH + SEPARATOR + TV_POPULAR;
+
+    private static final String TV_TOP_RATED_PATH = TV_PATH + SEPARATOR + TV_TOP_RATED;
+
+    private static final String LANGUAGE = "language";
+
+    private static final String EN_US = "en-US";
+
+    private static final String PAGE = "page";
 
     private static final String YOUTUBE_BASE_PATH = "/youtube.com";
 
     private static final String YOUTUBE_WATCH_PATH = "watch";
 
 
+    /**
+     * Builds movie/now_playing URL
+     *
+     * @return movie/now_playing URL
+     */
     public static URL buildNowPlayingURL(int page) {
         return buildTMDBURL(NOW_PLAYING_PATH, page);
     }
 
     /**
+     * Builds movie/upcoming URL
+     *
+     * @return movie/upcoming URL
+     */
+    public static URL buildUpcomingURL(int page) {
+        return buildTMDBURL(UPCOMING_PATH, page);
+    }
+
+    /**
      * Builds movie/popular URL
      *
-     * @return popular URL
+     * @return movie/popular URL
      */
     public static URL buildMostPopularURL(int page) {
         return buildTMDBURL(MOST_POPULAR_PATH, page);
@@ -79,14 +108,46 @@ public final class HTTPHelper {
     /**
      * Builds movie/top_rated URL
      *
-     * @return topRated URL
+     * @return movie/top_rated URL
      */
     public static URL builTopRatedURL(int page) {
         return buildTMDBURL(TOP_RATED_PATH, page);
     }
 
-    public static URL buildUpcomingURL(int page) {
-        return buildTMDBURL(UPCOMING_PATH, page);
+    /**
+     * Builds tv/airing_today URL
+     *
+     * @return tv/airing_today URL
+     */
+    public static URL buildTVAiringTodayURL(int page) {
+        return buildTMDBURL(TV_AIRING_TODAY_PATH, page);
+    }
+
+    /**
+     * Builds tv/on_the_air URL
+     *
+     * @return tv/on_the_air URL
+     */
+    public static URL buildTVOnTheAirURL(int page) {
+        return buildTMDBURL(TV_ON_THE_AIR_PATH, page);
+    }
+
+    /**
+     * Builds tv/popular URL
+     *
+     * @return tv/popular URL
+     */
+    public static URL builldTVPopularURL(int page) {
+        return buildTMDBURL(TV_POPULAR_PATH, page);
+    }
+
+    /**
+     * Builds tv/top_rated URL
+     *
+     * @return tv/top_rated URL
+     */
+    public static URL buildTVTopRatedURL(int page) {
+        return buildTMDBURL(TV_TOP_RATED_PATH, page);
     }
 
     /**
@@ -96,7 +157,7 @@ public final class HTTPHelper {
      * @return movieDetail URL
      */
     public static URL buildMovieDetailsURL(String movieId) {
-        return buildTMDBURL(MOVIE_DETAIL_PATH + "/" + movieId, -1);
+        return buildTMDBURL(MOVIE_DETAIL_PATH + SEPARATOR + movieId, -1);
     }
 
     /**
@@ -106,7 +167,7 @@ public final class HTTPHelper {
      * @return movieReviews URL
      */
     public static URL buildMovieReviewsURL(String movieId) {
-        String path = MOVIE_DETAIL_PATH + "/" + movieId + "/" + MOVIE_REVIEWS_PATH;
+        String path = MOVIE_DETAIL_PATH + SEPARATOR + movieId + SEPARATOR + MOVIE_REVIEWS_PATH;
         return buildTMDBURL(path, -1);
     }
 
@@ -117,7 +178,7 @@ public final class HTTPHelper {
      * @return movieTrailers URL
      */
     public static URL buildMovieTrailersURL(String movieId) {
-        String path = MOVIE_DETAIL_PATH + "/" + movieId + "/" + MOVIE_TRAILERS_PATH;
+        String path = MOVIE_DETAIL_PATH + SEPARATOR + movieId + SEPARATOR + MOVIE_TRAILERS_PATH;
         return buildTMDBURL(path, -1);
     }
 
@@ -198,6 +259,11 @@ public final class HTTPHelper {
         return networkInfo != null && networkInfo.isConnectedOrConnecting();
     }
 
+    /**
+     * Builds TMDB Api URL
+     *
+     * @return URL
+     */
     private static URL buildTMDBURL(String path, int page) {
         Uri.Builder uriBuilder = new Uri.Builder()
                 .scheme(SCHEME)

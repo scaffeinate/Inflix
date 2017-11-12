@@ -17,9 +17,11 @@ public final class AppConstants {
 
     public static final int MOVIES_LOADER_ID = 200;
 
-    public final static int FAVORITES_LOADER_ID = 300;
+    public static final int TV_SHOWS_LOADER_ID = 300;
 
-    public static final int FAVORITE_LOADER_ID = 301;
+    public final static int FAVORITES_LOADER_ID = 500;
+
+    public static final int FAVORITE_LOADER_ID = 501;
 
     public static final int ACTIVITY_DETAIL_LAZY_LOAD_DELAY_IN_MS = 350;
 
@@ -36,6 +38,14 @@ public final class AppConstants {
     public static final String MOST_POPULAR = "popular";
 
     public static final String TOP_RATED = "top_rated";
+
+    public static final String TV_AIRING_TODAY = "airing_today";
+
+    public static final String TV_ON_THE_AIR = "on_the_air";
+
+    public static final String TV_POPULAR = "popular";
+
+    public static final String TV_TOP_RATED = "top_rated";
 
     public static final String FAVORITES = "favorites";
 }

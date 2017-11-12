@@ -18,10 +18,15 @@ import android.view.MenuItem;
 
 import dev.learn.movies.app.popular_movies.databinding.ActivityMainBinding;
 import dev.learn.movies.app.popular_movies.fragments.MoviesFragment;
+import dev.learn.movies.app.popular_movies.fragments.TvShowsFragment;
 
 import static dev.learn.movies.app.popular_movies.util.AppConstants.MOST_POPULAR;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.NOW_PLAYING;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.TOP_RATED;
+import static dev.learn.movies.app.popular_movies.util.AppConstants.TV_AIRING_TODAY;
+import static dev.learn.movies.app.popular_movies.util.AppConstants.TV_ON_THE_AIR;
+import static dev.learn.movies.app.popular_movies.util.AppConstants.TV_POPULAR;
+import static dev.learn.movies.app.popular_movies.util.AppConstants.TV_TOP_RATED;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.UPCOMING;
 
 /**
@@ -122,12 +127,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     fragment = MoviesFragment.newInstance(TOP_RATED);
                     break;
                 case R.id.action_tv_airing_today:
+                    fragment = TvShowsFragment.newInstance(TV_AIRING_TODAY);
                     break;
                 case R.id.action_tv_on_the_air:
+                    fragment = TvShowsFragment.newInstance(TV_ON_THE_AIR);
                     break;
                 case R.id.action_tv_popular:
+                    fragment = TvShowsFragment.newInstance(TV_POPULAR);
                     break;
                 case R.id.action_tv_top_rated:
+                    fragment = TvShowsFragment.newInstance(TV_TOP_RATED);
                     break;
             }
 
