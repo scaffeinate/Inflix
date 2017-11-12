@@ -15,10 +15,16 @@
         <item name="android:windowTranslucentStatus">true</item>
     </style>
 
+    <style name="NavigationDrawerStyle">
+        <item name="android:fontFamily">@font/lato</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/font_size_caption</item>
+    </style>
+
     <style name="Display">
         <item name="android:textSize">@dimen/font_size_display</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:fontFamily">sans-serif-condensed</item>
+        <item name="android:fontFamily">@font/lato</item>
         <item name="android:textColor">@color/textColorDark</item>
     </style>
 
@@ -52,12 +58,6 @@
 
     <style name="BodyBoldCondensed" parent="BodyBold">
         <item name="android:fontFamily">sans-serif-condensed</item>
-    </style>
-
-    <style name="NavigationDrawerStyle">
-        <item name="android:fontFamily">sans-serif-condensed</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textSize">@dimen/font_size_caption</item>
     </style>
 
     <style name="TagStyle">
