@@ -1,13 +1,17 @@
 
 package dev.learn.movies.app.popular_movies.common.tv_show;
 
-import java.util.List;
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 import dev.learn.movies.app.popular_movies.common.Genre;
 
-public class TVShowDetail {
+public class TVShowDetail implements Parcelable {
 
     @SerializedName("backdrop_path")
     @Expose
@@ -33,9 +37,6 @@ public class TVShowDetail {
     @SerializedName("in_production")
     @Expose
     private boolean inProduction;
-    @SerializedName("languages")
-    @Expose
-    private List<String> languages = null;
     @SerializedName("last_air_date")
     @Expose
     private String lastAirDate;
@@ -51,15 +52,6 @@ public class TVShowDetail {
     @SerializedName("number_of_seasons")
     @Expose
     private long numberOfSeasons;
-    @SerializedName("origin_country")
-    @Expose
-    private List<String> originCountry = null;
-    @SerializedName("original_language")
-    @Expose
-    private String originalLanguage;
-    @SerializedName("original_name")
-    @Expose
-    private String originalName;
     @SerializedName("overview")
     @Expose
     private String overview;
@@ -78,15 +70,42 @@ public class TVShowDetail {
     @SerializedName("status")
     @Expose
     private String status;
-    @SerializedName("type")
-    @Expose
-    private String type;
     @SerializedName("vote_average")
     @Expose
     private long voteAverage;
     @SerializedName("vote_count")
     @Expose
     private long voteCount;
+
+    protected TVShowDetail(Parcel in) {
+        backdropPath = in.readString();
+        firstAirDate = in.readString();
+        homepage = in.readString();
+        id = in.readLong();
+        inProduction = in.readByte() != 0;
+        lastAirDate = in.readString();
+        name = in.readString();
+        numberOfEpisodes = in.readLong();
+        numberOfSeasons = in.readLong();
+        overview = in.readString();
+        popularity = in.readDouble();
+        posterPath = in.readString();
+        status = in.readString();
+        voteAverage = in.readLong();
+        voteCount = in.readLong();
+    }
+
+    public static final Creator<TVShowDetail> CREATOR = new Creator<TVShowDetail>() {
+        @Override
+        public TVShowDetail createFromParcel(Parcel in) {
+            return new TVShowDetail(in);
+        }
+
+        @Override
+        public TVShowDetail[] newArray(int size) {
+            return new TVShowDetail[size];
+        }
+    };
 
     public String getBackdropPath() {
         return backdropPath;
@@ -152,14 +171,6 @@ public class TVShowDetail {
         this.inProduction = inProduction;
     }
 
-    public List<String> getLanguages() {
-        return languages;
-    }
-
-    public void setLanguages(List<String> languages) {
-        this.languages = languages;
-    }
-
     public String getLastAirDate() {
         return lastAirDate;
     }
@@ -198,30 +209,6 @@ public class TVShowDetail {
 
     public void setNumberOfSeasons(long numberOfSeasons) {
         this.numberOfSeasons = numberOfSeasons;
-    }
-
-    public List<String> getOriginCountry() {
-        return originCountry;
-    }
-
-    public void setOriginCountry(List<String> originCountry) {
-        this.originCountry = originCountry;
-    }
-
-    public String getOriginalLanguage() {
-        return originalLanguage;
-    }
-
-    public void setOriginalLanguage(String originalLanguage) {
-        this.originalLanguage = originalLanguage;
-    }
-
-    public String getOriginalName() {
-        return originalName;
-    }
-
-    public void setOriginalName(String originalName) {
-        this.originalName = originalName;
     }
 
     public String getOverview() {
@@ -272,14 +259,6 @@ public class TVShowDetail {
         this.status = status;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
     public long getVoteAverage() {
         return voteAverage;
     }
@@ -296,4 +275,27 @@ public class TVShowDetail {
         this.voteCount = voteCount;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(backdropPath);
+        dest.writeString(firstAirDate);
+        dest.writeString(homepage);
+        dest.writeLong(id);
+        dest.writeByte((byte) (inProduction ? 1 : 0));
+        dest.writeString(lastAirDate);
+        dest.writeString(name);
+        dest.writeLong(numberOfEpisodes);
+        dest.writeLong(numberOfSeasons);
+        dest.writeString(overview);
+        dest.writeDouble(popularity);
+        dest.writeString(posterPath);
+        dest.writeString(status);
+        dest.writeLong(voteAverage);
+        dest.writeLong(voteCount);
+    }
 }

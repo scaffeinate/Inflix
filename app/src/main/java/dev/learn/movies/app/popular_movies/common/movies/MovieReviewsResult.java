@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 @SuppressWarnings("unused")
-public class ReviewsResult {
+public class MovieReviewsResult {
 
     @SerializedName("id")
     @Expose
@@ -16,7 +16,7 @@ public class ReviewsResult {
     private long page;
     @SerializedName("results")
     @Expose
-    private List<Review> results = null;
+    private List<MovieReview> results = null;
     @SerializedName("total_pages")
     @Expose
     private long totalPages;
@@ -40,11 +40,11 @@ public class ReviewsResult {
         this.page = page;
     }
 
-    public List<Review> getResults() {
+    public List<MovieReview> getResults() {
         return results;
     }
 
-    public void setResults(List<Review> results) {
+    public void setResults(List<MovieReview> results) {
         this.results = results;
     }
 

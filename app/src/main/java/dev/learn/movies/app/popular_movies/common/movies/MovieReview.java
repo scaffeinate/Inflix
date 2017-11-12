@@ -7,7 +7,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 @SuppressWarnings("ALL")
-public class Review implements Parcelable {
+public class MovieReview implements Parcelable {
 
     @SerializedName("id")
     @Expose
@@ -22,22 +22,22 @@ public class Review implements Parcelable {
     @Expose
     private String url;
 
-    protected Review(Parcel in) {
+    protected MovieReview(Parcel in) {
         id = in.readString();
         author = in.readString();
         content = in.readString();
         url = in.readString();
     }
 
-    public static final Creator<Review> CREATOR = new Creator<Review>() {
+    public static final Creator<MovieReview> CREATOR = new Creator<MovieReview>() {
         @Override
-        public Review createFromParcel(Parcel in) {
-            return new Review(in);
+        public MovieReview createFromParcel(Parcel in) {
+            return new MovieReview(in);
         }
 
         @Override
-        public Review[] newArray(int size) {
-            return new Review[size];
+        public MovieReview[] newArray(int size) {
+            return new MovieReview[size];
         }
     };
 

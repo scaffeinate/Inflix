@@ -1,10 +1,13 @@
 
 package dev.learn.movies.app.popular_movies.common.tv_show;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class CreatedBy {
+public class CreatedBy implements Parcelable {
 
     @SerializedName("id")
     @Expose
@@ -18,6 +21,25 @@ public class CreatedBy {
     @SerializedName("profile_path")
     @Expose
     private String profilePath;
+
+    protected CreatedBy(Parcel in) {
+        id = in.readLong();
+        name = in.readString();
+        gender = in.readLong();
+        profilePath = in.readString();
+    }
+
+    public static final Creator<CreatedBy> CREATOR = new Creator<CreatedBy>() {
+        @Override
+        public CreatedBy createFromParcel(Parcel in) {
+            return new CreatedBy(in);
+        }
+
+        @Override
+        public CreatedBy[] newArray(int size) {
+            return new CreatedBy[size];
+        }
+    };
 
     public long getId() {
         return id;
@@ -51,4 +73,16 @@ public class CreatedBy {
         this.profilePath = profilePath;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(id);
+        dest.writeString(name);
+        dest.writeLong(gender);
+        dest.writeString(profilePath);
+    }
 }

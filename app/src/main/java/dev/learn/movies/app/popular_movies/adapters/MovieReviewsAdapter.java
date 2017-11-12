@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dev.learn.movies.app.popular_movies.R;
-import dev.learn.movies.app.popular_movies.common.movies.Review;
+import dev.learn.movies.app.popular_movies.common.movies.MovieReview;
 import dev.learn.movies.app.popular_movies.databinding.ItemUserReviewBinding;
 
 /**
@@ -17,10 +17,10 @@ import dev.learn.movies.app.popular_movies.databinding.ItemUserReviewBinding;
  */
 public class MovieReviewsAdapter extends RecyclerView.Adapter<MovieReviewsAdapter.ViewHolder> {
 
-    private List<Review> mReviewList;
+    private List<MovieReview> mMovieReviewList;
 
     public MovieReviewsAdapter() {
-        this.mReviewList = new ArrayList<>();
+        this.mMovieReviewList = new ArrayList<>();
     }
 
     @Override
@@ -32,7 +32,7 @@ public class MovieReviewsAdapter extends RecyclerView.Adapter<MovieReviewsAdapte
 
     @Override
     public int getItemCount() {
-        return mReviewList.size();
+        return mMovieReviewList.size();
     }
 
     @Override
@@ -41,12 +41,12 @@ public class MovieReviewsAdapter extends RecyclerView.Adapter<MovieReviewsAdapte
     }
 
     /**
-     * Sets the reviewList
+     * Sets the movieReviewList
      *
-     * @param reviewList reviewList
+     * @param movieReviewList movieReviewList
      */
-    public void setReviewList(List<Review> reviewList) {
-        this.mReviewList = reviewList;
+    public void setReviewList(List<MovieReview> movieReviewList) {
+        this.mMovieReviewList = movieReviewList;
         notifyDataSetChanged();
     }
 
@@ -62,14 +62,14 @@ public class MovieReviewsAdapter extends RecyclerView.Adapter<MovieReviewsAdapte
         }
 
         private void bind(int position) {
-            Review review = mReviewList.get(position);
-            if (review != null) {
-                if (review.getAuthor() != null) {
-                    mBinding.setUsername(review.getAuthor());
+            MovieReview movieReview = mMovieReviewList.get(position);
+            if (movieReview != null) {
+                if (movieReview.getAuthor() != null) {
+                    mBinding.setUsername(movieReview.getAuthor());
                 }
 
-                if (review.getContent() != null) {
-                    mBinding.setReview(review.getContent());
+                if (movieReview.getContent() != null) {
+                    mBinding.setReview(movieReview.getContent());
                 }
             }
             mBinding.executePendingBindings();

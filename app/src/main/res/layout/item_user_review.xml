@@ -10,7 +10,7 @@
             type="String" />
 
         <variable
-            name="review"
+            name="movieReview"
             type="String" />
     </data>
 
@@ -42,7 +42,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/item_user_review_margin_top"
-                    android:text="@{review}"
+                    android:text="@{movieReview}"
                     android:textAppearance="@style/Body"
                     tools:text="@string/lorem_ipsum" />
             </LinearLayout>

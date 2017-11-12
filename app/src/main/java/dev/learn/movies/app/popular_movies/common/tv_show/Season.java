@@ -1,10 +1,13 @@
 
 package dev.learn.movies.app.popular_movies.common.tv_show;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Season {
+public class Season implements Parcelable {
 
     @SerializedName("air_date")
     @Expose
@@ -21,6 +24,26 @@ public class Season {
     @SerializedName("season_number")
     @Expose
     private long seasonNumber;
+
+    protected Season(Parcel in) {
+        airDate = in.readString();
+        episodeCount = in.readLong();
+        id = in.readLong();
+        posterPath = in.readString();
+        seasonNumber = in.readLong();
+    }
+
+    public static final Creator<Season> CREATOR = new Creator<Season>() {
+        @Override
+        public Season createFromParcel(Parcel in) {
+            return new Season(in);
+        }
+
+        @Override
+        public Season[] newArray(int size) {
+            return new Season[size];
+        }
+    };
 
     public String getAirDate() {
         return airDate;
@@ -62,4 +85,17 @@ public class Season {
         this.seasonNumber = seasonNumber;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(airDate);
+        dest.writeLong(episodeCount);
+        dest.writeLong(id);
+        dest.writeString(posterPath);
+        dest.writeLong(seasonNumber);
+    }
 }

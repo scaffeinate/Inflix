@@ -37,8 +37,8 @@ import dev.learn.movies.app.popular_movies.R;
 import dev.learn.movies.app.popular_movies.adapters.MovieReviewsAdapter;
 import dev.learn.movies.app.popular_movies.common.Genre;
 import dev.learn.movies.app.popular_movies.common.movies.MovieDetail;
-import dev.learn.movies.app.popular_movies.common.movies.Review;
-import dev.learn.movies.app.popular_movies.common.movies.ReviewsResult;
+import dev.learn.movies.app.popular_movies.common.movies.MovieReview;
+import dev.learn.movies.app.popular_movies.common.movies.MovieReviewsResult;
 import dev.learn.movies.app.popular_movies.common.Video;
 import dev.learn.movies.app.popular_movies.common.VideosResult;
 import dev.learn.movies.app.popular_movies.data.DataContract.FavoriteEntry;
@@ -89,7 +89,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     private ContentLoader mContentLoader;
 
     private List<Video> mVideoList;
-    private List<Review> mReviewsList;
+    private List<MovieReview> mReviewsList;
     private MovieDetail mMovieDetail;
     private boolean mFavored = false;
 
@@ -272,9 +272,9 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                 break;
             case MOVIE_REVIEWS_LOADER_ID:
                 // Handle reviews response
-                ReviewsResult reviewsResult = (s == null) ? null : gson.fromJson(s, ReviewsResult.class);
-                List<Review> reviewList = (reviewsResult == null) ? null : reviewsResult.getResults();
-                updateReviewsUI(reviewList);
+                MovieReviewsResult movieReviewsResult = (s == null) ? null : gson.fromJson(s, MovieReviewsResult.class);
+                List<MovieReview> movieReviewList = (movieReviewsResult == null) ? null : movieReviewsResult.getResults();
+                updateReviewsUI(movieReviewList);
                 break;
             case MOVIE_TRAILERS_LOADER_ID:
                 // Handle videos response
@@ -404,7 +404,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
      *
      * @param reviewsList ReviewsList
      */
-    private void updateReviewsUI(List<Review> reviewsList) {
+    private void updateReviewsUI(List<MovieReview> reviewsList) {
         if (reviewsList == null || reviewsList.size() <= 0) {
             showReviewsErrorMessage();
             return;
