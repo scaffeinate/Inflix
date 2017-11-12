@@ -1,4 +1,4 @@
-package dev.learn.movies.app.popular_movies;
+package dev.learn.movies.app.popular_movies.util;
 
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;

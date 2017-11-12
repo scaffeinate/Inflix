@@ -1,9 +1,11 @@
-package dev.learn.movies.app.popular_movies;
+package dev.learn.movies.app.popular_movies.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+
+import dev.learn.movies.app.popular_movies.R;
 
 /**
  * Created by sudharti on 11/8/17.

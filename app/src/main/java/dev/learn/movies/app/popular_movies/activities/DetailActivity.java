@@ -1,4 +1,4 @@
-package dev.learn.movies.app.popular_movies;
+package dev.learn.movies.app.popular_movies.activities;
 
 import android.content.ActivityNotFoundException;
 import android.content.ContentValues;
@@ -33,11 +33,12 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import dev.learn.movies.app.popular_movies.R;
 import dev.learn.movies.app.popular_movies.adapters.MovieReviewsAdapter;
 import dev.learn.movies.app.popular_movies.common.Genre;
-import dev.learn.movies.app.popular_movies.common.MovieDetail;
-import dev.learn.movies.app.popular_movies.common.Review;
-import dev.learn.movies.app.popular_movies.common.ReviewsResult;
+import dev.learn.movies.app.popular_movies.common.movies.MovieDetail;
+import dev.learn.movies.app.popular_movies.common.movies.Review;
+import dev.learn.movies.app.popular_movies.common.movies.ReviewsResult;
 import dev.learn.movies.app.popular_movies.common.Video;
 import dev.learn.movies.app.popular_movies.common.VideosResult;
 import dev.learn.movies.app.popular_movies.data.DataContract.FavoriteEntry;
@@ -142,7 +143,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.detail, menu);
+        inflater.inflate(R.menu.menu_detail, menu);
         return true;
     }
 

@@ -1,4 +1,4 @@
-package dev.learn.movies.app.popular_movies;
+package dev.learn.movies.app.popular_movies.activities;
 
 import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
@@ -16,10 +16,13 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import dev.learn.movies.app.popular_movies.R;
 import dev.learn.movies.app.popular_movies.databinding.ActivityMainBinding;
+import dev.learn.movies.app.popular_movies.fragments.LocalMoviesFragment;
 import dev.learn.movies.app.popular_movies.fragments.MoviesFragment;
 import dev.learn.movies.app.popular_movies.fragments.TvShowsFragment;
 
+import static dev.learn.movies.app.popular_movies.util.AppConstants.FAVORITES;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.MOST_POPULAR;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.NOW_PLAYING;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.TOP_RATED;
@@ -137,6 +140,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     break;
                 case R.id.action_tv_top_rated:
                     fragment = TvShowsFragment.newInstance(TV_TOP_RATED);
+                    break;
+                case R.id.action_favorites:
+                    fragment = LocalMoviesFragment.newInstance(FAVORITES);
                     break;
             }
 

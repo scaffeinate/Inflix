@@ -19,7 +19,12 @@
     <string name="action_tv_popular">Popular</string>
     <string name="action_tv_top_rated">Top Rated</string>
 
+    <string name="nav_sub_header_other">OTHER</string>
+    <string name="action_favorites">Favorites</string>
+
     <string name="action_search">Search</string>
+    <string name="action_share">Share</string>
+    <string name="action_watch_trailer">Watch Trailer</string>
 
     <string name="no_movies_found_error_message">No movies found.</string>
     <string name="couldnt_load_movie_info_error_message">Couldn\'t load movie info :(</string>
@@ -27,12 +32,7 @@
     <string name="no_network_connection_error_message">No network connection :(</string>
     <string name="no_tagline_error_message">No Tagline.</string>
 
-    <string name="discover">Discover</string>
-    <string name="most_popular">Most Popular</string>
-    <string name="top_rated">Top Rated</string>
-    <string name="favorites">Favorites</string>
 
-    <string name="watch_trailer">Watch Trailer</string>
     <string name="plot">Plot</string>
     <string name="tagline">Tagline</string>
     <string name="user_reviews">User Reviews</string>
