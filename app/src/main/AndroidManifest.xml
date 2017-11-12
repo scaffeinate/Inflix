@@ -36,5 +36,8 @@
             android:name=".data.FavoriteContentProvider"
             android:authorities="dev.learn.movies.app.popular_movies"
             android:exported="false" />
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 </manifest>

@@ -7,52 +7,48 @@
             android:id="@+id/nav_sub_header_movies"
             android:title="@string/nav_sub_header_movies">
             <menu>
-                <item
-                    android:id="@+id/action_now_playing"
-                    android:icon="@drawable/ic_play_circle_grey600_24dp"
-                    android:title="@string/action_now_playing" />
-                <item
-                    android:id="@+id/action_latest"
-                    android:icon="@drawable/ic_new_box_grey600_24dp"
-                    android:title="@string/action_latest" />
-                <item
-                    android:id="@+id/action_upcoming"
-                    android:icon="@drawable/ic_cards_grey600_24dp"
-                    android:title="@string/action_upcoming" />
-                <item
-                    android:id="@+id/action_popular"
-                    android:icon="@drawable/ic_fire_grey600_24dp"
-                    android:title="@string/action_popular" />
-                <item
-                    android:id="@+id/action_top_rated"
-                    android:icon="@drawable/ic_star_grey600_24dp"
-                    android:title="@string/action_top_rated" />
+                <group android:checkableBehavior="single">
+                    <item
+                        android:id="@+id/action_now_playing"
+                        android:icon="@drawable/ic_play_circle_grey600_24dp"
+                        android:title="@string/action_now_playing" />
+                    <item
+                        android:id="@+id/action_upcoming"
+                        android:icon="@drawable/ic_cards_grey600_24dp"
+                        android:title="@string/action_upcoming" />
+                    <item
+                        android:id="@+id/action_popular"
+                        android:icon="@drawable/ic_fire_grey600_24dp"
+                        android:title="@string/action_popular" />
+                    <item
+                        android:id="@+id/action_top_rated"
+                        android:icon="@drawable/ic_star_grey600_24dp"
+                        android:title="@string/action_top_rated" />
+                </group>
             </menu>
         </item>
         <item
             android:id="@+id/nav_sub_header_tv"
             android:title="@string/nav_sub_header_tv">
             <menu>
-                <item
-                    android:id="@+id/action_tv_airing_today"
-                    android:icon="@drawable/ic_cast_grey600_24dp"
-                    android:title="@string/action_tv_airing_today" />
-                <item
-                    android:id="@+id/action_tv_on_the_air"
-                    android:icon="@drawable/ic_television_classic_grey600_36dp"
-                    android:title="@string/action_tv_on_the_air" />
-                <item
-                    android:id="@+id/action_tv_latest"
-                    android:icon="@drawable/ic_new_box_grey600_24dp"
-                    android:title="@string/action_tv_latest" />
-                <item
-                    android:id="@+id/action_tv_popular"
-                    android:icon="@drawable/ic_fire_grey600_24dp"
-                    android:title="@string/action_tv_popular" />
-                <item
-                    android:id="@+id/action_tv_top_rated"
-                    android:icon="@drawable/ic_star_grey600_24dp"
-                    android:title="@string/action_tv_top_rated" />
+                <group android:checkableBehavior="single">
+                    <item
+                        android:id="@+id/action_tv_airing_today"
+                        android:icon="@drawable/ic_cast_grey600_24dp"
+                        android:title="@string/action_tv_airing_today" />
+                    <item
+                        android:id="@+id/action_tv_on_the_air"
+                        android:icon="@drawable/ic_television_classic_grey600_36dp"
+                        android:title="@string/action_tv_on_the_air" />
+                    <item
+                        android:id="@+id/action_tv_popular"
+                        android:icon="@drawable/ic_fire_grey600_24dp"
+                        android:title="@string/action_tv_popular" />
+                    <item
+                        android:id="@+id/action_tv_top_rated"
+                        android:icon="@drawable/ic_star_grey600_24dp"
+                        android:title="@string/action_tv_top_rated" />
+                </group>
             </menu>
         </item>
     </group>

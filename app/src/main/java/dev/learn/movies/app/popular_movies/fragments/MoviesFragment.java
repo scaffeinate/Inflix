@@ -38,9 +38,11 @@ import static dev.learn.movies.app.popular_movies.util.AppConstants.DEFAULT_GRID
 import static dev.learn.movies.app.popular_movies.util.AppConstants.DISCOVER;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.MOST_POPULAR;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.MOVIES_LOADER_ID;
+import static dev.learn.movies.app.popular_movies.util.AppConstants.NOW_PLAYING;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.START_PAGE;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.TABLET_GRID_COUNT;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.TOP_RATED;
+import static dev.learn.movies.app.popular_movies.util.AppConstants.UPCOMING;
 
 /**
  * MoviesFragment - Fetch and show Movies Grid from API
@@ -213,8 +215,11 @@ public class MoviesFragment extends Fragment implements NetworkLoader.NetworkLoa
         if (HTTPHelper.isNetworkEnabled(mContext)) {
             URL url = null;
             switch (mType) {
-                case DISCOVER:
-                    url = HTTPHelper.buildDiscoverURL(page);
+                case NOW_PLAYING:
+                    url = HTTPHelper.buildNowPlayingURL(page);
+                    break;
+                case UPCOMING:
+                    url = HTTPHelper.buildUpcomingURL(page);
                     break;
                 case MOST_POPULAR:
                     url = HTTPHelper.buildMostPopularURL(page);

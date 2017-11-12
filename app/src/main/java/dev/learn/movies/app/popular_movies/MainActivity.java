@@ -3,8 +3,12 @@ package dev.learn.movies.app.popular_movies;
 import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -13,24 +17,24 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import dev.learn.movies.app.popular_movies.databinding.ActivityMainBinding;
-import dev.learn.movies.app.popular_movies.fragments.LocalMoviesFragment;
 import dev.learn.movies.app.popular_movies.fragments.MoviesFragment;
 
-import static dev.learn.movies.app.popular_movies.util.AppConstants.DISCOVER;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.FAVORITES;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.MOST_POPULAR;
+import static dev.learn.movies.app.popular_movies.util.AppConstants.NOW_PLAYING;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.TOP_RATED;
+import static dev.learn.movies.app.popular_movies.util.AppConstants.UPCOMING;
 
 /**
  * MainActivity - Movies Grid
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private static final String TITLE = "title";
+    private static final String SELECTED_TITLE = "selected_title";
+    private static final String SELECTED_NAV_ITEM = "selected_nav_item";
 
     private FragmentManager mFragmentManager;
     private ActivityMainBinding mBinding;
-    private String mTitle;
+    private int selectedNavItem = 0;
 
     private ActionBarDrawerToggle mDrawerToggle;
 
@@ -43,22 +47,16 @@ public class MainActivity extends AppCompatActivity {
         mFragmentManager = getSupportFragmentManager();
 
         setSupportActionBar(mBinding.toolbar.toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayShowTitleEnabled(false);
-        }
+        mBinding.navigationView.setNavigationItemSelectedListener(this);
 
         setupToolbar();
-        /*if (savedInstanceState == null) {
-            mTitle = getResources().getString(R.string.discover);
-            mFragmentManager.beginTransaction()
-                    .replace(R.id.layout_content, MoviesFragment.newInstance(DISCOVER))
-                    .commit();
+        if (savedInstanceState == null) {
+            Menu menu = mBinding.navigationView.getMenu();
+            onNavigationItemSelected(menu.findItem(R.id.action_now_playing));
         } else {
-            mTitle = savedInstanceState.getString(TITLE);
-        }*/
-
-        mBinding.toolbar.tvToolbarTitle.setText("");
+            setToolbarTitle(savedInstanceState.getString(SELECTED_TITLE));
+            selectedNavItem = savedInstanceState.getInt(SELECTED_NAV_ITEM);
+        }
     }
 
     @Override
@@ -82,48 +80,14 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        boolean selected = super.onOptionsItemSelected(item);
-        //Fragment fragment;
-
-        /*switch (item.getItemId()) {
-            case R.id.action_discover:
-                fragment = MoviesFragment.newInstance(DISCOVER);
-                mTitle = getResources().getString(R.string.discover);
-                selected = true;
-                break;
-            case R.id.action_sort_popular:
-                fragment = MoviesFragment.newInstance(MOST_POPULAR);
-                mTitle = getResources().getString(R.string.most_popular);
-                selected = true;
-                break;
-            case R.id.action_sort_rating:
-                fragment = MoviesFragment.newInstance(TOP_RATED);
-                mTitle = getResources().getString(R.string.top_rated);
-                selected = true;
-                break;
-            case R.id.action_favorites:
-                fragment = LocalMoviesFragment.newInstance(FAVORITES);
-                mTitle = getResources().getString(R.string.favorites);
-                selected = true;
-                break;
-            default:
-                mTitle = getResources().getString(R.string.discover);
-                fragment = MoviesFragment.newInstance(DISCOVER);
-                break;
-        }*/
-
-        /*mBinding.toolbar.tvToolbarTitle.setText(mTitle);
-        mFragmentManager.beginTransaction()
-                .replace(R.id.layout_content, fragment)
-                .commit();*/
-
-        return selected;
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString(TITLE, mTitle);
+        outState.putString(SELECTED_TITLE, mBinding.toolbar.tvToolbarTitle.getText().toString());
+        outState.putInt(SELECTED_NAV_ITEM, selectedNavItem);
     }
 
     private void setupToolbar() {
@@ -133,5 +97,60 @@ public class MainActivity extends AppCompatActivity {
 
         mDrawerToggle = new ActionBarDrawerToggle(this, mBinding.drawerLayout, mBinding.toolbar.toolbar, R.string.open, R.string.close);
         mBinding.drawerLayout.addDrawerListener(mDrawerToggle);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        selectDrawerItem(item);
+        return true;
+    }
+
+    private void selectDrawerItem(MenuItem item) {
+        if (item.getItemId() != selectedNavItem) {
+            Fragment fragment = null;
+            switch (item.getItemId()) {
+                case R.id.action_now_playing:
+                    fragment = MoviesFragment.newInstance(NOW_PLAYING);
+                    break;
+                case R.id.action_upcoming:
+                    fragment = MoviesFragment.newInstance(UPCOMING);
+                    break;
+                case R.id.action_popular:
+                    fragment = MoviesFragment.newInstance(MOST_POPULAR);
+                    break;
+                case R.id.action_top_rated:
+                    fragment = MoviesFragment.newInstance(TOP_RATED);
+                    break;
+                case R.id.action_tv_airing_today:
+                    break;
+                case R.id.action_tv_on_the_air:
+                    break;
+                case R.id.action_tv_popular:
+                    break;
+                case R.id.action_tv_top_rated:
+                    break;
+            }
+
+            if (fragment != null) {
+                mFragmentManager.beginTransaction()
+                        .replace(R.id.layout_content, fragment)
+                        .commit();
+            }
+
+            mBinding.navigationView.setCheckedItem(item.getItemId());
+            selectedNavItem = item.getItemId();
+            setToolbarTitle(item.getTitle().toString());
+        }
+
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                mBinding.drawerLayout.closeDrawer(GravityCompat.START);
+            }
+        });
+    }
+
+    private void setToolbarTitle(String title) {
+        mBinding.toolbar.tvToolbarTitle.setText(title);
     }
 }

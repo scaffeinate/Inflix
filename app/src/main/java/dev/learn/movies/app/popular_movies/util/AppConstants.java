@@ -29,9 +29,13 @@ public final class AppConstants {
 
     public final static String DISCOVER = "discover";
 
-    public final static String MOST_POPULAR = "most_popular";
+    public static final String NOW_PLAYING = "now_playing";
 
-    public final static String TOP_RATED = "top_rated";
+    public static final String UPCOMING = "upcoming";
 
-    public final static String FAVORITES = "favorites";
+    public static final String MOST_POPULAR = "popular";
+
+    public static final String TOP_RATED = "top_rated";
+
+    public static final String FAVORITES = "favorites";
 }
