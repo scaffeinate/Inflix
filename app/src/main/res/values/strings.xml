@@ -25,12 +25,14 @@
     <string name="action_search">Search</string>
     <string name="action_share">Share</string>
     <string name="action_watch_trailer">Watch Trailer</string>
+    <string name="action_imdb">Open in IMDB</string>
 
     <string name="no_movies_found_error_message">No movies found.</string>
     <string name="couldnt_load_movie_info_error_message">Couldn\'t load movie info :(</string>
     <string name="no_user_reviews_error_message">No user reviews.</string>
     <string name="no_network_connection_error_message">No network connection :(</string>
     <string name="no_tagline_error_message">No Tagline.</string>
+    <string name="imdb_link_not_available">IMDB Link not available.</string>
 
 
     <string name="plot">Plot</string>

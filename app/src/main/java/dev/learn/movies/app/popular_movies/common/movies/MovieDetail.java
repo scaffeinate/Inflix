@@ -58,6 +58,9 @@ public class MovieDetail implements Parcelable {
     @SerializedName("genres")
     @Expose
     private List<Genre> genres;
+    @SerializedName("imdb_id")
+    @Expose
+    private String imdbId;
 
     public MovieDetail() {
     }
@@ -73,6 +76,7 @@ public class MovieDetail implements Parcelable {
         title = in.readString();
         voteAverage = in.readDouble();
         voteCount = in.readLong();
+        imdbId = in.readString();
     }
 
     public String getBackdropPath() {
@@ -163,6 +167,14 @@ public class MovieDetail implements Parcelable {
         this.genres = genres;
     }
 
+    public String getImdbId() {
+        return imdbId;
+    }
+
+    public void setImdbId(String imdbId) {
+        this.imdbId = imdbId;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -180,5 +192,6 @@ public class MovieDetail implements Parcelable {
         parcel.writeString(title);
         parcel.writeDouble(voteAverage);
         parcel.writeLong(voteCount);
+        parcel.writeString(imdbId);
     }
 }

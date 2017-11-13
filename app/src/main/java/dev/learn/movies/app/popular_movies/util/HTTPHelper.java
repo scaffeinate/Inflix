@@ -77,6 +77,9 @@ public final class HTTPHelper {
 
     private static final String YOUTUBE_WATCH_PATH = "watch";
 
+    private static final String IMDB_BASE_PATH = "/www.imdb.com";
+
+    private static final String IMDB_TITLE_PATH = "title";
 
     /**
      * Builds movie/now_playing URL
@@ -204,6 +207,24 @@ public final class HTTPHelper {
 
         return null;
     }
+
+    public static URL buildIMDBURL(String imdbId) {
+        Uri uri = new Uri.Builder()
+                .scheme(SCHEME)
+                .appendEncodedPath(IMDB_BASE_PATH)
+                .appendEncodedPath(IMDB_TITLE_PATH)
+                .appendEncodedPath(imdbId)
+                .build();
+
+        try {
+            return new URL(uri.toString());
+        } catch (MalformedURLException e) {
+            Log.e(TAG, e.getMessage());
+        }
+
+        return null;
+    }
+
 
     /**
      * Builds Image URL

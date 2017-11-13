@@ -36,11 +36,11 @@ import java.util.List;
 import dev.learn.movies.app.popular_movies.R;
 import dev.learn.movies.app.popular_movies.adapters.MovieReviewsAdapter;
 import dev.learn.movies.app.popular_movies.common.Genre;
+import dev.learn.movies.app.popular_movies.common.Video;
+import dev.learn.movies.app.popular_movies.common.VideosResult;
 import dev.learn.movies.app.popular_movies.common.movies.MovieDetail;
 import dev.learn.movies.app.popular_movies.common.movies.MovieReview;
 import dev.learn.movies.app.popular_movies.common.movies.MovieReviewsResult;
-import dev.learn.movies.app.popular_movies.common.Video;
-import dev.learn.movies.app.popular_movies.common.VideosResult;
 import dev.learn.movies.app.popular_movies.data.DataContract.FavoriteEntry;
 import dev.learn.movies.app.popular_movies.databinding.ActivityDetailBinding;
 import dev.learn.movies.app.popular_movies.loaders.ContentLoader;
@@ -181,6 +181,14 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                             watchVideo(mVideoList.get(which));
                         }
                     });
+                }
+                return true;
+            case R.id.action_imdb:
+                String imdbId = mMovieDetail.getImdbId();
+                if (imdbId != null) {
+                    openIMDBLink(imdbId);
+                } else {
+                    Toast.makeText(this, getResources().getString(R.string.imdb_link_not_available), Toast.LENGTH_SHORT).show();
                 }
                 return true;
         }
@@ -520,6 +528,19 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                     startActivity(webIntent);
                 }
             }
+        }
+    }
+
+    /**
+     * Build and call Web browser intent to open IMDB Link
+     *
+     * @param imdbId IMDB Title ID
+     */
+    private void openIMDBLink(String imdbId) {
+        URL url = HTTPHelper.buildIMDBURL(imdbId);
+        if (url != null) {
+            Intent webIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url.toString()));
+            startActivity(webIntent);
         }
     }
 
