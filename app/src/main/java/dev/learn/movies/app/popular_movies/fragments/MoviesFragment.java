@@ -34,6 +34,8 @@ import dev.learn.movies.app.popular_movies.loaders.NetworkLoader;
 import dev.learn.movies.app.popular_movies.util.DisplayUtils;
 import dev.learn.movies.app.popular_movies.util.HTTPHelper;
 
+import static dev.learn.movies.app.popular_movies.activities.DetailActivity.RESOURCE_ID;
+import static dev.learn.movies.app.popular_movies.fragments.MovieDetailsFragment.MOVIE_ID;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.DEFAULT_GRID_COUNT;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.DISCOVER;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.MOST_POPULAR;
@@ -166,7 +168,7 @@ public class MoviesFragment extends Fragment implements NetworkLoader.NetworkLoa
             Bundle bundle = new Bundle();
             Movie movie = mMovieList.get(position);
             if (movie != null) {
-                bundle.putLong(DetailActivity.MOVIE_ID, movie.getId());
+                bundle.putLong(RESOURCE_ID, movie.getId());
                 detailActivityIntent.putExtras(bundle);
             }
 

@@ -16,8 +16,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import dev.learn.movies.app.popular_movies.activities.DetailActivity;
 import dev.learn.movies.app.popular_movies.R;
+import dev.learn.movies.app.popular_movies.activities.DetailActivity;
 import dev.learn.movies.app.popular_movies.adapters.FavoritesAdapter;
 import dev.learn.movies.app.popular_movies.adapters.OnItemClickHandler;
 import dev.learn.movies.app.popular_movies.data.DataContract.FavoriteEntry;
@@ -121,7 +121,7 @@ public class LocalMoviesFragment extends Fragment implements ContentLoader.Conte
             Bundle bundle = new Bundle();
             if (mCursor.moveToPosition(position)) {
                 long movieId = mCursor.getLong(mCursor.getColumnIndex(COLUMN_MOVIE_ID));
-                bundle.putLong(DetailActivity.MOVIE_ID, movieId);
+                bundle.putLong(DetailActivity.RESOURCE_ID, movieId);
                 detailActivityIntent.putExtras(bundle);
             }
 
