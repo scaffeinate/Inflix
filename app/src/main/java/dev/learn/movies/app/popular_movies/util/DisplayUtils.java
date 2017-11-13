@@ -1,7 +1,9 @@
 package dev.learn.movies.app.popular_movies.util;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -117,5 +119,13 @@ public final class DisplayUtils {
     public static void setNoNetworkConnectionMessage(Context context, TextView errorTextView) {
         String errorMessaage = context.getResources().getString(R.string.no_network_connection_error_message);
         errorTextView.setText(errorMessaage);
+    }
+
+    public static int[] getScreenMetrics(Activity activity) {
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        activity.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int screenHeight = displayMetrics.heightPixels;
+        int screenWidth = displayMetrics.widthPixels;
+        return new int[]{screenWidth, screenHeight};
     }
 }
