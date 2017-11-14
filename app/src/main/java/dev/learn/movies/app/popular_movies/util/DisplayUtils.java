@@ -131,6 +131,10 @@ public final class DisplayUtils {
     }
 
     public static String formatCurrency(long amount) {
+        if (amount == 0) {
+            return "N/A";
+        }
+
         NumberFormat numberFormat = NumberFormat.getCurrencyInstance(Locale.getDefault());
         numberFormat.setMinimumFractionDigits(0);
         String result = numberFormat.format(amount);

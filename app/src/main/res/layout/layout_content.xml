@@ -121,8 +121,8 @@
             android:layout_height="wrap_content"
             android:background="@color/colorAccent"
             app:layout_constraintBaseline_toBaselineOf="@+id/tv_revenue_title"
-            app:layout_constraintLeft_toLeftOf="@+id/tv_budget"
-            app:layout_constraintStart_toStartOf="@+id/tv_budget"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             tools:text="@string/random_budget" />
     </android.support.constraint.ConstraintLayout>
 </layout>

@@ -46,7 +46,6 @@
     <string name="added_to_favorites">Added to Favorites</string>
     <string name="removed_from_favorites">Removed from Favorites</string>
     <string name="out_of_10">/10</string>
-    <string name="random_budget">$63000000</string>
 
     <string name="placeholder_image">Placeholder when image load fails.</string>
     <string name="backdrop_image">Backdrop Image in activity_detail</string>
@@ -59,4 +58,6 @@
     <string name="lorem_ipsum">Lorem Ipsum</string>
     <string name="tag">Tag</string>
     <string name="user">User</string>
+    <string name="released">Released</string>
+    <string name="random_budget">$63000000</string>
 </resources>

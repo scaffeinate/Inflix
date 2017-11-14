@@ -43,6 +43,9 @@ public class MovieDetail implements Parcelable {
     @SerializedName("runtime")
     @Expose
     private long runtime;
+    @SerializedName("status")
+    @Expose
+    private String status;
     @SerializedName("tagline")
     @Expose
     private String tagline;
@@ -78,6 +81,7 @@ public class MovieDetail implements Parcelable {
         posterPath = in.readString();
         releaseDate = in.readString();
         runtime = in.readLong();
+        status = in.readString();
         tagline = in.readString();
         title = in.readString();
         voteAverage = in.readDouble();
@@ -133,6 +137,14 @@ public class MovieDetail implements Parcelable {
 
     public void setRuntime(long runtime) {
         this.runtime = runtime;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getTagline() {
@@ -212,6 +224,7 @@ public class MovieDetail implements Parcelable {
         parcel.writeString(posterPath);
         parcel.writeString(releaseDate);
         parcel.writeLong(runtime);
+        parcel.writeString(status);
         parcel.writeString(tagline);
         parcel.writeString(title);
         parcel.writeDouble(voteAverage);

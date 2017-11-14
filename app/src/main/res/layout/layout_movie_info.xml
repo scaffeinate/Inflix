@@ -42,6 +42,19 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_movie_title"
             tools:text="@string/hundred_min" />
 
+        <TextView
+            android:id="@+id/tv_movie_status"
+            style="@style/TagStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/layout_movie_info_field_margin_top"
+            android:layout_marginLeft="5dp"
+            android:background="@color/tagColor"
+            app:layout_constraintLeft_toRightOf="@+id/tv_movie_runtime"
+            app:layout_constraintStart_toEndOf="@+id/tv_movie_runtime"
+            app:layout_constraintBaseline_toBaselineOf="@+id/tv_movie_runtime"
+            tools:text="@string/released" />
+
         <RelativeLayout
             android:id="@+id/layout_rating"
             android:layout_width="0dp"

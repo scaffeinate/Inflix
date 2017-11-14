@@ -13,6 +13,7 @@ import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.Loader;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -321,6 +322,7 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
         String posterURL = movieDetail.getPosterPath();
         String title = movieDetail.getTitle();
         String runningTime = movieDetail.getRuntime() + " min";
+        String status = movieDetail.getStatus();
         String rating = String.valueOf(voteAverage);
         String voteCount = "(" + movieDetail.getVoteCount() + ")";
         String tagline = movieDetail.getTagline();
@@ -342,6 +344,12 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
         mBinding.layoutMovieInfo.tvMovieTitle.setText(DisplayUtils.formatTitle(title, year));
 
         mBinding.layoutMovieInfo.tvMovieRuntime.setText(runningTime);
+
+        if (!TextUtils.isEmpty(status)) {
+            mBinding.layoutMovieInfo.tvMovieStatus.setText(status);
+        } else {
+            mBinding.layoutMovieInfo.tvMovieStatus.setVisibility(View.GONE);
+        }
 
         DisplayUtils.addGenres(genres, mBinding.layoutContent.layoutGenres, mContext);
 
