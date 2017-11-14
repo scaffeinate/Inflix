@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,13 +19,13 @@ import dev.learn.movies.app.popular_movies.databinding.ActivityDetailBinding;
 import dev.learn.movies.app.popular_movies.fragments.MovieDetailsFragment;
 import dev.learn.movies.app.popular_movies.util.DisplayUtils;
 
+import static dev.learn.movies.app.popular_movies.util.AppConstants.RESOURCE_ID;
+import static dev.learn.movies.app.popular_movies.util.AppConstants.RESOURCE_TITLE;
+
 /**
  * DetailActivity - Movie Details Screen
  */
 public class DetailActivity extends AppCompatActivity implements View.OnClickListener, MovieDetailCallbacks {
-
-    public static final String RESOURCE_ID = "resource_id";
-    public static final String RESOURCE_TYPE = "resource_type";
 
     private ActivityDetailBinding mBinding;
     private Fragment mFragment;
@@ -41,21 +40,17 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         mFragmentManager = getSupportFragmentManager();
 
         setSupportActionBar(mBinding.toolbar);
-        ActionBar mActionBar = getSupportActionBar();
-        if (mActionBar != null) {
-            mActionBar.setDisplayHomeAsUpEnabled(true);
-            mActionBar.setDisplayShowTitleEnabled(false);
-        }
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         if (savedInstanceState == null) {
-            Bundle extras = getIntent().getExtras();
-            if (extras != null && extras.containsKey(RESOURCE_ID)) {
-                long movieId = getIntent().getExtras().getLong(RESOURCE_ID);
-                mFragment = MovieDetailsFragment.newInstance(movieId);
-                mFragmentManager.beginTransaction()
-                        .replace(R.id.layout_outlet, mFragment)
-                        .commit();
-            }
+            long movieId = getIntent().getLongExtra(RESOURCE_ID, 0);
+            String movieName = getIntent().getStringExtra(RESOURCE_TITLE);
+
+            mFragment = MovieDetailsFragment.newInstance(movieId, movieName);
+            mFragmentManager.beginTransaction()
+                    .replace(R.id.layout_outlet, mFragment)
+                    .commit();
         }
 
         adjustBackdropSize();

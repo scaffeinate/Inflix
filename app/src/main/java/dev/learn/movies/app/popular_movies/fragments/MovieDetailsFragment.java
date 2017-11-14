@@ -2,6 +2,7 @@ package dev.learn.movies.app.popular_movies.fragments;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
@@ -12,8 +13,6 @@ import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.Loader;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,13 +28,11 @@ import java.util.List;
 import dev.learn.movies.app.popular_movies.R;
 import dev.learn.movies.app.popular_movies.activities.DetailActivity;
 import dev.learn.movies.app.popular_movies.activities.MovieDetailCallbacks;
-import dev.learn.movies.app.popular_movies.adapters.MovieReviewsAdapter;
+import dev.learn.movies.app.popular_movies.activities.MovieReviewsActivity;
 import dev.learn.movies.app.popular_movies.common.Genre;
 import dev.learn.movies.app.popular_movies.common.Video;
 import dev.learn.movies.app.popular_movies.common.VideosResult;
 import dev.learn.movies.app.popular_movies.common.movies.MovieDetail;
-import dev.learn.movies.app.popular_movies.common.movies.MovieReview;
-import dev.learn.movies.app.popular_movies.common.movies.MovieReviewsResult;
 import dev.learn.movies.app.popular_movies.data.DataContract;
 import dev.learn.movies.app.popular_movies.databinding.FragmentMovieDetailsBinding;
 import dev.learn.movies.app.popular_movies.loaders.ContentLoader;
@@ -59,7 +56,8 @@ import static dev.learn.movies.app.popular_movies.loaders.ContentLoader.URI_EXTR
 import static dev.learn.movies.app.popular_movies.util.AppConstants.ACTIVITY_DETAIL_LAZY_LOAD_DELAY_IN_MS;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.FAVORITE_LOADER_ID;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.MOVIE_DETAILS_LOADER_ID;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.MOVIE_REVIEWS_LOADER_ID;
+import static dev.learn.movies.app.popular_movies.util.AppConstants.MOVIE_ID;
+import static dev.learn.movies.app.popular_movies.util.AppConstants.MOVIE_NAME;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.MOVIE_TRAILERS_LOADER_ID;
 
 /**
@@ -67,11 +65,9 @@ import static dev.learn.movies.app.popular_movies.util.AppConstants.MOVIE_TRAILE
  */
 
 public class MovieDetailsFragment extends Fragment implements DetailActivity.OnFavBtnClickListener,
-        ContentLoader.ContentLoaderCallback, NetworkLoader.NetworkLoaderCallback {
+        ContentLoader.ContentLoaderCallback, NetworkLoader.NetworkLoaderCallback, View.OnClickListener {
 
-    public static final String MOVIE_ID = "movie_id";
     private static final String MOVIE_DETAILS = "movie_details";
-    private static final String MOVIE_REVIEWS = "movie_reviews";
     private static final String MOVIE_TRAILERS = "movie_trailers";
     private static final String FAVORED = "favored";
 
@@ -80,13 +76,12 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
 
     private final Gson gson = new Gson();
     private long mMovieId = 0L;
+    private String mMovieName;
 
     private NetworkLoader mNetworkLoader;
     private ContentLoader mContentLoader;
 
     private List<Video> mVideoList;
-    private List<MovieReview> mReviewsList;
-    private MovieReviewsAdapter mMovieReviewsAdapter;
 
     private MovieDetail mMovieDetail;
 
@@ -94,11 +89,12 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
 
     private FragmentMovieDetailsBinding mBinding;
 
-    public static MovieDetailsFragment newInstance(long movieId) {
+    public static MovieDetailsFragment newInstance(long movieId, String movieName) {
         MovieDetailsFragment movieDetailsFragment = new MovieDetailsFragment();
 
         Bundle args = new Bundle();
         args.putLong(MOVIE_ID, movieId);
+        args.putString(MOVIE_NAME, movieName);
         movieDetailsFragment.setArguments(args);
 
         return movieDetailsFragment;
@@ -109,8 +105,6 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
         super.onCreate(savedInstanceState);
         mContext = getContext();
         mVideoList = new ArrayList<>();
-        mReviewsList = new ArrayList<>();
-        mMovieReviewsAdapter = new MovieReviewsAdapter();
         mNetworkLoader = new NetworkLoader(mContext, this);
         mContentLoader = new ContentLoader(mContext, this);
         setHasOptionsMenu(true);
@@ -121,15 +115,8 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_movie_details, container, false);
         View view = mBinding.getRoot();
-
+        mBinding.layoutMovieInfo.layoutRating.setOnClickListener(this);
         adjustPosterSize();
-
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
-        mBinding.layoutUserReviews.rvUserReviews.setNestedScrollingEnabled(false);
-        mBinding.layoutUserReviews.rvUserReviews.setLayoutManager(layoutManager);
-        mBinding.layoutUserReviews.rvUserReviews.setHasFixedSize(true);
-        mBinding.layoutUserReviews.rvUserReviews.setAdapter(mMovieReviewsAdapter);
-
         return view;
     }
 
@@ -144,6 +131,7 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
         super.onActivityCreated(savedInstanceState);
         if (savedInstanceState == null) {
             mMovieId = getArguments().getLong(MOVIE_ID, 0);
+            mMovieName = getArguments().getString(MOVIE_NAME, "");
             if (mMovieId != 0) {
                 loadMovieDetailsFromDatabase(); //Check if the movieDetails are available from local
                 lazyLoadAdditionalInfoFromNetwork();
@@ -152,12 +140,11 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
             }
         } else {
             mMovieId = savedInstanceState.getLong(MOVIE_ID);
+            mMovieName = savedInstanceState.getString(MOVIE_NAME);
             mMovieDetail = savedInstanceState.getParcelable(MOVIE_DETAILS);
-            mReviewsList = savedInstanceState.getParcelableArrayList(MOVIE_REVIEWS);
             mVideoList = savedInstanceState.getParcelableArrayList(MOVIE_TRAILERS);
             mFavored = savedInstanceState.getBoolean(FAVORED);
             updateMovieDetailsUI(mMovieDetail);
-            updateReviewsUI(mReviewsList);
         }
     }
 
@@ -186,8 +173,8 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putLong(MOVIE_ID, mMovieId);
+        outState.putString(MOVIE_NAME, mMovieName);
         outState.putParcelable(MOVIE_DETAILS, mMovieDetail);
-        outState.putParcelableArrayList(MOVIE_REVIEWS, (ArrayList<? extends Parcelable>) mReviewsList);
         outState.putParcelableArrayList(MOVIE_TRAILERS, (ArrayList<? extends Parcelable>) mVideoList);
         outState.putBoolean(FAVORED, mFavored);
     }
@@ -231,12 +218,6 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
                 MovieDetail movieDetail = (s == null) ? null : gson.fromJson(s, MovieDetail.class);
                 updateMovieDetailsUI(movieDetail);
                 break;
-            case MOVIE_REVIEWS_LOADER_ID:
-                // Handle reviews response
-                MovieReviewsResult movieReviewsResult = (s == null) ? null : gson.fromJson(s, MovieReviewsResult.class);
-                List<MovieReview> movieReviewList = (movieReviewsResult == null) ? null : movieReviewsResult.getResults();
-                updateReviewsUI(movieReviewList);
-                break;
             case MOVIE_TRAILERS_LOADER_ID:
                 // Handle videos response
                 VideosResult videosResult = (s == null) ? null : gson.fromJson(s, VideosResult.class);
@@ -265,6 +246,15 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
         mCallbacks.updateFavBtn(mFavored);
     }
 
+
+    @Override
+    public void onClick(View v) {
+        Intent reviewsIntent = new Intent(mContext, MovieReviewsActivity.class);
+        reviewsIntent.putExtra(MOVIE_ID, mMovieId);
+        reviewsIntent.putExtra(MOVIE_NAME, mMovieName);
+        startActivity(reviewsIntent);
+    }
+
     /**
      * Loads movie details from local ContentProvider
      */
@@ -286,30 +276,17 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
     }
 
     /**
-     * Lazy loads reviews and trailers
+     * Lazy loads additional info
      */
     private void lazyLoadAdditionalInfoFromNetwork() {
         if (HTTPHelper.isNetworkEnabled(mContext)) {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    loadMovieReviewsFromNetwork();
                     loadMovieTrailersFromNetwork();
                 }
             }, ACTIVITY_DETAIL_LAZY_LOAD_DELAY_IN_MS);
-        } else {
-            showReviewsErrorMessage();
         }
-    }
-
-    /**
-     * Loads movie reviews from Network
-     */
-    private void loadMovieReviewsFromNetwork() {
-        URL url = HTTPHelper.buildMovieReviewsURL(String.valueOf(mMovieId));
-        Bundle args = new Bundle();
-        args.putSerializable(NetworkLoader.URL_EXTRA, url);
-        getActivity().getSupportLoaderManager().restartLoader(MOVIE_REVIEWS_LOADER_ID, args, mNetworkLoader);
     }
 
     /**
@@ -379,22 +356,6 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
     }
 
     /**
-     * Updates Reviews list
-     *
-     * @param reviewsList ReviewsList
-     */
-    private void updateReviewsUI(List<MovieReview> reviewsList) {
-        if (reviewsList == null || reviewsList.size() <= 0) {
-            showReviewsErrorMessage();
-            return;
-        }
-
-        mReviewsList = reviewsList;
-        mMovieReviewsAdapter.setReviewList(mReviewsList);
-        showReviews();
-    }
-
-    /**
      * Shows MovieDetailLayout, Hides ProgressBar and ErrorMessage
      */
     private void showMovieDetails() {
@@ -412,24 +373,6 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
         mBinding.pbLoadingIndicator.setVisibility(View.INVISIBLE);
         mBinding.layoutMovieDetail.setVisibility(View.INVISIBLE);
         mCallbacks.hideFavBtn();
-    }
-
-    /**
-     * Shows MovieDetailLayout, Hides ProgressBar and ErrorMessage
-     */
-    private void showReviews() {
-        mBinding.layoutUserReviews.rvUserReviews.setVisibility(View.VISIBLE);
-        mBinding.layoutUserReviews.pbUserReviews.setVisibility(View.INVISIBLE);
-        mBinding.layoutUserReviews.cvReviewsErrorMessage.setVisibility(View.INVISIBLE);
-    }
-
-    /**
-     * Shows ErrorMessage, Hides ProgressBar and MovieDetailLayout
-     */
-    private void showReviewsErrorMessage() {
-        mBinding.layoutUserReviews.cvReviewsErrorMessage.setVisibility(View.VISIBLE);
-        mBinding.layoutUserReviews.pbUserReviews.setVisibility(View.INVISIBLE);
-        mBinding.layoutUserReviews.rvUserReviews.setVisibility(View.INVISIBLE);
     }
 
     /**

@@ -22,9 +22,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import dev.learn.movies.app.popular_movies.activities.DetailActivity;
-import dev.learn.movies.app.popular_movies.util.EndlessRecyclerViewScrollListener;
 import dev.learn.movies.app.popular_movies.R;
+import dev.learn.movies.app.popular_movies.activities.DetailActivity;
 import dev.learn.movies.app.popular_movies.adapters.MoviesAdapter;
 import dev.learn.movies.app.popular_movies.adapters.OnItemClickHandler;
 import dev.learn.movies.app.popular_movies.common.movies.Movie;
@@ -32,15 +31,18 @@ import dev.learn.movies.app.popular_movies.common.movies.MoviesResult;
 import dev.learn.movies.app.popular_movies.databinding.FragmentMoviesBinding;
 import dev.learn.movies.app.popular_movies.loaders.NetworkLoader;
 import dev.learn.movies.app.popular_movies.util.DisplayUtils;
+import dev.learn.movies.app.popular_movies.util.EndlessRecyclerViewScrollListener;
 import dev.learn.movies.app.popular_movies.util.HTTPHelper;
 
-import static dev.learn.movies.app.popular_movies.activities.DetailActivity.RESOURCE_ID;
-import static dev.learn.movies.app.popular_movies.fragments.MovieDetailsFragment.MOVIE_ID;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.DEFAULT_GRID_COUNT;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.DISCOVER;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.MOST_POPULAR;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.MOVIES_LOADER_ID;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.NOW_PLAYING;
+import static dev.learn.movies.app.popular_movies.util.AppConstants.RESOURCE_ID;
+import static dev.learn.movies.app.popular_movies.util.AppConstants.RESOURCE_TITLE;
+import static dev.learn.movies.app.popular_movies.util.AppConstants.RESOURCE_TYPE;
+import static dev.learn.movies.app.popular_movies.util.AppConstants.RESOURCE_TYPE_MOVIE;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.START_PAGE;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.TABLET_GRID_COUNT;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.TOP_RATED;
@@ -163,14 +165,12 @@ public class MoviesFragment extends Fragment implements NetworkLoader.NetworkLoa
     public void onClick(int position) {
         if (position >= 0 && position < this.mMovieList.size()) {
             // Starts DetailActivity with movieId passed in a bundle.
-            Intent detailActivityIntent = new Intent(mContext, DetailActivity.class);
-
-            Bundle bundle = new Bundle();
             Movie movie = mMovieList.get(position);
-            if (movie != null) {
-                bundle.putLong(RESOURCE_ID, movie.getId());
-                detailActivityIntent.putExtras(bundle);
-            }
+
+            Intent detailActivityIntent = new Intent(mContext, DetailActivity.class);
+            detailActivityIntent.putExtra(RESOURCE_ID, movie.getId());
+            detailActivityIntent.putExtra(RESOURCE_TITLE, movie.getTitle());
+            detailActivityIntent.putExtra(RESOURCE_TYPE, RESOURCE_TYPE_MOVIE);
 
             startActivity(detailActivityIntent);
         }

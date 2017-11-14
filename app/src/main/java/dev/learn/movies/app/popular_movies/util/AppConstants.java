@@ -48,4 +48,18 @@ public final class AppConstants {
     public static final String TV_TOP_RATED = "top_rated";
 
     public static final String FAVORITES = "favorites";
+
+    public static final String MOVIE_ID = "movie_id";
+
+    public static final String MOVIE_NAME = "movie_name";
+
+    public static final String RESOURCE_TYPE_MOVIE = "movie";
+
+    public static final String RESOURCE_TYPE_TV_SHOW = "tv_show";
+
+    public static final String RESOURCE_ID = "resource_id";
+
+    public static final String RESOURCE_TITLE = "resource_title";
+
+    public static final String RESOURCE_TYPE = "resource_type";
 }

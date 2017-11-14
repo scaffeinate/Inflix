@@ -12,7 +12,6 @@
 
     <dimen name="layout_movie_info_title_margin_left">30dp</dimen>
     <dimen name="layout_movie_info_field_margin_top">20dp</dimen>
-    <dimen name="layout_movie_info_rating_out_of_margin_bottom">12dp</dimen>
     <dimen name="layout_movie_info_rating_out_of_margin_left">8dp</dimen>
     <dimen name="layout_movie_info_rating_num_margin_left">12dp</dimen>
 

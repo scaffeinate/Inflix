@@ -25,9 +25,14 @@ import dev.learn.movies.app.popular_movies.databinding.FragmentMoviesBinding;
 import dev.learn.movies.app.popular_movies.loaders.ContentLoader;
 
 import static dev.learn.movies.app.popular_movies.data.DataContract.FavoriteEntry.COLUMN_MOVIE_ID;
+import static dev.learn.movies.app.popular_movies.data.DataContract.FavoriteEntry.COLUMN_TITLE;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.DEFAULT_GRID_COUNT;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.FAVORITES;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.FAVORITES_LOADER_ID;
+import static dev.learn.movies.app.popular_movies.util.AppConstants.RESOURCE_ID;
+import static dev.learn.movies.app.popular_movies.util.AppConstants.RESOURCE_TITLE;
+import static dev.learn.movies.app.popular_movies.util.AppConstants.RESOURCE_TYPE;
+import static dev.learn.movies.app.popular_movies.util.AppConstants.RESOURCE_TYPE_MOVIE;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.TABLET_GRID_COUNT;
 
 /**
@@ -115,17 +120,18 @@ public class LocalMoviesFragment extends Fragment implements ContentLoader.Conte
     @Override
     public void onClick(int position) {
         if (position >= 0 && mCursor != null && position < mCursor.getCount()) {
-            // Starts DetailActivity with movieId passed in a bundle.
-            Intent detailActivityIntent = new Intent(mContext, DetailActivity.class);
-
-            Bundle bundle = new Bundle();
             if (mCursor.moveToPosition(position)) {
-                long movieId = mCursor.getLong(mCursor.getColumnIndex(COLUMN_MOVIE_ID));
-                bundle.putLong(DetailActivity.RESOURCE_ID, movieId);
-                detailActivityIntent.putExtras(bundle);
-            }
+                Intent detailActivityIntent = new Intent(mContext, DetailActivity.class);
 
-            startActivity(detailActivityIntent);
+                long resourceId = mCursor.getLong(mCursor.getColumnIndex(COLUMN_MOVIE_ID));
+                String resourceTitle = mCursor.getString(mCursor.getColumnIndex(COLUMN_TITLE));
+
+                detailActivityIntent.putExtra(RESOURCE_ID, resourceId);
+                detailActivityIntent.putExtra(RESOURCE_TITLE, resourceTitle);
+                detailActivityIntent.putExtra(RESOURCE_TYPE, RESOURCE_TYPE_MOVIE);
+
+                startActivity(detailActivityIntent);
+            }
         }
     }
 

@@ -51,7 +51,7 @@
                 android:id="@+id/layout_outlet"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/activity_detail_margin_top" />
+                android:paddingTop="@dimen/activity_detail_margin_top" />
         </android.support.v4.widget.NestedScrollView>
 
         <android.support.design.widget.FloatingActionButton
