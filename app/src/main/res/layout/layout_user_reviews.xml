@@ -6,54 +6,35 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/tv_user_reviews_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/user_reviews"
-            android:textAppearance="@style/SubHeading"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_user_reviews"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/layout_user_reviews_field_margin_top"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_user_reviews_title" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ProgressBar
             android:id="@+id/pb_user_reviews"
             android:layout_width="@dimen/progressbar_size"
             android:layout_height="@dimen/progressbar_size"
-            android:layout_marginTop="@dimen/layout_user_reviews_field_margin_top"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_user_reviews_title" />
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <android.support.v7.widget.CardView
-            android:id="@+id/cv_reviews_error_message"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/tv_reviews_error_message_display"
+            style="@style/Caption"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/layout_user_reviews_field_margin_top"
+            android:text="@string/no_user_reviews_error_message"
             android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_user_reviews_title">
-
-            <TextView
-                android:id="@+id/tv_reviews_error_message_display"
-                style="@style/Caption"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="@dimen/layout_user_reviews_error_message_margin"
-                android:gravity="center"
-                android:text="@string/no_user_reviews_error_message" />
-        </android.support.v7.widget.CardView>
+            app:layout_constraintTop_toTopOf="parent" />
     </android.support.constraint.ConstraintLayout>
 </layout>
