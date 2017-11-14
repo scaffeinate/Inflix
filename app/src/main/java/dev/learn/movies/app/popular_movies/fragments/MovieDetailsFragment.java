@@ -249,10 +249,14 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
 
     @Override
     public void onClick(View v) {
-        Intent reviewsIntent = new Intent(mContext, MovieReviewsActivity.class);
-        reviewsIntent.putExtra(MOVIE_ID, mMovieId);
-        reviewsIntent.putExtra(MOVIE_NAME, mMovieName);
-        startActivity(reviewsIntent);
+        if (HTTPHelper.isNetworkEnabled(mContext)) {
+            Intent reviewsIntent = new Intent(mContext, MovieReviewsActivity.class);
+            reviewsIntent.putExtra(MOVIE_ID, mMovieId);
+            reviewsIntent.putExtra(MOVIE_NAME, mMovieName);
+            startActivity(reviewsIntent);
+        } else {
+            Toast.makeText(mContext, getResources().getString(R.string.no_network_connection_error_message), Toast.LENGTH_SHORT).show();
+        }
     }
 
     /**
@@ -321,6 +325,8 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
         String voteCount = "(" + movieDetail.getVoteCount() + ")";
         String tagline = movieDetail.getTagline();
         String moviePlot = movieDetail.getOverview();
+        long budget = movieDetail.getBudget();
+        long revenue = movieDetail.getRevenue();
         List<Genre> genres = movieDetail.getGenres();
 
         if (backdropURL != null) {
@@ -346,6 +352,10 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
         mBinding.layoutMovieInfo.tvMovieRatingNum.setText(voteCount);
 
         mBinding.layoutContent.tvMovieTagline.setText(DisplayUtils.formatTagline(mContext, tagline));
+
+        mBinding.layoutContent.tvBudget.setText(DisplayUtils.formatCurrency(budget));
+
+        mBinding.layoutContent.tvRevenue.setText(DisplayUtils.formatCurrency(revenue));
 
         if (moviePlot != null && !moviePlot.isEmpty()) {
             mBinding.layoutContent.tvMoviePlot.setText(moviePlot);

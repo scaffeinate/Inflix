@@ -39,10 +39,14 @@
     <string name="tagline">Tagline</string>
     <string name="user_reviews">User Reviews</string>
     <string name="genres">Genres</string>
+    <string name="budget">Budget</string>
+    <string name="revenue">Revenue</string>
+
     <string name="trailer_1">Trailer 1</string>
     <string name="added_to_favorites">Added to Favorites</string>
     <string name="removed_from_favorites">Removed from Favorites</string>
     <string name="out_of_10">/10</string>
+    <string name="random_budget">$63000000</string>
 
     <string name="placeholder_image">Placeholder when image load fails.</string>
     <string name="backdrop_image">Backdrop Image in activity_detail</string>

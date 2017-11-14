@@ -61,6 +61,12 @@ public class MovieDetail implements Parcelable {
     @SerializedName("imdb_id")
     @Expose
     private String imdbId;
+    @SerializedName("budget")
+    @Expose
+    private long budget;
+    @SerializedName("revenue")
+    @Expose
+    private long revenue;
 
     public MovieDetail() {
     }
@@ -77,6 +83,8 @@ public class MovieDetail implements Parcelable {
         voteAverage = in.readDouble();
         voteCount = in.readLong();
         imdbId = in.readString();
+        budget = in.readLong();
+        revenue = in.readLong();
     }
 
     public String getBackdropPath() {
@@ -175,6 +183,22 @@ public class MovieDetail implements Parcelable {
         this.imdbId = imdbId;
     }
 
+    public long getBudget() {
+        return budget;
+    }
+
+    public void setBudget(long budget) {
+        this.budget = budget;
+    }
+
+    public long getRevenue() {
+        return revenue;
+    }
+
+    public void setRevenue(long revenue) {
+        this.revenue = revenue;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -193,5 +217,7 @@ public class MovieDetail implements Parcelable {
         parcel.writeDouble(voteAverage);
         parcel.writeLong(voteCount);
         parcel.writeString(imdbId);
+        parcel.writeLong(budget);
+        parcel.writeLong(revenue);
     }
 }

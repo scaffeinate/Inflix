@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -127,5 +128,12 @@ public final class DisplayUtils {
         int screenHeight = displayMetrics.heightPixels;
         int screenWidth = displayMetrics.widthPixels;
         return new int[]{screenWidth, screenHeight};
+    }
+
+    public static String formatCurrency(long amount) {
+        NumberFormat numberFormat = NumberFormat.getCurrencyInstance(Locale.getDefault());
+        numberFormat.setMinimumFractionDigits(0);
+        String result = numberFormat.format(amount);
+        return result;
     }
 }
