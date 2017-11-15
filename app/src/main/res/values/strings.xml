@@ -23,6 +23,7 @@
     <string name="action_favorites">Favorites</string>
 
     <string name="action_search">Search</string>
+    <string name="action_save_offline">Save Offline</string>
     <string name="action_share">Share</string>
     <string name="action_watch_trailer">Watch Trailer</string>
     <string name="action_imdb">Open in IMDB</string>

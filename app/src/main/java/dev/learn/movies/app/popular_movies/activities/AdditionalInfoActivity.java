@@ -20,7 +20,7 @@ import static dev.learn.movies.app.popular_movies.util.AppConstants.RESOURCE_TYP
  * Created by sudharti on 11/14/17.
  */
 
-public class AdditionInfoActivity extends AppCompatActivity {
+public class AdditionalInfoActivity extends AppCompatActivity {
 
     private String mTitle;
 
