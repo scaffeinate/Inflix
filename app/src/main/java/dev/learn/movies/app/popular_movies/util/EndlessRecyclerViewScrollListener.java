@@ -29,6 +29,8 @@ public abstract class EndlessRecyclerViewScrollListener extends RecyclerView.OnS
 
         if (layoutManager instanceof GridLayoutManager) {
             mVisibleThreshold *= ((GridLayoutManager) layoutManager).getSpanCount();
+        } else if (layoutManager instanceof LinearLayoutManager) {
+            mVisibleThreshold = ENDLESS_PAGINATION_THRESHOLD * 2;
         }
     }
 

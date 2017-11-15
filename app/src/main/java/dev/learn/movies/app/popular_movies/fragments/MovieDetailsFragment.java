@@ -29,7 +29,7 @@ import java.util.List;
 import dev.learn.movies.app.popular_movies.R;
 import dev.learn.movies.app.popular_movies.activities.DetailActivity;
 import dev.learn.movies.app.popular_movies.activities.MovieDetailCallbacks;
-import dev.learn.movies.app.popular_movies.activities.MovieReviewsActivity;
+import dev.learn.movies.app.popular_movies.activities.AdditionalInfoActivity;
 import dev.learn.movies.app.popular_movies.common.Genre;
 import dev.learn.movies.app.popular_movies.common.Video;
 import dev.learn.movies.app.popular_movies.common.VideosResult;
@@ -55,11 +55,15 @@ import static dev.learn.movies.app.popular_movies.data.DataContract.FavoriteEntr
 import static dev.learn.movies.app.popular_movies.data.DataContract.FavoriteEntry.COLUMN_VOTE_COUNT;
 import static dev.learn.movies.app.popular_movies.loaders.ContentLoader.URI_EXTRA;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.ACTIVITY_DETAIL_LAZY_LOAD_DELAY_IN_MS;
+import static dev.learn.movies.app.popular_movies.util.AppConstants.ADDITIONAL_INFO_ACTIVITY_FRAGMENT_TYPE_REVIEWS;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.FAVORITE_LOADER_ID;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.MOVIE_DETAILS_LOADER_ID;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.MOVIE_ID;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.MOVIE_NAME;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.MOVIE_TRAILERS_LOADER_ID;
+import static dev.learn.movies.app.popular_movies.util.AppConstants.RESOURCE_ID;
+import static dev.learn.movies.app.popular_movies.util.AppConstants.RESOURCE_TITLE;
+import static dev.learn.movies.app.popular_movies.util.AppConstants.RESOURCE_TYPE;
 
 /**
  * Created by sudharti on 11/12/17.
@@ -157,6 +161,8 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
         }
 
         switch (item.getItemId()) {
+            case R.id.action_save_offline:
+                return true;
             case R.id.action_share:
                 IntentUtils.shareVideos(getActivity(), mVideoList);
                 return true;
@@ -251,10 +257,15 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
     @Override
     public void onClick(View v) {
         if (HTTPHelper.isNetworkEnabled(mContext)) {
-            Intent reviewsIntent = new Intent(mContext, MovieReviewsActivity.class);
-            reviewsIntent.putExtra(MOVIE_ID, mMovieId);
-            reviewsIntent.putExtra(MOVIE_NAME, mMovieName);
-            startActivity(reviewsIntent);
+            Intent additionalIntent = new Intent(mContext, AdditionalInfoActivity.class);
+
+            Bundle extras = new Bundle();
+            extras.putLong(RESOURCE_ID, mMovieId);
+            extras.putString(RESOURCE_TITLE, mMovieName);
+            extras.putString(RESOURCE_TYPE, ADDITIONAL_INFO_ACTIVITY_FRAGMENT_TYPE_REVIEWS);
+            additionalIntent.putExtras(extras);
+
+            startActivity(additionalIntent);
         } else {
             Toast.makeText(mContext, getResources().getString(R.string.no_network_connection_error_message), Toast.LENGTH_SHORT).show();
         }

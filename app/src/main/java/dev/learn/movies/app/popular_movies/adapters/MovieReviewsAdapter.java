@@ -15,7 +15,7 @@ import dev.learn.movies.app.popular_movies.databinding.ItemUserReviewBinding;
 /**
  * MovieReviewsAdapter - RecyclerView Adapter for Movie reviews
  */
-public class MovieReviewsAdapter extends RecyclerView.Adapter<MovieReviewsAdapter.ViewHolder> {
+public class MovieReviewsAdapter extends LoadMoreAdapter {
 
     private List<MovieReview> mMovieReviewList;
 
@@ -24,20 +24,20 @@ public class MovieReviewsAdapter extends RecyclerView.Adapter<MovieReviewsAdapte
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.item_user_review, null);
-        return new ViewHolder(view);
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+        if (viewType == VIEWTYPE_CONTENT) {
+            View view = layoutInflater.inflate(R.layout.item_user_review, parent, false);
+            return new ReviewsHolder(view);
+        } else {
+            View view = layoutInflater.inflate(R.layout.item_footer_loader, parent, false);
+            return new LoaderViewHolder(view);
+        }
     }
 
     @Override
     public int getItemCount() {
-        return mMovieReviewList.size();
-    }
-
-    @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.bind(position);
+        return mMovieReviewList.size() + 1;
     }
 
     /**
@@ -53,15 +53,16 @@ public class MovieReviewsAdapter extends RecyclerView.Adapter<MovieReviewsAdapte
     /**
      * ViewHolder class to show review content
      */
-    class ViewHolder extends RecyclerView.ViewHolder {
+    class ReviewsHolder extends ContentViewHolder {
         private final ItemUserReviewBinding mBinding;
 
-        public ViewHolder(View view) {
+        public ReviewsHolder(View view) {
             super(view);
             this.mBinding = ItemUserReviewBinding.bind(view);
         }
 
-        private void bind(int position) {
+        @Override
+        public void bind(int position) {
             MovieReview movieReview = mMovieReviewList.get(position);
             if (movieReview != null) {
                 if (movieReview.getAuthor() != null) {

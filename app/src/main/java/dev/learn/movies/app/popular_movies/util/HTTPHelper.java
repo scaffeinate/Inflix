@@ -169,9 +169,9 @@ public final class HTTPHelper {
      * @param movieId Movie Id to fetch details for
      * @return movieReviews URL
      */
-    public static URL buildMovieReviewsURL(String movieId) {
+    public static URL buildMovieReviewsURL(String movieId, int page) {
         String path = MOVIE_DETAIL_PATH + SEPARATOR + movieId + SEPARATOR + MOVIE_REVIEWS_PATH;
-        return buildTMDBURL(path, -1);
+        return buildTMDBURL(path, page);
     }
 
     /**

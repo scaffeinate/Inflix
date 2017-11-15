@@ -32,7 +32,7 @@ import static dev.learn.movies.app.popular_movies.util.AppConstants.FAVORITES_LO
 import static dev.learn.movies.app.popular_movies.util.AppConstants.RESOURCE_ID;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.RESOURCE_TITLE;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.RESOURCE_TYPE;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.RESOURCE_TYPE_MOVIE;
+import static dev.learn.movies.app.popular_movies.util.AppConstants.DETAIL_ACTIVITY_FRAGMENT_TYPE_MOVIE;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.TABLET_GRID_COUNT;
 
 /**
@@ -128,7 +128,7 @@ public class LocalMoviesFragment extends Fragment implements ContentLoader.Conte
 
                 detailActivityIntent.putExtra(RESOURCE_ID, resourceId);
                 detailActivityIntent.putExtra(RESOURCE_TITLE, resourceTitle);
-                detailActivityIntent.putExtra(RESOURCE_TYPE, RESOURCE_TYPE_MOVIE);
+                detailActivityIntent.putExtra(RESOURCE_TYPE, DETAIL_ACTIVITY_FRAGMENT_TYPE_MOVIE);
 
                 startActivity(detailActivityIntent);
             }

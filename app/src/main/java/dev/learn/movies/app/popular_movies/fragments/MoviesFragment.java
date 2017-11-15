@@ -42,7 +42,7 @@ import static dev.learn.movies.app.popular_movies.util.AppConstants.NOW_PLAYING;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.RESOURCE_ID;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.RESOURCE_TITLE;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.RESOURCE_TYPE;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.RESOURCE_TYPE_MOVIE;
+import static dev.learn.movies.app.popular_movies.util.AppConstants.DETAIL_ACTIVITY_FRAGMENT_TYPE_MOVIE;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.START_PAGE;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.TABLET_GRID_COUNT;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.TOP_RATED;
@@ -99,7 +99,7 @@ public class MoviesFragment extends Fragment implements NetworkLoader.NetworkLoa
             }
         });
 
-        if (savedInstanceState != null && savedInstanceState.containsKey(PAGE)) {
+        if (savedInstanceState != null) {
             mPage = savedInstanceState.getInt(PAGE, START_PAGE);
         }
 
@@ -109,7 +109,7 @@ public class MoviesFragment extends Fragment implements NetworkLoader.NetworkLoa
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 mAdapter.showLoading(true);
                 mPage = page;
-                fetchMovies(page);
+                fetchMovies();
             }
         };
     }
@@ -143,7 +143,7 @@ public class MoviesFragment extends Fragment implements NetworkLoader.NetworkLoa
             mAdapter.setMovieList(mMovieList);
             showRecyclerView();
         } else {
-            fetchMovies(START_PAGE);
+            fetchMovies();
         }
     }
 
@@ -170,7 +170,7 @@ public class MoviesFragment extends Fragment implements NetworkLoader.NetworkLoa
             Intent detailActivityIntent = new Intent(mContext, DetailActivity.class);
             detailActivityIntent.putExtra(RESOURCE_ID, movie.getId());
             detailActivityIntent.putExtra(RESOURCE_TITLE, movie.getTitle());
-            detailActivityIntent.putExtra(RESOURCE_TYPE, RESOURCE_TYPE_MOVIE);
+            detailActivityIntent.putExtra(RESOURCE_TYPE, DETAIL_ACTIVITY_FRAGMENT_TYPE_MOVIE);
 
             startActivity(detailActivityIntent);
         }
@@ -190,7 +190,7 @@ public class MoviesFragment extends Fragment implements NetworkLoader.NetworkLoa
                 if (moviesResult == null || moviesResult.getResults() == null || moviesResult.getResults().isEmpty()) {
                     // If the first request failed then show error message hiding the content
                     // Otherwise stop loading further
-                    if (mMovieList.isEmpty()) {
+                    if (mPage == START_PAGE) {
                         showErrorMessage();
                     } else {
                         mAdapter.showLoading(false);
@@ -198,7 +198,7 @@ public class MoviesFragment extends Fragment implements NetworkLoader.NetworkLoa
                     }
                 } else {
                     // For the first request change visibility of recyclerview
-                    if (mMovieList.isEmpty()) {
+                    if (mPage == START_PAGE) {
                         showRecyclerView();
                     }
                     this.mMovieList.addAll(moviesResult.getResults());
@@ -210,24 +210,22 @@ public class MoviesFragment extends Fragment implements NetworkLoader.NetworkLoa
 
     /**
      * Fetches Movies for the requested page
-     *
-     * @param page page number
      */
-    private void fetchMovies(int page) {
+    private void fetchMovies() {
         if (HTTPHelper.isNetworkEnabled(mContext)) {
             URL url = null;
             switch (mType) {
                 case NOW_PLAYING:
-                    url = HTTPHelper.buildNowPlayingURL(page);
+                    url = HTTPHelper.buildNowPlayingURL(mPage);
                     break;
                 case UPCOMING:
-                    url = HTTPHelper.buildUpcomingURL(page);
+                    url = HTTPHelper.buildUpcomingURL(mPage);
                     break;
                 case MOST_POPULAR:
-                    url = HTTPHelper.buildMostPopularURL(page);
+                    url = HTTPHelper.buildMostPopularURL(mPage);
                     break;
                 case TOP_RATED:
-                    url = HTTPHelper.builTopRatedURL(page);
+                    url = HTTPHelper.builTopRatedURL(mPage);
                     break;
             }
 
@@ -240,7 +238,7 @@ public class MoviesFragment extends Fragment implements NetworkLoader.NetworkLoa
         } else {
             // If network is unavailable for the first request show the error textview
             // Otherview show Toast message
-            if (page == START_PAGE) {
+            if (mPage == START_PAGE) {
                 DisplayUtils.setNoNetworkConnectionMessage(mContext, mBinding.tvErrorMessageDisplay);
                 showErrorMessage();
             } else {

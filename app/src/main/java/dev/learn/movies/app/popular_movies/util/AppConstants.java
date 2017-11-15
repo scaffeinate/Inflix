@@ -53,13 +53,18 @@ public final class AppConstants {
 
     public static final String MOVIE_NAME = "movie_name";
 
-    public static final String RESOURCE_TYPE_MOVIE = "movie";
-
-    public static final String RESOURCE_TYPE_TV_SHOW = "tv_show";
+    public static final String MOVIE_REVIEWS = "movie_reviews";
 
     public static final String RESOURCE_ID = "resource_id";
 
     public static final String RESOURCE_TITLE = "resource_title";
 
     public static final String RESOURCE_TYPE = "resource_type";
+
+    public static final String DETAIL_ACTIVITY_FRAGMENT_TYPE_MOVIE = "movie";
+
+    public static final String DETAIL_ACTIVITY_FRAGMENT_TYPE_TV_SHOW = "tv_show";
+
+    public static final String ADDITIONAL_INFO_ACTIVITY_FRAGMENT_TYPE_REVIEWS = "reviews";
+
 }
