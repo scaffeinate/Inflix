@@ -11,8 +11,8 @@ import android.view.ViewGroup;
 
 public abstract class LoadMoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    public static final int VIEWTYPE_LOADING = 1;
-    public static final int VIEWTYPE_CONTENT = 2;
+    protected static final int VIEWTYPE_LOADING = 1;
+    protected static final int VIEWTYPE_CONTENT = 2;
 
     private boolean mShowLoading = true;
 

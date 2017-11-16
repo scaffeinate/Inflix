@@ -7,6 +7,7 @@ import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.Loader;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -96,6 +97,9 @@ public class UserReviewsFragment extends Fragment implements NetworkLoader.Netwo
         mBinding.rvUserReviews.setHasFixedSize(true);
         mBinding.rvUserReviews.setAdapter(mAdapter);
         mBinding.rvUserReviews.addOnScrollListener(mEndlessScollListener);
+
+        RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL);
+        mBinding.rvUserReviews.addItemDecoration(itemDecoration);
 
         if (savedInstanceState == null) {
             mMovieId = getArguments().getLong(MOVIE_ID, 0);

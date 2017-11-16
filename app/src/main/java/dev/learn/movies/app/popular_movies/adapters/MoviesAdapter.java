@@ -34,7 +34,7 @@ public class MoviesAdapter extends LoadMoreAdapter {
         if (viewType == VIEWTYPE_CONTENT) {
             View view = layoutInflater.inflate(R.layout.item_poster, parent, false);
 
-            int height = parent.getMeasuredHeight() / 2;
+            int height = parent.getMeasuredHeight();
             MyViewHolder viewHolder = new MyViewHolder(view);
             viewHolder.adjustPosterHeight(height);
             return viewHolder;
@@ -80,7 +80,7 @@ public class MoviesAdapter extends LoadMoreAdapter {
         }
 
         public void adjustPosterHeight(int height) {
-            mPosterImageView.setMinimumHeight(height);
+            mPosterImageView.setMinimumHeight(height / 2);
         }
     }
 }
