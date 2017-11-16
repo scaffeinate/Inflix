@@ -162,7 +162,7 @@ public class MoviesFragment extends Fragment implements NetworkLoader.NetworkLoa
      * @param position Position
      */
     @Override
-    public void onClick(int position) {
+    public void onItemClicked(int position) {
         if (position >= 0 && position < this.mMovieList.size()) {
             // Starts DetailActivity with movieId passed in a bundle.
             Movie movie = mMovieList.get(position);

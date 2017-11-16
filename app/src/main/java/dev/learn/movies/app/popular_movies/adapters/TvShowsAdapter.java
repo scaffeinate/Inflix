@@ -123,7 +123,7 @@ public class TvShowsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         @Override
         public void onClick(View view) {
             int position = getAdapterPosition();
-            mHandler.onClick(position);
+            mHandler.onItemClicked(position);
         }
     }
 

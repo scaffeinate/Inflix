@@ -78,7 +78,7 @@ public class RecommendationsAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
         @Override
         public void onClick(View v) {
-            mHandler.onClick(getAdapterPosition());
+            mHandler.onItemClicked(getAdapterPosition());
         }
 
         public void adjustPosterHeight(int width) {

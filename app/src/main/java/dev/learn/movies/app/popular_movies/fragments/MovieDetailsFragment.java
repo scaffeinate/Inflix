@@ -13,10 +13,8 @@ import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.Loader;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -31,10 +29,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dev.learn.movies.app.popular_movies.R;
+import dev.learn.movies.app.popular_movies.activities.AdditionalInfoActivity;
 import dev.learn.movies.app.popular_movies.activities.DetailActivity;
 import dev.learn.movies.app.popular_movies.activities.MovieDetailCallbacks;
-import dev.learn.movies.app.popular_movies.activities.AdditionalInfoActivity;
-import dev.learn.movies.app.popular_movies.adapters.MoviesAdapter;
 import dev.learn.movies.app.popular_movies.adapters.OnItemClickHandler;
 import dev.learn.movies.app.popular_movies.adapters.RecommendationsAdapter;
 import dev.learn.movies.app.popular_movies.common.Genre;
@@ -512,13 +509,11 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
     }
 
     @Override
-    public void onClick(int position) {
-        if (position >= 0 && position < mRecommendationList.size()) {
-            Movie movie = mRecommendationList.get(position);
-            getActivity().getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.layout_outlet, MovieDetailsFragment.newInstance(movie.getId(), movie.getTitle()))
-                    .commit();
-        }
+    public void onItemClicked(int position) {
+        Movie movie = mRecommendationList.get(position);
+        getActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.layout_outlet, MovieDetailsFragment.newInstance(movie.getId(), movie.getTitle()))
+                .commit();
     }
 }

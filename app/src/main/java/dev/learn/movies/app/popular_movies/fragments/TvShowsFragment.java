@@ -150,7 +150,7 @@ public class TvShowsFragment extends Fragment implements NetworkLoader.NetworkLo
     }
 
     @Override
-    public void onClick(int position) {
+    public void onItemClicked(int position) {
         //TODO: Finish this
     }
 

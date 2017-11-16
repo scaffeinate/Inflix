@@ -113,12 +113,12 @@ public class LocalMoviesFragment extends Fragment implements ContentLoader.Conte
     }
 
     /**
-     * Overrides onClick(position) from MoviesAdapter.OnItemClickHandler
+     * Overrides onItemClicked(position) from MoviesAdapter.OnItemClickHandler
      *
      * @param position Position
      */
     @Override
-    public void onClick(int position) {
+    public void onItemClicked(int position) {
         if (position >= 0 && mCursor != null && position < mCursor.getCount()) {
             if (mCursor.moveToPosition(position)) {
                 Intent detailActivityIntent = new Intent(mContext, DetailActivity.class);

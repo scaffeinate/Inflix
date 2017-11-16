@@ -76,7 +76,7 @@ public class MoviesAdapter extends LoadMoreAdapter {
 
         @Override
         public void onClick(View v) {
-            mHandler.onClick(getAdapterPosition());
+            mHandler.onItemClicked(getAdapterPosition());
         }
 
         public void adjustPosterHeight(int height) {
