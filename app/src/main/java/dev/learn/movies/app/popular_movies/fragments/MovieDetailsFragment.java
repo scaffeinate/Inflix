@@ -13,6 +13,10 @@ import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.Loader;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -30,10 +34,15 @@ import dev.learn.movies.app.popular_movies.R;
 import dev.learn.movies.app.popular_movies.activities.DetailActivity;
 import dev.learn.movies.app.popular_movies.activities.MovieDetailCallbacks;
 import dev.learn.movies.app.popular_movies.activities.AdditionalInfoActivity;
+import dev.learn.movies.app.popular_movies.adapters.MoviesAdapter;
+import dev.learn.movies.app.popular_movies.adapters.OnItemClickHandler;
+import dev.learn.movies.app.popular_movies.adapters.RecommendationsAdapter;
 import dev.learn.movies.app.popular_movies.common.Genre;
 import dev.learn.movies.app.popular_movies.common.Video;
 import dev.learn.movies.app.popular_movies.common.VideosResult;
+import dev.learn.movies.app.popular_movies.common.movies.Movie;
 import dev.learn.movies.app.popular_movies.common.movies.MovieDetail;
+import dev.learn.movies.app.popular_movies.common.movies.MoviesResult;
 import dev.learn.movies.app.popular_movies.data.DataContract;
 import dev.learn.movies.app.popular_movies.databinding.FragmentMovieDetailsBinding;
 import dev.learn.movies.app.popular_movies.loaders.ContentLoader;
@@ -60,6 +69,7 @@ import static dev.learn.movies.app.popular_movies.util.AppConstants.FAVORITE_LOA
 import static dev.learn.movies.app.popular_movies.util.AppConstants.MOVIE_DETAILS_LOADER_ID;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.MOVIE_ID;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.MOVIE_NAME;
+import static dev.learn.movies.app.popular_movies.util.AppConstants.MOVIE_RECOMMENDATIONS_LOADER_ID;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.MOVIE_TRAILERS_LOADER_ID;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.RESOURCE_ID;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.RESOURCE_TITLE;
@@ -70,7 +80,7 @@ import static dev.learn.movies.app.popular_movies.util.AppConstants.RESOURCE_TYP
  */
 
 public class MovieDetailsFragment extends Fragment implements DetailActivity.OnFavBtnClickListener,
-        ContentLoader.ContentLoaderCallback, NetworkLoader.NetworkLoaderCallback, View.OnClickListener {
+        ContentLoader.ContentLoaderCallback, NetworkLoader.NetworkLoaderCallback, View.OnClickListener, OnItemClickHandler {
 
     private static final String MOVIE_DETAILS = "movie_details";
     private static final String MOVIE_TRAILERS = "movie_trailers";
@@ -86,7 +96,10 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
     private NetworkLoader mNetworkLoader;
     private ContentLoader mContentLoader;
 
+    private RecyclerView.LayoutManager mLayoutManager;
     private List<Video> mVideoList;
+    private List<Movie> mRecommendationList;
+    private RecommendationsAdapter mRecommendationsAdapter;
 
     private MovieDetail mMovieDetail;
 
@@ -110,6 +123,9 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
         super.onCreate(savedInstanceState);
         mContext = getContext();
         mVideoList = new ArrayList<>();
+        mRecommendationList = new ArrayList<>();
+        mRecommendationsAdapter = new RecommendationsAdapter(this);
+        mLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
         mNetworkLoader = new NetworkLoader(mContext, this);
         mContentLoader = new ContentLoader(mContext, this);
         setHasOptionsMenu(true);
@@ -120,20 +136,13 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_movie_details, container, false);
         View view = mBinding.getRoot();
+
         mBinding.layoutMovieInfo.layoutRating.setOnClickListener(this);
+        mBinding.layoutMovieRecommendations.rvRecommendations.setLayoutManager(mLayoutManager);
+        mBinding.layoutMovieRecommendations.rvRecommendations.setAdapter(mRecommendationsAdapter);
+        mBinding.layoutMovieRecommendations.rvRecommendations.setNestedScrollingEnabled(false);
         adjustPosterSize();
-        return view;
-    }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        mCallbacks = (MovieDetailCallbacks) getActivity();
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
         if (savedInstanceState == null) {
             mMovieId = getArguments().getLong(MOVIE_ID, 0);
             mMovieName = getArguments().getString(MOVIE_NAME, "");
@@ -151,6 +160,14 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
             mFavored = savedInstanceState.getBoolean(FAVORED);
             updateMovieDetailsUI(mMovieDetail);
         }
+
+        return view;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mCallbacks = (MovieDetailCallbacks) getActivity();
     }
 
     @Override
@@ -232,6 +249,10 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
                     mVideoList = videosResult.getVideos();
                 }
                 break;
+            case MOVIE_RECOMMENDATIONS_LOADER_ID:
+                MoviesResult moviesResult = (s == null) ? null : gson.fromJson(s, MoviesResult.class);
+                updateMovieRecommendationsUI(moviesResult);
+                break;
         }
     }
 
@@ -300,6 +321,7 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
                 @Override
                 public void run() {
                     loadMovieTrailersFromNetwork();
+                    loadMovieRecommendationsFromNetwork();
                 }
             }, ACTIVITY_DETAIL_LAZY_LOAD_DELAY_IN_MS);
         }
@@ -313,6 +335,13 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
         Bundle args = new Bundle();
         args.putSerializable(NetworkLoader.URL_EXTRA, url);
         getActivity().getSupportLoaderManager().restartLoader(MOVIE_TRAILERS_LOADER_ID, args, mNetworkLoader);
+    }
+
+    private void loadMovieRecommendationsFromNetwork() {
+        URL url = HTTPHelper.buildMovieRecommendationsURL(String.valueOf(mMovieId));
+        Bundle args = new Bundle();
+        args.putSerializable(NetworkLoader.URL_EXTRA, url);
+        getActivity().getSupportLoaderManager().restartLoader(MOVIE_RECOMMENDATIONS_LOADER_ID, args, mNetworkLoader);
     }
 
     /**
@@ -382,6 +411,13 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
 
         mCallbacks.updateFavBtn(mFavored);
         showMovieDetails();
+    }
+
+    private void updateMovieRecommendationsUI(MoviesResult moviesResult) {
+        if (moviesResult != null && moviesResult.getResults() != null && !moviesResult.getResults().isEmpty()) {
+            mRecommendationList.addAll(moviesResult.getResults());
+            mRecommendationsAdapter.setRecommendationList(mRecommendationList);
+        }
     }
 
     /**
@@ -473,5 +509,16 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
         int max = Math.max(screen[0], screen[1]);
         mBinding.layoutMovieInfo.layoutPoster.getRoot().setLayoutParams(new
                 ConstraintLayout.LayoutParams((min / 3), (int) (max / 3.15)));
+    }
+
+    @Override
+    public void onClick(int position) {
+        if (position >= 0 && position < mRecommendationList.size()) {
+            Movie movie = mRecommendationList.get(position);
+            getActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.layout_outlet, MovieDetailsFragment.newInstance(movie.getId(), movie.getTitle()))
+                    .commit();
+        }
     }
 }

@@ -43,6 +43,8 @@
     <string name="budget">Budget</string>
     <string name="revenue">Revenue</string>
 
+    <string name="recommendations">Recommendations</string>
+
     <string name="trailer_1">Trailer 1</string>
     <string name="added_to_favorites">Added to Favorites</string>
     <string name="removed_from_favorites">Removed from Favorites</string>

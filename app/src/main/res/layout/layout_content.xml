@@ -85,7 +85,7 @@
             android:id="@+id/tv_budget_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/layout_content_field_margin_top"
+            android:layout_marginTop="@dimen/activity_detail_margin_top"
             android:text="@string/budget"
             android:textAppearance="@style/SubHeading"
             app:layout_constraintLeft_toLeftOf="parent"
