@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "26.0.2"
+    buildToolsVersion "27.0.1"
     defaultConfig {
         applicationId "dev.learn.movies.app.popularmovies_udacity"
         minSdkVersion 19
@@ -24,7 +24,7 @@ android {
 }
 
 ext {
-    supportLibVersion = '26.0.2'
+    supportLibVersion = '27.0.1'
 }
 
 dependencies {
