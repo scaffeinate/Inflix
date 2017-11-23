@@ -81,6 +81,7 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
 
     private static final String MOVIE_DETAILS = "movie_details";
     private static final String MOVIE_TRAILERS = "movie_trailers";
+    private static final String MOVIE_RECOMMENDATIONS = "movie_recommendations";
     private static final String FAVORED = "favored";
 
     private Context mContext;
@@ -120,7 +121,6 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
         super.onCreate(savedInstanceState);
         mContext = getContext();
         mVideoList = new ArrayList<>();
-        mRecommendationList = new ArrayList<>();
         mFilmStripAdapter = new FilmStripAdapter(this);
         mLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
         mNetworkLoader = new NetworkLoader(mContext, this);
@@ -154,8 +154,11 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
             mMovieName = savedInstanceState.getString(MOVIE_NAME);
             mMovieDetail = savedInstanceState.getParcelable(MOVIE_DETAILS);
             mVideoList = savedInstanceState.getParcelableArrayList(MOVIE_TRAILERS);
+            mRecommendationList = savedInstanceState.getParcelableArrayList(MOVIE_RECOMMENDATIONS);
             mFavored = savedInstanceState.getBoolean(FAVORED);
-            updateMovieDetailsUI(mMovieDetail);
+
+            updateMovieDetailsUI();
+            updateMovieRecommendationsUI();
         }
 
         return view;
@@ -197,6 +200,7 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
         outState.putString(MOVIE_NAME, mMovieName);
         outState.putParcelable(MOVIE_DETAILS, mMovieDetail);
         outState.putParcelableArrayList(MOVIE_TRAILERS, (ArrayList<? extends Parcelable>) mVideoList);
+        outState.putParcelableArrayList(MOVIE_RECOMMENDATIONS, (ArrayList<? extends Parcelable>) mRecommendationList);
         outState.putBoolean(FAVORED, mFavored);
     }
 
@@ -212,7 +216,8 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
         // Otherwise make an API call if the Network is available
         if (cursor != null && cursor.moveToFirst()) {
             mFavored = true;
-            updateMovieDetailsUI(fromCursor(cursor));
+            mMovieDetail = fromCursor(cursor);
+            updateMovieDetailsUI();
         } else {
             mFavored = false;
             if (HTTPHelper.isNetworkEnabled(mContext)) {
@@ -236,8 +241,8 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
         switch (loader.getId()) {
             case MOVIE_DETAILS_LOADER_ID:
                 // Handle movie info
-                MovieDetail movieDetail = (s == null) ? null : gson.fromJson(s, MovieDetail.class);
-                updateMovieDetailsUI(movieDetail);
+                mMovieDetail = (s == null) ? null : gson.fromJson(s, MovieDetail.class);
+                updateMovieDetailsUI();
                 break;
             case MOVIE_TRAILERS_LOADER_ID:
                 // Handle videos response
@@ -248,7 +253,10 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
                 break;
             case MOVIE_RECOMMENDATIONS_LOADER_ID:
                 MoviesResult moviesResult = (s == null) ? null : gson.fromJson(s, MoviesResult.class);
-                updateMovieRecommendationsUI(moviesResult);
+                if(moviesResult != null && moviesResult.getResults() != null) {
+                    mRecommendationList = moviesResult.getResults();
+                }
+                updateMovieRecommendationsUI();
                 break;
         }
     }
@@ -344,29 +352,27 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
     /**
      * Formats and sets the movie details into appropriate views
      *
-     * @param movieDetail MovieDetail Bean
      */
-    private void updateMovieDetailsUI(MovieDetail movieDetail) {
-        if (movieDetail == null) {
+    private void updateMovieDetailsUI() {
+        if (mMovieDetail == null) {
             showErrorMessage();
             return;
         }
 
-        mMovieDetail = movieDetail;
-        int year = DisplayUtils.getYear(movieDetail.getReleaseDate());
-        double voteAverage = movieDetail.getVoteAverage();
-        String backdropURL = movieDetail.getBackdropPath();
-        String posterURL = movieDetail.getPosterPath();
-        String title = movieDetail.getTitle();
-        String runningTime = movieDetail.getRuntime() + " min";
-        String status = movieDetail.getStatus();
+        int year = DisplayUtils.getYear(mMovieDetail.getReleaseDate());
+        double voteAverage = mMovieDetail.getVoteAverage();
+        String backdropURL = mMovieDetail.getBackdropPath();
+        String posterURL = mMovieDetail.getPosterPath();
+        String title = mMovieDetail.getTitle();
+        String runningTime = mMovieDetail.getRuntime() + " min";
+        String status = mMovieDetail.getStatus();
         String rating = String.valueOf(voteAverage);
-        String voteCount = "(" + movieDetail.getVoteCount() + ")";
-        String tagline = movieDetail.getTagline();
-        String moviePlot = movieDetail.getOverview();
-        long budget = movieDetail.getBudget();
-        long revenue = movieDetail.getRevenue();
-        List<Genre> genres = movieDetail.getGenres();
+        String voteCount = "(" + mMovieDetail.getVoteCount() + ")";
+        String tagline = mMovieDetail.getTagline();
+        String moviePlot = mMovieDetail.getOverview();
+        long budget = mMovieDetail.getBudget();
+        long revenue = mMovieDetail.getRevenue();
+        List<Genre> genres = mMovieDetail.getGenres();
 
         if (backdropURL != null) {
             Uri backdropUri = HTTPHelper.buildImageResourceUri(backdropURL, HTTPHelper.IMAGE_SIZE_XLARGE);
@@ -410,9 +416,8 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
         showMovieDetails();
     }
 
-    private void updateMovieRecommendationsUI(MoviesResult moviesResult) {
-        if (moviesResult != null && moviesResult.getResults() != null && !moviesResult.getResults().isEmpty()) {
-            mRecommendationList.addAll(moviesResult.getResults());
+    private void updateMovieRecommendationsUI() {
+        if (mRecommendationList != null && !mRecommendationList.isEmpty()) {
             mFilmStripAdapter.setRecommendationList(mRecommendationList);
             showRecommendations();
         } else {

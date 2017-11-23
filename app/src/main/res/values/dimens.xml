@@ -36,7 +36,7 @@
 
     <dimen name="font_size_display">35dp</dimen>
     <dimen name="font_size_title">21sp</dimen>
-    <dimen name="font_size_subheading">17sp</dimen>
+    <dimen name="font_size_subheading">18sp</dimen>
     <dimen name="font_size_caption">16sp</dimen>
     <dimen name="font_size_body">15sp</dimen>
     <dimen name="font_size_button">12sp</dimen>
