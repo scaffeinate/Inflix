@@ -82,7 +82,7 @@ public class RecommendationsAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         }
 
         public void adjustPosterHeight(int width) {
-            //mPosterImageView.setLayoutParams(new FrameLayout.LayoutParams(width / 2, (int) (width / 1.5)));
+            mPosterImageView.setLayoutParams(new FrameLayout.LayoutParams(width / 2, (int) (width / 1.5)));
         }
     }
 }

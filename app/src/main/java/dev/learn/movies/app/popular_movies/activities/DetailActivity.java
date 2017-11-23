@@ -53,7 +53,6 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                     .commit();
         }
 
-        adjustBackdropSize();
         mBinding.btnFav.setOnClickListener(this);
     }
 
@@ -119,15 +118,6 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public void hideFavBtn() {
         mBinding.btnFav.setVisibility(View.INVISIBLE);
-    }
-
-    /**
-     * Based on the screen size and orientation scales the parent image layouts.
-     */
-    private void adjustBackdropSize() {
-        int[] screen = DisplayUtils.getScreenMetrics(this);
-        mBinding.appBarLayout.setLayoutParams(new CoordinatorLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                (int) (Math.max(screen[0], screen[1]) / 2.25)));
     }
 
     public interface OnFavBtnClickListener {
