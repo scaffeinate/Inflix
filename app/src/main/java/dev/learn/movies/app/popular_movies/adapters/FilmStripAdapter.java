@@ -20,11 +20,11 @@ import dev.learn.movies.app.popular_movies.util.HTTPHelper;
 /**
  * Created by sudhar on 11/15/17.
  */
-public class RecommendationsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class FilmStripAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<Movie> mRecommendationList;
     private final OnItemClickHandler mHandler;
 
-    public RecommendationsAdapter(OnItemClickHandler handler) {
+    public FilmStripAdapter(OnItemClickHandler handler) {
         mRecommendationList = new ArrayList<>();
         mHandler = handler;
     }
@@ -33,7 +33,7 @@ public class RecommendationsAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
 
-        View view = layoutInflater.inflate(R.layout.item_recommendation, parent, false);
+        View view = layoutInflater.inflate(R.layout.item_film_strip, parent, false);
 
         int width = parent.getMeasuredWidth();
         RecommendationsHolder viewHolder = new RecommendationsHolder(view);

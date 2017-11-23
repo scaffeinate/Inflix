@@ -33,7 +33,7 @@ import dev.learn.movies.app.popular_movies.activities.AdditionalInfoActivity;
 import dev.learn.movies.app.popular_movies.activities.DetailActivity;
 import dev.learn.movies.app.popular_movies.activities.MovieDetailCallbacks;
 import dev.learn.movies.app.popular_movies.adapters.OnItemClickHandler;
-import dev.learn.movies.app.popular_movies.adapters.RecommendationsAdapter;
+import dev.learn.movies.app.popular_movies.adapters.FilmStripAdapter;
 import dev.learn.movies.app.popular_movies.common.Genre;
 import dev.learn.movies.app.popular_movies.common.Video;
 import dev.learn.movies.app.popular_movies.common.VideosResult;
@@ -96,7 +96,7 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
     private RecyclerView.LayoutManager mLayoutManager;
     private List<Video> mVideoList;
     private List<Movie> mRecommendationList;
-    private RecommendationsAdapter mRecommendationsAdapter;
+    private FilmStripAdapter mFilmStripAdapter;
 
     private MovieDetail mMovieDetail;
 
@@ -121,7 +121,7 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
         mContext = getContext();
         mVideoList = new ArrayList<>();
         mRecommendationList = new ArrayList<>();
-        mRecommendationsAdapter = new RecommendationsAdapter(this);
+        mFilmStripAdapter = new FilmStripAdapter(this);
         mLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
         mNetworkLoader = new NetworkLoader(mContext, this);
         mContentLoader = new ContentLoader(mContext, this);
@@ -136,7 +136,7 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
 
         mBinding.layoutMovieInfo.layoutRating.setOnClickListener(this);
         mBinding.layoutMovieRecommendations.rvRecommendations.setLayoutManager(mLayoutManager);
-        mBinding.layoutMovieRecommendations.rvRecommendations.setAdapter(mRecommendationsAdapter);
+        mBinding.layoutMovieRecommendations.rvRecommendations.setAdapter(mFilmStripAdapter);
         mBinding.layoutMovieRecommendations.rvRecommendations.setNestedScrollingEnabled(false);
         adjustPosterSize();
 
@@ -413,7 +413,10 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
     private void updateMovieRecommendationsUI(MoviesResult moviesResult) {
         if (moviesResult != null && moviesResult.getResults() != null && !moviesResult.getResults().isEmpty()) {
             mRecommendationList.addAll(moviesResult.getResults());
-            mRecommendationsAdapter.setRecommendationList(mRecommendationList);
+            mFilmStripAdapter.setRecommendationList(mRecommendationList);
+            showRecommendations();
+        } else {
+            hideRecommendations();
         }
     }
 
@@ -435,6 +438,21 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
         mBinding.pbLoadingIndicator.setVisibility(View.INVISIBLE);
         mBinding.layoutMovieDetail.setVisibility(View.INVISIBLE);
         mCallbacks.hideFavBtn();
+    }
+
+    /**
+     * Shows MovieDetailLayout, Hides ProgressBar and ErrorMessage
+     */
+    private void showRecommendations() {
+        mBinding.layoutMovieRecommendations.rvRecommendations.setVisibility(View.VISIBLE);
+        mBinding.layoutMovieRecommendations.pbRecommendations.setVisibility(View.INVISIBLE);
+    }
+
+    /**
+     * Shows ErrorMessage, Hides ProgressBar and MovieDetailLayout
+     */
+    private void hideRecommendations() {
+        mBinding.layoutMovieRecommendations.getRoot().setVisibility(View.GONE);
     }
 
     /**

@@ -43,6 +43,6 @@ public class DbHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Check version and add conditional statement
         // Reference: https://thebhwgroup.com/blog/how-android-sqlite-onupgrade
-
+        //TODO: Schema changes
     }
 }
