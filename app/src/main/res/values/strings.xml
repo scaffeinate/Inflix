@@ -25,8 +25,9 @@
     <string name="action_search">Search</string>
     <string name="action_save_offline">Save Offline</string>
     <string name="action_share">Share</string>
-    <string name="action_watch_trailer">Watch Trailer</string>
+    <string name="action_watch_trailers">Watch Trailers</string>
     <string name="action_imdb">Open in IMDB</string>
+    <string name="action_read_reviews">Read Reviews</string>
 
     <string name="no_movies_found_error_message">No movies found.</string>
     <string name="couldnt_load_movie_info_error_message">Couldn\'t load movie info :(</string>

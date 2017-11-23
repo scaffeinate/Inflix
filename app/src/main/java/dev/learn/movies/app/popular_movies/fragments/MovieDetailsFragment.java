@@ -32,8 +32,8 @@ import dev.learn.movies.app.popular_movies.R;
 import dev.learn.movies.app.popular_movies.activities.AdditionalInfoActivity;
 import dev.learn.movies.app.popular_movies.activities.DetailActivity;
 import dev.learn.movies.app.popular_movies.activities.MovieDetailCallbacks;
-import dev.learn.movies.app.popular_movies.adapters.OnItemClickHandler;
 import dev.learn.movies.app.popular_movies.adapters.FilmStripAdapter;
+import dev.learn.movies.app.popular_movies.adapters.OnItemClickHandler;
 import dev.learn.movies.app.popular_movies.common.Genre;
 import dev.learn.movies.app.popular_movies.common.Video;
 import dev.learn.movies.app.popular_movies.common.VideosResult;
@@ -183,12 +183,16 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
             case R.id.action_share:
                 IntentUtils.shareVideos(getActivity(), mVideoList);
                 return true;
-            case R.id.action_watch_trailer:
+            case R.id.action_watch_trailers:
                 IntentUtils.watchVideos(getActivity(), mVideoList);
                 return true;
             case R.id.action_imdb:
                 IntentUtils.openIMDBLink(mContext, mMovieDetail.getImdbId());
                 return true;
+            case R.id.action_read_reviews:
+                goToReviews();
+                return true;
+
         }
         return super.onOptionsItemSelected(item);
     }
@@ -253,7 +257,7 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
                 break;
             case MOVIE_RECOMMENDATIONS_LOADER_ID:
                 MoviesResult moviesResult = (s == null) ? null : gson.fromJson(s, MoviesResult.class);
-                if(moviesResult != null && moviesResult.getResults() != null) {
+                if (moviesResult != null && moviesResult.getResults() != null) {
                     mRecommendationList = moviesResult.getResults();
                 }
                 updateMovieRecommendationsUI();
@@ -282,19 +286,16 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
 
     @Override
     public void onClick(View v) {
-        if (HTTPHelper.isNetworkEnabled(mContext)) {
-            Intent additionalIntent = new Intent(mContext, AdditionalInfoActivity.class);
+        goToReviews();
+    }
 
-            Bundle extras = new Bundle();
-            extras.putLong(RESOURCE_ID, mMovieId);
-            extras.putString(RESOURCE_TITLE, mMovieName);
-            extras.putString(RESOURCE_TYPE, ADDITIONAL_INFO_ACTIVITY_FRAGMENT_TYPE_REVIEWS);
-            additionalIntent.putExtras(extras);
-
-            startActivity(additionalIntent);
-        } else {
-            Toast.makeText(mContext, getResources().getString(R.string.no_network_connection_error_message), Toast.LENGTH_SHORT).show();
-        }
+    @Override
+    public void onItemClicked(int position) {
+        Movie movie = mRecommendationList.get(position);
+        getActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.layout_outlet, MovieDetailsFragment.newInstance(movie.getId(), movie.getTitle()))
+                .commit();
     }
 
     /**
@@ -351,7 +352,6 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
 
     /**
      * Formats and sets the movie details into appropriate views
-     *
      */
     private void updateMovieDetailsUI() {
         if (mMovieDetail == null) {
@@ -531,12 +531,19 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
                 ConstraintLayout.LayoutParams((min / 3), (int) (max / 3.15)));
     }
 
-    @Override
-    public void onItemClicked(int position) {
-        Movie movie = mRecommendationList.get(position);
-        getActivity().getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.layout_outlet, MovieDetailsFragment.newInstance(movie.getId(), movie.getTitle()))
-                .commit();
+    private void goToReviews() {
+        if (HTTPHelper.isNetworkEnabled(mContext)) {
+            Intent additionalIntent = new Intent(mContext, AdditionalInfoActivity.class);
+
+            Bundle extras = new Bundle();
+            extras.putLong(RESOURCE_ID, mMovieId);
+            extras.putString(RESOURCE_TITLE, mMovieName);
+            extras.putString(RESOURCE_TYPE, ADDITIONAL_INFO_ACTIVITY_FRAGMENT_TYPE_REVIEWS);
+            additionalIntent.putExtras(extras);
+
+            startActivity(additionalIntent);
+        } else {
+            Toast.makeText(mContext, getResources().getString(R.string.no_network_connection_error_message), Toast.LENGTH_SHORT).show();
+        }
     }
 }

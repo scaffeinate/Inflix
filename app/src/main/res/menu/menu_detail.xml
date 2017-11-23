@@ -16,16 +16,22 @@
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/action_watch_trailer"
+        android:id="@+id/action_watch_trailers"
         android:icon="@drawable/ic_youtube_play_white_36dp"
         android:orderInCategory="2"
-        android:title="@string/action_watch_trailer"
+        android:title="@string/action_watch_trailers"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/action_imdb"
         android:orderInCategory="3"
         android:title="@string/action_imdb"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_read_reviews"
+        android:orderInCategory="4"
+        android:title="@string/action_read_reviews"
         app:showAsAction="never" />
 
 </menu>

@@ -15,7 +15,7 @@
     <dimen name="activity_detail_btn_fav_margin">16dp</dimen>
 
     <dimen name="layout_movie_info_title_margin_left">15dp</dimen>
-    <dimen name="layout_movie_info_field_margin_top">10dp</dimen>
+    <dimen name="layout_movie_info_field_margin_top">15dp</dimen>
     <dimen name="layout_movie_info_rating_out_of_margin_left">4dp</dimen>
     <dimen name="layout_movie_info_rating_num_margin_left">8dp</dimen>
 
