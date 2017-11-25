@@ -18,6 +18,7 @@ import dev.learn.movies.app.popular_movies.BuildConfig;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.MOST_POPULAR;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.NOW_PLAYING;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.RECOMMENDATIONS;
+import static dev.learn.movies.app.popular_movies.util.AppConstants.SIMILAR;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.TOP_RATED;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.TV_AIRING_TODAY;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.TV_ON_THE_AIR;
@@ -188,6 +189,11 @@ public final class HTTPHelper {
 
     public static URL buildMovieRecommendationsURL(String movieId) {
         String path = MOVIE_DETAIL_PATH + SEPARATOR + movieId + SEPARATOR + RECOMMENDATIONS;
+        return buildTMDBURL(path, -1);
+    }
+
+    public static URL buildSimilarMoviesURL(String movieId) {
+        String path = MOVIE_DETAIL_PATH + SEPARATOR + movieId + SEPARATOR + SIMILAR;
         return buildTMDBURL(path, -1);
     }
 

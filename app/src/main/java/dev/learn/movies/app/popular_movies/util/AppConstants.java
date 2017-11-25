@@ -25,6 +25,8 @@ public final class AppConstants {
 
     public static final int MOVIE_RECOMMENDATIONS_LOADER_ID = 600;
 
+    public static final int MOVIE_SIMILAR_LOADER_ID = 601;
+
     public static final int ACTIVITY_DETAIL_LAZY_LOAD_DELAY_IN_MS = 250;
 
     public static final int ENDLESS_PAGINATION_THRESHOLD = 1;
@@ -42,6 +44,8 @@ public final class AppConstants {
     public static final String TOP_RATED = "top_rated";
 
     public static final String RECOMMENDATIONS = "recommendations";
+
+    public static final String SIMILAR = "similar";
 
     public static final String TV_AIRING_TODAY = "airing_today";
 
