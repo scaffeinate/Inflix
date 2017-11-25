@@ -46,6 +46,8 @@
     <string name="revenue">Revenue</string>
 
     <string name="recommendations">Recommendations</string>
+    <string name="recommended">Recommended</string>
+    <string name="similar_movies">Similar Movies</string>
 
     <string name="trailer_1">Trailer 1</string>
     <string name="added_to_favorites">Added to Favorites</string>

@@ -10,14 +10,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:text="@string/similar"
             android:textAppearance="@style/SubHeading" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_similar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/tv_recommendations_title"
+            android:layout_below="@+id/tv_similar_title"
             android:layout_marginTop="@dimen/layout_recommendations_rv_margin_top"
             android:visibility="invisible" />
 
