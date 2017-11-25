@@ -2,6 +2,7 @@ package dev.learn.movies.app.popular_movies.adapters;
 
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,11 +22,11 @@ import dev.learn.movies.app.popular_movies.util.HTTPHelper;
  * Created by sudhar on 11/15/17.
  */
 public class FilmStripAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private List<Movie> mRecommendationList;
+    private List<Movie> mFilmStripList;
     private final OnItemClickHandler mHandler;
 
     public FilmStripAdapter(OnItemClickHandler handler) {
-        mRecommendationList = new ArrayList<>();
+        mFilmStripList = new ArrayList<>();
         mHandler = handler;
     }
 
@@ -36,7 +37,7 @@ public class FilmStripAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         View view = layoutInflater.inflate(R.layout.item_film_strip, parent, false);
 
         int width = parent.getMeasuredWidth();
-        RecommendationsHolder viewHolder = new RecommendationsHolder(view);
+        FilmStripHolder viewHolder = new FilmStripHolder(parent, view);
         viewHolder.adjustPosterHeight(width);
 
         return viewHolder;
@@ -44,31 +45,33 @@ public class FilmStripAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        ((RecommendationsHolder) holder).bind(position);
+        ((FilmStripHolder) holder).bind(position);
     }
 
     @Override
     public int getItemCount() {
-        return mRecommendationList.size();
+        return mFilmStripList.size();
     }
 
-    public void setRecommendationList(List<Movie> recommendationList) {
-        this.mRecommendationList = recommendationList;
+    public void setFilmStripList(List<Movie> filmStripList) {
+        this.mFilmStripList = filmStripList;
         notifyDataSetChanged();
     }
 
-    private class RecommendationsHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    private class FilmStripHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
+        private final ViewGroup mParent;
         private final ImageView mPosterImageView;
 
-        public RecommendationsHolder(View itemView) {
+        public FilmStripHolder(ViewGroup parent, View itemView) {
             super(itemView);
             mPosterImageView = itemView.findViewById(R.id.image_view_poster);
             mPosterImageView.setOnClickListener(this);
+            mParent = parent;
         }
 
         public void bind(int position) {
-            Movie movie = mRecommendationList.get(position);
+            Movie movie = mFilmStripList.get(position);
             String posterURL;
             if (movie != null && (posterURL = movie.getPosterPath()) != null) {
                 Uri posterUri = HTTPHelper.buildImageResourceUri(posterURL, HTTPHelper.IMAGE_SIZE_MEDIUM);
@@ -77,8 +80,8 @@ public class FilmStripAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
 
         @Override
-        public void onClick(View v) {
-            mHandler.onItemClicked(getAdapterPosition());
+        public void onClick(View view) {
+            mHandler.onItemClicked(mParent, view, getAdapterPosition());
         }
 
         public void adjustPosterHeight(int width) {

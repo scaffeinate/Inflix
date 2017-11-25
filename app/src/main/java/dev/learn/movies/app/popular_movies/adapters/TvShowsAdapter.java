@@ -41,7 +41,7 @@ public class TvShowsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             // Set the minimum height of the view to scale for all screens.
             // Reference: https://stackoverflow.com/questions/35221566/how-to-set-the-height-of-an-item-row-in-gridlayoutmanager
             int height = parent.getMeasuredHeight() / 2;
-            TvShowsAdapter.ContentViewHolder viewHolder = new TvShowsAdapter.ContentViewHolder(view);
+            TvShowsAdapter.ContentViewHolder viewHolder = new TvShowsAdapter.ContentViewHolder(parent, view);
             viewHolder.mPosterImageView.setMinimumHeight(height);
             return viewHolder;
         } else {
@@ -98,12 +98,14 @@ public class TvShowsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
      */
     class ContentViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
+        private final ViewGroup mParent;
         private final ImageView mPosterImageView;
 
-        public ContentViewHolder(View itemView) {
+        public ContentViewHolder(ViewGroup parent, View itemView) {
             super(itemView);
             mPosterImageView = itemView.findViewById(R.id.image_view_poster);
             mPosterImageView.setOnClickListener(this);
+            mParent = parent;
         }
 
         /**
@@ -123,7 +125,7 @@ public class TvShowsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         @Override
         public void onClick(View view) {
             int position = getAdapterPosition();
-            mHandler.onItemClicked(position);
+            mHandler.onItemClicked(mParent, view, position);
         }
     }
 

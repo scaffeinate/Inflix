@@ -35,7 +35,7 @@ public class MoviesAdapter extends LoadMoreAdapter {
             View view = layoutInflater.inflate(R.layout.item_poster, parent, false);
 
             int height = parent.getMeasuredHeight();
-            MyViewHolder viewHolder = new MyViewHolder(view);
+            MyViewHolder viewHolder = new MyViewHolder(parent, view);
             viewHolder.adjustPosterHeight(height);
             return viewHolder;
         } else {
@@ -56,12 +56,14 @@ public class MoviesAdapter extends LoadMoreAdapter {
 
     private class MyViewHolder extends LoadMoreAdapter.ContentViewHolder implements View.OnClickListener {
 
+        private final ViewGroup mParent;
         private final ImageView mPosterImageView;
 
-        public MyViewHolder(View itemView) {
+        public MyViewHolder(ViewGroup parent, View itemView) {
             super(itemView);
             mPosterImageView = itemView.findViewById(R.id.image_view_poster);
             mPosterImageView.setOnClickListener(this);
+            mParent = parent;
         }
 
         @Override
@@ -75,8 +77,8 @@ public class MoviesAdapter extends LoadMoreAdapter {
         }
 
         @Override
-        public void onClick(View v) {
-            mHandler.onItemClicked(getAdapterPosition());
+        public void onClick(View view) {
+            mHandler.onItemClicked(mParent, view, getAdapterPosition());
         }
 
         public void adjustPosterHeight(int height) {

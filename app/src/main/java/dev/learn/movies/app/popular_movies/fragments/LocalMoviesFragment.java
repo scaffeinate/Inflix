@@ -118,7 +118,7 @@ public class LocalMoviesFragment extends Fragment implements ContentLoader.Conte
      * @param position Position
      */
     @Override
-    public void onItemClicked(int position) {
+    public void onItemClicked(ViewGroup parent, View view, int position) {
         if (position >= 0 && mCursor != null && position < mCursor.getCount()) {
             if (mCursor.moveToPosition(position)) {
                 Intent detailActivityIntent = new Intent(mContext, DetailActivity.class);

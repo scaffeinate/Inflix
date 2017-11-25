@@ -30,7 +30,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.View
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_poster, parent, false);
         int height = parent.getMeasuredHeight() / 2;
-        ViewHolder viewHolder = new ViewHolder(view);
+        ViewHolder viewHolder = new ViewHolder(parent, view);
         viewHolder.mPosterImageView.setMinimumHeight(height);
         return viewHolder;
     }
@@ -60,12 +60,14 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.View
      */
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
+        private final ViewGroup mParent;
         private final ImageView mPosterImageView;
 
-        public ViewHolder(View itemView) {
+        public ViewHolder(ViewGroup parent, View itemView) {
             super(itemView);
             mPosterImageView = itemView.findViewById(R.id.image_view_poster);
             mPosterImageView.setOnClickListener(this);
+            mParent = parent;
         }
 
         /**
@@ -85,7 +87,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.View
         @Override
         public void onClick(View view) {
             int position = getAdapterPosition();
-            mHandler.onItemClicked(position);
+            mHandler.onItemClicked(mParent, view, position);
         }
     }
 }
