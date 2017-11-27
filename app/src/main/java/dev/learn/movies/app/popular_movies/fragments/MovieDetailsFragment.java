@@ -38,7 +38,6 @@ import dev.learn.movies.app.popular_movies.adapters.FilmCastAdapter;
 import dev.learn.movies.app.popular_movies.adapters.FilmStripAdapter;
 import dev.learn.movies.app.popular_movies.adapters.OnItemClickHandler;
 import dev.learn.movies.app.popular_movies.common.Genre;
-import dev.learn.movies.app.popular_movies.common.Video;
 import dev.learn.movies.app.popular_movies.common.VideosResult;
 import dev.learn.movies.app.popular_movies.common.cast.Cast;
 import dev.learn.movies.app.popular_movies.common.cast.CastsResult;
@@ -51,7 +50,6 @@ import dev.learn.movies.app.popular_movies.loaders.ContentLoader;
 import dev.learn.movies.app.popular_movies.loaders.NetworkLoader;
 import dev.learn.movies.app.popular_movies.util.DisplayUtils;
 import dev.learn.movies.app.popular_movies.util.HTTPHelper;
-import dev.learn.movies.app.popular_movies.util.IntentUtils;
 
 import static dev.learn.movies.app.popular_movies.data.DataContract.FavoriteEntry.COLUMN_BACKDROP_PATH;
 import static dev.learn.movies.app.popular_movies.data.DataContract.FavoriteEntry.COLUMN_GENRES;
@@ -87,8 +85,8 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
         View.OnClickListener, OnItemClickHandler {
 
     private static final String MOVIE_DETAILS = "movie_details";
-    private static final String MOVIE_TRAILERS = "movie_trailers";
     private static final String MOVIE_SIMILAR = "movie_similar";
+    private static final String MOVIE_CAST = "movie_cast";
     private static final String FAVORED = "favored";
 
     private Context mContext;
@@ -101,13 +99,12 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
     private NetworkLoader mNetworkLoader;
     private ContentLoader mContentLoader;
 
-    private RecyclerView.LayoutManager mRecommendationsLayoutManager;
     private RecyclerView.LayoutManager mSimilarLayoutManager;
     private RecyclerView.LayoutManager mFilmCastLayoutManager;
 
-    private List<Video> mVideoList;
     private List<Movie> mSimilarList;
     private List<Cast> mCastList;
+
     private FilmStripAdapter mSimilarAdapter;
     private FilmCastAdapter mFilmCastAdapter;
 
@@ -132,7 +129,6 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = getContext();
-        mVideoList = new ArrayList<>();
 
         mSimilarAdapter = new FilmStripAdapter(this);
         mFilmCastAdapter = new FilmCastAdapter(this);
@@ -188,8 +184,8 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
             mMovieId = savedInstanceState.getLong(MOVIE_ID);
             mMovieName = savedInstanceState.getString(MOVIE_NAME);
             mMovieDetail = savedInstanceState.getParcelable(MOVIE_DETAILS);
-            mVideoList = savedInstanceState.getParcelableArrayList(MOVIE_TRAILERS);
             mSimilarList = savedInstanceState.getParcelableArrayList(MOVIE_SIMILAR);
+            mCastList = savedInstanceState.getParcelableArrayList(MOVIE_CAST);
             mFavored = savedInstanceState.getBoolean(FAVORED);
 
             updateMovieDetailsUI();
@@ -216,15 +212,16 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
             case R.id.action_save_offline:
                 return true;
             case R.id.action_share:
-                IntentUtils.shareVideos(getActivity(), mVideoList);
+                DisplayUtils.shareURL(getActivity(), mMovieName,
+                        HTTPHelper.buildTMDBMovieURL(String.valueOf(mMovieId)));
                 return true;
-            case R.id.action_watch_trailers:
-                IntentUtils.watchVideos(getActivity(), mVideoList);
+            case R.id.action_watch_trailer:
+                loadMovieTrailersFromNetwork();
                 return true;
             case R.id.action_imdb:
-                IntentUtils.openIMDBLink(mContext, mMovieDetail.getImdbId());
+                DisplayUtils.openIMDBLink(mContext, mMovieDetail.getImdbId());
                 return true;
-            case R.id.action_read_reviews:
+            case R.id.action_user_reviews:
                 goToReviews();
                 return true;
 
@@ -238,8 +235,8 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
         outState.putLong(MOVIE_ID, mMovieId);
         outState.putString(MOVIE_NAME, mMovieName);
         outState.putParcelable(MOVIE_DETAILS, mMovieDetail);
-        outState.putParcelableArrayList(MOVIE_TRAILERS, (ArrayList<? extends Parcelable>) mVideoList);
         outState.putParcelableArrayList(MOVIE_SIMILAR, (ArrayList<? extends Parcelable>) mSimilarList);
+        outState.putParcelableArrayList(MOVIE_CAST, (ArrayList<? extends Parcelable>) mCastList);
         outState.putBoolean(FAVORED, mFavored);
     }
 
@@ -279,15 +276,13 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
         // Handle responses for the different loaderId calls
         switch (loader.getId()) {
             case MOVIE_DETAILS_LOADER_ID:
-                // Handle movie info
                 mMovieDetail = (s == null) ? null : gson.fromJson(s, MovieDetail.class);
                 updateMovieDetailsUI();
                 break;
             case MOVIE_TRAILERS_LOADER_ID:
-                // Handle videos response
                 VideosResult videosResult = (s == null) ? null : gson.fromJson(s, VideosResult.class);
                 if (videosResult != null) {
-                    mVideoList = videosResult.getVideos();
+                    DisplayUtils.buildTrailersDialog(mContext, videosResult.getVideos());
                 }
                 break;
             case MOVIE_SIMILAR_LOADER_ID:

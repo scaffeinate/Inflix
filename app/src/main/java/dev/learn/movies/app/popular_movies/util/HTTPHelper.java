@@ -39,7 +39,10 @@ public final class HTTPHelper {
     private static final String TAG = HTTPHelper.class.getSimpleName();
     private static final String API_KEY = BuildConfig.API_KEY;
     private static final String SCHEME = "https";
-    private static final String BASE_PATH = "/api.themoviedb.org";
+
+    private static final String TMDB_BASE_PATH = "/www.themoviedb.org";
+
+    private static final String API_BASE_PATH = "/api.themoviedb.org";
     private static final String API_VERSION = "3";
 
     private static final String IMAGE_BASE_PATH = "/image.tmdb.org/t/p";
@@ -243,6 +246,22 @@ public final class HTTPHelper {
         return null;
     }
 
+    public static URL buildTMDBMovieURL(String movieId) {
+        Uri uri = new Uri.Builder()
+                .scheme(SCHEME)
+                .appendEncodedPath(TMDB_BASE_PATH)
+                .appendEncodedPath(MOVIE_DETAIL_PATH)
+                .appendEncodedPath(movieId)
+                .build();
+
+        try {
+            return new URL(uri.toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 
     /**
      * Builds Image URL
@@ -306,7 +325,7 @@ public final class HTTPHelper {
     private static URL buildTMDBURL(String path, int page) {
         Uri.Builder uriBuilder = new Uri.Builder()
                 .scheme(SCHEME)
-                .appendEncodedPath(BASE_PATH)
+                .appendEncodedPath(API_BASE_PATH)
                 .appendEncodedPath(API_VERSION)
                 .appendEncodedPath(path)
                 .appendQueryParameter(API_KEY_PARAM, API_KEY)

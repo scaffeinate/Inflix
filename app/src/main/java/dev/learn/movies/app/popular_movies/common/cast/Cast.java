@@ -1,10 +1,13 @@
 
 package dev.learn.movies.app.popular_movies.common.cast;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Cast {
+public class Cast implements Parcelable {
 
     @SerializedName("cast_id")
     @Expose
@@ -30,6 +33,29 @@ public class Cast {
     @SerializedName("profile_path")
     @Expose
     private String profilePath;
+
+    protected Cast(Parcel in) {
+        castId = in.readLong();
+        character = in.readString();
+        creditId = in.readString();
+        gender = in.readLong();
+        id = in.readLong();
+        name = in.readString();
+        order = in.readLong();
+        profilePath = in.readString();
+    }
+
+    public static final Creator<Cast> CREATOR = new Creator<Cast>() {
+        @Override
+        public Cast createFromParcel(Parcel in) {
+            return new Cast(in);
+        }
+
+        @Override
+        public Cast[] newArray(int size) {
+            return new Cast[size];
+        }
+    };
 
     public long getCastId() {
         return castId;
@@ -95,4 +121,20 @@ public class Cast {
         this.profilePath = profilePath;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(castId);
+        dest.writeString(character);
+        dest.writeString(creditId);
+        dest.writeLong(gender);
+        dest.writeLong(id);
+        dest.writeString(name);
+        dest.writeLong(order);
+        dest.writeString(profilePath);
+    }
 }

@@ -16,10 +16,10 @@
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/action_watch_trailers"
+        android:id="@+id/action_watch_trailer"
         android:icon="@drawable/ic_youtube_play_white_36dp"
         android:orderInCategory="2"
-        android:title="@string/action_watch_trailers"
+        android:title="@string/action_watch_trailer"
         app:showAsAction="never" />
 
     <item
@@ -29,9 +29,9 @@
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/action_read_reviews"
+        android:id="@+id/action_user_reviews"
         android:orderInCategory="4"
-        android:title="@string/action_read_reviews"
+        android:title="@string/action_user_reviews"
         app:showAsAction="never" />
 
 </menu>
