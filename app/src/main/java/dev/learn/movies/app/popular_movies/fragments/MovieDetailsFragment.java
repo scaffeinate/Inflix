@@ -34,11 +34,14 @@ import dev.learn.movies.app.popular_movies.R;
 import dev.learn.movies.app.popular_movies.activities.AdditionalInfoActivity;
 import dev.learn.movies.app.popular_movies.activities.DetailActivity;
 import dev.learn.movies.app.popular_movies.activities.MovieDetailCallbacks;
+import dev.learn.movies.app.popular_movies.adapters.FilmCastAdapter;
 import dev.learn.movies.app.popular_movies.adapters.FilmStripAdapter;
 import dev.learn.movies.app.popular_movies.adapters.OnItemClickHandler;
 import dev.learn.movies.app.popular_movies.common.Genre;
 import dev.learn.movies.app.popular_movies.common.Video;
 import dev.learn.movies.app.popular_movies.common.VideosResult;
+import dev.learn.movies.app.popular_movies.common.cast.Cast;
+import dev.learn.movies.app.popular_movies.common.cast.CastsResult;
 import dev.learn.movies.app.popular_movies.common.movies.Movie;
 import dev.learn.movies.app.popular_movies.common.movies.MovieDetail;
 import dev.learn.movies.app.popular_movies.common.movies.MoviesResult;
@@ -50,7 +53,6 @@ import dev.learn.movies.app.popular_movies.util.DisplayUtils;
 import dev.learn.movies.app.popular_movies.util.HTTPHelper;
 import dev.learn.movies.app.popular_movies.util.IntentUtils;
 
-import static android.view.View.FOCUS_UP;
 import static dev.learn.movies.app.popular_movies.data.DataContract.FavoriteEntry.COLUMN_BACKDROP_PATH;
 import static dev.learn.movies.app.popular_movies.data.DataContract.FavoriteEntry.COLUMN_GENRES;
 import static dev.learn.movies.app.popular_movies.data.DataContract.FavoriteEntry.COLUMN_MOVIE_ID;
@@ -66,10 +68,10 @@ import static dev.learn.movies.app.popular_movies.loaders.ContentLoader.URI_EXTR
 import static dev.learn.movies.app.popular_movies.util.AppConstants.ACTIVITY_DETAIL_LAZY_LOAD_DELAY_IN_MS;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.ADDITIONAL_INFO_ACTIVITY_FRAGMENT_TYPE_REVIEWS;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.FAVORITE_LOADER_ID;
+import static dev.learn.movies.app.popular_movies.util.AppConstants.MOVIE_CAST_LOADER_ID;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.MOVIE_DETAILS_LOADER_ID;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.MOVIE_ID;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.MOVIE_NAME;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.MOVIE_RECOMMENDATIONS_LOADER_ID;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.MOVIE_SIMILAR_LOADER_ID;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.MOVIE_TRAILERS_LOADER_ID;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.RESOURCE_ID;
@@ -81,11 +83,11 @@ import static dev.learn.movies.app.popular_movies.util.AppConstants.RESOURCE_TYP
  */
 
 public class MovieDetailsFragment extends Fragment implements DetailActivity.OnFavBtnClickListener,
-        ContentLoader.ContentLoaderCallback, NetworkLoader.NetworkLoaderCallback, View.OnClickListener, OnItemClickHandler {
+        ContentLoader.ContentLoaderCallback, NetworkLoader.NetworkLoaderCallback,
+        View.OnClickListener, OnItemClickHandler {
 
     private static final String MOVIE_DETAILS = "movie_details";
     private static final String MOVIE_TRAILERS = "movie_trailers";
-    private static final String MOVIE_RECOMMENDATIONS = "movie_recommendations";
     private static final String MOVIE_SIMILAR = "movie_similar";
     private static final String FAVORED = "favored";
 
@@ -101,11 +103,13 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
 
     private RecyclerView.LayoutManager mRecommendationsLayoutManager;
     private RecyclerView.LayoutManager mSimilarLayoutManager;
+    private RecyclerView.LayoutManager mFilmCastLayoutManager;
+
     private List<Video> mVideoList;
-    private List<Movie> mRecommendationList;
     private List<Movie> mSimilarList;
-    private FilmStripAdapter mRecommendationsAdapter;
+    private List<Cast> mCastList;
     private FilmStripAdapter mSimilarAdapter;
+    private FilmCastAdapter mFilmCastAdapter;
 
     private MovieDetail mMovieDetail;
 
@@ -129,10 +133,13 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
         super.onCreate(savedInstanceState);
         mContext = getContext();
         mVideoList = new ArrayList<>();
-        mRecommendationsAdapter = new FilmStripAdapter(this);
+
         mSimilarAdapter = new FilmStripAdapter(this);
-        mRecommendationsLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
+        mFilmCastAdapter = new FilmCastAdapter(this);
+
         mSimilarLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
+        mFilmCastLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
+
         mNetworkLoader = new NetworkLoader(mContext, this);
         mContentLoader = new ContentLoader(mContext, this);
         setHasOptionsMenu(true);
@@ -146,16 +153,15 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
 
         mBinding.layoutMovieInfo.layoutRating.setOnClickListener(this);
 
-        mBinding.layoutMovieRecommendations.rvRecommendations.setLayoutManager(mRecommendationsLayoutManager);
-        mBinding.layoutMovieRecommendations.rvRecommendations.setAdapter(mRecommendationsAdapter);
-        mBinding.layoutMovieRecommendations.rvRecommendations.setNestedScrollingEnabled(false);
+        mBinding.layoutMovieSimilar.rvSimilar.setLayoutManager(mSimilarLayoutManager);
+        mBinding.layoutMovieSimilar.rvSimilar.setAdapter(mSimilarAdapter);
+        mBinding.layoutMovieSimilar.rvSimilar.setNestedScrollingEnabled(false);
 
-        mBinding.layoutContent.layoutMovieSimilar.rvSimilar.setLayoutManager(mSimilarLayoutManager);
-        mBinding.layoutContent.layoutMovieSimilar.rvSimilar.setAdapter(mSimilarAdapter);
-        mBinding.layoutContent.layoutMovieSimilar.rvSimilar.setNestedScrollingEnabled(false);
+        mBinding.layoutCast.rvCast.setLayoutManager(mFilmCastLayoutManager);
+        mBinding.layoutCast.rvCast.setAdapter(mFilmCastAdapter);
+        mBinding.layoutCast.rvCast.setNestedScrollingEnabled(false);
 
-        mBinding.layoutMovieRecommendations.tvRecommendationsTitle.setText(getString(R.string.recommended));
-        mBinding.layoutContent.layoutMovieSimilar.tvSimilarTitle.setText(getString(R.string.similar_movies));
+        mBinding.layoutMovieSimilar.tvSimilarTitle.setText(getString(R.string.similar_movies));
 
         new Handler().post(new Runnable() {
             @Override
@@ -183,12 +189,10 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
             mMovieName = savedInstanceState.getString(MOVIE_NAME);
             mMovieDetail = savedInstanceState.getParcelable(MOVIE_DETAILS);
             mVideoList = savedInstanceState.getParcelableArrayList(MOVIE_TRAILERS);
-            mRecommendationList = savedInstanceState.getParcelableArrayList(MOVIE_RECOMMENDATIONS);
             mSimilarList = savedInstanceState.getParcelableArrayList(MOVIE_SIMILAR);
             mFavored = savedInstanceState.getBoolean(FAVORED);
 
             updateMovieDetailsUI();
-            updateMovieRecommendationsUI();
             updateSimilarMoviesUI();
         }
 
@@ -235,7 +239,6 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
         outState.putString(MOVIE_NAME, mMovieName);
         outState.putParcelable(MOVIE_DETAILS, mMovieDetail);
         outState.putParcelableArrayList(MOVIE_TRAILERS, (ArrayList<? extends Parcelable>) mVideoList);
-        outState.putParcelableArrayList(MOVIE_RECOMMENDATIONS, (ArrayList<? extends Parcelable>) mRecommendationList);
         outState.putParcelableArrayList(MOVIE_SIMILAR, (ArrayList<? extends Parcelable>) mSimilarList);
         outState.putBoolean(FAVORED, mFavored);
     }
@@ -287,19 +290,19 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
                     mVideoList = videosResult.getVideos();
                 }
                 break;
-            case MOVIE_RECOMMENDATIONS_LOADER_ID:
-                MoviesResult movieRecommendationsResult = (s == null) ? null : gson.fromJson(s, MoviesResult.class);
-                if (movieRecommendationsResult != null && movieRecommendationsResult.getResults() != null) {
-                    mRecommendationList = movieRecommendationsResult.getResults();
-                }
-                updateMovieRecommendationsUI();
-                break;
             case MOVIE_SIMILAR_LOADER_ID:
                 MoviesResult similarMoviesResult = (s == null) ? null : gson.fromJson(s, MoviesResult.class);
-                if (similarMoviesResult != null && similarMoviesResult.getResults() != null) {
+                if (similarMoviesResult != null) {
                     mSimilarList = similarMoviesResult.getResults();
                 }
                 updateSimilarMoviesUI();
+                break;
+            case MOVIE_CAST_LOADER_ID:
+                CastsResult castsResult = (s == null) ? null : gson.fromJson(s, CastsResult.class);
+                if (castsResult != null) {
+                    mCastList = castsResult.getCast();
+                }
+                updateMovieCastUI();
                 break;
         }
     }
@@ -332,9 +335,6 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
     public void onItemClicked(ViewGroup parent, View view, int position) {
         Movie movie = null;
         switch (parent.getId()) {
-            case R.id.rv_recommendations:
-                movie = mRecommendationList.get(position);
-                break;
             case R.id.rv_similar:
                 movie = mSimilarList.get(position);
                 break;
@@ -376,9 +376,8 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    loadMovieTrailersFromNetwork();
-                    loadMovieRecommendationsFromNetwork();
                     loadSimilarMoviesFromNetwork();
+                    loadMovieCastFromNetwork();
                 }
             }, ACTIVITY_DETAIL_LAZY_LOAD_DELAY_IN_MS);
         }
@@ -394,18 +393,18 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
         getActivity().getSupportLoaderManager().restartLoader(MOVIE_TRAILERS_LOADER_ID, args, mNetworkLoader);
     }
 
-    private void loadMovieRecommendationsFromNetwork() {
-        URL url = HTTPHelper.buildMovieRecommendationsURL(String.valueOf(mMovieId));
-        Bundle args = new Bundle();
-        args.putSerializable(NetworkLoader.URL_EXTRA, url);
-        getActivity().getSupportLoaderManager().restartLoader(MOVIE_RECOMMENDATIONS_LOADER_ID, args, mNetworkLoader);
-    }
-
     private void loadSimilarMoviesFromNetwork() {
         URL url = HTTPHelper.buildSimilarMoviesURL(String.valueOf(mMovieId));
         Bundle args = new Bundle();
         args.putSerializable(NetworkLoader.URL_EXTRA, url);
         getActivity().getSupportLoaderManager().restartLoader(MOVIE_SIMILAR_LOADER_ID, args, mNetworkLoader);
+    }
+
+    private void loadMovieCastFromNetwork() {
+        URL url = HTTPHelper.buildMovieCastURL(String.valueOf(mMovieId));
+        Bundle args = new Bundle();
+        args.putSerializable(NetworkLoader.URL_EXTRA, url);
+        getActivity().getSupportLoaderManager().restartLoader(MOVIE_CAST_LOADER_ID, args, mNetworkLoader);
     }
 
     /**
@@ -474,21 +473,21 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
         showMovieDetails();
     }
 
-    private void updateMovieRecommendationsUI() {
-        if (mRecommendationList != null && !mRecommendationList.isEmpty()) {
-            mRecommendationsAdapter.setFilmStripList(mRecommendationList);
-            showRecommendations();
-        } else {
-            hideRecommendations();
-        }
-    }
-
     private void updateSimilarMoviesUI() {
         if (mSimilarList != null && !mSimilarList.isEmpty()) {
             mSimilarAdapter.setFilmStripList(mSimilarList);
             showSimilar();
         } else {
             hideSimilar();
+        }
+    }
+
+    private void updateMovieCastUI() {
+        if (mCastList != null && !mCastList.isEmpty()) {
+            mFilmCastAdapter.setFilmCastList(mCastList);
+            showCast();
+        } else {
+            hideCast();
         }
     }
 
@@ -515,31 +514,31 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
     /**
      * Shows MovieDetailLayout, Hides ProgressBar and ErrorMessage
      */
-    private void showRecommendations() {
-        mBinding.layoutMovieRecommendations.rvRecommendations.setVisibility(View.VISIBLE);
-        mBinding.layoutMovieRecommendations.pbRecommendations.setVisibility(View.GONE);
-    }
-
-    /**
-     * Shows ErrorMessage, Hides ProgressBar and MovieDetailLayout
-     */
-    private void hideRecommendations() {
-        mBinding.layoutMovieRecommendations.getRoot().setVisibility(View.GONE);
-    }
-
-    /**
-     * Shows MovieDetailLayout, Hides ProgressBar and ErrorMessage
-     */
     private void showSimilar() {
-        mBinding.layoutContent.layoutMovieSimilar.rvSimilar.setVisibility(View.VISIBLE);
-        mBinding.layoutContent.layoutMovieSimilar.pbSimilar.setVisibility(View.GONE);
+        mBinding.layoutMovieSimilar.rvSimilar.setVisibility(View.VISIBLE);
+        mBinding.layoutMovieSimilar.pbSimilar.setVisibility(View.GONE);
     }
 
     /**
      * Shows ErrorMessage, Hides ProgressBar and MovieDetailLayout
      */
     private void hideSimilar() {
-        mBinding.layoutContent.layoutMovieSimilar.getRoot().setVisibility(View.GONE);
+        mBinding.layoutMovieSimilar.getRoot().setVisibility(View.GONE);
+    }
+
+    /**
+     * Shows MovieDetailLayout, Hides ProgressBar and ErrorMessage
+     */
+    private void showCast() {
+        mBinding.layoutCast.rvCast.setVisibility(View.VISIBLE);
+        mBinding.layoutCast.pbCast.setVisibility(View.GONE);
+    }
+
+    /**
+     * Shows ErrorMessage, Hides ProgressBar and MovieDetailLayout
+     */
+    private void hideCast() {
+        mBinding.layoutCast.getRoot().setVisibility(View.GONE);
     }
 
     /**

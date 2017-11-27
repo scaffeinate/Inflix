@@ -15,6 +15,7 @@ import java.util.Scanner;
 
 import dev.learn.movies.app.popular_movies.BuildConfig;
 
+import static dev.learn.movies.app.popular_movies.util.AppConstants.CREDITS;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.MOST_POPULAR;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.NOW_PLAYING;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.RECOMMENDATIONS;
@@ -194,6 +195,11 @@ public final class HTTPHelper {
 
     public static URL buildSimilarMoviesURL(String movieId) {
         String path = MOVIE_DETAIL_PATH + SEPARATOR + movieId + SEPARATOR + SIMILAR;
+        return buildTMDBURL(path, -1);
+    }
+
+    public static URL buildMovieCastURL(String movieId) {
+        String path = MOVIE_DETAIL_PATH + SEPARATOR + movieId + SEPARATOR + CREDITS;
         return buildTMDBURL(path, -1);
     }
 

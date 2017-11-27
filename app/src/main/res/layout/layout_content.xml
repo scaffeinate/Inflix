@@ -60,44 +60,6 @@
             tools:text="@string/lorem_ipsum" />
 
         <TextView
-            android:id="@+id/tv_movie_genres_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/layout_content_field_margin_top"
-            android:text="@string/genres"
-            android:textAppearance="@style/SubHeading"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_movie_plot" />
-
-        <com.nex3z.flowlayout.FlowLayout
-            android:id="@+id/layout_genres"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/layout_content_field_margin_top"
-            android:orientation="horizontal"
-            app:flChildSpacing="@dimen/layout_content_tag_horizontal_spacing"
-            app:flRowSpacing="@dimen/layout_content_tag_vertical_spacing"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_movie_genres_title" />
-
-        <include
-            android:id="@+id/layout_movie_similar"
-            layout="@layout/layout_similar"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="22dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layout_genres"
-            />
-
-        <TextView
             android:id="@+id/tv_budget_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -106,7 +68,7 @@
             android:textAppearance="@style/SubHeading"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layout_movie_similar" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_movie_plot" />
 
         <TextView
             android:id="@+id/tv_budget"
@@ -140,5 +102,30 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             tools:text="@string/random_budget" />
+
+        <TextView
+            android:id="@+id/tv_movie_genres_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/layout_content_field_margin_top"
+            android:text="@string/genres"
+            android:textAppearance="@style/SubHeading"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_revenue" />
+
+        <com.nex3z.flowlayout.FlowLayout
+            android:id="@+id/layout_genres"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/layout_content_field_margin_top"
+            android:orientation="horizontal"
+            app:flChildSpacing="@dimen/layout_content_tag_horizontal_spacing"
+            app:flRowSpacing="@dimen/layout_content_tag_vertical_spacing"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_movie_genres_title" />
     </android.support.constraint.ConstraintLayout>
 </layout>

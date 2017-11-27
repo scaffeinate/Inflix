@@ -38,10 +38,12 @@ public final class DisplayUtils {
      * @param uri       URI of the image
      */
     public static void fitImageInto(ImageView imageView, Uri uri) {
-        Log.i(TAG, "Loading Image from: " + uri);
-        Picasso.with(imageView.getContext()).load(uri)
-                .fit().centerCrop()
-                .into(imageView);
+        if(imageView != null && uri != null) {
+            Log.i(TAG, "Loading Image from: " + uri);
+            Picasso.with(imageView.getContext()).load(uri)
+                    .fit().centerCrop()
+                    .into(imageView);
+        }
     }
 
     /**

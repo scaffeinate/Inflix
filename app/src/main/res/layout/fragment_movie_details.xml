@@ -38,16 +38,30 @@
                 app:layout_constraintTop_toBottomOf="@+id/layout_movie_info" />
 
             <include
-                android:id="@+id/layout_movie_recommendations"
-                layout="@layout/layout_recommendations"
+                android:id="@+id/layout_cast"
+                layout="@layout/layout_cast"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
+                android:clipToPadding="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/layout_content" />
+
+            <include
+                android:id="@+id/layout_movie_similar"
+                layout="@layout/layout_similar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:clipToPadding="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layout_cast" />
         </android.support.constraint.ConstraintLayout>
 
         <TextView
