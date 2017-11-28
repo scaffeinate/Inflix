@@ -189,6 +189,7 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
             mFavored = savedInstanceState.getBoolean(FAVORED);
 
             updateMovieDetailsUI();
+            updateMovieCastUI();
             updateSimilarMoviesUI();
         }
 
