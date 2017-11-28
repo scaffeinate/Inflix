@@ -71,7 +71,9 @@ public class VideoGridAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         @Override
         public void onClick(View v) {
-            mOnItemClickHandler.onItemClicked(mParent, v, getAdapterPosition());
+            if (mOnItemClickHandler != null) {
+                mOnItemClickHandler.onItemClicked(mParent, v, getAdapterPosition());
+            }
         }
     }
 }

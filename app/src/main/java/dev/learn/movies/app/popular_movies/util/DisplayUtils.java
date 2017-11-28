@@ -3,7 +3,6 @@ package dev.learn.movies.app.popular_movies.util;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v4.app.ShareCompat;
@@ -28,7 +27,6 @@ import java.util.Locale;
 
 import dev.learn.movies.app.popular_movies.R;
 import dev.learn.movies.app.popular_movies.common.Genre;
-import dev.learn.movies.app.popular_movies.common.Video;
 
 /**
  * DisplayUtils - Contains helper methods for common formatting and view changes
@@ -151,24 +149,6 @@ public final class DisplayUtils {
     }
 
     /**
-     * Build and call Youtube intent
-     * Reference: https://stackoverflow.com/questions/574195/android-youtube-app-play-video-intent
-     *
-     * @param videoList Video List
-     */
-    public static void buildTrailersDialog(final Context context, final List<Video> videoList) {
-        if (videoList != null && !videoList.isEmpty()) {
-            DialogBuilderHelper.buildVideoDialog(context, "Watch Trailer", videoList, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    Video video = videoList.get(which);
-                    watchVideo(context, video);
-                }
-            });
-        }
-    }
-
-    /**
      * Build and call Web browser intent to open IMDB Link
      *
      * @param imdbId IMDB Title ID
@@ -199,9 +179,8 @@ public final class DisplayUtils {
         }
     }
 
-    private static void watchVideo(Context context, Video video) {
-        if (video != null && video.getKey() != null) {
-            String key = video.getKey();
+    public static void openYoutube(Context context, String key) {
+        if (key != null) {
             try {
                 Intent youtubeAppIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd:youtube:" + key));
                 context.startActivity(youtubeAppIntent);

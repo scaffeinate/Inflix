@@ -36,6 +36,7 @@
     <string name="no_tagline_error_message">No Tagline.</string>
     <string name="imdb_link_not_available">IMDB Link not available.</string>
     <string name="no_recommendations_error_message">No Recommendations.</string>
+    <string name="no_trailers_error_message">No trailers found.</string>
 
 
     <string name="plot">Plot</string>

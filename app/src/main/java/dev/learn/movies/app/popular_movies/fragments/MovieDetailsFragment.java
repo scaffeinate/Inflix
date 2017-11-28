@@ -2,6 +2,7 @@ package dev.learn.movies.app.popular_movies.fragments;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.databinding.DataBindingUtil;
@@ -38,6 +39,7 @@ import dev.learn.movies.app.popular_movies.adapters.FilmCastAdapter;
 import dev.learn.movies.app.popular_movies.adapters.FilmStripAdapter;
 import dev.learn.movies.app.popular_movies.adapters.OnItemClickHandler;
 import dev.learn.movies.app.popular_movies.common.Genre;
+import dev.learn.movies.app.popular_movies.common.Video;
 import dev.learn.movies.app.popular_movies.common.VideosResult;
 import dev.learn.movies.app.popular_movies.common.cast.Cast;
 import dev.learn.movies.app.popular_movies.common.cast.CastsResult;
@@ -50,6 +52,7 @@ import dev.learn.movies.app.popular_movies.loaders.ContentLoader;
 import dev.learn.movies.app.popular_movies.loaders.NetworkLoader;
 import dev.learn.movies.app.popular_movies.util.DisplayUtils;
 import dev.learn.movies.app.popular_movies.util.HTTPHelper;
+import dev.learn.movies.app.popular_movies.util.VideoGridDialog;
 
 import static dev.learn.movies.app.popular_movies.data.DataContract.FavoriteEntry.COLUMN_BACKDROP_PATH;
 import static dev.learn.movies.app.popular_movies.data.DataContract.FavoriteEntry.COLUMN_GENRES;
@@ -114,6 +117,8 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
 
     private FragmentMovieDetailsBinding mBinding;
 
+    private VideoGridDialog mVideoGridDialog;
+
     public static MovieDetailsFragment newInstance(long movieId, String movieName) {
         MovieDetailsFragment movieDetailsFragment = new MovieDetailsFragment();
 
@@ -139,6 +144,8 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
         mNetworkLoader = new NetworkLoader(mContext, this);
         mContentLoader = new ContentLoader(mContext, this);
         setHasOptionsMenu(true);
+
+        mVideoGridDialog = VideoGridDialog.with(mContext);
     }
 
     @Nullable
@@ -217,7 +224,24 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
                         HTTPHelper.buildTMDBMovieURL(String.valueOf(mMovieId)));
                 return true;
             case R.id.action_watch_trailer:
-                loadMovieTrailersFromNetwork();
+                mVideoGridDialog
+                        .setTitle(getString(R.string.action_watch_trailer))
+                        .setCancelable(true)
+                        .setOnVideoSelectedListener(new VideoGridDialog.OnVideoSelectedListener() {
+                            @Override
+                            public void onVideoSelected(Video video) {
+                                if (video != null && video.getKey() != null) {
+                                    DisplayUtils.openYoutube(mContext, video.getKey());
+                                }
+                            }
+                        })
+                        .setOnShowListener(new DialogInterface.OnShowListener() {
+                            @Override
+                            public void onShow(DialogInterface dialog) {
+                                loadMovieTrailersFromNetwork();
+                            }
+                        })
+                        .build();
                 return true;
             case R.id.action_imdb:
                 DisplayUtils.openIMDBLink(mContext, mMovieDetail.getImdbId());
@@ -282,8 +306,12 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
                 break;
             case MOVIE_TRAILERS_LOADER_ID:
                 VideosResult videosResult = (s == null) ? null : gson.fromJson(s, VideosResult.class);
-                if (videosResult != null) {
-                    DisplayUtils.buildTrailersDialog(mContext, videosResult.getVideos());
+                if (videosResult != null && videosResult.getVideos() != null && !videosResult.getVideos().isEmpty()) {
+                    mVideoGridDialog
+                            .setVideos(videosResult.getVideos())
+                            .success();
+                } else {
+                    mVideoGridDialog.error();
                 }
                 break;
             case MOVIE_SIMILAR_LOADER_ID:
