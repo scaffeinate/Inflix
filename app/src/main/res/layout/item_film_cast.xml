@@ -36,21 +36,25 @@
 
             <TextView
                 android:id="@+id/tv_actor_name"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/layout_profile_pic"
+                android:layout_alignRight="@+id/layout_profile_pic"
                 android:layout_below="@+id/layout_profile_pic"
-                android:layout_centerHorizontal="true"
-                android:maxLength="100"
+                android:ellipsize="end"
+                android:maxLines="1"
                 android:textAppearance="@style/BodyBold"
                 tools:text="@string/actor_name" />
 
             <TextView
                 android:id="@+id/tv_character_name"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/layout_profile_pic"
+                android:layout_alignRight="@+id/layout_profile_pic"
                 android:layout_below="@+id/tv_actor_name"
-                android:layout_centerHorizontal="true"
-                android:maxLength="100"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:textAppearance="@style/CaptionItalic"
                 tools:text="@string/character_name" />
         </RelativeLayout>
