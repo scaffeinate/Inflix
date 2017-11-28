@@ -21,7 +21,6 @@ import java.net.URL;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -159,11 +158,7 @@ public final class DisplayUtils {
      */
     public static void buildTrailersDialog(final Context context, final List<Video> videoList) {
         if (videoList != null && !videoList.isEmpty()) {
-            List<String> values = new ArrayList<>();
-            for (Video video : videoList) {
-                values.add(video.getName());
-            }
-            DialogBuilderHelper.build(context, "Watch Trailer", values, new DialogInterface.OnClickListener() {
+            DialogBuilderHelper.buildVideoDialog(context, "Watch Trailer", videoList, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     Video video = videoList.get(which);

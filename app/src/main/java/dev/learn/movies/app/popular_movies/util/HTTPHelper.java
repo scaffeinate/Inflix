@@ -81,6 +81,12 @@ public final class HTTPHelper {
 
     private static final String YOUTUBE_BASE_PATH = "/youtube.com";
 
+    private static final String YOUTUBE_IMAGE_BASE_PATH = "/img.youtube.com";
+
+    private static final String YOUTUBE_VI = "vi";
+
+    private static final String IMG_0_JPG = "0.jpg";
+
     private static final String YOUTUBE_WATCH_PATH = "watch";
 
     private static final String IMDB_BASE_PATH = "/www.imdb.com";
@@ -227,6 +233,18 @@ public final class HTTPHelper {
         }
 
         return null;
+    }
+
+    public static Uri buildYouTubeThumbURI(String key) {
+        Uri uri = new Uri.Builder()
+                .scheme(SCHEME)
+                .appendEncodedPath(YOUTUBE_IMAGE_BASE_PATH)
+                .appendEncodedPath(YOUTUBE_VI)
+                .appendEncodedPath(key)
+                .appendEncodedPath(IMG_0_JPG)
+                .build();
+
+        return uri;
     }
 
     public static URL buildIMDBURL(String imdbId) {
