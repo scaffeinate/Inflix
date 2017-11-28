@@ -44,6 +44,7 @@
 
 
     <style name="BodyBold" parent="Body">
+        <item name="android:textStyle">bold</item>
         <item name="android:fontFamily">@font/lato_black</item>
     </style>
 

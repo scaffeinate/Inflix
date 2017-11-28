@@ -1,6 +1,7 @@
 package dev.learn.movies.app.popular_movies.adapters;
 
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,12 +53,14 @@ public class FilmCastAdapter extends RecyclerView.Adapter<FilmCastAdapter.FilmCa
 
     class FilmCastHolder extends RecyclerView.ViewHolder {
 
-        private final TextView mPersonNameTextView;
+        private final TextView mActorNameTextView;
+        private final TextView mCharacterNameTextView;
         private final ImageView mProfilePicImageView;
 
         public FilmCastHolder(View itemView) {
             super(itemView);
-            mPersonNameTextView = itemView.findViewById(R.id.tv_person_name);
+            mActorNameTextView = itemView.findViewById(R.id.tv_actor_name);
+            mCharacterNameTextView = itemView.findViewById(R.id.tv_character_name);
             mProfilePicImageView = itemView.findViewById(R.id.image_view_profile_pic);
         }
 
@@ -65,15 +68,20 @@ public class FilmCastAdapter extends RecyclerView.Adapter<FilmCastAdapter.FilmCa
             Cast cast = mFilmCastList.get(position);
             if (cast != null) {
                 String profilePath = cast.getProfilePath();
-                String profileName = cast.getName();
+                String characterName = cast.getCharacter();
+                String actorName = cast.getName();
 
                 if (profilePath != null) {
                     DisplayUtils.fitImageInto(mProfilePicImageView,
                             HTTPHelper.buildImageResourceUri(profilePath, HTTPHelper.IMAGE_SIZE_SMALL));
                 }
 
-                if (profileName != null) {
-                    mPersonNameTextView.setText(profileName);
+                if (!TextUtils.isEmpty(actorName)) {
+                    mActorNameTextView.setText(actorName);
+                }
+
+                if (!TextUtils.isEmpty(characterName)) {
+                    mCharacterNameTextView.setText(characterName);
                 }
             }
         }

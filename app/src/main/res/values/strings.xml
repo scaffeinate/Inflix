@@ -69,4 +69,6 @@
     <string name="user">User</string>
     <string name="released">Released</string>
     <string name="random_budget">$63000000</string>
+    <string name="actor_name">Christian Bale</string>
+    <string name="character_name">Bruce Wayne</string>
 </resources>
