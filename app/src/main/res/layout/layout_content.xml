@@ -6,12 +6,12 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:descendantFocusability="blocksDescendants"
         android:focusable="false"
-        android:focusableInTouchMode="false"
-        android:descendantFocusability="blocksDescendants">
+        android:focusableInTouchMode="false">
 
         <TextView
-            android:id="@+id/tv_movie_synopsis_title"
+            android:id="@+id/text_view_movie_synopsis_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/tagline"
@@ -21,7 +21,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tv_movie_tagline"
+            android:id="@+id/text_view_movie_tagline"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/layout_content_field_margin_top"
@@ -31,11 +31,11 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_movie_synopsis_title"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_movie_synopsis_title"
             tools:text="@string/no_tagline_error_message" />
 
         <TextView
-            android:id="@+id/tv_movie_plot_title"
+            android:id="@+id/text_view_movie_plot_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/layout_content_field_margin_top"
@@ -43,10 +43,10 @@
             android:textAppearance="@style/SubHeading"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_movie_tagline" />
+            app:layout_constraintTop_toBottomOf="@+id/text_view_movie_tagline" />
 
         <TextView
-            android:id="@+id/tv_movie_plot"
+            android:id="@+id/text_view_movie_plot"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/layout_content_field_margin_top"
@@ -56,11 +56,11 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_movie_plot_title"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_movie_plot_title"
             tools:text="@string/lorem_ipsum" />
 
         <TextView
-            android:id="@+id/tv_budget_title"
+            android:id="@+id/text_view_budget_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/layout_content_field_margin_top"
@@ -68,21 +68,21 @@
             android:textAppearance="@style/SubHeading"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_movie_plot" />
+            app:layout_constraintTop_toBottomOf="@+id/text_view_movie_plot" />
 
         <TextView
-            android:id="@+id/tv_budget"
+            android:id="@+id/text_view_budget"
             style="@style/TagStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/colorAccent"
-            app:layout_constraintBaseline_toBaselineOf="@+id/tv_budget_title"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBaseline_toBaselineOf="@+id/text_view_budget_title"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             tools:text="@string/random_budget" />
 
         <TextView
-            android:id="@+id/tv_revenue_title"
+            android:id="@+id/text_view_revenue_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
@@ -90,21 +90,21 @@
             android:textAppearance="@style/SubHeading"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_budget_title" />
+            app:layout_constraintTop_toBottomOf="@+id/text_view_budget_title" />
 
         <TextView
-            android:id="@+id/tv_revenue"
+            android:id="@+id/text_view_revenue"
             style="@style/TagStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/colorAccent"
-            app:layout_constraintBaseline_toBaselineOf="@+id/tv_revenue_title"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBaseline_toBaselineOf="@+id/text_view_revenue_title"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             tools:text="@string/random_budget" />
 
         <TextView
-            android:id="@+id/tv_movie_genres_title"
+            android:id="@+id/text_view_movie_genres_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/layout_content_field_margin_top"
@@ -112,7 +112,7 @@
             android:textAppearance="@style/SubHeading"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_revenue" />
+            app:layout_constraintTop_toBottomOf="@+id/text_view_revenue" />
 
         <com.nex3z.flowlayout.FlowLayout
             android:id="@+id/layout_genres"
@@ -120,13 +120,13 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/layout_content_field_margin_top"
             android:orientation="horizontal"
+            android:paddingBottom="10dp"
             app:flChildSpacing="@dimen/layout_content_tag_horizontal_spacing"
             app:flRowSpacing="@dimen/layout_content_tag_vertical_spacing"
-            android:paddingBottom="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_movie_genres_title" />
+            app:layout_constraintTop_toBottomOf="@+id/text_view_movie_genres_title" />
     </android.support.constraint.ConstraintLayout>
 </layout>

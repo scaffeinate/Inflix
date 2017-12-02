@@ -162,15 +162,15 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
 
         mBinding.layoutMovieInfo.layoutRating.setOnClickListener(this);
 
-        mBinding.layoutMovieSimilar.rvSimilar.setLayoutManager(mSimilarLayoutManager);
-        mBinding.layoutMovieSimilar.rvSimilar.setAdapter(mSimilarAdapter);
-        mBinding.layoutMovieSimilar.rvSimilar.setNestedScrollingEnabled(false);
+        mBinding.layoutMovieSimilar.recyclerViewSimilar.setLayoutManager(mSimilarLayoutManager);
+        mBinding.layoutMovieSimilar.recyclerViewSimilar.setAdapter(mSimilarAdapter);
+        mBinding.layoutMovieSimilar.recyclerViewSimilar.setNestedScrollingEnabled(false);
 
-        mBinding.layoutCast.rvCast.setLayoutManager(mFilmCastLayoutManager);
-        mBinding.layoutCast.rvCast.setAdapter(mFilmCastAdapter);
-        mBinding.layoutCast.rvCast.setNestedScrollingEnabled(false);
+        mBinding.layoutCast.recyclerViewCast.setLayoutManager(mFilmCastLayoutManager);
+        mBinding.layoutCast.recyclerViewCast.setAdapter(mFilmCastAdapter);
+        mBinding.layoutCast.recyclerViewCast.setNestedScrollingEnabled(false);
 
-        mBinding.layoutMovieSimilar.tvSimilarTitle.setText(getString(R.string.similar_movies));
+        mBinding.layoutMovieSimilar.textViewSimilarTitle.setText(getString(R.string.similar_movies));
 
         new Handler().post(new Runnable() {
             @Override
@@ -303,7 +303,7 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
             if (HTTPHelper.isNetworkEnabled(mContext)) {
                 loadMovieDetailsFromNetwork();
             } else {
-                DisplayUtils.setNoNetworkConnectionMessage(mContext, mBinding.tvErrorMessageDisplay);
+                DisplayUtils.setNoNetworkConnectionMessage(mContext, mBinding.textViewErrorMessageDisplay);
                 showErrorMessage();
             }
         } else {
@@ -388,7 +388,7 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
     public void onItemClicked(ViewGroup parent, View view, int position) {
         Movie movie = null;
         switch (parent.getId()) {
-            case R.id.rv_similar:
+            case R.id.recycler_view_similar:
                 movie = mSimilarList.get(position);
                 break;
         }
@@ -497,32 +497,32 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
             DisplayUtils.fitImageInto(mBinding.layoutMovieInfo.layoutPoster.imageViewPoster, posterUri);
         }
 
-        mBinding.layoutMovieInfo.tvMovieTitle.setText(DisplayUtils.formatTitle(title, year));
+        mBinding.layoutMovieInfo.textViewMovieTitle.setText(DisplayUtils.formatTitle(title, year));
 
-        mBinding.layoutMovieInfo.tvMovieRuntime.setText(runningTime);
+        mBinding.layoutMovieInfo.textViewMovieRuntime.setText(runningTime);
 
         if (!TextUtils.isEmpty(status)) {
-            mBinding.layoutMovieInfo.tvMovieStatus.setText(status);
+            mBinding.layoutMovieInfo.textViewMovieStatus.setText(status);
         } else {
-            mBinding.layoutMovieInfo.tvMovieStatus.setVisibility(View.GONE);
+            mBinding.layoutMovieInfo.textViewMovieStatus.setVisibility(View.GONE);
         }
 
         DisplayUtils.addGenres(genres, mBinding.layoutContent.layoutGenres, mContext);
 
         mBinding.layoutMovieInfo.rbMovieRating.setRating((float) voteAverage);
 
-        mBinding.layoutMovieInfo.tvMovieRating.setText(rating);
+        mBinding.layoutMovieInfo.textViewMovieRating.setText(rating);
 
-        mBinding.layoutMovieInfo.tvMovieRatingNum.setText(voteCount);
+        mBinding.layoutMovieInfo.textViewMovieRatingNum.setText(voteCount);
 
-        mBinding.layoutContent.tvMovieTagline.setText(DisplayUtils.formatTagline(mContext, tagline));
+        mBinding.layoutContent.textViewMovieTagline.setText(DisplayUtils.formatTagline(mContext, tagline));
 
-        mBinding.layoutContent.tvBudget.setText(DisplayUtils.formatCurrency(budget));
+        mBinding.layoutContent.textViewBudget.setText(DisplayUtils.formatCurrency(budget));
 
-        mBinding.layoutContent.tvRevenue.setText(DisplayUtils.formatCurrency(revenue));
+        mBinding.layoutContent.textViewRevenue.setText(DisplayUtils.formatCurrency(revenue));
 
         if (moviePlot != null && !moviePlot.isEmpty()) {
-            mBinding.layoutContent.tvMoviePlot.setText(moviePlot);
+            mBinding.layoutContent.textViewMoviePlot.setText(moviePlot);
         }
 
         mCallbacks.updateFavBtn(mMovieDetail.isFavored());
@@ -558,8 +558,8 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
      */
     private void showMovieDetails() {
         mBinding.layoutMovieDetail.setVisibility(View.VISIBLE);
-        mBinding.pbLoadingIndicator.setVisibility(View.INVISIBLE);
-        mBinding.tvErrorMessageDisplay.setVisibility(View.INVISIBLE);
+        mBinding.progressBarMovieDetails.setVisibility(View.INVISIBLE);
+        mBinding.textViewErrorMessageDisplay.setVisibility(View.INVISIBLE);
         mCallbacks.showFavBtn();
     }
 
@@ -567,8 +567,8 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
      * Shows ErrorMessage, Hides ProgressBar and MovieDetailLayout
      */
     private void showErrorMessage() {
-        mBinding.tvErrorMessageDisplay.setVisibility(View.VISIBLE);
-        mBinding.pbLoadingIndicator.setVisibility(View.INVISIBLE);
+        mBinding.textViewErrorMessageDisplay.setVisibility(View.VISIBLE);
+        mBinding.progressBarMovieDetails.setVisibility(View.INVISIBLE);
         mBinding.layoutMovieDetail.setVisibility(View.INVISIBLE);
         mCallbacks.hideFavBtn();
     }
@@ -577,8 +577,8 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
      * Shows MovieDetailLayout, Hides ProgressBar and ErrorMessage
      */
     private void showSimilar() {
-        mBinding.layoutMovieSimilar.rvSimilar.setVisibility(View.VISIBLE);
-        mBinding.layoutMovieSimilar.pbSimilar.setVisibility(View.GONE);
+        mBinding.layoutMovieSimilar.recyclerViewSimilar.setVisibility(View.VISIBLE);
+        mBinding.layoutMovieSimilar.progressBarSimilar.setVisibility(View.GONE);
     }
 
     /**
@@ -592,8 +592,8 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
      * Shows MovieDetailLayout, Hides ProgressBar and ErrorMessage
      */
     private void showCast() {
-        mBinding.layoutCast.rvCast.setVisibility(View.VISIBLE);
-        mBinding.layoutCast.pbCast.setVisibility(View.GONE);
+        mBinding.layoutCast.recyclerViewCast.setVisibility(View.VISIBLE);
+        mBinding.layoutCast.progressBarCast.setVisibility(View.GONE);
     }
 
     /**

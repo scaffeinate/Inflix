@@ -6,25 +6,25 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/tv_similar_title"
+            android:id="@+id/text_view_similar_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:textAppearance="@style/SubHeading" />
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_similar"
+            android:id="@+id/recycler_view_similar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/tv_similar_title"
+            android:layout_below="@+id/text_view_similar_title"
             android:layout_marginTop="@dimen/layout_recommendations_rv_margin_top"
             android:visibility="invisible" />
 
         <ProgressBar
-            android:id="@+id/pb_similar"
+            android:id="@+id/progress_bar_similar"
             android:layout_width="@dimen/progressbar_size"
             android:layout_height="@dimen/progressbar_size"
-            android:layout_below="@+id/tv_similar_title"
+            android:layout_below="@+id/text_view_similar_title"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/layout_recommendations_rv_margin_top" />
     </RelativeLayout>
