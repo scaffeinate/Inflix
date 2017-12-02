@@ -52,8 +52,5 @@
             android:name=".data.providers.MediaProvider"
             android:authorities="dev.learn.movies.app.popular_movies.media"
             android:exported="false" />
-        <meta-data
-            android:name="preloaded_fonts"
-            android:resource="@array/preloaded_fonts" />
     </application>
 </manifest>
