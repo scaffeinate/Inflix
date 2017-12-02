@@ -153,7 +153,7 @@ public final class DisplayUtils {
      *
      * @param imdbId IMDB Title ID
      */
-    public static void openIMDBLink(Context context, String imdbId) {
+    public static void openIMDB(Context context, String imdbId) {
         if (imdbId != null) {
             URL url = HTTPHelper.buildIMDBURL(imdbId);
             if (url != null) {

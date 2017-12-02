@@ -24,10 +24,6 @@
                         android:id="@+id/action_top_rated"
                         android:icon="@drawable/ic_star_grey600_24dp"
                         android:title="@string/action_top_rated" />
-                    <item
-                        android:id="@+id/action_favorites"
-                        android:icon="@drawable/ic_heart_white_24dp"
-                        android:title="@string/action_favorites" />
                 </group>
             </menu>
         </item>
@@ -52,10 +48,6 @@
                         android:id="@+id/action_tv_top_rated"
                         android:icon="@drawable/ic_star_grey600_24dp"
                         android:title="@string/action_tv_top_rated" />
-                    <item
-                        android:id="@+id/action_tv_favorites"
-                        android:icon="@drawable/ic_heart_white_24dp"
-                        android:title="@string/action_favorites" />
                 </group>
             </menu>
         </item>
@@ -64,7 +56,14 @@
             android:title="@string/nav_sub_header_other">
             <menu>
                 <group android:checkableBehavior="single">
-
+                    <item
+                        android:id="@+id/action_favorites"
+                        android:icon="@drawable/ic_heart_white_24dp"
+                        android:title="@string/action_favorites" />
+                    <item
+                        android:id="@+id/action_bookmarks"
+                        android:icon="@drawable/ic_bookmark_white_24dp"
+                        android:title="@string/action_bookmarks" />
                 </group>
             </menu>
         </item>

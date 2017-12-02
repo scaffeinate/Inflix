@@ -2,11 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/action_save_offline"
-          android:icon="@drawable/ic_arrow_down_white_24dp"
-          android:orderInCategory="1"
-          android:title="@string/action_save_offline"
-          app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_bookmark"
+        android:icon="@drawable/ic_bookmark_outline_white_24dp"
+        android:orderInCategory="2"
+        android:title="@string/action_bookmark"
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/action_share"
@@ -18,19 +19,19 @@
     <item
         android:id="@+id/action_watch_trailer"
         android:icon="@drawable/ic_youtube_play_white_36dp"
-        android:orderInCategory="2"
+        android:orderInCategory="3"
         android:title="@string/action_watch_trailer"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/action_imdb"
-        android:orderInCategory="3"
+        android:orderInCategory="4"
         android:title="@string/action_imdb"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/action_user_reviews"
-        android:orderInCategory="4"
+        android:orderInCategory="5"
         android:title="@string/action_user_reviews"
         app:showAsAction="never" />
 

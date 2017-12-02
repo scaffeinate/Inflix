@@ -12,7 +12,7 @@ import dev.learn.movies.app.popular_movies.R;
 import dev.learn.movies.app.popular_movies.util.DisplayUtils;
 import dev.learn.movies.app.popular_movies.util.HTTPHelper;
 
-import static dev.learn.movies.app.popular_movies.data.DataContract.FavoriteEntry.COLUMN_POSTER_PATH;
+import static dev.learn.movies.app.popular_movies.data.DataContract.MediaEntry.COLUMN_POSTER_PATH;
 
 /**
  * FavoritesAdapter - RecyclerView Adapter for Movies

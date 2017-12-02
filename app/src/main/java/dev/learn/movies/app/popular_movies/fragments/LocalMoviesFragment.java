@@ -20,12 +20,12 @@ import dev.learn.movies.app.popular_movies.R;
 import dev.learn.movies.app.popular_movies.activities.DetailActivity;
 import dev.learn.movies.app.popular_movies.adapters.FavoritesAdapter;
 import dev.learn.movies.app.popular_movies.adapters.OnItemClickHandler;
-import dev.learn.movies.app.popular_movies.data.DataContract.FavoriteEntry;
+import dev.learn.movies.app.popular_movies.data.DataContract;
 import dev.learn.movies.app.popular_movies.databinding.FragmentMoviesBinding;
 import dev.learn.movies.app.popular_movies.loaders.ContentLoader;
 
-import static dev.learn.movies.app.popular_movies.data.DataContract.FavoriteEntry.COLUMN_MOVIE_ID;
-import static dev.learn.movies.app.popular_movies.data.DataContract.FavoriteEntry.COLUMN_TITLE;
+import static dev.learn.movies.app.popular_movies.data.DataContract.MediaEntry.COLUMN_MEDIA_ID;
+import static dev.learn.movies.app.popular_movies.data.DataContract.MediaEntry.COLUMN_TITLE;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.DEFAULT_GRID_COUNT;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.FAVORITES;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.FAVORITES_LOADER_ID;
@@ -123,7 +123,7 @@ public class LocalMoviesFragment extends Fragment implements ContentLoader.Conte
             if (mCursor.moveToPosition(position)) {
                 Intent detailActivityIntent = new Intent(mContext, DetailActivity.class);
 
-                long resourceId = mCursor.getLong(mCursor.getColumnIndex(COLUMN_MOVIE_ID));
+                long resourceId = mCursor.getLong(mCursor.getColumnIndex(COLUMN_MEDIA_ID));
                 String resourceTitle = mCursor.getString(mCursor.getColumnIndex(COLUMN_TITLE));
 
                 detailActivityIntent.putExtra(RESOURCE_ID, resourceId);
@@ -164,7 +164,7 @@ public class LocalMoviesFragment extends Fragment implements ContentLoader.Conte
         switch (mType) {
             case FAVORITES:
                 Bundle args = new Bundle();
-                args.putParcelable(ContentLoader.URI_EXTRA, FavoriteEntry.CONTENT_URI);
+                args.putParcelable(ContentLoader.URI_EXTRA, DataContract.FAVORITES_CONTENT_URI);
                 if (getActivity().getSupportLoaderManager() != null) {
                     getActivity().getSupportLoaderManager().restartLoader(FAVORITES_LOADER_ID, args, mContentLoader);
                 }

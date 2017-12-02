@@ -21,9 +21,11 @@
 
     <string name="nav_sub_header_other">OTHER</string>
     <string name="action_favorites">Favorites</string>
+    <string name="action_bookmarks">Bookmarks</string>
 
     <string name="action_search">Search</string>
     <string name="action_save_offline">Save Offline</string>
+    <string name="action_bookmark">Bookmark</string>
     <string name="action_share">Share</string>
     <string name="action_watch_trailer">Watch Trailer</string>
     <string name="action_imdb">Open IMDB</string>
@@ -54,6 +56,8 @@
     <string name="trailer_1">Trailer 1</string>
     <string name="added_to_favorites">Added to Favorites</string>
     <string name="removed_from_favorites">Removed from Favorites</string>
+    <string name="added_to_bookmarks">Added to Bookmarks</string>
+    <string name="removed_from_bookmarks">Removed from Bookmarks</string>
     <string name="out_of_10">/10</string>
 
     <string name="placeholder_image">Placeholder when image load fails.</string>

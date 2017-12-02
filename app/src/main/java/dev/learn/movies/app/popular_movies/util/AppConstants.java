@@ -9,6 +9,10 @@ public final class AppConstants {
 
     public static final int TABLET_GRID_COUNT = 3;
 
+    public static final int LOCAL_MOVIE_DETAILS_LOADER_ID = 11;
+
+    public static final int LOCAL_TV_SHOW_DETAILS_LOADER_ID = 12;
+
     public static final int MOVIE_DETAILS_LOADER_ID = 100;
 
     public static final int MOVIE_REVIEWS_LOADER_ID = 101;
@@ -20,8 +24,6 @@ public final class AppConstants {
     public static final int TV_SHOWS_LOADER_ID = 300;
 
     public final static int FAVORITES_LOADER_ID = 500;
-
-    public static final int FAVORITE_LOADER_ID = 501;
 
     public static final int MOVIE_RECOMMENDATIONS_LOADER_ID = 600;
 

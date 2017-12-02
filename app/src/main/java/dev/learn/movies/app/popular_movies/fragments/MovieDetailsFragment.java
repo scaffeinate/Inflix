@@ -14,12 +14,15 @@ import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,21 +57,25 @@ import dev.learn.movies.app.popular_movies.util.DisplayUtils;
 import dev.learn.movies.app.popular_movies.util.HTTPHelper;
 import dev.learn.movies.app.popular_movies.util.VideoGridDialog;
 
-import static dev.learn.movies.app.popular_movies.data.DataContract.FavoriteEntry.COLUMN_BACKDROP_PATH;
-import static dev.learn.movies.app.popular_movies.data.DataContract.FavoriteEntry.COLUMN_GENRES;
-import static dev.learn.movies.app.popular_movies.data.DataContract.FavoriteEntry.COLUMN_MOVIE_ID;
-import static dev.learn.movies.app.popular_movies.data.DataContract.FavoriteEntry.COLUMN_OVERVIEW;
-import static dev.learn.movies.app.popular_movies.data.DataContract.FavoriteEntry.COLUMN_POSTER_PATH;
-import static dev.learn.movies.app.popular_movies.data.DataContract.FavoriteEntry.COLUMN_RELEASE_DATE;
-import static dev.learn.movies.app.popular_movies.data.DataContract.FavoriteEntry.COLUMN_RUNTIME;
-import static dev.learn.movies.app.popular_movies.data.DataContract.FavoriteEntry.COLUMN_TAGLINE;
-import static dev.learn.movies.app.popular_movies.data.DataContract.FavoriteEntry.COLUMN_TITLE;
-import static dev.learn.movies.app.popular_movies.data.DataContract.FavoriteEntry.COLUMN_VOTE_AVG;
-import static dev.learn.movies.app.popular_movies.data.DataContract.FavoriteEntry.COLUMN_VOTE_COUNT;
+import static dev.learn.movies.app.popular_movies.data.DataContract.MOVIES;
+import static dev.learn.movies.app.popular_movies.data.DataContract.MediaEntry.COLUMN_BACKDROP_PATH;
+import static dev.learn.movies.app.popular_movies.data.DataContract.MediaEntry.COLUMN_GENRES;
+import static dev.learn.movies.app.popular_movies.data.DataContract.MediaEntry.COLUMN_IS_BOOKMARKED;
+import static dev.learn.movies.app.popular_movies.data.DataContract.MediaEntry.COLUMN_IS_FAVORED;
+import static dev.learn.movies.app.popular_movies.data.DataContract.MediaEntry.COLUMN_MEDIA_ID;
+import static dev.learn.movies.app.popular_movies.data.DataContract.MediaEntry.COLUMN_OVERVIEW;
+import static dev.learn.movies.app.popular_movies.data.DataContract.MediaEntry.COLUMN_POSTER_PATH;
+import static dev.learn.movies.app.popular_movies.data.DataContract.MediaEntry.COLUMN_RELEASE_DATE;
+import static dev.learn.movies.app.popular_movies.data.DataContract.MediaEntry.COLUMN_RUNTIME;
+import static dev.learn.movies.app.popular_movies.data.DataContract.MediaEntry.COLUMN_STATUS;
+import static dev.learn.movies.app.popular_movies.data.DataContract.MediaEntry.COLUMN_TAGLINE;
+import static dev.learn.movies.app.popular_movies.data.DataContract.MediaEntry.COLUMN_TITLE;
+import static dev.learn.movies.app.popular_movies.data.DataContract.MediaEntry.COLUMN_VOTE_AVG;
+import static dev.learn.movies.app.popular_movies.data.DataContract.MediaEntry.COLUMN_VOTE_COUNT;
 import static dev.learn.movies.app.popular_movies.loaders.ContentLoader.URI_EXTRA;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.ACTIVITY_DETAIL_LAZY_LOAD_DELAY_IN_MS;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.ADDITIONAL_INFO_ACTIVITY_FRAGMENT_TYPE_REVIEWS;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.FAVORITE_LOADER_ID;
+import static dev.learn.movies.app.popular_movies.util.AppConstants.LOCAL_MOVIE_DETAILS_LOADER_ID;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.MOVIE_CAST_LOADER_ID;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.MOVIE_DETAILS_LOADER_ID;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.MOVIE_ID;
@@ -90,7 +97,6 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
     private static final String MOVIE_DETAILS = "movie_details";
     private static final String MOVIE_SIMILAR = "movie_similar";
     private static final String MOVIE_CAST = "movie_cast";
-    private static final String FAVORED = "favored";
 
     private Context mContext;
     private MovieDetailCallbacks mCallbacks;
@@ -113,11 +119,11 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
 
     private MovieDetail mMovieDetail;
 
-    private boolean mFavored = false;
-
     private FragmentMovieDetailsBinding mBinding;
 
     private VideoGridDialog mVideoGridDialog;
+
+    private MenuItem mBookmarkMenuItem;
 
     public static MovieDetailsFragment newInstance(long movieId, String movieName) {
         MovieDetailsFragment movieDetailsFragment = new MovieDetailsFragment();
@@ -193,7 +199,6 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
             mMovieDetail = savedInstanceState.getParcelable(MOVIE_DETAILS);
             mSimilarList = savedInstanceState.getParcelableArrayList(MOVIE_SIMILAR);
             mCastList = savedInstanceState.getParcelableArrayList(MOVIE_CAST);
-            mFavored = savedInstanceState.getBoolean(FAVORED);
 
             updateMovieDetailsUI();
             updateMovieCastUI();
@@ -210,6 +215,12 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        mBookmarkMenuItem = menu.findItem(R.id.action_bookmark);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (!HTTPHelper.isNetworkEnabled(mContext)) {
             Toast.makeText(mContext, getResources().getString(R.string.no_network_connection_error_message), Toast.LENGTH_SHORT).show();
@@ -217,6 +228,24 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
         }
 
         switch (item.getItemId()) {
+            case R.id.action_bookmark:
+                Uri uri = DataContract.BOOKMARKS_CONTENT_URI
+                        .buildUpon()
+                        .appendPath(MOVIES)
+                        .appendPath(String.valueOf(mMovieId))
+                        .build();
+                if (mMovieDetail.isBookmarked()) {
+                    getActivity().getContentResolver().delete(uri, null, null);
+                } else {
+                    ContentValues cv = toContentValues(mMovieDetail);
+                    if (cv != null) {
+                        getActivity().getContentResolver().insert(uri, cv);
+                    }
+                }
+                mMovieDetail.setBookmarked(!mMovieDetail.isBookmarked());
+                updateBookmarkBtn(mMovieDetail.isBookmarked());
+                showBookmarkToast();
+                return true;
             case R.id.action_save_offline:
                 return true;
             case R.id.action_share:
@@ -244,7 +273,7 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
                         .build();
                 return true;
             case R.id.action_imdb:
-                DisplayUtils.openIMDBLink(mContext, mMovieDetail.getImdbId());
+                DisplayUtils.openIMDB(mContext, mMovieDetail.getImdbId());
                 return true;
             case R.id.action_user_reviews:
                 goToReviews();
@@ -262,7 +291,6 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
         outState.putParcelable(MOVIE_DETAILS, mMovieDetail);
         outState.putParcelableArrayList(MOVIE_SIMILAR, (ArrayList<? extends Parcelable>) mSimilarList);
         outState.putParcelableArrayList(MOVIE_CAST, (ArrayList<? extends Parcelable>) mCastList);
-        outState.putBoolean(FAVORED, mFavored);
     }
 
     /**
@@ -273,19 +301,19 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
      */
     @Override
     public void onLoadFinished(Loader loader, Cursor cursor) {
-        // If movie details are stored locally then populate views
-        // Otherwise make an API call if the Network is available
-        if (cursor != null && cursor.moveToFirst()) {
-            mFavored = true;
-            mMovieDetail = fromCursor(cursor);
-            updateMovieDetailsUI();
-        } else {
-            mFavored = false;
+        if (cursor == null || !cursor.moveToFirst()) {
             if (HTTPHelper.isNetworkEnabled(mContext)) {
                 loadMovieDetailsFromNetwork();
             } else {
                 DisplayUtils.setNoNetworkConnectionMessage(mContext, mBinding.tvErrorMessageDisplay);
                 showErrorMessage();
+            }
+        } else {
+            switch (loader.getId()) {
+                case LOCAL_MOVIE_DETAILS_LOADER_ID:
+                    mMovieDetail = fromCursor(cursor);
+                    updateMovieDetailsUI();
+                    break;
             }
         }
     }
@@ -333,20 +361,23 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
 
     @Override
     public void onFavBtnClicked(View v) {
-        if (mFavored) {
-            Uri uri = DataContract.FavoriteEntry.CONTENT_URI.buildUpon().appendPath(String.valueOf(mMovieId)).build();
+        Uri uri = DataContract.FAVORITES_CONTENT_URI
+                .buildUpon()
+                .appendPath(MOVIES)
+                .appendPath(String.valueOf(mMovieId))
+                .build();
+        if (mMovieDetail.isFavored()) {
             getActivity().getContentResolver().delete(uri, null, null);
         } else {
-            Uri uri = DataContract.FavoriteEntry.CONTENT_URI;
             ContentValues cv = toContentValues(mMovieDetail);
             if (cv != null) {
                 getActivity().getContentResolver().insert(uri, cv);
             }
         }
 
-        mFavored = !mFavored;
-        mCallbacks.showFavToast(mFavored);
-        mCallbacks.updateFavBtn(mFavored);
+        mMovieDetail.setFavored(!mMovieDetail.isFavored());
+        mCallbacks.showFavToast(mMovieDetail.isFavored());
+        mCallbacks.updateFavBtn(mMovieDetail.isFavored());
     }
 
 
@@ -377,9 +408,12 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
      */
     private void loadMovieDetailsFromDatabase() {
         Bundle args = new Bundle();
-        Uri uri = DataContract.FavoriteEntry.CONTENT_URI.buildUpon().appendPath(String.valueOf(mMovieId)).build();
+        Uri uri = DataContract.MEDIA_CONTENT_URI
+                .buildUpon()
+                .appendPath(String.valueOf(mMovieId))
+                .build();
         args.putParcelable(URI_EXTRA, uri);
-        getActivity().getSupportLoaderManager().restartLoader(FAVORITE_LOADER_ID, args, mContentLoader);
+        getActivity().getSupportLoaderManager().restartLoader(LOCAL_MOVIE_DETAILS_LOADER_ID, args, mContentLoader);
     }
 
     /**
@@ -493,8 +527,14 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
             mBinding.layoutContent.tvMoviePlot.setText(moviePlot);
         }
 
-        mCallbacks.updateFavBtn(mFavored);
+        mCallbacks.updateFavBtn(mMovieDetail.isFavored());
         showMovieDetails();
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                updateBookmarkBtn(mMovieDetail.isBookmarked());
+            }
+        });
     }
 
     private void updateSimilarMoviesUI() {
@@ -575,7 +615,7 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
         ContentValues cv = null;
         if (movieDetail != null) {
             cv = new ContentValues();
-            cv.put(COLUMN_MOVIE_ID, movieDetail.getId());
+            cv.put(COLUMN_MEDIA_ID, movieDetail.getId());
             cv.put(COLUMN_TITLE, movieDetail.getTitle());
             cv.put(COLUMN_TAGLINE, movieDetail.getTagline());
             cv.put(COLUMN_OVERVIEW, movieDetail.getOverview());
@@ -593,6 +633,9 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
                 }
             }
             cv.put(COLUMN_GENRES, builder.toString());
+            cv.put(COLUMN_STATUS, movieDetail.getStatus());
+            cv.put(COLUMN_IS_FAVORED, movieDetail.isFavored() ? 1 : 0);
+            cv.put(COLUMN_IS_BOOKMARKED, movieDetail.isBookmarked() ? 1 : 0);
         }
         return cv;
     }
@@ -607,7 +650,7 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
         MovieDetail movieDetail = null;
         if (cursor.moveToFirst()) {
             movieDetail = new MovieDetail();
-            movieDetail.setId(cursor.getLong(cursor.getColumnIndex(COLUMN_MOVIE_ID)));
+            movieDetail.setId(cursor.getLong(cursor.getColumnIndex(COLUMN_MEDIA_ID)));
             movieDetail.setTitle(cursor.getString(cursor.getColumnIndex(COLUMN_TITLE)));
             movieDetail.setTagline(cursor.getString(cursor.getColumnIndex(COLUMN_TAGLINE)));
             movieDetail.setOverview(cursor.getString(cursor.getColumnIndex(COLUMN_OVERVIEW)));
@@ -624,6 +667,9 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
                 genreList.add(new Genre(0, genre));
             }
             movieDetail.setGenres(genreList);
+            movieDetail.setStatus(cursor.getString(cursor.getColumnIndex(COLUMN_STATUS)));
+            movieDetail.setFavored(cursor.getInt(cursor.getColumnIndex(COLUMN_IS_FAVORED)) == 1);
+            movieDetail.setBookmarked(cursor.getInt(cursor.getColumnIndex(COLUMN_IS_BOOKMARKED)) == 1);
         }
         return movieDetail;
     }
@@ -649,6 +695,23 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
             startActivity(additionalIntent);
         } else {
             Toast.makeText(mContext, getResources().getString(R.string.no_network_connection_error_message), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void updateBookmarkBtn(boolean isBookmarked) {
+        if (mBookmarkMenuItem == null) return;
+        if (isBookmarked) {
+            mBookmarkMenuItem.setIcon(ContextCompat.getDrawable(mContext, R.drawable.ic_bookmark_white_24dp));
+        } else {
+            mBookmarkMenuItem.setIcon(ContextCompat.getDrawable(mContext, R.drawable.ic_bookmark_outline_white_24dp));
+        }
+    }
+
+    private void showBookmarkToast() {
+        if (mMovieDetail.isBookmarked()) {
+            Toast.makeText(mContext, getString(R.string.added_to_bookmarks), Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(mContext, getString(R.string.removed_from_bookmarks), Toast.LENGTH_SHORT).show();
         }
     }
 }

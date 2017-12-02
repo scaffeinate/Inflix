@@ -71,6 +71,10 @@ public class MovieDetail implements Parcelable {
     @Expose
     private long revenue;
 
+    private boolean isFavored = false;
+
+    private boolean isBookmarked = false;
+
     public MovieDetail() {
     }
 
@@ -89,6 +93,8 @@ public class MovieDetail implements Parcelable {
         imdbId = in.readString();
         budget = in.readLong();
         revenue = in.readLong();
+        isFavored = (in.readByte() != 0);
+        isBookmarked = (in.readByte() != 0);
     }
 
     public String getBackdropPath() {
@@ -211,6 +217,22 @@ public class MovieDetail implements Parcelable {
         this.revenue = revenue;
     }
 
+    public boolean isFavored() {
+        return isFavored;
+    }
+
+    public void setFavored(boolean favored) {
+        isFavored = favored;
+    }
+
+    public boolean isBookmarked() {
+        return isBookmarked;
+    }
+
+    public void setBookmarked(boolean bookmarked) {
+        isBookmarked = bookmarked;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -232,5 +254,7 @@ public class MovieDetail implements Parcelable {
         parcel.writeString(imdbId);
         parcel.writeLong(budget);
         parcel.writeLong(revenue);
+        parcel.writeByte((byte) (isFavored ? 1 : 0));
+        parcel.writeByte((byte) (isBookmarked ? 1 : 0));
     }
 }
