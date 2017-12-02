@@ -41,8 +41,16 @@
         </activity>
 
         <provider
-            android:name=".data.FavoriteContentProvider"
-            android:authorities="dev.learn.movies.app.popular_movies"
+            android:name=".data.providers.FavoritesProvider"
+            android:authorities="dev.learn.movies.app.popular_movies.favorites"
+            android:exported="false" />
+        <provider
+            android:name=".data.providers.BookmarksProvider"
+            android:authorities="dev.learn.movies.app.popular_movies.bookmarks"
+            android:exported="false" />
+        <provider
+            android:name=".data.providers.MediaProvider"
+            android:authorities="dev.learn.movies.app.popular_movies.media"
             android:exported="false" />
         <meta-data
             android:name="preloaded_fonts"

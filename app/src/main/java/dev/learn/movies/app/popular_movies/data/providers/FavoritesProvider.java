@@ -1,4 +1,4 @@
-package dev.learn.movies.app.popular_movies.data;
+package dev.learn.movies.app.popular_movies.data.providers;
 
 import android.content.ContentProvider;
 import android.content.ContentUris;
@@ -14,15 +14,18 @@ import android.support.annotation.Nullable;
 
 import java.util.List;
 
-import static dev.learn.movies.app.popular_movies.data.DataContract.FavoriteEntry;
+import dev.learn.movies.app.popular_movies.data.DataContract;
+import dev.learn.movies.app.popular_movies.data.DataContract.MediaEntry;
+import dev.learn.movies.app.popular_movies.data.DbHelper;
 
 /**
- * FavoriteContentProvider - CRUD for Favorites
+ * FavoritesProvider - CRUD for Favorites
  */
-public class FavoriteContentProvider extends ContentProvider {
+public class FavoritesProvider extends ContentProvider {
 
     private static final int FAVORITES = 100;
-    private static final int FAVORITE_WITH_MOVIE_ID = 101;
+
+    private static final int FAVORITES_WITH_ID = 101;
 
     private static final UriMatcher sUriMatcher = builderUriMatcher();
 
@@ -31,8 +34,8 @@ public class FavoriteContentProvider extends ContentProvider {
 
     private static UriMatcher builderUriMatcher() {
         UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-        uriMatcher.addURI(DataContract.AUTHORITY, DataContract.FAVORITES_PATH, FAVORITES);
-        uriMatcher.addURI(DataContract.AUTHORITY, DataContract.FAVORITES_PATH + "/#", FAVORITE_WITH_MOVIE_ID);
+        uriMatcher.addURI(DataContract.FAVORITES_AUTHORITY, DataContract.FAVORITES_PATH, FAVORITES);
+        uriMatcher.addURI(DataContract.FAVORITES_AUTHORITY, DataContract.FAVORITES_PATH + "/*/#/", FAVORITES_WITH_ID);
         return uriMatcher;
     }
 
@@ -51,15 +54,8 @@ public class FavoriteContentProvider extends ContentProvider {
         Cursor cursor;
         switch (match) {
             case FAVORITES:
-                cursor = db.query(FavoriteEntry.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
-                break;
-            case FAVORITE_WITH_MOVIE_ID:
-                List<String> pathSegments = uri.getPathSegments();
-                String id = "0";
-                if (pathSegments != null && pathSegments.size() > 1) {
-                    id = uri.getPathSegments().get(1);
-                }
-                cursor = db.query(FavoriteEntry.TABLE_NAME, projection, FavoriteEntry.COLUMN_MOVIE_ID + " = ? ", new String[]{id}, null, null, sortOrder);
+                cursor = db.query(MediaEntry.TABLE_NAME, projection, MediaEntry.COLUMN_IS_FAVORED + " = 1 ",
+                        null, null, null, sortOrder);
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
@@ -80,12 +76,25 @@ public class FavoriteContentProvider extends ContentProvider {
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues values) {
         final SQLiteDatabase db = mDbHelper.getWritableDatabase();
         int match = sUriMatcher.match(uri);
-        long res;
+        long res = -1;
         switch (match) {
-            case FAVORITES:
-                res = db.insert(FavoriteEntry.TABLE_NAME, null, values);
-                if (res == -1) {
-                    throw new SQLiteException("Failed to insert record");
+            case FAVORITES_WITH_ID:
+                List<String> pathSegments = uri.getPathSegments();
+                if (pathSegments != null && pathSegments.size() > 2) {
+                    String type = pathSegments.get(1);
+                    String id = pathSegments.get(2);
+
+                    values.put(MediaEntry.COLUMN_IS_FAVORED, 1);
+                    values.put(MediaEntry.COLUMN_MEDIA_TYPE, type);
+                    int numRows = db.update(MediaEntry.TABLE_NAME, values,
+                            MediaEntry.COLUMN_MEDIA_TYPE + " = ? AND " +
+                                    MediaEntry.COLUMN_MEDIA_ID + " = ? ", new String[]{type, id});
+                    if (numRows <= 0) {
+                        res = db.insert(MediaEntry.TABLE_NAME, null, values);
+                        if (res == -1) {
+                            throw new SQLiteException("Failed to insert record: " + uri);
+                        }
+                    }
                 }
                 break;
             default:
@@ -98,24 +107,26 @@ public class FavoriteContentProvider extends ContentProvider {
     @Override
     public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
         final SQLiteDatabase db = mDbHelper.getWritableDatabase();
-        int match = sUriMatcher.match(uri), res = 0;
+        int match = sUriMatcher.match(uri);
         switch (match) {
-            case FAVORITE_WITH_MOVIE_ID:
+            case FAVORITES_WITH_ID:
                 List<String> pathSegments = uri.getPathSegments();
-                if (pathSegments != null && pathSegments.size() > 1) {
-                    String id = uri.getPathSegments().get(1);
-                    res = db.delete(FavoriteEntry.TABLE_NAME, FavoriteEntry.COLUMN_MOVIE_ID + " = ? ", new String[]{id});
+                if (pathSegments != null && pathSegments.size() > 2) {
+                    String type = pathSegments.get(1);
+                    String id = pathSegments.get(2);
+                    db.execSQL("UPDATE " + MediaEntry.TABLE_NAME + " SET " + MediaEntry.COLUMN_IS_FAVORED + " = 0 WHERE " +
+                            MediaEntry.COLUMN_MEDIA_TYPE + " = ? AND " + MediaEntry.COLUMN_MEDIA_ID + " = ? ", new String[]{type, id});
                 }
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown uri : " + uri);
         }
         mContext.getContentResolver().notifyChange(uri, null);
-        return res;
+        return 0;
     }
 
     @Override
     public int update(@NonNull Uri uri, @Nullable ContentValues values, @Nullable String selection, @Nullable String[] selectionArgs) {
-        return 0;
+        throw new UnsupportedOperationException("Unknown action");
     }
 }
