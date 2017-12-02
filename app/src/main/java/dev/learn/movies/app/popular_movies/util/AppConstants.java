@@ -25,6 +25,8 @@ public final class AppConstants {
 
     public final static int FAVORITES_LOADER_ID = 500;
 
+    public final static int BOOKMARKS_LOADER_ID = 501;
+
     public static final int MOVIE_RECOMMENDATIONS_LOADER_ID = 600;
 
     public static final int MOVIE_SIMILAR_LOADER_ID = 601;
@@ -62,6 +64,8 @@ public final class AppConstants {
     public static final String TV_TOP_RATED = "top_rated";
 
     public static final String FAVORITES = "favorites";
+
+    public static final String BOOKMARKS = "bookmarks";
 
     public static final String MOVIE_ID = "movie_id";
 

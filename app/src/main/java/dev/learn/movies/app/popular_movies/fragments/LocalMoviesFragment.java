@@ -26,13 +26,15 @@ import dev.learn.movies.app.popular_movies.loaders.ContentLoader;
 
 import static dev.learn.movies.app.popular_movies.data.DataContract.MediaEntry.COLUMN_MEDIA_ID;
 import static dev.learn.movies.app.popular_movies.data.DataContract.MediaEntry.COLUMN_TITLE;
+import static dev.learn.movies.app.popular_movies.util.AppConstants.BOOKMARKS;
+import static dev.learn.movies.app.popular_movies.util.AppConstants.BOOKMARKS_LOADER_ID;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.DEFAULT_GRID_COUNT;
+import static dev.learn.movies.app.popular_movies.util.AppConstants.DETAIL_ACTIVITY_FRAGMENT_TYPE_MOVIE;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.FAVORITES;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.FAVORITES_LOADER_ID;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.RESOURCE_ID;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.RESOURCE_TITLE;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.RESOURCE_TYPE;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.DETAIL_ACTIVITY_FRAGMENT_TYPE_MOVIE;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.TABLET_GRID_COUNT;
 
 /**
@@ -101,7 +103,7 @@ public class LocalMoviesFragment extends Fragment implements ContentLoader.Conte
     @Override
     public void onResume() {
         super.onResume();
-        fetchFavorites();
+        fetchContent();
     }
 
     @Override
@@ -154,19 +156,35 @@ public class LocalMoviesFragment extends Fragment implements ContentLoader.Conte
                     restoreState();
                 }
                 break;
+            case BOOKMARKS_LOADER_ID:
+                if (cursor == null || !cursor.moveToFirst()) {
+                    showErrorMessage();
+                } else {
+                    mCursor = cursor;
+                    mAdapter.swapCursor(mCursor);
+                    showRecyclerView();
+                    restoreState();
+                }
+                break;
         }
     }
 
     /**
      * Fetches local movies based on mType
      */
-    private void fetchFavorites() {
+    private void fetchContent() {
+        Bundle args = new Bundle();
         switch (mType) {
             case FAVORITES:
-                Bundle args = new Bundle();
                 args.putParcelable(ContentLoader.URI_EXTRA, DataContract.FAVORITES_CONTENT_URI);
                 if (getActivity().getSupportLoaderManager() != null) {
                     getActivity().getSupportLoaderManager().restartLoader(FAVORITES_LOADER_ID, args, mContentLoader);
+                }
+                break;
+            case BOOKMARKS:
+                args.putParcelable(ContentLoader.URI_EXTRA, DataContract.BOOKMARKS_CONTENT_URI);
+                if (getActivity().getSupportLoaderManager() != null) {
+                    getActivity().getSupportLoaderManager().restartLoader(BOOKMARKS_LOADER_ID, args, mContentLoader);
                 }
                 break;
         }

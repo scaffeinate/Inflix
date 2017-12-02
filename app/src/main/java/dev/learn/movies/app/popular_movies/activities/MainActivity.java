@@ -22,6 +22,7 @@ import dev.learn.movies.app.popular_movies.fragments.LocalMoviesFragment;
 import dev.learn.movies.app.popular_movies.fragments.MoviesFragment;
 import dev.learn.movies.app.popular_movies.fragments.TvShowsFragment;
 
+import static dev.learn.movies.app.popular_movies.util.AppConstants.BOOKMARKS;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.FAVORITES;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.MOST_POPULAR;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.NOW_PLAYING;
@@ -144,6 +145,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 case R.id.action_favorites:
                     fragment = LocalMoviesFragment.newInstance(FAVORITES);
                     break;
+                case R.id.action_bookmarks:
+                    fragment = LocalMoviesFragment.newInstance(BOOKMARKS);
             }
 
             if (fragment != null) {

@@ -246,8 +246,6 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
                 updateBookmarkBtn(mMovieDetail.isBookmarked());
                 showBookmarkToast();
                 return true;
-            case R.id.action_save_offline:
-                return true;
             case R.id.action_share:
                 DisplayUtils.shareURL(getActivity(), mMovieName,
                         HTTPHelper.buildTMDBMovieURL(String.valueOf(mMovieId)));
