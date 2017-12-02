@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dev.learn.movies.app.popular_movies.R;
-import dev.learn.movies.app.popular_movies.common.tv_show.TVShow;
+import dev.learn.movies.app.popular_movies.common.tv_show.TvShow;
 import dev.learn.movies.app.popular_movies.util.DisplayUtils;
 import dev.learn.movies.app.popular_movies.util.HTTPHelper;
 
@@ -24,7 +24,7 @@ public class TvShowsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private static final int VIEWTYPE_CONTENT = 2;
 
     private final OnItemClickHandler mHandler;
-    private List<TVShow> mTvShowList;
+    private List<TvShow> mTvShowList;
     private boolean mShowLoading = true;
 
     public TvShowsAdapter(OnItemClickHandler handler) {
@@ -79,7 +79,7 @@ public class TvShowsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
      *
      * @param tvShowList Tv Shows
      */
-    public void setTvShowList(List<TVShow> tvShowList) {
+    public void setTvShowList(List<TvShow> tvShowList) {
         this.mTvShowList = tvShowList;
         notifyDataSetChanged();
     }
@@ -114,7 +114,7 @@ public class TvShowsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
          * @param position Adapter position to populate
          */
         private void bind(int position) {
-            TVShow tvShow = mTvShowList.get(position);
+            TvShow tvShow = mTvShowList.get(position);
             String posterURL;
             if (tvShow != null && (posterURL = tvShow.getPosterPath()) != null) {
                 Uri posterUri = HTTPHelper.buildImageResourceUri(posterURL, HTTPHelper.IMAGE_SIZE_MEDIUM);

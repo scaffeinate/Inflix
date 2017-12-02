@@ -14,11 +14,9 @@ import android.view.ViewGroup;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import dev.learn.movies.app.popular_movies.R;
 import dev.learn.movies.app.popular_movies.activities.MovieDetailCallbacks;
-import dev.learn.movies.app.popular_movies.common.Video;
 import dev.learn.movies.app.popular_movies.databinding.FragmentTvShowDetailsBinding;
 import dev.learn.movies.app.popular_movies.loaders.ContentLoader;
 import dev.learn.movies.app.popular_movies.loaders.NetworkLoader;
@@ -29,11 +27,9 @@ import dev.learn.movies.app.popular_movies.loaders.NetworkLoader;
 
 public class TvShowDetailsFragment extends Fragment implements NetworkLoader.NetworkLoaderCallback, ContentLoader.ContentLoaderCallback {
 
-    public static final String TV_SHOW_ID = "movie_id";
-    private static final String TV_SHOW_DETAILS = "movie_details";
-    private static final String TV_SHOW_REVIEWS = "movie_reviews";
-    private static final String TV_SHOW_TRAILERS = "movie_trailers";
-    private static final String FAVORED = "favored";
+    public static final String TV_SHOW_ID = "tv_show_id";
+    public static final String TV_SHOW_TITLE = "tv_show_title";
+    private static final String TV_SHOW_DETAILS = "tv_show_details";
 
     private Context mContext;
     private MovieDetailCallbacks mCallbacks;
@@ -44,17 +40,14 @@ public class TvShowDetailsFragment extends Fragment implements NetworkLoader.Net
     private NetworkLoader mNetworkLoader;
     private ContentLoader mContentLoader;
 
-    private List<Video> mVideoList;
-
-    private boolean mFavored = false;
-
     private FragmentTvShowDetailsBinding mBinding;
 
-    public static MovieDetailsFragment newInstance(long tvShowId) {
+    public static MovieDetailsFragment newInstance(long tvShowId, String tvShowTitle) {
         MovieDetailsFragment movieDetailsFragment = new MovieDetailsFragment();
 
         Bundle args = new Bundle();
         args.putLong(TV_SHOW_ID, tvShowId);
+        args.putString(TV_SHOW_TITLE, tvShowTitle);
         movieDetailsFragment.setArguments(args);
 
         return movieDetailsFragment;
@@ -64,7 +57,6 @@ public class TvShowDetailsFragment extends Fragment implements NetworkLoader.Net
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = getContext();
-        mVideoList = new ArrayList<>();
         mNetworkLoader = new NetworkLoader(mContext, this);
         mContentLoader = new ContentLoader(mContext, this);
         setHasOptionsMenu(true);

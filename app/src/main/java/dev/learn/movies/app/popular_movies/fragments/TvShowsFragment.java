@@ -1,6 +1,7 @@
 package dev.learn.movies.app.popular_movies.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -20,19 +21,24 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import dev.learn.movies.app.popular_movies.util.EndlessRecyclerViewScrollListener;
 import dev.learn.movies.app.popular_movies.R;
+import dev.learn.movies.app.popular_movies.activities.DetailActivity;
 import dev.learn.movies.app.popular_movies.adapters.OnItemClickHandler;
 import dev.learn.movies.app.popular_movies.adapters.TvShowsAdapter;
-import dev.learn.movies.app.popular_movies.common.tv_show.TVShow;
-import dev.learn.movies.app.popular_movies.common.tv_show.TVShowsResult;
+import dev.learn.movies.app.popular_movies.common.tv_show.TvShow;
+import dev.learn.movies.app.popular_movies.common.tv_show.TvShowsResult;
 import dev.learn.movies.app.popular_movies.databinding.FragmentMoviesBinding;
 import dev.learn.movies.app.popular_movies.loaders.NetworkLoader;
 import dev.learn.movies.app.popular_movies.util.DisplayUtils;
+import dev.learn.movies.app.popular_movies.util.EndlessRecyclerViewScrollListener;
 import dev.learn.movies.app.popular_movies.util.HTTPHelper;
 
 import static dev.learn.movies.app.popular_movies.util.AppConstants.DEFAULT_GRID_COUNT;
+import static dev.learn.movies.app.popular_movies.util.AppConstants.DETAIL_ACTIVITY_FRAGMENT_TYPE_TV_SHOW;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.DISCOVER;
+import static dev.learn.movies.app.popular_movies.util.AppConstants.RESOURCE_ID;
+import static dev.learn.movies.app.popular_movies.util.AppConstants.RESOURCE_TITLE;
+import static dev.learn.movies.app.popular_movies.util.AppConstants.RESOURCE_TYPE;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.START_PAGE;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.TABLET_GRID_COUNT;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.TV_AIRING_TODAY;
@@ -58,7 +64,7 @@ public class TvShowsFragment extends Fragment implements NetworkLoader.NetworkLo
 
     private GridLayoutManager mLayoutManager;
     private TvShowsAdapter mAdapter;
-    private List<TVShow> mTvShowsList;
+    private List<TvShow> mTvShowsList;
     private int mPage = START_PAGE;
 
     private EndlessRecyclerViewScrollListener mEndlessScollListener;
@@ -151,14 +157,23 @@ public class TvShowsFragment extends Fragment implements NetworkLoader.NetworkLo
 
     @Override
     public void onItemClicked(ViewGroup parent, View view, int position) {
-        //TODO: Finish this
+        if (position >= 0 && position < this.mTvShowsList.size()) {
+            TvShow tvShow = mTvShowsList.get(position);
+
+            Intent detailActivityIntent = new Intent(mContext, DetailActivity.class);
+            detailActivityIntent.putExtra(RESOURCE_ID, tvShow.getId());
+            detailActivityIntent.putExtra(RESOURCE_TITLE, tvShow.getName());
+            detailActivityIntent.putExtra(RESOURCE_TYPE, DETAIL_ACTIVITY_FRAGMENT_TYPE_TV_SHOW);
+
+            startActivity(detailActivityIntent);
+        }
     }
 
     @Override
     public void onLoadFinished(Loader loader, String s) {
         switch (loader.getId()) {
             case TV_SHOWS_LOADER_ID:
-                TVShowsResult tvShowsResult = (s == null) ? null : gson.fromJson(s, TVShowsResult.class);
+                TvShowsResult tvShowsResult = (s == null) ? null : gson.fromJson(s, TvShowsResult.class);
                 if (tvShowsResult == null || tvShowsResult.getResults() == null || tvShowsResult.getResults().isEmpty()) {
                     // If the first request failed then show error message hiding the content
                     // Otherwise stop loading further

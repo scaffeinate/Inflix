@@ -7,7 +7,7 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class TVShow implements Parcelable {
+public class TvShow implements Parcelable {
 
     @SerializedName("id")
     @Expose
@@ -21,21 +21,21 @@ public class TVShow implements Parcelable {
     @Expose
     private String name;
 
-    protected TVShow(Parcel in) {
+    protected TvShow(Parcel in) {
         id = in.readLong();
         posterPath = in.readString();
         name = in.readString();
     }
 
-    public static final Creator<TVShow> CREATOR = new Creator<TVShow>() {
+    public static final Creator<TvShow> CREATOR = new Creator<TvShow>() {
         @Override
-        public TVShow createFromParcel(Parcel in) {
-            return new TVShow(in);
+        public TvShow createFromParcel(Parcel in) {
+            return new TvShow(in);
         }
 
         @Override
-        public TVShow[] newArray(int size) {
-            return new TVShow[size];
+        public TvShow[] newArray(int size) {
+            return new TvShow[size];
         }
     };
 

@@ -11,7 +11,7 @@ import java.util.List;
 
 import dev.learn.movies.app.popular_movies.common.Genre;
 
-public class TVShowDetail implements Parcelable {
+public class TvShowDetail implements Parcelable {
 
     @SerializedName("backdrop_path")
     @Expose
@@ -77,7 +77,7 @@ public class TVShowDetail implements Parcelable {
     @Expose
     private long voteCount;
 
-    protected TVShowDetail(Parcel in) {
+    protected TvShowDetail(Parcel in) {
         backdropPath = in.readString();
         firstAirDate = in.readString();
         homepage = in.readString();
@@ -95,15 +95,15 @@ public class TVShowDetail implements Parcelable {
         voteCount = in.readLong();
     }
 
-    public static final Creator<TVShowDetail> CREATOR = new Creator<TVShowDetail>() {
+    public static final Creator<TvShowDetail> CREATOR = new Creator<TvShowDetail>() {
         @Override
-        public TVShowDetail createFromParcel(Parcel in) {
-            return new TVShowDetail(in);
+        public TvShowDetail createFromParcel(Parcel in) {
+            return new TvShowDetail(in);
         }
 
         @Override
-        public TVShowDetail[] newArray(int size) {
-            return new TVShowDetail[size];
+        public TvShowDetail[] newArray(int size) {
+            return new TvShowDetail[size];
         }
     };
 

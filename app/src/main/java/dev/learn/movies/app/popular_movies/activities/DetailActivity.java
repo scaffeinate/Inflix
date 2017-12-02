@@ -4,23 +4,25 @@ import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
 import dev.learn.movies.app.popular_movies.R;
 import dev.learn.movies.app.popular_movies.databinding.ActivityDetailBinding;
 import dev.learn.movies.app.popular_movies.fragments.MovieDetailsFragment;
+import dev.learn.movies.app.popular_movies.fragments.TvShowDetailsFragment;
 import dev.learn.movies.app.popular_movies.util.DisplayUtils;
 
+import static dev.learn.movies.app.popular_movies.util.AppConstants.DETAIL_ACTIVITY_FRAGMENT_TYPE_MOVIE;
+import static dev.learn.movies.app.popular_movies.util.AppConstants.DETAIL_ACTIVITY_FRAGMENT_TYPE_TV_SHOW;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.RESOURCE_ID;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.RESOURCE_TITLE;
+import static dev.learn.movies.app.popular_movies.util.AppConstants.RESOURCE_TYPE;
 
 /**
  * DetailActivity - Movie Details Screen
@@ -44,13 +46,26 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         if (savedInstanceState == null) {
-            long movieId = getIntent().getLongExtra(RESOURCE_ID, 0);
-            String movieName = getIntent().getStringExtra(RESOURCE_TITLE);
+            String resourceType = getIntent().getStringExtra(RESOURCE_TYPE);
+            long resourceId = getIntent().getLongExtra(RESOURCE_ID, 0);
+            String resourceTitle = getIntent().getStringExtra(RESOURCE_TITLE);
 
-            mFragment = MovieDetailsFragment.newInstance(movieId, movieName);
-            mFragmentManager.beginTransaction()
-                    .replace(R.id.layout_outlet, mFragment)
-                    .commit();
+            if (resourceType != null && resourceId != 0 && resourceTitle != null) {
+                switch (resourceType) {
+                    case DETAIL_ACTIVITY_FRAGMENT_TYPE_MOVIE:
+                        mFragment = MovieDetailsFragment.newInstance(resourceId, resourceTitle);
+                        break;
+                    case DETAIL_ACTIVITY_FRAGMENT_TYPE_TV_SHOW:
+                        mFragment = TvShowDetailsFragment.newInstance(resourceId, resourceTitle);
+                        break;
+                }
+
+                if (mFragment != null) {
+                    mFragmentManager.beginTransaction()
+                            .replace(R.id.layout_outlet, mFragment)
+                            .commit();
+                }
+            }
         }
 
         mBinding.btnFav.setOnClickListener(this);
