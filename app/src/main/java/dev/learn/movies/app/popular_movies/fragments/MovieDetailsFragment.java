@@ -160,7 +160,7 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_movie_details, container, false);
         View view = mBinding.getRoot();
 
-        mBinding.layoutMovieInfo.layoutRating.setOnClickListener(this);
+        mBinding.layoutMovieInfo.layoutRating.getRoot().setOnClickListener(this);
 
         mBinding.layoutMovieSimilar.recyclerViewSimilar.setLayoutManager(mSimilarLayoutManager);
         mBinding.layoutMovieSimilar.recyclerViewSimilar.setAdapter(mSimilarAdapter);
@@ -509,11 +509,11 @@ public class MovieDetailsFragment extends Fragment implements DetailActivity.OnF
 
         DisplayUtils.addGenres(genres, mBinding.layoutContent.layoutGenres, mContext);
 
-        mBinding.layoutMovieInfo.rbMovieRating.setRating((float) voteAverage);
+        mBinding.layoutMovieInfo.layoutRating.ratingBarRating.setRating((float) voteAverage);
 
-        mBinding.layoutMovieInfo.textViewMovieRating.setText(rating);
+        mBinding.layoutMovieInfo.layoutRating.textViewRating.setText(rating);
 
-        mBinding.layoutMovieInfo.textViewMovieRatingNum.setText(voteCount);
+        mBinding.layoutMovieInfo.layoutRating.textViewRatingNum.setText(voteCount);
 
         mBinding.layoutContent.textViewMovieTagline.setText(DisplayUtils.formatTagline(mContext, tagline));
 

@@ -55,8 +55,9 @@
             app:layout_constraintStart_toEndOf="@+id/text_view_movie_runtime"
             tools:text="@string/released" />
 
-        <RelativeLayout
+        <include
             android:id="@+id/layout_rating"
+            layout="@layout/layout_rating"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/layout_movie_info_field_margin_top"
@@ -64,44 +65,6 @@
             app:layout_constraintLeft_toLeftOf="@+id/text_view_movie_runtime"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintStart_toStartOf="@+id/text_view_movie_runtime"
-            app:layout_constraintTop_toBottomOf="@+id/text_view_movie_runtime">
-
-            <RatingBar
-                android:id="@+id/rb_movie_rating"
-                style="@style/RatingBarStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:id="@+id/text_view_movie_rating"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/rb_movie_rating"
-                android:layout_marginTop="15dp"
-                android:textAppearance="@style/Display"
-                tools:text="@string/seven_point_five" />
-
-            <TextView
-                android:id="@+id/text_view_movie_rating_out_of"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/text_view_movie_rating"
-                android:layout_marginStart="@dimen/layout_movie_info_rating_out_of_margin_left"
-                android:layout_toEndOf="@+id/text_view_movie_rating"
-                android:layout_toRightOf="@+id/text_view_movie_rating"
-                android:text="@string/out_of_10"
-                android:textAppearance="@style/SubHeading" />
-
-            <TextView
-                android:id="@+id/text_view_movie_rating_num"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/text_view_movie_rating_out_of"
-                android:layout_marginStart="@dimen/layout_movie_info_rating_num_margin_left"
-                android:layout_toEndOf="@+id/text_view_movie_rating_out_of"
-                android:layout_toRightOf="@+id/text_view_movie_rating_out_of"
-                android:textAppearance="@style/SubHeading"
-                tools:text="@string/ten_thousand" />
-        </RelativeLayout>
+            app:layout_constraintTop_toBottomOf="@+id/text_view_movie_runtime" />
     </android.support.constraint.ConstraintLayout>
 </layout>
