@@ -75,4 +75,6 @@
     <string name="random_budget">$63000000</string>
     <string name="actor_name">Christian Bale</string>
     <string name="character_name">Bruce Wayne</string>
+    <string name="five_seasons">5 Seasons</string>
+    <string name="fifty_episodes">50 Episodes</string>
 </resources>
