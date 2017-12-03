@@ -11,7 +11,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:descendantFocusability="blocksDescendants"
-            android:padding="@dimen/activity_detail_padding">
+            android:padding="@dimen/activity_detail_padding"
+            android:visibility="invisible">
             <include
                 android:id="@+id/layout_tv_show_info"
                 layout="@layout/layout_tv_show_info"
@@ -48,6 +49,31 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/layout_seasons" />
 
+            <include
+                android:id="@+id/layout_cast"
+                layout="@layout/layout_cast"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:clipToPadding="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layout_tv_show_content" />
+
+            <include
+                android:id="@+id/layout_similar"
+                layout="@layout/layout_similar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:clipToPadding="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layout_cast" />
         </android.support.constraint.ConstraintLayout>
 
         <TextView
@@ -57,7 +83,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="top|center_horizontal"
             android:layout_marginTop="@dimen/activity_detail_margin_top"
-            android:text="@string/couldnt_load_movie_info_error_message"
+            android:text="@string/couldnt_load_tv_show_info_error_message"
             android:visibility="invisible" />
 
         <ProgressBar
