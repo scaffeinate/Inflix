@@ -47,6 +47,9 @@
     <string name="genres">Genres</string>
     <string name="budget">Budget</string>
     <string name="revenue">Revenue</string>
+    <string name="first_air_date">First Aired</string>
+    <string name="last_air_date">Last Aired</string>
+    <string name="created_by">Created By</string>
 
     <string name="recommendations">Recommendations</string>
     <string name="recommended">Recommended</string>
@@ -77,4 +80,7 @@
     <string name="character_name">Bruce Wayne</string>
     <string name="five_seasons">5 Seasons</string>
     <string name="fifty_episodes">50 Episodes</string>
+    <string name="first_air_date_random">2011-04-17</string>
+    <string name="last_air_date_random">2017-07-16</string>
+    <string name="created_by_random">David Benioff &amp; D. B. Weiss</string>
 </resources>

@@ -12,8 +12,6 @@
             android:layout_height="match_parent"
             android:descendantFocusability="blocksDescendants"
             android:padding="@dimen/activity_detail_padding">
-
-
             <include
                 android:id="@+id/layout_tv_show_info"
                 layout="@layout/layout_tv_show_info"
@@ -26,6 +24,19 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <include
+                android:id="@+id/layout_seasons"
+                layout="@layout/layout_seasons"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:clipToPadding="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layout_tv_show_info" />
+
+            <include
                 android:id="@+id/layout_tv_show_content"
                 layout="@layout/layout_tv_show_content"
                 android:layout_width="0dp"
@@ -35,7 +46,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/layout_tv_show_info" />
+                app:layout_constraintTop_toBottomOf="@+id/layout_seasons" />
 
         </android.support.constraint.ConstraintLayout>
 
