@@ -1,91 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+		xmlns:app="http://schemas.android.com/apk/res-auto"
+		xmlns:tools="http://schemas.android.com/tools">
 
-    <include
-        android:id="@+id/layout_poster"
-        layout="@layout/item_poster"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+	<android.support.constraint.ConstraintLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/text_view_tv_show_title"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/layout_movie_info_title_margin_left"
-        android:maxLines="3"
-        android:textAppearance="@style/Title"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintLeft_toRightOf="@+id/layout_poster"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/layout_poster"
-        app:layout_constraintTop_toTopOf="@+id/layout_poster"
-        tools:text="@string/app_name" />
+		<include
+			android:id="@+id/layout_poster"
+			layout="@layout/item_poster"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			app:layout_constraintLeft_toLeftOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toTopOf="parent"/>
 
-    <TextView
-        android:id="@+id/text_view_tv_show_runtime"
-        style="@style/TagStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/layout_movie_info_field_margin_top"
-        android:background="@color/colorPrimary"
-        app:layout_constraintLeft_toLeftOf="@+id/text_view_tv_show_title"
-        app:layout_constraintStart_toStartOf="@+id/text_view_tv_show_title"
-        app:layout_constraintTop_toBottomOf="@+id/text_view_tv_show_title"
-        tools:text="@string/hundred_min" />
+		<TextView
+			android:id="@+id/text_view_tv_show_title"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_marginStart="@dimen/layout_movie_info_title_margin_left"
+			android:maxLines="3"
+			android:textAppearance="@style/Title"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintLeft_toRightOf="@+id/layout_poster"
+			app:layout_constraintRight_toRightOf="parent"
+			app:layout_constraintStart_toEndOf="@+id/layout_poster"
+			app:layout_constraintTop_toTopOf="@+id/layout_poster"
+			tools:text="@string/app_name"/>
 
-    <TextView
-        android:id="@+id/text_view_tv_show_status"
-        style="@style/TagStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="@dimen/layout_movie_info_field_margin_top"
-        android:background="@color/tagColor"
-        app:layout_constraintBaseline_toBaselineOf="@+id/text_view_tv_show_runtime"
-        app:layout_constraintLeft_toRightOf="@+id/text_view_tv_show_runtime"
-        app:layout_constraintStart_toEndOf="@+id/text_view_tv_show_runtime"
-        tools:text="@string/released" />
+		<TextView
+			android:id="@+id/text_view_tv_show_runtime"
+			style="@style/TagStyle"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="@dimen/layout_movie_info_field_margin_top"
+			android:background="@color/colorPrimary"
+			app:layout_constraintLeft_toLeftOf="@+id/text_view_tv_show_title"
+			app:layout_constraintStart_toStartOf="@+id/text_view_tv_show_title"
+			app:layout_constraintTop_toBottomOf="@+id/text_view_tv_show_title"
+			tools:text="@string/hundred_min"/>
 
-    <TextView
-        android:id="@+id/text_view_tv_show_num_seasons"
-        style="@style/TagStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/layout_movie_info_field_margin_top"
-        android:background="@color/colorPrimary"
-        app:layout_constraintLeft_toLeftOf="@+id/text_view_tv_show_runtime"
-        app:layout_constraintStart_toStartOf="@+id/text_view_tv_show_runtime"
-        app:layout_constraintTop_toBottomOf="@+id/text_view_tv_show_runtime"
-        tools:text="@string/five_seasons" />
+		<TextView
+			android:id="@+id/text_view_tv_show_status"
+			style="@style/TagStyle"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="5dp"
+			android:layout_marginTop="@dimen/layout_movie_info_field_margin_top"
+			android:background="@color/tagColor"
+			app:layout_constraintBaseline_toBaselineOf="@+id/text_view_tv_show_runtime"
+			app:layout_constraintLeft_toRightOf="@+id/text_view_tv_show_runtime"
+			app:layout_constraintStart_toEndOf="@+id/text_view_tv_show_runtime"
+			tools:text="@string/released"/>
 
-    <TextView
-        android:id="@+id/text_view_tv_show_num_episodes"
-        style="@style/TagStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="@dimen/layout_movie_info_field_margin_top"
-        app:layout_constraintBaseline_toBaselineOf="@+id/text_view_tv_show_num_seasons"
-        app:layout_constraintLeft_toRightOf="@+id/text_view_tv_show_num_seasons"
-        app:layout_constraintStart_toEndOf="@+id/text_view_tv_show_num_seasons"
-        tools:text="@string/fifty_episodes" />
+		<TextView
+			android:id="@+id/text_view_tv_show_num_seasons"
+			style="@style/TagStyle"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="@dimen/layout_movie_info_field_margin_top"
+			android:background="@color/colorPrimary"
+			app:layout_constraintLeft_toLeftOf="@+id/text_view_tv_show_runtime"
+			app:layout_constraintStart_toStartOf="@+id/text_view_tv_show_runtime"
+			app:layout_constraintTop_toBottomOf="@+id/text_view_tv_show_runtime"
+			tools:text="@string/five_seasons"/>
 
-    <include
-        android:id="@+id/layout_rating"
-        layout="@layout/layout_rating"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/layout_movie_info_field_margin_top"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintLeft_toLeftOf="@+id/text_view_tv_show_num_seasons"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/text_view_tv_show_num_seasons"
-        app:layout_constraintTop_toBottomOf="@+id/text_view_tv_show_num_seasons" />
-</android.support.constraint.ConstraintLayout>
+		<TextView
+			android:id="@+id/text_view_tv_show_num_episodes"
+			style="@style/TagStyle"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="5dp"
+			android:layout_marginTop="@dimen/layout_movie_info_field_margin_top"
+			app:layout_constraintBaseline_toBaselineOf="@+id/text_view_tv_show_num_seasons"
+			app:layout_constraintLeft_toRightOf="@+id/text_view_tv_show_num_seasons"
+			app:layout_constraintStart_toEndOf="@+id/text_view_tv_show_num_seasons"
+			tools:text="@string/fifty_episodes"/>
+
+		<include
+			android:id="@+id/layout_rating"
+			layout="@layout/layout_rating"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="@dimen/layout_movie_info_field_margin_top"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintLeft_toLeftOf="@+id/text_view_tv_show_num_seasons"
+			app:layout_constraintRight_toRightOf="parent"
+			app:layout_constraintStart_toStartOf="@+id/text_view_tv_show_num_seasons"
+			app:layout_constraintTop_toBottomOf="@+id/text_view_tv_show_num_seasons"/>
+	</android.support.constraint.ConstraintLayout>
+</layout>

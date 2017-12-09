@@ -265,7 +265,12 @@ public class MovieDetailsFragment extends BaseDetailsFragment implements View.On
             mBinding.layoutMovieInfo.textViewMovieStatus.setVisibility(View.GONE);
         }
 
-        DisplayUtils.addGenres(genres, mBinding.layoutContent.layoutGenres, mContext);
+        if (genres != null && !genres.isEmpty()) {
+            DisplayUtils.addGenres(genres, mBinding.layoutContent.layoutGenres, mContext);
+        } else {
+            mBinding.layoutContent.textViewMovieGenresTitle.setVisibility(View.GONE);
+            mBinding.layoutContent.layoutGenres.setVisibility(View.GONE);
+        }
 
         mBinding.layoutMovieInfo.layoutRating.ratingBarRating.setRating((float) voteAverage);
 

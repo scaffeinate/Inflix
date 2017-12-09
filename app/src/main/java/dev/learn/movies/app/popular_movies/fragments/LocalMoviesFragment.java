@@ -25,11 +25,11 @@ import dev.learn.movies.app.popular_movies.databinding.FragmentMoviesBinding;
 import dev.learn.movies.app.popular_movies.loaders.ContentLoader;
 
 import static dev.learn.movies.app.popular_movies.data.DataContract.MediaEntry.COLUMN_MEDIA_ID;
+import static dev.learn.movies.app.popular_movies.data.DataContract.MediaEntry.COLUMN_MEDIA_TYPE;
 import static dev.learn.movies.app.popular_movies.data.DataContract.MediaEntry.COLUMN_TITLE;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.BOOKMARKS;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.BOOKMARKS_LOADER_ID;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.DEFAULT_GRID_COUNT;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.DETAIL_ACTIVITY_FRAGMENT_TYPE_MOVIE;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.FAVORITES;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.FAVORITES_LOADER_ID;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.RESOURCE_ID;
@@ -127,10 +127,11 @@ public class LocalMoviesFragment extends Fragment implements ContentLoader.Conte
 
                 long resourceId = mCursor.getLong(mCursor.getColumnIndex(COLUMN_MEDIA_ID));
                 String resourceTitle = mCursor.getString(mCursor.getColumnIndex(COLUMN_TITLE));
+                String resourceType = mCursor.getString(mCursor.getColumnIndex(COLUMN_MEDIA_TYPE));
 
                 detailActivityIntent.putExtra(RESOURCE_ID, resourceId);
                 detailActivityIntent.putExtra(RESOURCE_TITLE, resourceTitle);
-                detailActivityIntent.putExtra(RESOURCE_TYPE, DETAIL_ACTIVITY_FRAGMENT_TYPE_MOVIE);
+                detailActivityIntent.putExtra(RESOURCE_TYPE, resourceType);
 
                 startActivity(detailActivityIntent);
             }

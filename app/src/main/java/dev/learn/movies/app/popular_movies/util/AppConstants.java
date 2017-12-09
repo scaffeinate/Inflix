@@ -15,13 +15,17 @@ public final class AppConstants {
 
     public static final int MOVIE_DETAILS_LOADER_ID = 100;
 
-    public static final int MOVIE_REVIEWS_LOADER_ID = 101;
+    public static final int MOVIE_TRAILERS_LOADER_ID = 101;
 
-    public static final int MOVIE_TRAILERS_LOADER_ID = 102;
+    public static final int MOVIE_REVIEWS_LOADER_ID = 102;
 
-    public static final int MOVIES_LOADER_ID = 200;
+    public static final int TV_SHOWS_DETAILS_LOADER_ID = 200;
 
-    public static final int TV_SHOWS_LOADER_ID = 300;
+    public static final int TV_SHOWS_TRAILERS_LOADER_ID = 201;
+
+    public static final int MOVIES_LOADER_ID = 300;
+
+    public static final int TV_SHOWS_LOADER_ID = 400;
 
     public final static int FAVORITES_LOADER_ID = 500;
 
@@ -80,10 +84,6 @@ public final class AppConstants {
     public static final String RESOURCE_TITLE = "resource_title";
 
     public static final String RESOURCE_TYPE = "resource_type";
-
-    public static final String DETAIL_ACTIVITY_FRAGMENT_TYPE_MOVIE = "movie";
-
-    public static final String DETAIL_ACTIVITY_FRAGMENT_TYPE_TV_SHOW = "tv_show";
 
     public static final String ADDITIONAL_INFO_ACTIVITY_FRAGMENT_TYPE_REVIEWS = "reviews";
 

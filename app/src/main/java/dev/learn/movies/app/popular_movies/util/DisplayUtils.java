@@ -27,6 +27,7 @@ import java.util.Locale;
 
 import dev.learn.movies.app.popular_movies.R;
 import dev.learn.movies.app.popular_movies.common.Genre;
+import dev.learn.movies.app.popular_movies.common.tv_show.CreatedBy;
 
 /**
  * DisplayUtils - Contains helper methods for common formatting and view changes
@@ -72,6 +73,25 @@ public final class DisplayUtils {
     }
 
     /**
+     * Formats date
+     *
+     * @param dateStr Date String in yyyy-mm-dd format
+     * @return formattedDate
+     */
+    public static String formatDate(String dateStr) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd", Locale.getDefault());
+        SimpleDateFormat targetFormat = new SimpleDateFormat("MMM, yyyy", Locale.getDefault());
+        try {
+            Date date = dateFormat.parse(dateStr);
+            return targetFormat.format(date);
+        } catch (ParseException e) {
+            Log.e(TAG, e.getMessage());
+        }
+
+        return "N/A";
+    }
+
+    /**
      * Formats title of a movie
      *
      * @param title Movie title
@@ -96,12 +116,23 @@ public final class DisplayUtils {
      * @param genres List of Genres
      */
     public static void addGenres(List<Genre> genres, ViewGroup parent, Context context) {
-        if (genres != null && !genres.isEmpty()) {
-            for (int i = 0; i < genres.size(); i++) {
-                TextView tagView = (TextView) LayoutInflater.from(context).inflate(R.layout.layout_tag, parent, false);
-                tagView.setText(genres.get(i).getName());
-                parent.addView(tagView);
-            }
+        for (int i = 0; i < genres.size(); i++) {
+            TextView tagView = (TextView) LayoutInflater.from(context).inflate(R.layout.layout_tag, parent, false);
+            tagView.setText(genres.get(i).getName());
+            parent.addView(tagView);
+        }
+    }
+
+    /**
+     * Creates TextViews for each genre and adds to the parent layout
+     *
+     * @param createdByList List of CreatedBy
+     */
+    public static void addCreatedBy(List<CreatedBy> createdByList, ViewGroup parent, Context context) {
+        for (int i = 0; i < createdByList.size(); i++) {
+            TextView tagView = (TextView) LayoutInflater.from(context).inflate(R.layout.layout_tag, parent, false);
+            tagView.setText(createdByList.get(i).getName());
+            parent.addView(tagView);
         }
     }
 

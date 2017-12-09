@@ -24,6 +24,7 @@ import com.google.gson.Gson;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import dev.learn.movies.app.popular_movies.R;
@@ -38,6 +39,7 @@ import dev.learn.movies.app.popular_movies.common.MediaDetail;
 import dev.learn.movies.app.popular_movies.common.Video;
 import dev.learn.movies.app.popular_movies.common.cast.Cast;
 import dev.learn.movies.app.popular_movies.common.movies.MovieDetail;
+import dev.learn.movies.app.popular_movies.common.tv_show.CreatedBy;
 import dev.learn.movies.app.popular_movies.common.tv_show.TVShowDetail;
 import dev.learn.movies.app.popular_movies.data.DataContract;
 import dev.learn.movies.app.popular_movies.loaders.ContentLoader;
@@ -49,10 +51,17 @@ import dev.learn.movies.app.popular_movies.util.VideoGridDialog;
 
 import static dev.learn.movies.app.popular_movies.data.DataContract.MOVIES;
 import static dev.learn.movies.app.popular_movies.data.DataContract.MediaEntry.COLUMN_BACKDROP_PATH;
+import static dev.learn.movies.app.popular_movies.data.DataContract.MediaEntry.COLUMN_CREATED_BY;
+import static dev.learn.movies.app.popular_movies.data.DataContract.MediaEntry.COLUMN_EPISODE_RUN_TIME;
+import static dev.learn.movies.app.popular_movies.data.DataContract.MediaEntry.COLUMN_FIRST_AIR_DATE;
 import static dev.learn.movies.app.popular_movies.data.DataContract.MediaEntry.COLUMN_GENRES;
+import static dev.learn.movies.app.popular_movies.data.DataContract.MediaEntry.COLUMN_HOMEPAGE;
 import static dev.learn.movies.app.popular_movies.data.DataContract.MediaEntry.COLUMN_IS_BOOKMARKED;
 import static dev.learn.movies.app.popular_movies.data.DataContract.MediaEntry.COLUMN_IS_FAVORED;
+import static dev.learn.movies.app.popular_movies.data.DataContract.MediaEntry.COLUMN_LAST_AIR_DATE;
 import static dev.learn.movies.app.popular_movies.data.DataContract.MediaEntry.COLUMN_MEDIA_ID;
+import static dev.learn.movies.app.popular_movies.data.DataContract.MediaEntry.COLUMN_NUM_EPISODES;
+import static dev.learn.movies.app.popular_movies.data.DataContract.MediaEntry.COLUMN_NUM_SEASONS;
 import static dev.learn.movies.app.popular_movies.data.DataContract.MediaEntry.COLUMN_OVERVIEW;
 import static dev.learn.movies.app.popular_movies.data.DataContract.MediaEntry.COLUMN_POSTER_PATH;
 import static dev.learn.movies.app.popular_movies.data.DataContract.MediaEntry.COLUMN_RELEASE_DATE;
@@ -73,7 +82,9 @@ import static dev.learn.movies.app.popular_movies.util.AppConstants.MOVIE_TRAILE
 import static dev.learn.movies.app.popular_movies.util.AppConstants.RESOURCE_ID;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.RESOURCE_TITLE;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.TV_SHOWS_CAST_LOADER_ID;
+import static dev.learn.movies.app.popular_movies.util.AppConstants.TV_SHOWS_LOADER_ID;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.TV_SHOWS_SIMILAR_LOADER_ID;
+import static dev.learn.movies.app.popular_movies.util.AppConstants.TV_SHOWS_TRAILERS_LOADER_ID;
 
 /**
  * Created by sudhar on 12/9/17.
@@ -157,11 +168,18 @@ public abstract class BaseDetailsFragment extends Fragment implements
         if (savedInstanceState == null) {
             mResourceId = getArguments().getLong(RESOURCE_ID, 0);
             mResourceTitle = getArguments().getString(RESOURCE_TITLE, "");
+
             final int localLoaderId = isMovieDetailFragment ? LOCAL_MOVIE_DETAILS_LOADER_ID : LOCAL_TV_SHOW_DETAILS_LOADER_ID;
             final int similarLoaderId = isMovieDetailFragment ? MOVIE_SIMILAR_LOADER_ID : TV_SHOWS_SIMILAR_LOADER_ID;
             final int castLoaderId = isMovieDetailFragment ? MOVIE_CAST_LOADER_ID : TV_SHOWS_CAST_LOADER_ID;
 
             if (mResourceId != 0) {
+                final URL similarURL = isMovieDetailFragment ? HTTPHelper.buildSimilarMoviesURL(String.valueOf(mResourceId))
+                        : HTTPHelper.buildSimilarTVShowsURL(String.valueOf(mResourceId));
+
+                final URL castsURL = isMovieDetailFragment ? HTTPHelper.buildMovieCastURL(String.valueOf(mResourceId)) :
+                        HTTPHelper.buildTVShowCastURL(String.valueOf(mResourceId));
+
                 Uri uri = DataContract.MEDIA_CONTENT_URI
                         .buildUpon()
                         .appendPath(String.valueOf(mResourceId))
@@ -170,8 +188,8 @@ public abstract class BaseDetailsFragment extends Fragment implements
                 lazyLoadAdditionalInfoFromNetwork(new Runnable() {
                     @Override
                     public void run() {
-                        loadFromNetwork(HTTPHelper.buildSimilarMoviesURL(String.valueOf(mResourceId)), similarLoaderId);
-                        loadFromNetwork(HTTPHelper.buildMovieCastURL(String.valueOf(mResourceId)), castLoaderId);
+                        loadFromNetwork(similarURL, similarLoaderId);
+                        loadFromNetwork(castsURL, castLoaderId);
                     }
                 });
             } else {
@@ -180,7 +198,11 @@ public abstract class BaseDetailsFragment extends Fragment implements
         } else {
             mResourceId = savedInstanceState.getLong(RESOURCE_ID);
             mResourceTitle = savedInstanceState.getString(RESOURCE_TITLE);
-            mMovieDetail = savedInstanceState.getParcelable(DETAILS);
+            if (isMovieDetailFragment) {
+                mMovieDetail = savedInstanceState.getParcelable(DETAILS);
+            } else {
+                mTVShowDetail = savedInstanceState.getParcelable(DETAILS);
+            }
             mSimilarList = savedInstanceState.getParcelableArrayList(SIMILAR);
             mCastList = savedInstanceState.getParcelableArrayList(CAST);
 
@@ -195,7 +217,11 @@ public abstract class BaseDetailsFragment extends Fragment implements
         super.onSaveInstanceState(outState);
         outState.putLong(RESOURCE_ID, mResourceId);
         outState.putString(RESOURCE_TITLE, mResourceTitle);
-        outState.putParcelable(DETAILS, mMovieDetail);
+        if (isMovieDetailFragment) {
+            outState.putParcelable(DETAILS, mMovieDetail);
+        } else {
+            outState.putParcelable(DETAILS, mTVShowDetail);
+        }
         outState.putParcelableArrayList(SIMILAR, (ArrayList<? extends Parcelable>) mSimilarList);
         outState.putParcelableArrayList(CAST, (ArrayList<? extends Parcelable>) mCastList);
     }
@@ -211,7 +237,7 @@ public abstract class BaseDetailsFragment extends Fragment implements
                 .appendPath(type)
                 .appendPath(String.valueOf(mResourceId))
                 .build();
-        if (mMovieDetail.isFavored()) {
+        if (mediaDetail.isFavored()) {
             getActivity().getContentResolver().delete(uri, null, null);
         } else {
             ContentValues cv = toContentValues(mediaDetail);
@@ -289,33 +315,39 @@ public abstract class BaseDetailsFragment extends Fragment implements
             return false;
         }
 
-        String type = (this instanceof MovieDetailsFragment) ? MOVIES : TV_SHOWS;
-
         switch (item.getItemId()) {
             case R.id.action_bookmark:
+                String type = (this instanceof MovieDetailsFragment) ? MOVIES : TV_SHOWS;
                 Uri uri = DataContract.BOOKMARKS_CONTENT_URI
                         .buildUpon()
                         .appendPath(type)
                         .appendPath(String.valueOf(mResourceId))
                         .build();
-                if (mMovieDetail.isBookmarked()) {
+                MediaDetail mediaDetail = isMovieDetailFragment ? mMovieDetail : mTVShowDetail;
+                if (mediaDetail == null || type == null) break;
+
+                if (mediaDetail.isBookmarked()) {
                     getActivity().getContentResolver().delete(uri, null, null);
                 } else {
-                    ContentValues cv = toContentValues(mMovieDetail);
+                    ContentValues cv = toContentValues(mediaDetail);
                     if (cv != null) {
                         getActivity().getContentResolver().insert(uri, cv);
                     }
                 }
-                mMovieDetail.setBookmarked(!mMovieDetail.isBookmarked());
-                updateBookmarkBtn(mMovieDetail.isBookmarked());
-                showBookmarkToast(mMovieDetail.isBookmarked());
+                mediaDetail.setBookmarked(!mediaDetail.isBookmarked());
+                updateBookmarkBtn(mediaDetail.isBookmarked());
+                showBookmarkToast(mediaDetail.isBookmarked());
                 return true;
             case R.id.action_share:
-                DisplayUtils.shareURL(getActivity(), mResourceTitle,
-                        HTTPHelper.buildTMDBMovieURL(String.valueOf(mResourceId)));
+                URL shareURL = isMovieDetailFragment ? HTTPHelper.buildTMDBMovieURL(String.valueOf(mResourceId)) :
+                        HTTPHelper.buildTMDBTVShowURL(String.valueOf(mResourceId));
+                DisplayUtils.shareURL(getActivity(), mResourceTitle, shareURL);
                 return true;
             case R.id.action_watch_trailer:
-                buildVideoGrid(HTTPHelper.buildMovieTrailersURL(String.valueOf(mResourceId)), MOVIE_TRAILERS_LOADER_ID);
+                URL videosURL = isMovieDetailFragment ? HTTPHelper.buildMovieTrailersURL(String.valueOf(mResourceId)) :
+                        HTTPHelper.buildTVShowTrailersURL(String.valueOf(mResourceId));
+                int loaderId = isMovieDetailFragment ? MOVIE_TRAILERS_LOADER_ID : TV_SHOWS_TRAILERS_LOADER_ID;
+                buildVideoGrid(videosURL, loaderId);
                 return true;
 
         }
@@ -384,7 +416,24 @@ public abstract class BaseDetailsFragment extends Fragment implements
                 cv.put(COLUMN_RUNTIME, movieDetail.getRuntime());
             } else if (mediaDetail instanceof TVShowDetail) {
                 TVShowDetail tvShowDetail = (TVShowDetail) mediaDetail;
-                //TODO: Update here
+                cv.put(COLUMN_TITLE, tvShowDetail.getName());
+                cv.put(COLUMN_NUM_EPISODES, tvShowDetail.getNumberOfEpisodes());
+                cv.put(COLUMN_NUM_SEASONS, tvShowDetail.getNumberOfSeasons());
+                cv.put(COLUMN_FIRST_AIR_DATE, tvShowDetail.getFirstAirDate());
+                cv.put(COLUMN_LAST_AIR_DATE, tvShowDetail.getLastAirDate());
+                if (tvShowDetail.getEpisodeRunTime() != null && !tvShowDetail.getEpisodeRunTime().isEmpty()) {
+                    cv.put(COLUMN_EPISODE_RUN_TIME, tvShowDetail.getEpisodeRunTime().get(0));
+                }
+
+                builder = new StringBuilder();
+                List<CreatedBy> createdByList = tvShowDetail.getCreatedBy();
+                if (createdByList != null && !createdByList.isEmpty()) {
+                    for (CreatedBy createdBy : createdByList) {
+                        builder.append(createdBy.getName()).append(",");
+                    }
+                }
+                cv.put(COLUMN_CREATED_BY, builder.toString());
+                cv.put(COLUMN_HOMEPAGE, tvShowDetail.getHomepage());
             }
         }
         return cv;
@@ -417,12 +466,28 @@ public abstract class BaseDetailsFragment extends Fragment implements
             mediaDetail.setBookmarked(cursor.getInt(cursor.getColumnIndex(COLUMN_IS_BOOKMARKED)) == 1);
 
             if (this instanceof MovieDetailsFragment) {
-                ((MovieDetail) mediaDetail).setTitle(cursor.getString(cursor.getColumnIndex(COLUMN_TITLE)));
-                ((MovieDetail) mediaDetail).setTagline(cursor.getString(cursor.getColumnIndex(COLUMN_TAGLINE)));
-                ((MovieDetail) mediaDetail).setReleaseDate(cursor.getString(cursor.getColumnIndex(COLUMN_RELEASE_DATE)));
-                ((MovieDetail) mediaDetail).setRuntime(cursor.getLong(cursor.getColumnIndex(COLUMN_RUNTIME)));
+                MovieDetail movieDetail = (MovieDetail) mediaDetail;
+                movieDetail.setTitle(cursor.getString(cursor.getColumnIndex(COLUMN_TITLE)));
+                movieDetail.setTagline(cursor.getString(cursor.getColumnIndex(COLUMN_TAGLINE)));
+                movieDetail.setReleaseDate(cursor.getString(cursor.getColumnIndex(COLUMN_RELEASE_DATE)));
+                movieDetail.setRuntime(cursor.getLong(cursor.getColumnIndex(COLUMN_RUNTIME)));
             } else {
-
+                TVShowDetail tvShowDetail = (TVShowDetail) mediaDetail;
+                tvShowDetail.setName(cursor.getString(cursor.getColumnIndex(COLUMN_TITLE)));
+                tvShowDetail.setNumberOfEpisodes(cursor.getLong(cursor.getColumnIndex(COLUMN_NUM_EPISODES)));
+                tvShowDetail.setNumberOfSeasons(cursor.getLong(cursor.getColumnIndex(COLUMN_NUM_SEASONS)));
+                tvShowDetail.setFirstAirDate(cursor.getString(cursor.getColumnIndex(COLUMN_FIRST_AIR_DATE)));
+                tvShowDetail.setLastAirDate(cursor.getString(cursor.getColumnIndex(COLUMN_LAST_AIR_DATE)));
+                long episodeRuntime = cursor.getLong(cursor.getColumnIndex(COLUMN_EPISODE_RUN_TIME));
+                tvShowDetail.setEpisodeRunTime(new ArrayList<>(Arrays.asList(episodeRuntime)));
+                String createdByStr = cursor.getString(cursor.getColumnIndex(COLUMN_CREATED_BY));
+                String[] createdByArr = createdByStr.split(",");
+                List<CreatedBy> createdByList = new ArrayList<>();
+                for (String createdBy : createdByArr) {
+                    createdByList.add(new CreatedBy(createdBy));
+                }
+                tvShowDetail.setCreatedBy(createdByList);
+                tvShowDetail.setHomepage(cursor.getString(cursor.getColumnIndex(COLUMN_HOMEPAGE)));
             }
         }
         return mediaDetail;

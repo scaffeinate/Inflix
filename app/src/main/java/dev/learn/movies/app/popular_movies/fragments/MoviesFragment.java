@@ -34,6 +34,7 @@ import dev.learn.movies.app.popular_movies.util.DisplayUtils;
 import dev.learn.movies.app.popular_movies.util.EndlessRecyclerViewScrollListener;
 import dev.learn.movies.app.popular_movies.util.HTTPHelper;
 
+import static dev.learn.movies.app.popular_movies.data.DataContract.MOVIES;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.DEFAULT_GRID_COUNT;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.DISCOVER;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.MOST_POPULAR;
@@ -42,7 +43,6 @@ import static dev.learn.movies.app.popular_movies.util.AppConstants.NOW_PLAYING;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.RESOURCE_ID;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.RESOURCE_TITLE;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.RESOURCE_TYPE;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.DETAIL_ACTIVITY_FRAGMENT_TYPE_MOVIE;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.START_PAGE;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.TABLET_GRID_COUNT;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.TOP_RATED;
@@ -170,7 +170,7 @@ public class MoviesFragment extends Fragment implements NetworkLoader.NetworkLoa
             Intent detailActivityIntent = new Intent(mContext, DetailActivity.class);
             detailActivityIntent.putExtra(RESOURCE_ID, movie.getId());
             detailActivityIntent.putExtra(RESOURCE_TITLE, movie.getTitle());
-            detailActivityIntent.putExtra(RESOURCE_TYPE, DETAIL_ACTIVITY_FRAGMENT_TYPE_MOVIE);
+            detailActivityIntent.putExtra(RESOURCE_TYPE, MOVIES);
 
             startActivity(detailActivityIntent);
         }

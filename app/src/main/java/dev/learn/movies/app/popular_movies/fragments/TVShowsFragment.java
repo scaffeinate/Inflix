@@ -33,8 +33,8 @@ import dev.learn.movies.app.popular_movies.util.DisplayUtils;
 import dev.learn.movies.app.popular_movies.util.EndlessRecyclerViewScrollListener;
 import dev.learn.movies.app.popular_movies.util.HTTPHelper;
 
+import static dev.learn.movies.app.popular_movies.data.DataContract.TV_SHOWS;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.DEFAULT_GRID_COUNT;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.DETAIL_ACTIVITY_FRAGMENT_TYPE_TV_SHOW;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.DISCOVER;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.RESOURCE_ID;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.RESOURCE_TITLE;
@@ -163,7 +163,7 @@ public class TVShowsFragment extends Fragment implements NetworkLoader.NetworkLo
             Intent detailActivityIntent = new Intent(mContext, DetailActivity.class);
             detailActivityIntent.putExtra(RESOURCE_ID, TVShow.getId());
             detailActivityIntent.putExtra(RESOURCE_TITLE, TVShow.getName());
-            detailActivityIntent.putExtra(RESOURCE_TYPE, DETAIL_ACTIVITY_FRAGMENT_TYPE_TV_SHOW);
+            detailActivityIntent.putExtra(RESOURCE_TYPE, TV_SHOWS);
 
             startActivity(detailActivityIntent);
         }

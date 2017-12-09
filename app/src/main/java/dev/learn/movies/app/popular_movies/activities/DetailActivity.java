@@ -20,8 +20,8 @@ import dev.learn.movies.app.popular_movies.fragments.MovieDetailsFragment;
 import dev.learn.movies.app.popular_movies.fragments.TVShowDetailsFragment;
 import dev.learn.movies.app.popular_movies.util.DisplayUtils;
 
-import static dev.learn.movies.app.popular_movies.util.AppConstants.DETAIL_ACTIVITY_FRAGMENT_TYPE_MOVIE;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.DETAIL_ACTIVITY_FRAGMENT_TYPE_TV_SHOW;
+import static dev.learn.movies.app.popular_movies.data.DataContract.MOVIES;
+import static dev.learn.movies.app.popular_movies.data.DataContract.TV_SHOWS;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.RESOURCE_ID;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.RESOURCE_TITLE;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.RESOURCE_TYPE;
@@ -54,10 +54,10 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
             if (resourceType != null && resourceId != 0 && resourceTitle != null) {
                 switch (resourceType) {
-                    case DETAIL_ACTIVITY_FRAGMENT_TYPE_MOVIE:
+                    case MOVIES:
                         mFragment = MovieDetailsFragment.newInstance(resourceId, resourceTitle);
                         break;
-                    case DETAIL_ACTIVITY_FRAGMENT_TYPE_TV_SHOW:
+                    case TV_SHOWS:
                         mFragment = TVShowDetailsFragment.newInstance(resourceId, resourceTitle);
                         break;
                 }

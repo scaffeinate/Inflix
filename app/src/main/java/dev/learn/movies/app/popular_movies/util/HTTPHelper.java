@@ -51,11 +51,11 @@ public final class HTTPHelper {
 
     private static final String MOVIE_DETAIL_PATH = "movie";
 
-    private static final String TV_PATH = "tv";
+    private static final String TV_SHOW_DETAIL_PATH = "tv";
 
     private static final String MOVIE_REVIEWS_PATH = "reviews";
 
-    private static final String MOVIE_TRAILERS_PATH = "videos";
+    private static final String VIDEOS_PATH = "videos";
 
     private static final String NOW_PLAYING_PATH = MOVIE_DETAIL_PATH + SEPARATOR + NOW_PLAYING;
 
@@ -65,13 +65,13 @@ public final class HTTPHelper {
 
     private static final String UPCOMING_PATH = MOVIE_DETAIL_PATH + SEPARATOR + UPCOMING;
 
-    private static final String TV_AIRING_TODAY_PATH = TV_PATH + SEPARATOR + TV_AIRING_TODAY;
+    private static final String TV_AIRING_TODAY_PATH = TV_SHOW_DETAIL_PATH + SEPARATOR + TV_AIRING_TODAY;
 
-    private static final String TV_ON_THE_AIR_PATH = TV_PATH + SEPARATOR + TV_ON_THE_AIR;
+    private static final String TV_ON_THE_AIR_PATH = TV_SHOW_DETAIL_PATH + SEPARATOR + TV_ON_THE_AIR;
 
-    private static final String TV_POPULAR_PATH = TV_PATH + SEPARATOR + TV_POPULAR;
+    private static final String TV_POPULAR_PATH = TV_SHOW_DETAIL_PATH + SEPARATOR + TV_POPULAR;
 
-    private static final String TV_TOP_RATED_PATH = TV_PATH + SEPARATOR + TV_TOP_RATED;
+    private static final String TV_TOP_RATED_PATH = TV_SHOW_DETAIL_PATH + SEPARATOR + TV_TOP_RATED;
 
     private static final String LANGUAGE = "language";
 
@@ -193,12 +193,7 @@ public final class HTTPHelper {
      * @return movieTrailers URL
      */
     public static URL buildMovieTrailersURL(String movieId) {
-        String path = MOVIE_DETAIL_PATH + SEPARATOR + movieId + SEPARATOR + MOVIE_TRAILERS_PATH;
-        return buildTMDBURL(path, -1);
-    }
-
-    public static URL buildMovieRecommendationsURL(String movieId) {
-        String path = MOVIE_DETAIL_PATH + SEPARATOR + movieId + SEPARATOR + RECOMMENDATIONS;
+        String path = MOVIE_DETAIL_PATH + SEPARATOR + movieId + SEPARATOR + VIDEOS_PATH;
         return buildTMDBURL(path, -1);
     }
 
@@ -209,6 +204,37 @@ public final class HTTPHelper {
 
     public static URL buildMovieCastURL(String movieId) {
         String path = MOVIE_DETAIL_PATH + SEPARATOR + movieId + SEPARATOR + CREDITS;
+        return buildTMDBURL(path, -1);
+    }
+
+    /**
+     * Builds tv_show/{tvShowId} URL
+     *
+     * @param tvShowId Movie Id to fetch details for
+     * @return tvShowDetail URL
+     */
+    public static URL buildTVShowDetailsURL(String tvShowId) {
+        return buildTMDBURL(TV_SHOW_DETAIL_PATH + SEPARATOR + tvShowId, -1);
+    }
+
+    /**
+     * Builds tv_show/{tvShowId}/videos URL
+     *
+     * @param tvShowId Movie Id to fetch details for
+     * @return tvShowTrailers URL
+     */
+    public static URL buildTVShowTrailersURL(String tvShowId) {
+        String path = TV_SHOW_DETAIL_PATH + SEPARATOR + tvShowId + SEPARATOR + VIDEOS_PATH;
+        return buildTMDBURL(path, -1);
+    }
+
+    public static URL buildSimilarTVShowsURL(String tvShowId) {
+        String path = TV_SHOW_DETAIL_PATH + SEPARATOR + tvShowId + SEPARATOR + SIMILAR;
+        return buildTMDBURL(path, -1);
+    }
+
+    public static URL buildTVShowCastURL(String movieId) {
+        String path = TV_SHOW_DETAIL_PATH + SEPARATOR + movieId + SEPARATOR + CREDITS;
         return buildTMDBURL(path, -1);
     }
 
@@ -270,6 +296,23 @@ public final class HTTPHelper {
                 .appendEncodedPath(TMDB_BASE_PATH)
                 .appendEncodedPath(MOVIE_DETAIL_PATH)
                 .appendEncodedPath(movieId)
+                .build();
+
+        try {
+            return new URL(uri.toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public static URL buildTMDBTVShowURL(String tvShowId) {
+        Uri uri = new Uri.Builder()
+                .scheme(SCHEME)
+                .appendEncodedPath(TMDB_BASE_PATH)
+                .appendEncodedPath(TV_SHOW_DETAIL_PATH)
+                .appendEncodedPath(tvShowId)
                 .build();
 
         try {

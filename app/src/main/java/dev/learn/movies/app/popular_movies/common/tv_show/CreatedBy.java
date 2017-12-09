@@ -22,6 +22,10 @@ public class CreatedBy implements Parcelable {
     @Expose
     private String profilePath;
 
+    public CreatedBy(String name) {
+        this.name = name;
+    }
+
     protected CreatedBy(Parcel in) {
         id = in.readLong();
         name = in.readString();
