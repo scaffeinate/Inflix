@@ -5,7 +5,7 @@ import android.net.Uri;
 /**
  * Created by sudharti on 11/12/17.
  */
-public interface MovieDetailCallbacks {
+public interface DetailActivityCallbacks {
 
 
     void updateBackdrop(Uri imageUri);
@@ -17,4 +17,6 @@ public interface MovieDetailCallbacks {
     void showFavBtn();
 
     void hideFavBtn();
+
+    void scrollToTop();
 }
