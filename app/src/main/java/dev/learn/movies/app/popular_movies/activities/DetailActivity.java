@@ -4,8 +4,10 @@ import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -27,7 +29,7 @@ import static dev.learn.movies.app.popular_movies.util.AppConstants.RESOURCE_TYP
 /**
  * DetailActivity - Movie Details Screen
  */
-public class DetailActivity extends AppCompatActivity implements View.OnClickListener, MovieDetailCallbacks {
+public class DetailActivity extends AppCompatActivity implements View.OnClickListener, DetailActivityCallbacks {
 
     private ActivityDetailBinding mBinding;
     private Fragment mFragment;
@@ -133,6 +135,12 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public void hideFavBtn() {
         mBinding.btnFav.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void scrollToTop() {
+        mBinding.layoutOutlet.scrollTo(0, 0);
+        mBinding.appBarLayout.setExpanded(true);
     }
 
     public interface OnFavBtnClickListener {

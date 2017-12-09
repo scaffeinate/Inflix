@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dev.learn.movies.app.popular_movies.R;
+import dev.learn.movies.app.popular_movies.common.Media;
 import dev.learn.movies.app.popular_movies.common.movies.Movie;
 import dev.learn.movies.app.popular_movies.util.DisplayUtils;
 import dev.learn.movies.app.popular_movies.util.HTTPHelper;
@@ -22,7 +23,7 @@ import dev.learn.movies.app.popular_movies.util.HTTPHelper;
  * Created by sudhar on 11/15/17.
  */
 public class FilmStripAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private List<Movie> mFilmStripList;
+    private List<? extends Media> mFilmStripList;
     private final OnItemClickHandler mHandler;
 
     public FilmStripAdapter(OnItemClickHandler handler) {
@@ -53,7 +54,7 @@ public class FilmStripAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         return mFilmStripList.size();
     }
 
-    public void setFilmStripList(List<Movie> filmStripList) {
+    public void setFilmStripList(List<? extends Media> filmStripList) {
         this.mFilmStripList = filmStripList;
         notifyDataSetChanged();
     }
@@ -71,7 +72,7 @@ public class FilmStripAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
 
         public void bind(int position) {
-            Movie movie = mFilmStripList.get(position);
+            Movie movie = (Movie) mFilmStripList.get(position); //Or TVShow
             String posterURL;
             if (movie != null && (posterURL = movie.getPosterPath()) != null) {
                 Uri posterUri = HTTPHelper.buildImageResourceUri(posterURL, HTTPHelper.IMAGE_SIZE_MEDIUM);

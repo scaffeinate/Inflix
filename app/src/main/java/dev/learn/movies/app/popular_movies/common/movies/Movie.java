@@ -6,21 +6,14 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import dev.learn.movies.app.popular_movies.common.Media;
+
 @SuppressWarnings("ALL")
-public class Movie implements Parcelable {
-
-
-    @SerializedName("id")
-    @Expose
-    private long id;
+public class Movie extends Media implements Parcelable {
 
     @SerializedName("title")
     @Expose
     private String title;
-
-    @SerializedName("poster_path")
-    @Expose
-    private String posterPath;
 
     public static final Creator<Movie> CREATOR = new Creator<Movie>() {
         @Override
@@ -40,16 +33,8 @@ public class Movie implements Parcelable {
         posterPath = in.readString();
     }
 
-    public long getId() {
-        return id;
-    }
-
     public String getTitle() {
         return title;
-    }
-
-    public String getPosterPath() {
-        return posterPath;
     }
 
     @Override

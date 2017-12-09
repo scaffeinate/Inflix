@@ -43,18 +43,6 @@ public class DataContract {
             .appendPath(MEDIA_PATH)
             .build();
 
-    /*public static class SavedEntry implements BaseColumns {
-        public static final String TABLE_NAME = "saved_entry";
-        public static final String COLUMN_SAVED_TYPE = "saved_type";
-        public static final String COLUMN_SAVED_ID = "saved_id";
-        public static final String COLUMN_ACTION = "action";
-
-        public static final String ACTION_FAVORITE = "favorite";
-        public static final String ACTION_BOOKMARK = "bookmark";
-        public static final String SAVED_TYPE_MOVIES = "movies";
-        public static final String SAVED_TYPE_TV_SHOWS = "tv_shows";
-    }*/
-
     public static class MediaEntry implements BaseColumns {
         public static final String TABLE_NAME = "media";
         public static final String COLUMN_MEDIA_ID = "media_id";

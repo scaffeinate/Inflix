@@ -10,12 +10,10 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 import dev.learn.movies.app.popular_movies.common.Genre;
+import dev.learn.movies.app.popular_movies.common.MediaDetail;
 
-public class TVShowDetail implements Parcelable {
+public class TVShowDetail extends MediaDetail implements Parcelable {
 
-    @SerializedName("backdrop_path")
-    @Expose
-    private String backdropPath;
     @SerializedName("created_by")
     @Expose
     private List<CreatedBy> createdBy = null;
@@ -25,15 +23,9 @@ public class TVShowDetail implements Parcelable {
     @SerializedName("first_air_date")
     @Expose
     private String firstAirDate;
-    @SerializedName("genres")
-    @Expose
-    private List<Genre> genres = null;
     @SerializedName("homepage")
     @Expose
     private String homepage;
-    @SerializedName("id")
-    @Expose
-    private long id;
     @SerializedName("in_production")
     @Expose
     private boolean inProduction;
@@ -43,39 +35,20 @@ public class TVShowDetail implements Parcelable {
     @SerializedName("name")
     @Expose
     private String name;
-    @SerializedName("networks")
-    @Expose
-    private List<Network> networks = null;
     @SerializedName("number_of_episodes")
     @Expose
     private long numberOfEpisodes;
     @SerializedName("number_of_seasons")
     @Expose
     private long numberOfSeasons;
-    @SerializedName("overview")
-    @Expose
-    private String overview;
     @SerializedName("popularity")
     @Expose
     private double popularity;
-    @SerializedName("poster_path")
-    @Expose
-    private String posterPath;
-    @SerializedName("production_companies")
-    @Expose
-    private List<ProductionCompany> productionCompanies = null;
     @SerializedName("seasons")
     @Expose
     private List<Season> seasons = null;
-    @SerializedName("status")
-    @Expose
-    private String status;
-    @SerializedName("vote_average")
-    @Expose
-    private long voteAverage;
-    @SerializedName("vote_count")
-    @Expose
-    private long voteCount;
+
+    public TVShowDetail() {}
 
     protected TVShowDetail(Parcel in) {
         backdropPath = in.readString();
@@ -91,7 +64,7 @@ public class TVShowDetail implements Parcelable {
         popularity = in.readDouble();
         posterPath = in.readString();
         status = in.readString();
-        voteAverage = in.readLong();
+        voteAverage = in.readDouble();
         voteCount = in.readLong();
     }
 
@@ -106,14 +79,6 @@ public class TVShowDetail implements Parcelable {
             return new TVShowDetail[size];
         }
     };
-
-    public String getBackdropPath() {
-        return backdropPath;
-    }
-
-    public void setBackdropPath(String backdropPath) {
-        this.backdropPath = backdropPath;
-    }
 
     public List<CreatedBy> getCreatedBy() {
         return createdBy;
@@ -139,28 +104,12 @@ public class TVShowDetail implements Parcelable {
         this.firstAirDate = firstAirDate;
     }
 
-    public List<Genre> getGenres() {
-        return genres;
-    }
-
-    public void setGenres(List<Genre> genres) {
-        this.genres = genres;
-    }
-
     public String getHomepage() {
         return homepage;
     }
 
     public void setHomepage(String homepage) {
         this.homepage = homepage;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public boolean isInProduction() {
@@ -187,14 +136,6 @@ public class TVShowDetail implements Parcelable {
         this.name = name;
     }
 
-    public List<Network> getNetworks() {
-        return networks;
-    }
-
-    public void setNetworks(List<Network> networks) {
-        this.networks = networks;
-    }
-
     public long getNumberOfEpisodes() {
         return numberOfEpisodes;
     }
@@ -211,14 +152,6 @@ public class TVShowDetail implements Parcelable {
         this.numberOfSeasons = numberOfSeasons;
     }
 
-    public String getOverview() {
-        return overview;
-    }
-
-    public void setOverview(String overview) {
-        this.overview = overview;
-    }
-
     public double getPopularity() {
         return popularity;
     }
@@ -227,52 +160,12 @@ public class TVShowDetail implements Parcelable {
         this.popularity = popularity;
     }
 
-    public String getPosterPath() {
-        return posterPath;
-    }
-
-    public void setPosterPath(String posterPath) {
-        this.posterPath = posterPath;
-    }
-
-    public List<ProductionCompany> getProductionCompanies() {
-        return productionCompanies;
-    }
-
-    public void setProductionCompanies(List<ProductionCompany> productionCompanies) {
-        this.productionCompanies = productionCompanies;
-    }
-
     public List<Season> getSeasons() {
         return seasons;
     }
 
     public void setSeasons(List<Season> seasons) {
         this.seasons = seasons;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public long getVoteAverage() {
-        return voteAverage;
-    }
-
-    public void setVoteAverage(long voteAverage) {
-        this.voteAverage = voteAverage;
-    }
-
-    public long getVoteCount() {
-        return voteCount;
-    }
-
-    public void setVoteCount(long voteCount) {
-        this.voteCount = voteCount;
     }
 
     @Override
@@ -295,7 +188,7 @@ public class TVShowDetail implements Parcelable {
         dest.writeDouble(popularity);
         dest.writeString(posterPath);
         dest.writeString(status);
-        dest.writeLong(voteAverage);
+        dest.writeDouble(voteAverage);
         dest.writeLong(voteCount);
     }
 }
