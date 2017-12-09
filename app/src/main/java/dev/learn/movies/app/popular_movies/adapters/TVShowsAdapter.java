@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dev.learn.movies.app.popular_movies.R;
-import dev.learn.movies.app.popular_movies.common.tv_show.TvShow;
+import dev.learn.movies.app.popular_movies.common.tv_show.TVShow;
 import dev.learn.movies.app.popular_movies.util.DisplayUtils;
 import dev.learn.movies.app.popular_movies.util.HTTPHelper;
 
@@ -19,17 +19,17 @@ import dev.learn.movies.app.popular_movies.util.HTTPHelper;
  * Created by sudharti on 11/12/17.
  */
 
-public class TvShowsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class TVShowsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int VIEWTYPE_LOADING = 1;
     private static final int VIEWTYPE_CONTENT = 2;
 
     private final OnItemClickHandler mHandler;
-    private List<TvShow> mTvShowList;
+    private List<TVShow> mTVShowList;
     private boolean mShowLoading = true;
 
-    public TvShowsAdapter(OnItemClickHandler handler) {
+    public TVShowsAdapter(OnItemClickHandler handler) {
         this.mHandler = handler;
-        this.mTvShowList = new ArrayList<>();
+        this.mTVShowList = new ArrayList<>();
     }
 
     @Override
@@ -41,27 +41,27 @@ public class TvShowsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             // Set the minimum height of the view to scale for all screens.
             // Reference: https://stackoverflow.com/questions/35221566/how-to-set-the-height-of-an-item-row-in-gridlayoutmanager
             int height = parent.getMeasuredHeight() / 2;
-            TvShowsAdapter.ContentViewHolder viewHolder = new TvShowsAdapter.ContentViewHolder(parent, view);
+            TVShowsAdapter.ContentViewHolder viewHolder = new TVShowsAdapter.ContentViewHolder(parent, view);
             viewHolder.mPosterImageView.setMinimumHeight(height);
             return viewHolder;
         } else {
             View view = layoutInflater.inflate(R.layout.item_footer_loader, parent, false);
-            return new TvShowsAdapter.LoaderViewHolder(view);
+            return new TVShowsAdapter.LoaderViewHolder(view);
         }
     }
 
     @Override
     public int getItemCount() {
         // Add size() + 1 for the footer loader
-        return mTvShowList.size() + 1;
+        return mTVShowList.size() + 1;
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof TvShowsAdapter.LoaderViewHolder) {
-            ((TvShowsAdapter.LoaderViewHolder) holder).bind();
-        } else if (holder instanceof TvShowsAdapter.ContentViewHolder) {
-            ((TvShowsAdapter.ContentViewHolder) holder).bind(position);
+        if (holder instanceof TVShowsAdapter.LoaderViewHolder) {
+            ((TVShowsAdapter.LoaderViewHolder) holder).bind();
+        } else if (holder instanceof TVShowsAdapter.ContentViewHolder) {
+            ((TVShowsAdapter.ContentViewHolder) holder).bind(position);
         }
     }
 
@@ -75,12 +75,12 @@ public class TvShowsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     /**
-     * Sets the tvShowList and calls notifyDataSetChanged()
+     * Sets the TVShowList and calls notifyDataSetChanged()
      *
-     * @param tvShowList Tv Shows
+     * @param TVShowList Tv Shows
      */
-    public void setTvShowList(List<TvShow> tvShowList) {
-        this.mTvShowList = tvShowList;
+    public void setTVShowList(List<TVShow> TVShowList) {
+        this.mTVShowList = TVShowList;
         notifyDataSetChanged();
     }
 
@@ -109,14 +109,14 @@ public class TvShowsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
 
         /**
-         * Populates the layout with tvShow details
+         * Populates the layout with TVShow details
          *
          * @param position Adapter position to populate
          */
         private void bind(int position) {
-            TvShow tvShow = mTvShowList.get(position);
+            TVShow TVShow = mTVShowList.get(position);
             String posterURL;
-            if (tvShow != null && (posterURL = tvShow.getPosterPath()) != null) {
+            if (TVShow != null && (posterURL = TVShow.getPosterPath()) != null) {
                 Uri posterUri = HTTPHelper.buildImageResourceUri(posterURL, HTTPHelper.IMAGE_SIZE_MEDIUM);
                 DisplayUtils.fitImageInto(mPosterImageView, posterUri);
             }

@@ -20,7 +20,7 @@ import dev.learn.movies.app.popular_movies.R;
 import dev.learn.movies.app.popular_movies.databinding.ActivityMainBinding;
 import dev.learn.movies.app.popular_movies.fragments.LocalMoviesFragment;
 import dev.learn.movies.app.popular_movies.fragments.MoviesFragment;
-import dev.learn.movies.app.popular_movies.fragments.TvShowsFragment;
+import dev.learn.movies.app.popular_movies.fragments.TVShowsFragment;
 
 import static dev.learn.movies.app.popular_movies.util.AppConstants.BOOKMARKS;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.FAVORITES;
@@ -131,16 +131,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     fragment = MoviesFragment.newInstance(TOP_RATED);
                     break;
                 case R.id.action_tv_airing_today:
-                    fragment = TvShowsFragment.newInstance(TV_AIRING_TODAY);
+                    fragment = TVShowsFragment.newInstance(TV_AIRING_TODAY);
                     break;
                 case R.id.action_tv_on_the_air:
-                    fragment = TvShowsFragment.newInstance(TV_ON_THE_AIR);
+                    fragment = TVShowsFragment.newInstance(TV_ON_THE_AIR);
                     break;
                 case R.id.action_tv_popular:
-                    fragment = TvShowsFragment.newInstance(TV_POPULAR);
+                    fragment = TVShowsFragment.newInstance(TV_POPULAR);
                     break;
                 case R.id.action_tv_top_rated:
-                    fragment = TvShowsFragment.newInstance(TV_TOP_RATED);
+                    fragment = TVShowsFragment.newInstance(TV_TOP_RATED);
                     break;
                 case R.id.action_favorites:
                     fragment = LocalMoviesFragment.newInstance(FAVORITES);

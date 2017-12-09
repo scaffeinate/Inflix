@@ -24,9 +24,11 @@ import java.util.List;
 import dev.learn.movies.app.popular_movies.R;
 import dev.learn.movies.app.popular_movies.activities.DetailActivity;
 import dev.learn.movies.app.popular_movies.adapters.OnItemClickHandler;
-import dev.learn.movies.app.popular_movies.adapters.TvShowsAdapter;
-import dev.learn.movies.app.popular_movies.common.tv_show.TvShow;
-import dev.learn.movies.app.popular_movies.common.tv_show.TvShowsResult;
+import dev.learn.movies.app.popular_movies.adapters.TVShowsAdapter;
+import dev.learn.movies.app.popular_movies.adapters.TVShowsAdapter;
+import dev.learn.movies.app.popular_movies.common.tv_show.TVShow;
+import dev.learn.movies.app.popular_movies.common.tv_show.TVShow;
+import dev.learn.movies.app.popular_movies.common.tv_show.TVShowsResult;
 import dev.learn.movies.app.popular_movies.databinding.FragmentMoviesBinding;
 import dev.learn.movies.app.popular_movies.loaders.NetworkLoader;
 import dev.learn.movies.app.popular_movies.util.DisplayUtils;
@@ -51,7 +53,7 @@ import static dev.learn.movies.app.popular_movies.util.AppConstants.TV_TOP_RATED
  * Created by sudharti on 11/12/17.
  */
 
-public class TvShowsFragment extends Fragment implements NetworkLoader.NetworkLoaderCallback, OnItemClickHandler {
+public class TVShowsFragment extends Fragment implements NetworkLoader.NetworkLoaderCallback, OnItemClickHandler {
 
     private static final String TYPE = "type";
     private static final String PAGE = "page";
@@ -63,8 +65,8 @@ public class TvShowsFragment extends Fragment implements NetworkLoader.NetworkLo
     private int mGridCount = DEFAULT_GRID_COUNT;
 
     private GridLayoutManager mLayoutManager;
-    private TvShowsAdapter mAdapter;
-    private List<TvShow> mTvShowsList;
+    private TVShowsAdapter mAdapter;
+    private List<TVShow> mTVShowsList;
     private int mPage = START_PAGE;
 
     private EndlessRecyclerViewScrollListener mEndlessScollListener;
@@ -72,21 +74,21 @@ public class TvShowsFragment extends Fragment implements NetworkLoader.NetworkLo
 
     private FragmentMoviesBinding mBinding;
 
-    public static TvShowsFragment newInstance(String type) {
-        TvShowsFragment tvShowsFragment = new TvShowsFragment();
+    public static TVShowsFragment newInstance(String type) {
+        TVShowsFragment TVShowsFragment = new TVShowsFragment();
 
         Bundle args = new Bundle();
         args.putString(TYPE, type);
-        tvShowsFragment.setArguments(args);
+        TVShowsFragment.setArguments(args);
 
-        return tvShowsFragment;
+        return TVShowsFragment;
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = getContext();
-        mTvShowsList = new ArrayList<>();
+        mTVShowsList = new ArrayList<>();
         mNetworkLoader = new NetworkLoader(mContext, this);
         boolean isTablet = getResources().getBoolean(R.bool.is_tablet);
         mGridCount = isTablet ? TABLET_GRID_COUNT : DEFAULT_GRID_COUNT;
@@ -127,7 +129,7 @@ public class TvShowsFragment extends Fragment implements NetworkLoader.NetworkLo
         mBinding.recyclerViewMovies.setHasFixedSize(true);
         mBinding.recyclerViewMovies.setLayoutManager(mLayoutManager);
 
-        mAdapter = new TvShowsAdapter(this);
+        mAdapter = new TVShowsAdapter(this);
         mBinding.recyclerViewMovies.setAdapter(mAdapter);
         mBinding.recyclerViewMovies.addOnScrollListener(mEndlessScollListener);
 
@@ -138,8 +140,8 @@ public class TvShowsFragment extends Fragment implements NetworkLoader.NetworkLo
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (savedInstanceState != null && savedInstanceState.containsKey(RESPONSE)) {
-            mTvShowsList = savedInstanceState.getParcelableArrayList(RESPONSE);
-            mAdapter.setTvShowList(mTvShowsList);
+            mTVShowsList = savedInstanceState.getParcelableArrayList(RESPONSE);
+            mAdapter.setTVShowList(mTVShowsList);
             showRecyclerView();
         } else {
             fetchTVShows(START_PAGE);
@@ -149,20 +151,20 @@ public class TvShowsFragment extends Fragment implements NetworkLoader.NetworkLo
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        if (!mTvShowsList.isEmpty()) {
+        if (!mTVShowsList.isEmpty()) {
             outState.putInt(PAGE, mPage);
-            outState.putParcelableArrayList(RESPONSE, (ArrayList<? extends Parcelable>) mTvShowsList);
+            outState.putParcelableArrayList(RESPONSE, (ArrayList<? extends Parcelable>) mTVShowsList);
         }
     }
 
     @Override
     public void onItemClicked(ViewGroup parent, View view, int position) {
-        if (position >= 0 && position < this.mTvShowsList.size()) {
-            TvShow tvShow = mTvShowsList.get(position);
+        if (position >= 0 && position < this.mTVShowsList.size()) {
+            TVShow TVShow = mTVShowsList.get(position);
 
             Intent detailActivityIntent = new Intent(mContext, DetailActivity.class);
-            detailActivityIntent.putExtra(RESOURCE_ID, tvShow.getId());
-            detailActivityIntent.putExtra(RESOURCE_TITLE, tvShow.getName());
+            detailActivityIntent.putExtra(RESOURCE_ID, TVShow.getId());
+            detailActivityIntent.putExtra(RESOURCE_TITLE, TVShow.getName());
             detailActivityIntent.putExtra(RESOURCE_TYPE, DETAIL_ACTIVITY_FRAGMENT_TYPE_TV_SHOW);
 
             startActivity(detailActivityIntent);
@@ -173,11 +175,11 @@ public class TvShowsFragment extends Fragment implements NetworkLoader.NetworkLo
     public void onLoadFinished(Loader loader, String s) {
         switch (loader.getId()) {
             case TV_SHOWS_LOADER_ID:
-                TvShowsResult tvShowsResult = (s == null) ? null : gson.fromJson(s, TvShowsResult.class);
-                if (tvShowsResult == null || tvShowsResult.getResults() == null || tvShowsResult.getResults().isEmpty()) {
+                TVShowsResult TVShowsResult = (s == null) ? null : gson.fromJson(s, TVShowsResult.class);
+                if (TVShowsResult == null || TVShowsResult.getResults() == null || TVShowsResult.getResults().isEmpty()) {
                     // If the first request failed then show error message hiding the content
                     // Otherwise stop loading further
-                    if (mTvShowsList.isEmpty()) {
+                    if (mTVShowsList.isEmpty()) {
                         showErrorMessage();
                     } else {
                         mAdapter.showLoading(false);
@@ -185,11 +187,11 @@ public class TvShowsFragment extends Fragment implements NetworkLoader.NetworkLo
                     }
                 } else {
                     // For the first request change visibility of recyclerview
-                    if (mTvShowsList.isEmpty()) {
+                    if (mTVShowsList.isEmpty()) {
                         showRecyclerView();
                     }
-                    this.mTvShowsList.addAll(tvShowsResult.getResults());
-                    mAdapter.setTvShowList(mTvShowsList);
+                    this.mTVShowsList.addAll(TVShowsResult.getResults());
+                    mAdapter.setTVShowList(mTVShowsList);
                 }
                 break;
         }

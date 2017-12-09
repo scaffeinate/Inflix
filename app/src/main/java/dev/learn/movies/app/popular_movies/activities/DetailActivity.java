@@ -15,7 +15,7 @@ import android.widget.Toast;
 import dev.learn.movies.app.popular_movies.R;
 import dev.learn.movies.app.popular_movies.databinding.ActivityDetailBinding;
 import dev.learn.movies.app.popular_movies.fragments.MovieDetailsFragment;
-import dev.learn.movies.app.popular_movies.fragments.TvShowDetailsFragment;
+import dev.learn.movies.app.popular_movies.fragments.TVShowDetailsFragment;
 import dev.learn.movies.app.popular_movies.util.DisplayUtils;
 
 import static dev.learn.movies.app.popular_movies.util.AppConstants.DETAIL_ACTIVITY_FRAGMENT_TYPE_MOVIE;
@@ -56,7 +56,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                         mFragment = MovieDetailsFragment.newInstance(resourceId, resourceTitle);
                         break;
                     case DETAIL_ACTIVITY_FRAGMENT_TYPE_TV_SHOW:
-                        mFragment = TvShowDetailsFragment.newInstance(resourceId, resourceTitle);
+                        mFragment = TVShowDetailsFragment.newInstance(resourceId, resourceTitle);
                         break;
                 }
 

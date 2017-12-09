@@ -25,7 +25,7 @@ import dev.learn.movies.app.popular_movies.loaders.NetworkLoader;
  * Created by sudharti on 11/13/17.
  */
 
-public class TvShowDetailsFragment extends Fragment implements NetworkLoader.NetworkLoaderCallback, ContentLoader.ContentLoaderCallback {
+public class TVShowDetailsFragment extends Fragment implements NetworkLoader.NetworkLoaderCallback, ContentLoader.ContentLoaderCallback {
 
     public static final String TV_SHOW_ID = "tv_show_id";
     public static final String TV_SHOW_TITLE = "tv_show_title";
