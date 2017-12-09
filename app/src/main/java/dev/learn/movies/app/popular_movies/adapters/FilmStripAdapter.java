@@ -15,6 +15,7 @@ import java.util.List;
 import dev.learn.movies.app.popular_movies.R;
 import dev.learn.movies.app.popular_movies.common.Media;
 import dev.learn.movies.app.popular_movies.common.movies.Movie;
+import dev.learn.movies.app.popular_movies.common.tv_show.TVShow;
 import dev.learn.movies.app.popular_movies.util.DisplayUtils;
 import dev.learn.movies.app.popular_movies.util.HTTPHelper;
 
@@ -72,11 +73,21 @@ public class FilmStripAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
 
         public void bind(int position) {
-            Movie movie = (Movie) mFilmStripList.get(position); //Or TVShow
-            String posterURL;
-            if (movie != null && (posterURL = movie.getPosterPath()) != null) {
-                Uri posterUri = HTTPHelper.buildImageResourceUri(posterURL, HTTPHelper.IMAGE_SIZE_MEDIUM);
-                DisplayUtils.fitImageInto(mPosterImageView, posterUri);
+            Media media = mFilmStripList.get(position);
+            if (media instanceof Movie) {
+                Movie movie = (Movie) mFilmStripList.get(position); //Or TVShow
+                String posterURL;
+                if (movie != null && (posterURL = movie.getPosterPath()) != null) {
+                    Uri posterUri = HTTPHelper.buildImageResourceUri(posterURL, HTTPHelper.IMAGE_SIZE_MEDIUM);
+                    DisplayUtils.fitImageInto(mPosterImageView, posterUri);
+                }
+            } else if (media instanceof TVShow) {
+                TVShow tvShow = (TVShow) mFilmStripList.get(position); //Or TVShow
+                String posterURL;
+                if (tvShow != null && (posterURL = tvShow.getPosterPath()) != null) {
+                    Uri posterUri = HTTPHelper.buildImageResourceUri(posterURL, HTTPHelper.IMAGE_SIZE_MEDIUM);
+                    DisplayUtils.fitImageInto(mPosterImageView, posterUri);
+                }
             }
         }
 
@@ -86,7 +97,7 @@ public class FilmStripAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
 
         public void adjustPosterHeight(int width) {
-            mPosterImageView.setLayoutParams(new FrameLayout.LayoutParams(width / 2, (int) (width / 1.5)));
+            mPosterImageView.setLayoutParams(new FrameLayout.LayoutParams((int) (width / 2.5), (width / 2)));
         }
     }
 }

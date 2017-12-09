@@ -59,6 +59,16 @@ public class TVShowDetailsFragment extends BaseDetailsFragment {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_tv_show_details, container, false);
         View view = mBinding.getRoot();
 
+        mBinding.layoutSimilar.recyclerViewSimilar.setLayoutManager(mSimilarLayoutManager);
+        mBinding.layoutSimilar.recyclerViewSimilar.setAdapter(mSimilarAdapter);
+        mBinding.layoutSimilar.recyclerViewSimilar.setNestedScrollingEnabled(false);
+
+        mBinding.layoutCast.recyclerViewCast.setLayoutManager(mFilmCastLayoutManager);
+        mBinding.layoutCast.recyclerViewCast.setAdapter(mFilmCastAdapter);
+        mBinding.layoutCast.recyclerViewCast.setNestedScrollingEnabled(false);
+
+        mBinding.layoutSimilar.textViewSimilarTitle.setText(getString(R.string.similar_tv_shows));
+
         mContentLoadingUtil.setContent(mBinding.layoutTvShowDetail)
                 .setError(mBinding.textViewErrorMessageDisplay)
                 .setProgress(mBinding.progressBarTvShowDetails);
