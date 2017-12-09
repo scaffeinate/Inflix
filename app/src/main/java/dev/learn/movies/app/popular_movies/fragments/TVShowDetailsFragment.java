@@ -13,10 +13,8 @@ import android.view.ViewGroup;
 
 import com.google.gson.Gson;
 
-import java.util.ArrayList;
-
 import dev.learn.movies.app.popular_movies.R;
-import dev.learn.movies.app.popular_movies.activities.MovieDetailCallbacks;
+import dev.learn.movies.app.popular_movies.activities.DetailActivityCallbacks;
 import dev.learn.movies.app.popular_movies.databinding.FragmentTvShowDetailsBinding;
 import dev.learn.movies.app.popular_movies.loaders.ContentLoader;
 import dev.learn.movies.app.popular_movies.loaders.NetworkLoader;
@@ -25,14 +23,14 @@ import dev.learn.movies.app.popular_movies.loaders.NetworkLoader;
  * Created by sudharti on 11/13/17.
  */
 
-public class TVShowDetailsFragment extends Fragment implements NetworkLoader.NetworkLoaderCallback, ContentLoader.ContentLoaderCallback {
+public class TVShowDetailsFragment extends BaseDetailsFragment implements NetworkLoader.NetworkLoaderCallback, ContentLoader.ContentLoaderCallback {
 
     public static final String TV_SHOW_ID = "tv_show_id";
     public static final String TV_SHOW_TITLE = "tv_show_title";
     private static final String TV_SHOW_DETAILS = "tv_show_details";
 
     private Context mContext;
-    private MovieDetailCallbacks mCallbacks;
+    private DetailActivityCallbacks mCallbacks;
 
     private final Gson gson = new Gson();
     private long mTvShowId = 0L;
@@ -73,7 +71,12 @@ public class TVShowDetailsFragment extends Fragment implements NetworkLoader.Net
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mCallbacks = (MovieDetailCallbacks) getActivity();
+        mCallbacks = (DetailActivityCallbacks) getActivity();
+    }
+
+    @Override
+    protected void updateContent() {
+
     }
 
     @Override
@@ -83,6 +86,11 @@ public class TVShowDetailsFragment extends Fragment implements NetworkLoader.Net
 
     @Override
     public void onLoadFinished(Loader loader, Cursor cursor) {
+
+    }
+
+    @Override
+    public void onItemClicked(ViewGroup parent, View view, int position) {
 
     }
 }

@@ -27,11 +27,13 @@ public final class AppConstants {
 
     public final static int BOOKMARKS_LOADER_ID = 501;
 
-    public static final int MOVIE_RECOMMENDATIONS_LOADER_ID = 600;
+    public static final int MOVIE_SIMILAR_LOADER_ID = 600;
 
-    public static final int MOVIE_SIMILAR_LOADER_ID = 601;
+    public static final int TV_SHOWS_SIMILAR_LOADER_ID = 601;
 
     public static final int MOVIE_CAST_LOADER_ID = 700;
+
+    public static final int TV_SHOWS_CAST_LOADER_ID = 701;
 
     public static final int ACTIVITY_DETAIL_LAZY_LOAD_DELAY_IN_MS = 250;
 
