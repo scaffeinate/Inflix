@@ -1,11 +1,22 @@
 
 package dev.learn.movies.app.popular_movies.common.cast;
 
+import android.content.ContentValues;
+import android.database.Cursor;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import dev.learn.movies.app.popular_movies.common.MediaDetail;
+
+import static dev.learn.movies.app.popular_movies.data.DataContract.CastEntry.COLUMN_CHARACTER;
+import static dev.learn.movies.app.popular_movies.data.DataContract.CastEntry.COLUMN_GENDER;
+import static dev.learn.movies.app.popular_movies.data.DataContract.CastEntry.COLUMN_NAME;
+import static dev.learn.movies.app.popular_movies.data.DataContract.CastEntry.COLUMN_ORDER;
+import static dev.learn.movies.app.popular_movies.data.DataContract.CastEntry.COLUMN_PROFILE_PATH;
+import static dev.learn.movies.app.popular_movies.data.DataContract.MediaEntry.COLUMN_MEDIA_ID;
 
 public class Cast implements Parcelable {
 
@@ -33,6 +44,9 @@ public class Cast implements Parcelable {
     @SerializedName("profile_path")
     @Expose
     private String profilePath;
+
+    public Cast() {
+    }
 
     protected Cast(Parcel in) {
         castId = in.readLong();
@@ -136,5 +150,30 @@ public class Cast implements Parcelable {
         dest.writeString(name);
         dest.writeLong(order);
         dest.writeString(profilePath);
+    }
+
+    public static ContentValues toContentValues(Cast cast, long mediaId) {
+        ContentValues cv = new ContentValues();
+        if (cast != null) {
+            cv.put(COLUMN_NAME, cast.getName());
+            cv.put(COLUMN_GENDER, cast.getGender());
+            cv.put(COLUMN_ORDER, cast.getOrder());
+            cv.put(COLUMN_CHARACTER, cast.getCharacter());
+            cv.put(COLUMN_PROFILE_PATH, cast.getProfilePath());
+            cv.put(COLUMN_MEDIA_ID, mediaId);
+        }
+        return cv;
+    }
+
+    public static Cast fromCursor(Cursor cursor) {
+        Cast cast = new Cast();
+        if (cursor.moveToFirst()) {
+            cast.setName(cursor.getString(cursor.getColumnIndex(COLUMN_NAME)));
+            cast.setGender(cursor.getLong(cursor.getColumnIndex(COLUMN_GENDER)));
+            cast.setOrder(cursor.getLong(cursor.getColumnIndex(COLUMN_ORDER)));
+            cast.setCharacter(cursor.getString(cursor.getColumnIndex(COLUMN_CHARACTER)));
+            cast.setProfilePath(cursor.getString(cursor.getColumnIndex(COLUMN_PROFILE_PATH)));
+        }
+        return cast;
     }
 }

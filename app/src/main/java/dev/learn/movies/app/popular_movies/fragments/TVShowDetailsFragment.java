@@ -268,7 +268,7 @@ public class TVShowDetailsFragment extends BaseDetailsFragment {
         } else {
             switch (loader.getId()) {
                 case LOCAL_TV_SHOW_DETAILS_LOADER_ID:
-                    mTVShowDetail = (TVShowDetail) fromCursor(cursor);
+                    mTVShowDetail = TVShowDetail.fromCursor(cursor);
                     updateContent();
                     break;
             }
@@ -277,20 +277,16 @@ public class TVShowDetailsFragment extends BaseDetailsFragment {
 
     @Override
     public void onItemClicked(ViewGroup parent, View view, int position) {
-        TVShow tvShow = null;
         switch (parent.getId()) {
             case R.id.recycler_view_similar:
-                tvShow = (TVShow) mSimilarList.get(position);
+                TVShow tvShow = (TVShow) mSimilarList.get(position);
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.layout_outlet, TVShowDetailsFragment.newInstance(tvShow.getId(), tvShow.getName()))
+                        .commit();
                 break;
             case R.id.recycler_view_seasons:
                 break;
-        }
-
-        if (tvShow != null) {
-            getActivity().getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.layout_outlet, TVShowDetailsFragment.newInstance(tvShow.getId(), tvShow.getName()))
-                    .commit();
         }
     }
 }

@@ -170,7 +170,7 @@ public class MovieDetailsFragment extends BaseDetailsFragment implements View.On
         } else {
             switch (loader.getId()) {
                 case LOCAL_MOVIE_DETAILS_LOADER_ID:
-                    mMovieDetail = (MovieDetail) fromCursor(cursor);
+                    mMovieDetail = MovieDetail.fromCursor(cursor);
                     updateContent();
                     break;
             }
