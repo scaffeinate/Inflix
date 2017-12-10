@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.content.Loader;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,16 +17,19 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import dev.learn.movies.app.popular_movies.R;
+import dev.learn.movies.app.popular_movies.adapters.SeasonsAdapter;
 import dev.learn.movies.app.popular_movies.common.Genre;
 import dev.learn.movies.app.popular_movies.common.VideosResult;
 import dev.learn.movies.app.popular_movies.common.cast.CastsResult;
 import dev.learn.movies.app.popular_movies.common.tv_show.CreatedBy;
+import dev.learn.movies.app.popular_movies.common.tv_show.Season;
 import dev.learn.movies.app.popular_movies.common.tv_show.TVShow;
 import dev.learn.movies.app.popular_movies.common.tv_show.TVShowDetail;
 import dev.learn.movies.app.popular_movies.common.tv_show.TVShowsResult;
 import dev.learn.movies.app.popular_movies.databinding.FragmentTvShowDetailsBinding;
 import dev.learn.movies.app.popular_movies.util.DisplayUtils;
 import dev.learn.movies.app.popular_movies.util.HTTPHelper;
+import dev.learn.movies.app.popular_movies.util.LoadingContentUtil;
 
 import static dev.learn.movies.app.popular_movies.util.AppConstants.LOCAL_TV_SHOW_DETAILS_LOADER_ID;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.RESOURCE_ID;
@@ -42,6 +47,10 @@ public class TVShowDetailsFragment extends BaseDetailsFragment {
 
     private FragmentTvShowDetailsBinding mBinding;
 
+    protected RecyclerView.LayoutManager mSeasonsLayoutManager;
+    private LoadingContentUtil mSeasonLoadingUtil;
+    private SeasonsAdapter mSeasonsAdapter;
+
     public static TVShowDetailsFragment newInstance(long tvShowId, String tvShowTitle) {
         TVShowDetailsFragment tvShowDetailsFragment = new TVShowDetailsFragment();
 
@@ -51,6 +60,13 @@ public class TVShowDetailsFragment extends BaseDetailsFragment {
         tvShowDetailsFragment.setArguments(args);
 
         return tvShowDetailsFragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mSeasonsAdapter = new SeasonsAdapter(this);
+        mSeasonsLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
     }
 
     @Nullable
@@ -68,6 +84,18 @@ public class TVShowDetailsFragment extends BaseDetailsFragment {
         mBinding.layoutCast.recyclerViewCast.setNestedScrollingEnabled(false);
 
         mBinding.layoutSimilar.textViewSimilarTitle.setText(getString(R.string.similar_tv_shows));
+
+        mBinding.layoutSeasons.recyclerViewSeasons.setLayoutManager(mSeasonsLayoutManager);
+        mBinding.layoutSeasons.recyclerViewSeasons.setAdapter(mSeasonsAdapter);
+        mBinding.layoutSeasons.recyclerViewSeasons.setNestedScrollingEnabled(false);
+
+        mSeasonLoadingUtil = LoadingContentUtil.with(mContext);
+
+        mSeasonLoadingUtil
+                .setParent(mBinding.layoutSeasons.getRoot())
+                .setContent(mBinding.layoutSeasons.recyclerViewSeasons)
+                .setProgress(mBinding.layoutSeasons.progressBarSeasons)
+                .hideParentOnError();
 
         mContentLoadingUtil.setContent(mBinding.layoutTvShowDetail)
                 .setError(mBinding.textViewErrorMessageDisplay)
@@ -120,6 +148,7 @@ public class TVShowDetailsFragment extends BaseDetailsFragment {
         String lastAired = mTVShowDetail.getLastAirDate();
         List<Genre> genres = mTVShowDetail.getGenres();
         List<CreatedBy> createdByList = mTVShowDetail.getCreatedBy();
+        List<Season> seasonList = mTVShowDetail.getSeasons();
 
         if (backdropURL != null) {
             Uri backdropUri = HTTPHelper.buildImageResourceUri(backdropURL, HTTPHelper.IMAGE_SIZE_XLARGE);
@@ -172,6 +201,13 @@ public class TVShowDetailsFragment extends BaseDetailsFragment {
         mBinding.layoutTvShowContent.textViewFirstAirDate.setText(DisplayUtils.formatDate(firstAired));
 
         mBinding.layoutTvShowContent.textViewLastAirDate.setText(DisplayUtils.formatDate(lastAired));
+
+        if (seasonList != null && !seasonList.isEmpty()) {
+            mSeasonsAdapter.setSeasonList(seasonList);
+            mSeasonLoadingUtil.success();
+        } else {
+            mSeasonLoadingUtil.error();
+        }
 
         mCallbacks.updateFavBtn(mTVShowDetail.isFavored());
         mContentLoadingUtil.success();
@@ -245,6 +281,8 @@ public class TVShowDetailsFragment extends BaseDetailsFragment {
         switch (parent.getId()) {
             case R.id.recycler_view_similar:
                 tvShow = (TVShow) mSimilarList.get(position);
+                break;
+            case R.id.recycler_view_seasons:
                 break;
         }
 

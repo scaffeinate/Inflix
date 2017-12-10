@@ -82,7 +82,6 @@ import static dev.learn.movies.app.popular_movies.util.AppConstants.MOVIE_TRAILE
 import static dev.learn.movies.app.popular_movies.util.AppConstants.RESOURCE_ID;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.RESOURCE_TITLE;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.TV_SHOWS_CAST_LOADER_ID;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.TV_SHOWS_LOADER_ID;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.TV_SHOWS_SIMILAR_LOADER_ID;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.TV_SHOWS_TRAILERS_LOADER_ID;
 

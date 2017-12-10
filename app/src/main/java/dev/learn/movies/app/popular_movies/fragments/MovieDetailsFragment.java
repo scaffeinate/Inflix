@@ -25,6 +25,7 @@ import dev.learn.movies.app.popular_movies.common.cast.CastsResult;
 import dev.learn.movies.app.popular_movies.common.movies.Movie;
 import dev.learn.movies.app.popular_movies.common.movies.MovieDetail;
 import dev.learn.movies.app.popular_movies.common.movies.MoviesResult;
+import dev.learn.movies.app.popular_movies.common.tv_show.Season;
 import dev.learn.movies.app.popular_movies.databinding.FragmentMovieDetailsBinding;
 import dev.learn.movies.app.popular_movies.util.DisplayUtils;
 import dev.learn.movies.app.popular_movies.util.HTTPHelper;
