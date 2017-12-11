@@ -31,10 +31,10 @@ import dev.learn.movies.app.popular_movies.util.DisplayUtils;
 import dev.learn.movies.app.popular_movies.views.EndlessRecyclerViewScrollListener;
 import dev.learn.movies.app.popular_movies.util.HTTPHelper;
 
-import static dev.learn.movies.app.popular_movies.util.AppConstants.MOVIE_ID;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.MOVIE_REVIEWS;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.MOVIE_REVIEWS_LOADER_ID;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.START_PAGE;
+import static dev.learn.movies.app.popular_movies.Inflix.MOVIE_ID;
+import static dev.learn.movies.app.popular_movies.Inflix.MOVIE_REVIEWS;
+import static dev.learn.movies.app.popular_movies.Inflix.MOVIE_REVIEWS_LOADER_ID;
+import static dev.learn.movies.app.popular_movies.Inflix.START_PAGE;
 
 /**
  * Created by sudhar on 11/14/17.

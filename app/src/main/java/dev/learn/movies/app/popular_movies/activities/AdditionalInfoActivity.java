@@ -11,10 +11,10 @@ import dev.learn.movies.app.popular_movies.R;
 import dev.learn.movies.app.popular_movies.databinding.ActivityAdditionalInfoBinding;
 import dev.learn.movies.app.popular_movies.fragments.UserReviewsFragment;
 
-import static dev.learn.movies.app.popular_movies.util.AppConstants.ADDITIONAL_INFO_ACTIVITY_FRAGMENT_TYPE_REVIEWS;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.RESOURCE_ID;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.RESOURCE_TITLE;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.RESOURCE_TYPE;
+import static dev.learn.movies.app.popular_movies.Inflix.ADDITIONAL_INFO_ACTIVITY_FRAGMENT_TYPE_REVIEWS;
+import static dev.learn.movies.app.popular_movies.Inflix.RESOURCE_ID;
+import static dev.learn.movies.app.popular_movies.Inflix.RESOURCE_TITLE;
+import static dev.learn.movies.app.popular_movies.Inflix.RESOURCE_TYPE;
 
 /**
  * Created by sudharti on 11/14/17.

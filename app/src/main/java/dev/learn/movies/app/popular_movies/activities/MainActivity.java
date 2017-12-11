@@ -22,16 +22,16 @@ import dev.learn.movies.app.popular_movies.fragments.LocalMoviesFragment;
 import dev.learn.movies.app.popular_movies.fragments.MoviesFragment;
 import dev.learn.movies.app.popular_movies.fragments.TVShowsFragment;
 
-import static dev.learn.movies.app.popular_movies.util.AppConstants.BOOKMARKS;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.FAVORITES;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.MOST_POPULAR;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.NOW_PLAYING;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.TOP_RATED;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.TV_AIRING_TODAY;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.TV_ON_THE_AIR;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.TV_POPULAR;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.TV_TOP_RATED;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.UPCOMING;
+import static dev.learn.movies.app.popular_movies.Inflix.BOOKMARKS;
+import static dev.learn.movies.app.popular_movies.Inflix.FAVORITES;
+import static dev.learn.movies.app.popular_movies.Inflix.MOST_POPULAR;
+import static dev.learn.movies.app.popular_movies.Inflix.NOW_PLAYING;
+import static dev.learn.movies.app.popular_movies.Inflix.TOP_RATED;
+import static dev.learn.movies.app.popular_movies.Inflix.TV_AIRING_TODAY;
+import static dev.learn.movies.app.popular_movies.Inflix.TV_ON_THE_AIR;
+import static dev.learn.movies.app.popular_movies.Inflix.TV_POPULAR;
+import static dev.learn.movies.app.popular_movies.Inflix.TV_TOP_RATED;
+import static dev.learn.movies.app.popular_movies.Inflix.UPCOMING;
 
 /**
  * MainActivity - Movies Grid

@@ -35,18 +35,18 @@ import dev.learn.movies.app.popular_movies.views.EndlessRecyclerViewScrollListen
 import dev.learn.movies.app.popular_movies.util.HTTPHelper;
 
 import static dev.learn.movies.app.popular_movies.data.DataContract.MOVIES;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.DEFAULT_GRID_COUNT;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.DISCOVER;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.MOST_POPULAR;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.MOVIES_LOADER_ID;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.NOW_PLAYING;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.RESOURCE_ID;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.RESOURCE_TITLE;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.RESOURCE_TYPE;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.START_PAGE;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.TABLET_GRID_COUNT;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.TOP_RATED;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.UPCOMING;
+import static dev.learn.movies.app.popular_movies.Inflix.DEFAULT_GRID_COUNT;
+import static dev.learn.movies.app.popular_movies.Inflix.DISCOVER;
+import static dev.learn.movies.app.popular_movies.Inflix.MOST_POPULAR;
+import static dev.learn.movies.app.popular_movies.Inflix.MOVIES_LOADER_ID;
+import static dev.learn.movies.app.popular_movies.Inflix.NOW_PLAYING;
+import static dev.learn.movies.app.popular_movies.Inflix.RESOURCE_ID;
+import static dev.learn.movies.app.popular_movies.Inflix.RESOURCE_TITLE;
+import static dev.learn.movies.app.popular_movies.Inflix.RESOURCE_TYPE;
+import static dev.learn.movies.app.popular_movies.Inflix.START_PAGE;
+import static dev.learn.movies.app.popular_movies.Inflix.TABLET_GRID_COUNT;
+import static dev.learn.movies.app.popular_movies.Inflix.TOP_RATED;
+import static dev.learn.movies.app.popular_movies.Inflix.UPCOMING;
 
 /**
  * MoviesFragment - Fetch and show Movies Grid from API

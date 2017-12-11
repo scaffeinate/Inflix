@@ -7,8 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Toast;
 
@@ -20,9 +18,9 @@ import dev.learn.movies.app.popular_movies.util.DisplayUtils;
 
 import static dev.learn.movies.app.popular_movies.data.DataContract.MOVIES;
 import static dev.learn.movies.app.popular_movies.data.DataContract.TV_SHOWS;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.RESOURCE_ID;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.RESOURCE_TITLE;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.RESOURCE_TYPE;
+import static dev.learn.movies.app.popular_movies.Inflix.RESOURCE_ID;
+import static dev.learn.movies.app.popular_movies.Inflix.RESOURCE_TITLE;
+import static dev.learn.movies.app.popular_movies.Inflix.RESOURCE_TYPE;
 
 /**
  * DetailActivity - Movie Details Screen

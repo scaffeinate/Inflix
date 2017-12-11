@@ -18,7 +18,7 @@ import dev.learn.movies.app.popular_movies.adapters.VideoGridAdapter;
 import dev.learn.movies.app.popular_movies.common.Video;
 import dev.learn.movies.app.popular_movies.databinding.DialogVideoGridBinding;
 
-import static dev.learn.movies.app.popular_movies.util.AppConstants.DEFAULT_GRID_COUNT;
+import static dev.learn.movies.app.popular_movies.Inflix.DEFAULT_GRID_COUNT;
 
 /**
  * Created by sudharti on 11/28/17.

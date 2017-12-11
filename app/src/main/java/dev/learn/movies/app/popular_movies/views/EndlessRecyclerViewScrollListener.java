@@ -4,8 +4,8 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import static dev.learn.movies.app.popular_movies.util.AppConstants.ENDLESS_PAGINATION_THRESHOLD;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.START_PAGE;
+import static dev.learn.movies.app.popular_movies.Inflix.ENDLESS_PAGINATION_THRESHOLD;
+import static dev.learn.movies.app.popular_movies.Inflix.START_PAGE;
 
 /**
  * EndlessRecyclerViewScrollListener - OnScollListener to implement endless pagination

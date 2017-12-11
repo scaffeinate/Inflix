@@ -15,17 +15,16 @@ import java.util.Scanner;
 
 import dev.learn.movies.app.popular_movies.BuildConfig;
 
-import static dev.learn.movies.app.popular_movies.util.AppConstants.CREDITS;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.MOST_POPULAR;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.NOW_PLAYING;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.RECOMMENDATIONS;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.SIMILAR;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.TOP_RATED;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.TV_AIRING_TODAY;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.TV_ON_THE_AIR;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.TV_POPULAR;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.TV_TOP_RATED;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.UPCOMING;
+import static dev.learn.movies.app.popular_movies.Inflix.CREDITS;
+import static dev.learn.movies.app.popular_movies.Inflix.MOST_POPULAR;
+import static dev.learn.movies.app.popular_movies.Inflix.NOW_PLAYING;
+import static dev.learn.movies.app.popular_movies.Inflix.SIMILAR;
+import static dev.learn.movies.app.popular_movies.Inflix.TOP_RATED;
+import static dev.learn.movies.app.popular_movies.Inflix.TV_AIRING_TODAY;
+import static dev.learn.movies.app.popular_movies.Inflix.TV_ON_THE_AIR;
+import static dev.learn.movies.app.popular_movies.Inflix.TV_POPULAR;
+import static dev.learn.movies.app.popular_movies.Inflix.TV_TOP_RATED;
+import static dev.learn.movies.app.popular_movies.Inflix.UPCOMING;
 
 /**
  * HTTPHelper - Contains network related helper methods

@@ -1,9 +1,9 @@
-package dev.learn.movies.app.popular_movies.util;
+package dev.learn.movies.app.popular_movies;
 
 /**
- * AppConstants - Store all the app constants here
+ * Inflix - Store all the app constants here
  */
-public final class AppConstants {
+public final class Inflix {
 
     public static final int DEFAULT_GRID_COUNT = 2;
 

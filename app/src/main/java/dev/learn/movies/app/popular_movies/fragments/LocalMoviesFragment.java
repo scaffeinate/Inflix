@@ -27,15 +27,15 @@ import dev.learn.movies.app.popular_movies.loaders.ContentLoader;
 import static dev.learn.movies.app.popular_movies.data.DataContract.MediaEntry.COLUMN_MEDIA_ID;
 import static dev.learn.movies.app.popular_movies.data.DataContract.MediaEntry.COLUMN_MEDIA_TYPE;
 import static dev.learn.movies.app.popular_movies.data.DataContract.MediaEntry.COLUMN_TITLE;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.BOOKMARKS;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.BOOKMARKS_LOADER_ID;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.DEFAULT_GRID_COUNT;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.FAVORITES;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.FAVORITES_LOADER_ID;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.RESOURCE_ID;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.RESOURCE_TITLE;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.RESOURCE_TYPE;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.TABLET_GRID_COUNT;
+import static dev.learn.movies.app.popular_movies.Inflix.BOOKMARKS;
+import static dev.learn.movies.app.popular_movies.Inflix.BOOKMARKS_LOADER_ID;
+import static dev.learn.movies.app.popular_movies.Inflix.DEFAULT_GRID_COUNT;
+import static dev.learn.movies.app.popular_movies.Inflix.FAVORITES;
+import static dev.learn.movies.app.popular_movies.Inflix.FAVORITES_LOADER_ID;
+import static dev.learn.movies.app.popular_movies.Inflix.RESOURCE_ID;
+import static dev.learn.movies.app.popular_movies.Inflix.RESOURCE_TITLE;
+import static dev.learn.movies.app.popular_movies.Inflix.RESOURCE_TYPE;
+import static dev.learn.movies.app.popular_movies.Inflix.TABLET_GRID_COUNT;
 
 /**
  * LocalMoviesFragment - Fetch and show favored movies from content provider

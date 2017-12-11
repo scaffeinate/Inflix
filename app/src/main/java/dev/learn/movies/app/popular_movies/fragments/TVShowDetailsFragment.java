@@ -35,13 +35,13 @@ import dev.learn.movies.app.popular_movies.util.DisplayUtils;
 import dev.learn.movies.app.popular_movies.util.HTTPHelper;
 import dev.learn.movies.app.popular_movies.util.LoadingContentUtil;
 
-import static dev.learn.movies.app.popular_movies.util.AppConstants.LOCAL_TV_SHOW_DETAILS_LOADER_ID;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.RESOURCE_ID;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.RESOURCE_TITLE;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.TV_SHOWS_CAST_LOADER_ID;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.TV_SHOWS_DETAILS_LOADER_ID;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.TV_SHOWS_SIMILAR_LOADER_ID;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.TV_SHOWS_TRAILERS_LOADER_ID;
+import static dev.learn.movies.app.popular_movies.Inflix.LOCAL_TV_SHOW_DETAILS_LOADER_ID;
+import static dev.learn.movies.app.popular_movies.Inflix.RESOURCE_ID;
+import static dev.learn.movies.app.popular_movies.Inflix.RESOURCE_TITLE;
+import static dev.learn.movies.app.popular_movies.Inflix.TV_SHOWS_CAST_LOADER_ID;
+import static dev.learn.movies.app.popular_movies.Inflix.TV_SHOWS_DETAILS_LOADER_ID;
+import static dev.learn.movies.app.popular_movies.Inflix.TV_SHOWS_SIMILAR_LOADER_ID;
+import static dev.learn.movies.app.popular_movies.Inflix.TV_SHOWS_TRAILERS_LOADER_ID;
 
 /**
  * Created by sudharti on 11/13/17.
