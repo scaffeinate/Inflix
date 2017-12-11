@@ -174,8 +174,8 @@ public class TVShowDetailsFragment extends BaseDetailsFragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_tv_show_detail, menu);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override

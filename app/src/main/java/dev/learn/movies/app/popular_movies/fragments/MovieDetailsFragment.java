@@ -153,8 +153,8 @@ public class MovieDetailsFragment extends BaseDetailsFragment implements View.On
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_movie_detail, menu);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
