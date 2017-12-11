@@ -1,17 +1,10 @@
-package dev.learn.movies.app.popular_movies.util;
+package dev.learn.movies.app.popular_movies.utils;
 
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.util.Log;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Scanner;
 
 import dev.learn.movies.app.popular_movies.BuildConfig;
 
@@ -27,15 +20,15 @@ import static dev.learn.movies.app.popular_movies.Inflix.TV_TOP_RATED;
 import static dev.learn.movies.app.popular_movies.Inflix.UPCOMING;
 
 /**
- * HTTPHelper - Contains network related helper methods
+ * URIBuilderUtils - Contains network related helper methods
  */
 
-public final class HTTPHelper {
+public final class URIBuilderUtils {
 
     public static final String IMAGE_SIZE_SMALL = "w342";
     public static final String IMAGE_SIZE_MEDIUM = "w500";
     public static final String IMAGE_SIZE_XLARGE = "w780";
-    private static final String TAG = HTTPHelper.class.getSimpleName();
+    private static final String TAG = URIBuilderUtils.class.getSimpleName();
     private static final String API_KEY = BuildConfig.API_KEY;
     private static final String SCHEME = "https";
 
@@ -337,44 +330,6 @@ public final class HTTPHelper {
                 .appendEncodedPath(imageSize)
                 .appendEncodedPath(imgFile)
                 .build();
-    }
-
-    /**
-     * Fetches the response from the url
-     *
-     * @param url Input URL
-     * @return response String
-     * @throws IOException when an exception occurs trying to reach the URL
-     */
-    public static String getHTTPResponse(URL url) throws IOException {
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        String response = null;
-        try {
-            InputStream in = connection.getInputStream();
-            Scanner scanner = new Scanner(in);
-            scanner.useDelimiter("\\A");
-
-            if (scanner.hasNext()) {
-                response = scanner.next();
-            }
-            scanner.close();
-        } finally {
-            connection.disconnect();
-        }
-        return response;
-    }
-
-    /**
-     * Checks whether the device is connected to the internet
-     * Reference: https://stackoverflow.com/questions/4238921/detect-whether-there-is-an-internet-connection-available-on-android
-     *
-     * @param context Context
-     * @return isNetworkEnabled
-     */
-    public static boolean isNetworkEnabled(Context context) {
-        ConnectivityManager manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = manager.getActiveNetworkInfo();
-        return networkInfo != null && networkInfo.isConnectedOrConnecting();
     }
 
     /**

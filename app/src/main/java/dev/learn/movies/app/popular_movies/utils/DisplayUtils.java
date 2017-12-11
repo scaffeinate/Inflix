@@ -1,4 +1,4 @@
-package dev.learn.movies.app.popular_movies.util;
+package dev.learn.movies.app.popular_movies.utils;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
@@ -186,7 +186,7 @@ public final class DisplayUtils {
      */
     public static void openIMDB(Context context, String imdbId) {
         if (imdbId != null) {
-            URL url = HTTPHelper.buildIMDBURL(imdbId);
+            URL url = URIBuilderUtils.buildIMDBURL(imdbId);
             if (url != null) {
                 Intent webIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url.toString()));
                 context.startActivity(webIntent);
@@ -216,7 +216,7 @@ public final class DisplayUtils {
                 Intent youtubeAppIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd:youtube:" + key));
                 context.startActivity(youtubeAppIntent);
             } catch (ActivityNotFoundException e) {
-                URL url = HTTPHelper.buildYouTubeURL(key);
+                URL url = URIBuilderUtils.buildYouTubeURL(key);
                 if (url != null) {
                     Intent webIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url.toString()));
                     context.startActivity(webIntent);
