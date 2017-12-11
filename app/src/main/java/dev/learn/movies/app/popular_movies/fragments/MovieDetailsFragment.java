@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import java.net.URL;
 import java.util.List;
 
 import dev.learn.movies.app.popular_movies.R;
@@ -25,7 +26,7 @@ import dev.learn.movies.app.popular_movies.common.cast.CastsResult;
 import dev.learn.movies.app.popular_movies.common.movies.Movie;
 import dev.learn.movies.app.popular_movies.common.movies.MovieDetail;
 import dev.learn.movies.app.popular_movies.common.movies.MoviesResult;
-import dev.learn.movies.app.popular_movies.common.tv_show.Season;
+import dev.learn.movies.app.popular_movies.data.DataContract;
 import dev.learn.movies.app.popular_movies.databinding.FragmentMovieDetailsBinding;
 import dev.learn.movies.app.popular_movies.util.DisplayUtils;
 import dev.learn.movies.app.popular_movies.util.HTTPHelper;
@@ -104,6 +105,51 @@ public class MovieDetailsFragment extends BaseDetailsFragment implements View.On
     }
 
     @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState == null) {
+            mResourceId = getArguments().getLong(RESOURCE_ID, 0);
+            mResourceTitle = getArguments().getString(RESOURCE_TITLE, "");
+
+            if (mResourceId != 0) {
+                final URL similarURL = HTTPHelper.buildSimilarMoviesURL(String.valueOf(mResourceId));
+                final URL castsURL = HTTPHelper.buildMovieCastURL(String.valueOf(mResourceId));
+                Uri uri = DataContract.MEDIA_CONTENT_URI
+                        .buildUpon()
+                        .appendPath(String.valueOf(mResourceId))
+                        .build();
+                loadFromDatabase(uri, LOCAL_MOVIE_DETAILS_LOADER_ID);
+                lazyLoadAdditionalInfoFromNetwork(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (similarURL != null) {
+                            loadFromNetwork(similarURL, MOVIE_SIMILAR_LOADER_ID);
+                        }
+
+                        if (castsURL != null) {
+                            loadFromNetwork(castsURL, MOVIE_CAST_LOADER_ID);
+                        }
+                    }
+                });
+            } else {
+                mContentLoadingUtil.error();
+                mCastLoadingUtil.error();
+                mSimilarLoadingUtil.error();
+            }
+        } else {
+            mResourceId = savedInstanceState.getLong(RESOURCE_ID);
+            mResourceTitle = savedInstanceState.getString(RESOURCE_TITLE);
+            mMovieDetail = savedInstanceState.getParcelable(DETAILS);
+            mSimilarList = savedInstanceState.getParcelableArrayList(SIMILAR);
+            mCastList = savedInstanceState.getParcelableArrayList(CAST);
+
+            updateContent();
+            updateCasts();
+            updateSimilar();
+        }
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (!HTTPHelper.isNetworkEnabled(mContext)) {
             Toast.makeText(mContext, getResources().getString(R.string.no_network_connection_error_message), Toast.LENGTH_SHORT).show();
@@ -120,6 +166,32 @@ public class MovieDetailsFragment extends BaseDetailsFragment implements View.On
 
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.layout_rating:
+                goToReviews();
+                break;
+        }
+    }
+
+    @Override
+    public void onItemClicked(ViewGroup parent, View view, int position) {
+        Movie movie = null;
+        switch (parent.getId()) {
+            case R.id.recycler_view_similar:
+                movie = (Movie) mSimilarList.get(position);
+                break;
+        }
+
+        if (movie != null) {
+            getActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.layout_outlet, MovieDetailsFragment.newInstance(movie.getId(), movie.getTitle()))
+                    .commit();
+        }
     }
 
     @Override
@@ -252,32 +324,6 @@ public class MovieDetailsFragment extends BaseDetailsFragment implements View.On
                 updateBookmarkBtn(mMovieDetail.isBookmarked());
             }
         });
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.layout_rating:
-                goToReviews();
-                break;
-        }
-    }
-
-    @Override
-    public void onItemClicked(ViewGroup parent, View view, int position) {
-        Movie movie = null;
-        switch (parent.getId()) {
-            case R.id.recycler_view_similar:
-                movie = (Movie) mSimilarList.get(position);
-                break;
-        }
-
-        if (movie != null) {
-            getActivity().getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.layout_outlet, MovieDetailsFragment.newInstance(movie.getId(), movie.getTitle()))
-                    .commit();
-        }
     }
 
     private void goToReviews() {

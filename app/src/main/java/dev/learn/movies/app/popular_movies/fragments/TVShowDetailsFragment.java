@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.net.URL;
 import java.util.List;
 
 import dev.learn.movies.app.popular_movies.R;
@@ -26,6 +27,7 @@ import dev.learn.movies.app.popular_movies.common.tv_show.Season;
 import dev.learn.movies.app.popular_movies.common.tv_show.TVShow;
 import dev.learn.movies.app.popular_movies.common.tv_show.TVShowDetail;
 import dev.learn.movies.app.popular_movies.common.tv_show.TVShowsResult;
+import dev.learn.movies.app.popular_movies.data.DataContract;
 import dev.learn.movies.app.popular_movies.databinding.FragmentTvShowDetailsBinding;
 import dev.learn.movies.app.popular_movies.util.DisplayUtils;
 import dev.learn.movies.app.popular_movies.util.HTTPHelper;
@@ -120,6 +122,123 @@ public class TVShowDetailsFragment extends BaseDetailsFragment {
 
         adjustPosterSize(mBinding.layoutTvShowInfo.layoutPoster.getRoot());
         return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState == null) {
+            mResourceId = getArguments().getLong(RESOURCE_ID, 0);
+            mResourceTitle = getArguments().getString(RESOURCE_TITLE, "");
+
+            if (mResourceId != 0) {
+                final URL similarURL = HTTPHelper.buildSimilarTVShowsURL(String.valueOf(mResourceId));
+                final URL castsURL = HTTPHelper.buildTVShowCastURL(String.valueOf(mResourceId));
+
+                Uri uri = DataContract.MEDIA_CONTENT_URI
+                        .buildUpon()
+                        .appendPath(String.valueOf(mResourceId))
+                        .build();
+                loadFromDatabase(uri, LOCAL_TV_SHOW_DETAILS_LOADER_ID);
+                lazyLoadAdditionalInfoFromNetwork(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (similarURL != null) {
+                            loadFromNetwork(similarURL, TV_SHOWS_SIMILAR_LOADER_ID);
+                        }
+
+                        if (castsURL != null) {
+                            loadFromNetwork(castsURL, TV_SHOWS_CAST_LOADER_ID);
+                        }
+                    }
+                });
+            } else {
+                mContentLoadingUtil.error();
+                mCastLoadingUtil.error();
+                mSimilarLoadingUtil.error();
+            }
+        } else {
+            mResourceId = savedInstanceState.getLong(RESOURCE_ID);
+            mResourceTitle = savedInstanceState.getString(RESOURCE_TITLE);
+            mTVShowDetail = savedInstanceState.getParcelable(DETAILS);
+            mSimilarList = savedInstanceState.getParcelableArrayList(SIMILAR);
+            mCastList = savedInstanceState.getParcelableArrayList(CAST);
+
+            updateContent();
+            updateCasts();
+            updateSimilar();
+        }
+    }
+
+    @Override
+    public void onItemClicked(ViewGroup parent, View view, int position) {
+        switch (parent.getId()) {
+            case R.id.recycler_view_similar:
+                TVShow tvShow = (TVShow) mSimilarList.get(position);
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.layout_outlet, TVShowDetailsFragment.newInstance(tvShow.getId(), tvShow.getName()))
+                        .commit();
+                break;
+            case R.id.recycler_view_seasons:
+                //TODO: Handle this in future release
+                break;
+        }
+    }
+
+    @Override
+    public void onLoadFinished(Loader loader, String s) {
+        // Handle responses for the different loaderId calls
+        switch (loader.getId()) {
+            case TV_SHOWS_DETAILS_LOADER_ID:
+                mTVShowDetail = (s == null) ? null : gson.fromJson(s, TVShowDetail.class);
+                updateContent();
+                break;
+            case TV_SHOWS_TRAILERS_LOADER_ID:
+                VideosResult videosResult = (s == null) ? null : gson.fromJson(s, VideosResult.class);
+                if (videosResult != null && videosResult.getVideos() != null && !videosResult.getVideos().isEmpty()) {
+                    mVideoGridDialog
+                            .setVideos(videosResult.getVideos())
+                            .success();
+                } else {
+                    mVideoGridDialog.error();
+                }
+                break;
+            case TV_SHOWS_SIMILAR_LOADER_ID:
+                TVShowsResult similarTVShowsRes = (s == null) ? null : gson.fromJson(s, TVShowsResult.class);
+                if (similarTVShowsRes != null) {
+                    mSimilarList = similarTVShowsRes.getResults();
+                }
+                updateSimilar();
+                break;
+            case TV_SHOWS_CAST_LOADER_ID:
+                CastsResult castsResult = (s == null) ? null : gson.fromJson(s, CastsResult.class);
+                if (castsResult != null) {
+                    mCastList = castsResult.getCast();
+                }
+                updateCasts();
+                break;
+        }
+    }
+
+    @Override
+    public void onLoadFinished(Loader loader, Cursor cursor) {
+        if (cursor == null || !cursor.moveToFirst()) {
+            if (HTTPHelper.isNetworkEnabled(mContext)) {
+                loadFromNetwork(HTTPHelper.buildTVShowDetailsURL(String.valueOf(mResourceId)), TV_SHOWS_DETAILS_LOADER_ID);
+            } else {
+                DisplayUtils.setNoNetworkConnectionMessage(mContext, mBinding.textViewErrorMessageDisplay);
+                mContentLoadingUtil.error();
+                mCallbacks.hideFavBtn();
+            }
+        } else {
+            switch (loader.getId()) {
+                case LOCAL_TV_SHOW_DETAILS_LOADER_ID:
+                    mTVShowDetail = TVShowDetail.fromCursor(cursor);
+                    updateContent();
+                    break;
+            }
+        }
     }
 
     @Override
@@ -218,75 +337,5 @@ public class TVShowDetailsFragment extends BaseDetailsFragment {
                 updateBookmarkBtn(mTVShowDetail.isBookmarked());
             }
         });
-    }
-
-    @Override
-    public void onLoadFinished(Loader loader, String s) {
-        // Handle responses for the different loaderId calls
-        switch (loader.getId()) {
-            case TV_SHOWS_DETAILS_LOADER_ID:
-                mTVShowDetail = (s == null) ? null : gson.fromJson(s, TVShowDetail.class);
-                updateContent();
-                break;
-            case TV_SHOWS_TRAILERS_LOADER_ID:
-                VideosResult videosResult = (s == null) ? null : gson.fromJson(s, VideosResult.class);
-                if (videosResult != null && videosResult.getVideos() != null && !videosResult.getVideos().isEmpty()) {
-                    mVideoGridDialog
-                            .setVideos(videosResult.getVideos())
-                            .success();
-                } else {
-                    mVideoGridDialog.error();
-                }
-                break;
-            case TV_SHOWS_SIMILAR_LOADER_ID:
-                TVShowsResult similarTVShowsRes = (s == null) ? null : gson.fromJson(s, TVShowsResult.class);
-                if (similarTVShowsRes != null) {
-                    mSimilarList = similarTVShowsRes.getResults();
-                }
-                updateSimilar();
-                break;
-            case TV_SHOWS_CAST_LOADER_ID:
-                CastsResult castsResult = (s == null) ? null : gson.fromJson(s, CastsResult.class);
-                if (castsResult != null) {
-                    mCastList = castsResult.getCast();
-                }
-                updateCasts();
-                break;
-        }
-    }
-
-    @Override
-    public void onLoadFinished(Loader loader, Cursor cursor) {
-        if (cursor == null || !cursor.moveToFirst()) {
-            if (HTTPHelper.isNetworkEnabled(mContext)) {
-                loadFromNetwork(HTTPHelper.buildTVShowDetailsURL(String.valueOf(mResourceId)), TV_SHOWS_DETAILS_LOADER_ID);
-            } else {
-                DisplayUtils.setNoNetworkConnectionMessage(mContext, mBinding.textViewErrorMessageDisplay);
-                mContentLoadingUtil.error();
-                mCallbacks.hideFavBtn();
-            }
-        } else {
-            switch (loader.getId()) {
-                case LOCAL_TV_SHOW_DETAILS_LOADER_ID:
-                    mTVShowDetail = TVShowDetail.fromCursor(cursor);
-                    updateContent();
-                    break;
-            }
-        }
-    }
-
-    @Override
-    public void onItemClicked(ViewGroup parent, View view, int position) {
-        switch (parent.getId()) {
-            case R.id.recycler_view_similar:
-                TVShow tvShow = (TVShow) mSimilarList.get(position);
-                getActivity().getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.layout_outlet, TVShowDetailsFragment.newInstance(tvShow.getId(), tvShow.getName()))
-                        .commit();
-                break;
-            case R.id.recycler_view_seasons:
-                break;
-        }
     }
 }

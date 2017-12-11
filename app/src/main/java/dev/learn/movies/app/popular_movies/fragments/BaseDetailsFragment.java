@@ -49,15 +49,9 @@ import static dev.learn.movies.app.popular_movies.data.DataContract.MOVIES;
 import static dev.learn.movies.app.popular_movies.data.DataContract.TV_SHOWS;
 import static dev.learn.movies.app.popular_movies.loaders.ContentLoader.URI_EXTRA;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.ACTIVITY_DETAIL_LAZY_LOAD_DELAY_IN_MS;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.LOCAL_MOVIE_DETAILS_LOADER_ID;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.LOCAL_TV_SHOW_DETAILS_LOADER_ID;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.MOVIE_CAST_LOADER_ID;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.MOVIE_SIMILAR_LOADER_ID;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.MOVIE_TRAILERS_LOADER_ID;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.RESOURCE_ID;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.RESOURCE_TITLE;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.TV_SHOWS_CAST_LOADER_ID;
-import static dev.learn.movies.app.popular_movies.util.AppConstants.TV_SHOWS_SIMILAR_LOADER_ID;
 import static dev.learn.movies.app.popular_movies.util.AppConstants.TV_SHOWS_TRAILERS_LOADER_ID;
 
 /**
@@ -81,9 +75,6 @@ public abstract class BaseDetailsFragment extends Fragment implements
     protected long mResourceId = 0L;
     protected String mResourceTitle;
 
-    protected NetworkLoader mNetworkLoader;
-    protected ContentLoader mContentLoader;
-
     protected RecyclerView.LayoutManager mSimilarLayoutManager;
     protected RecyclerView.LayoutManager mFilmCastLayoutManager;
 
@@ -102,7 +93,10 @@ public abstract class BaseDetailsFragment extends Fragment implements
     protected LoadingContentUtil mSimilarLoadingUtil;
     protected LoadingContentUtil mCastLoadingUtil;
 
-    protected boolean isMovieDetailFragment;
+    private NetworkLoader mNetworkLoader;
+    private ContentLoader mContentLoader;
+
+    private boolean isMovieDetailFragment;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -138,159 +132,6 @@ public abstract class BaseDetailsFragment extends Fragment implements
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         mBookmarkMenuItem = menu.findItem(R.id.action_bookmark);
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        if (savedInstanceState == null) {
-            mResourceId = getArguments().getLong(RESOURCE_ID, 0);
-            mResourceTitle = getArguments().getString(RESOURCE_TITLE, "");
-
-            final int localLoaderId = isMovieDetailFragment ? LOCAL_MOVIE_DETAILS_LOADER_ID : LOCAL_TV_SHOW_DETAILS_LOADER_ID;
-            final int similarLoaderId = isMovieDetailFragment ? MOVIE_SIMILAR_LOADER_ID : TV_SHOWS_SIMILAR_LOADER_ID;
-            final int castLoaderId = isMovieDetailFragment ? MOVIE_CAST_LOADER_ID : TV_SHOWS_CAST_LOADER_ID;
-
-            if (mResourceId != 0) {
-                final URL similarURL = isMovieDetailFragment ? HTTPHelper.buildSimilarMoviesURL(String.valueOf(mResourceId))
-                        : HTTPHelper.buildSimilarTVShowsURL(String.valueOf(mResourceId));
-
-                final URL castsURL = isMovieDetailFragment ? HTTPHelper.buildMovieCastURL(String.valueOf(mResourceId)) :
-                        HTTPHelper.buildTVShowCastURL(String.valueOf(mResourceId));
-
-                Uri uri = DataContract.MEDIA_CONTENT_URI
-                        .buildUpon()
-                        .appendPath(String.valueOf(mResourceId))
-                        .build();
-                loadFromDatabase(uri, localLoaderId);
-                if (HTTPHelper.isNetworkEnabled(mContext)) {
-                    lazyLoadAdditionalInfoFromNetwork(new Runnable() {
-                        @Override
-                        public void run() {
-                            loadFromNetwork(similarURL, similarLoaderId);
-                            loadFromNetwork(castsURL, castLoaderId);
-                        }
-                    });
-                } else {
-                    mCastLoadingUtil.error();
-                    mSimilarLoadingUtil.error();
-                }
-            } else {
-                mContentLoadingUtil.error();
-                mCastLoadingUtil.error();
-                mSimilarLoadingUtil.error();
-            }
-        } else {
-            mResourceId = savedInstanceState.getLong(RESOURCE_ID);
-            mResourceTitle = savedInstanceState.getString(RESOURCE_TITLE);
-            if (isMovieDetailFragment) {
-                mMovieDetail = savedInstanceState.getParcelable(DETAILS);
-            } else {
-                mTVShowDetail = savedInstanceState.getParcelable(DETAILS);
-            }
-            mSimilarList = savedInstanceState.getParcelableArrayList(SIMILAR);
-            mCastList = savedInstanceState.getParcelableArrayList(CAST);
-
-            updateContent();
-            updateCasts();
-            updateSimilar();
-        }
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putLong(RESOURCE_ID, mResourceId);
-        outState.putString(RESOURCE_TITLE, mResourceTitle);
-        if (isMovieDetailFragment) {
-            outState.putParcelable(DETAILS, mMovieDetail);
-        } else {
-            outState.putParcelable(DETAILS, mTVShowDetail);
-        }
-        outState.putParcelableArrayList(SIMILAR, (ArrayList<? extends Parcelable>) mSimilarList);
-        outState.putParcelableArrayList(CAST, (ArrayList<? extends Parcelable>) mCastList);
-    }
-
-    @Override
-    public void onFavBtnClicked(View v) {
-        MediaDetail mediaDetail = isMovieDetailFragment ? mMovieDetail : mTVShowDetail;
-        String type = isMovieDetailFragment ? MOVIES : TV_SHOWS;
-        if (mediaDetail == null || type == null) return;
-
-        Uri uri = DataContract.FAVORITES_CONTENT_URI
-                .buildUpon()
-                .appendPath(type)
-                .appendPath(String.valueOf(mResourceId))
-                .build();
-        if (mediaDetail.isFavored()) {
-            getActivity().getContentResolver().delete(uri, null, null);
-        } else {
-            ContentValues cv = isMovieDetailFragment ? MovieDetail.toContentValues(mMovieDetail) : TVShowDetail.toContentValues(mTVShowDetail);
-            if (cv != null) {
-                getActivity().getContentResolver().insert(uri, cv);
-            }
-        }
-
-        mediaDetail.setFavored(!mediaDetail.isFavored());
-        mCallbacks.showFavToast(mediaDetail.isFavored());
-        mCallbacks.updateFavBtn(mediaDetail.isFavored());
-    }
-
-    protected void adjustPosterSize(View poster) {
-        int[] screen = DisplayUtils.getScreenMetrics(getActivity());
-        int min = Math.min(screen[0], screen[1]);
-        int max = Math.max(screen[0], screen[1]);
-        poster.setLayoutParams(new ConstraintLayout.LayoutParams((min / 3), (int) (max / 3.15)));
-    }
-
-    protected void updateBookmarkBtn(boolean isBookmarked) {
-        if (mBookmarkMenuItem == null) return;
-        if (isBookmarked) {
-            mBookmarkMenuItem.setIcon(ContextCompat.getDrawable(mContext, R.drawable.ic_bookmark_white_24dp));
-        } else {
-            mBookmarkMenuItem.setIcon(ContextCompat.getDrawable(mContext, R.drawable.ic_bookmark_outline_white_24dp));
-        }
-    }
-
-    protected void showBookmarkToast(boolean isBookmarked) {
-        if (isBookmarked) {
-            Toast.makeText(mContext, getString(R.string.added_to_bookmarks), Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(mContext, getString(R.string.removed_from_bookmarks), Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    protected void buildVideoGrid(final URL videosURL, final int loaderId) {
-        mVideoGridDialog
-                .setTitle(getString(R.string.action_watch_trailer))
-                .setCancelable(true)
-                .setOnVideoSelectedListener(new VideoGridDialog.OnVideoSelectedListener() {
-                    @Override
-                    public void onVideoSelected(Video video) {
-                        if (video != null && video.getKey() != null) {
-                            DisplayUtils.openYoutube(mContext, video.getKey());
-                        }
-                    }
-                })
-                .setOnShowListener(new DialogInterface.OnShowListener() {
-                    @Override
-                    public void onShow(DialogInterface dialog) {
-                        loadFromNetwork(videosURL, loaderId);
-                    }
-                })
-                .build();
-    }
-
-    protected void loadFromNetwork(final URL url, final int loaderId) {
-        Bundle args = new Bundle();
-        args.putSerializable(NetworkLoader.URL_EXTRA, url);
-        getActivity().getSupportLoaderManager().restartLoader(loaderId, args, mNetworkLoader);
-    }
-
-    protected void loadFromDatabase(final Uri uri, final int loaderId) {
-        Bundle args = new Bundle();
-        args.putParcelable(URI_EXTRA, uri);
-        getActivity().getSupportLoaderManager().restartLoader(loaderId, args, mContentLoader);
     }
 
     @Override
@@ -339,7 +180,110 @@ public abstract class BaseDetailsFragment extends Fragment implements
         return super.onOptionsItemSelected(item);
     }
 
-    abstract protected void updateContent();
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putLong(RESOURCE_ID, mResourceId);
+        outState.putString(RESOURCE_TITLE, mResourceTitle);
+        if (isMovieDetailFragment) {
+            outState.putParcelable(DETAILS, mMovieDetail);
+        } else {
+            outState.putParcelable(DETAILS, mTVShowDetail);
+        }
+        outState.putParcelableArrayList(SIMILAR, (ArrayList<? extends Parcelable>) mSimilarList);
+        outState.putParcelableArrayList(CAST, (ArrayList<? extends Parcelable>) mCastList);
+    }
+
+    @Override
+    public void onFavBtnClicked(View v) {
+        MediaDetail mediaDetail = isMovieDetailFragment ? mMovieDetail : mTVShowDetail;
+        String type = isMovieDetailFragment ? MOVIES : TV_SHOWS;
+        if (mediaDetail == null || type == null) return;
+
+        Uri uri = DataContract.FAVORITES_CONTENT_URI
+                .buildUpon()
+                .appendPath(type)
+                .appendPath(String.valueOf(mResourceId))
+                .build();
+        if (mediaDetail.isFavored()) {
+            getActivity().getContentResolver().delete(uri, null, null);
+        } else {
+            ContentValues cv = isMovieDetailFragment ? MovieDetail.toContentValues(mMovieDetail) : TVShowDetail.toContentValues(mTVShowDetail);
+            if (cv != null) {
+                getActivity().getContentResolver().insert(uri, cv);
+            }
+        }
+
+        mediaDetail.setFavored(!mediaDetail.isFavored());
+        mCallbacks.showFavToast(mediaDetail.isFavored());
+        mCallbacks.updateFavBtn(mediaDetail.isFavored());
+    }
+
+    protected void loadFromNetwork(final URL url, final int loaderId) {
+        Bundle args = new Bundle();
+        args.putSerializable(NetworkLoader.URL_EXTRA, url);
+        getActivity().getSupportLoaderManager().restartLoader(loaderId, args, mNetworkLoader);
+    }
+
+    protected void loadFromDatabase(final Uri uri, final int loaderId) {
+        Bundle args = new Bundle();
+        args.putParcelable(URI_EXTRA, uri);
+        getActivity().getSupportLoaderManager().restartLoader(loaderId, args, mContentLoader);
+    }
+
+    protected void lazyLoadAdditionalInfoFromNetwork(Runnable runnable) {
+        if (HTTPHelper.isNetworkEnabled(mContext)) {
+            new Handler().postDelayed(runnable, ACTIVITY_DETAIL_LAZY_LOAD_DELAY_IN_MS);
+        } else {
+            mCastLoadingUtil.error();
+            mSimilarLoadingUtil.error();
+        }
+    }
+
+    protected void updateBookmarkBtn(boolean isBookmarked) {
+        if (mBookmarkMenuItem == null) return;
+        if (isBookmarked) {
+            mBookmarkMenuItem.setIcon(ContextCompat.getDrawable(mContext, R.drawable.ic_bookmark_white_24dp));
+        } else {
+            mBookmarkMenuItem.setIcon(ContextCompat.getDrawable(mContext, R.drawable.ic_bookmark_outline_white_24dp));
+        }
+    }
+
+    protected void showBookmarkToast(boolean isBookmarked) {
+        if (isBookmarked) {
+            Toast.makeText(mContext, getString(R.string.added_to_bookmarks), Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(mContext, getString(R.string.removed_from_bookmarks), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    protected void buildVideoGrid(final URL videosURL, final int loaderId) {
+        mVideoGridDialog
+                .setTitle(getString(R.string.action_watch_trailer))
+                .setCancelable(true)
+                .setOnVideoSelectedListener(new VideoGridDialog.OnVideoSelectedListener() {
+                    @Override
+                    public void onVideoSelected(Video video) {
+                        if (video != null && video.getKey() != null) {
+                            DisplayUtils.openYoutube(mContext, video.getKey());
+                        }
+                    }
+                })
+                .setOnShowListener(new DialogInterface.OnShowListener() {
+                    @Override
+                    public void onShow(DialogInterface dialog) {
+                        loadFromNetwork(videosURL, loaderId);
+                    }
+                })
+                .build();
+    }
+
+    protected void adjustPosterSize(View poster) {
+        int[] screen = DisplayUtils.getScreenMetrics(getActivity());
+        int min = Math.min(screen[0], screen[1]);
+        int max = Math.max(screen[0], screen[1]);
+        poster.setLayoutParams(new ConstraintLayout.LayoutParams((min / 3), (int) (max / 3.15)));
+    }
 
     protected void updateCasts() {
         if (mCastList != null && !mCastList.isEmpty()) {
@@ -359,7 +303,5 @@ public abstract class BaseDetailsFragment extends Fragment implements
         }
     }
 
-    protected void lazyLoadAdditionalInfoFromNetwork(Runnable runnable) {
-        new Handler().postDelayed(runnable, ACTIVITY_DETAIL_LAZY_LOAD_DELAY_IN_MS);
-    }
+    abstract protected void updateContent();
 }
