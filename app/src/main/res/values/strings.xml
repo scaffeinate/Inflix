@@ -87,8 +87,8 @@
 	<string name="character_name">Bruce Wayne</string>
 	<string name="five_seasons">5 Seasons</string>
 	<string name="fifty_episodes">50 Episodes</string>
-	<string name="first_air_date_random">2011-04-17</string>
-	<string name="last_air_date_random">2017-07-16</string>
+	<string name="first_air_date_random">2011&#8211;04&#8211;17</string>
+	<string name="last_air_date_random">2017&#8211;07&#8211;16</string>
 	<string name="created_by_random">David Benioff &amp; D. B. Weiss</string>
 	<string name="season_1">Season 1</string>
 </resources>

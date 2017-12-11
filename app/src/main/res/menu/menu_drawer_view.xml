@@ -70,22 +70,24 @@
 		<item
 			android:id="@+id/nav_sub_header_version"
 			android:title="@string/nav_sub_header_version">
-			<group
-				android:id="@+id/menu_bottom"
-				android:checkableBehavior="single">
-				<item
-					android:id="@+id/action_share"
-					android:icon="@drawable/ic_share_variant_white_24dp"
-					android:title="@string/action_share"/>
-				<item
-					android:id="@+id/action_rate_us"
-					android:icon="@drawable/ic_star_grey600_24dp"
-					android:title="@string/action_rate_us"/>
-				<item
-					android:id="@+id/action_version"
-					android:icon="@drawable/ic_information_black_24dp"
-					android:title="@string/action_version"/>
-			</group>
+			<menu>
+				<group
+					android:id="@+id/menu_bottom"
+					android:checkableBehavior="single">
+					<item
+						android:id="@+id/action_share"
+						android:icon="@drawable/ic_share_variant_white_24dp"
+						android:title="@string/action_share"/>
+					<item
+						android:id="@+id/action_rate_us"
+						android:icon="@drawable/ic_star_grey600_24dp"
+						android:title="@string/action_rate_us"/>
+					<item
+						android:id="@+id/action_version"
+						android:icon="@drawable/ic_information_black_24dp"
+						android:title="@string/action_version"/>
+				</group>
+			</menu>
 		</item>
 	</group>
 </menu>

@@ -27,7 +27,7 @@
 			android:layout_marginTop="15dp"
 			android:fontFamily="@font/lato_black"
 			android:text="@string/app_name"
-			android:textAlignment="viewStart"
+			android:textAlignment="center"
 			android:textAllCaps="true"
 			android:textAppearance="@style/Display"
 			android:textColor="@color/textColorLight"/>

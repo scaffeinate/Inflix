@@ -4,8 +4,7 @@
 	<FrameLayout
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:paddingBottom="10dp"
-		android:paddingTop="10dp">
+		android:padding="15dp">
 
 		<android.support.v7.widget.RecyclerView
 			android:id="@+id/rv_video_grid"
