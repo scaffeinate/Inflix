@@ -30,7 +30,7 @@ import dev.learn.movies.app.popular_movies.common.tv_show.TVShowsResult;
 import dev.learn.movies.app.popular_movies.databinding.FragmentMoviesBinding;
 import dev.learn.movies.app.popular_movies.loaders.NetworkLoader;
 import dev.learn.movies.app.popular_movies.util.DisplayUtils;
-import dev.learn.movies.app.popular_movies.util.EndlessRecyclerViewScrollListener;
+import dev.learn.movies.app.popular_movies.views.EndlessRecyclerViewScrollListener;
 import dev.learn.movies.app.popular_movies.util.HTTPHelper;
 
 import static dev.learn.movies.app.popular_movies.data.DataContract.TV_SHOWS;

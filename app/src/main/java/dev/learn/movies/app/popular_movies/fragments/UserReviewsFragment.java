@@ -28,7 +28,7 @@ import dev.learn.movies.app.popular_movies.common.movies.MovieReviewsResult;
 import dev.learn.movies.app.popular_movies.databinding.FragmentUserReviewsBinding;
 import dev.learn.movies.app.popular_movies.loaders.NetworkLoader;
 import dev.learn.movies.app.popular_movies.util.DisplayUtils;
-import dev.learn.movies.app.popular_movies.util.EndlessRecyclerViewScrollListener;
+import dev.learn.movies.app.popular_movies.views.EndlessRecyclerViewScrollListener;
 import dev.learn.movies.app.popular_movies.util.HTTPHelper;
 
 import static dev.learn.movies.app.popular_movies.util.AppConstants.MOVIE_ID;

@@ -1,4 +1,4 @@
-package dev.learn.movies.app.popular_movies.util;
+package dev.learn.movies.app.popular_movies.views;
 
 import android.content.Context;
 import android.support.design.widget.AppBarLayout;

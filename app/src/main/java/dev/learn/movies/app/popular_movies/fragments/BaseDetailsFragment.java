@@ -43,7 +43,7 @@ import dev.learn.movies.app.popular_movies.loaders.NetworkLoader;
 import dev.learn.movies.app.popular_movies.util.DisplayUtils;
 import dev.learn.movies.app.popular_movies.util.HTTPHelper;
 import dev.learn.movies.app.popular_movies.util.LoadingContentUtil;
-import dev.learn.movies.app.popular_movies.util.VideoGridDialog;
+import dev.learn.movies.app.popular_movies.views.VideoGridDialog;
 
 import static dev.learn.movies.app.popular_movies.data.DataContract.MOVIES;
 import static dev.learn.movies.app.popular_movies.data.DataContract.TV_SHOWS;
