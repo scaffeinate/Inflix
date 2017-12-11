@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+	  xmlns:app="http://schemas.android.com/apk/res-auto">
+
+	<item
+		android:id="@+id/action_watch_trailer"
+		android:icon="@drawable/ic_youtube_play_white_36dp"
+		android:orderInCategory="1"
+		android:title="@string/action_watch_trailer"
+		app:showAsAction="ifRoom"/>
+
+	<item
+		android:id="@+id/action_bookmark"
+		android:icon="@drawable/ic_bookmark_outline_white_24dp"
+		android:orderInCategory="2"
+		android:title="@string/action_bookmark"
+		app:showAsAction="ifRoom"/>
+
+	<item
+		android:id="@+id/action_share"
+		android:icon="@drawable/ic_share_variant_white_24dp"
+		android:orderInCategory="3"
+		android:title="@string/action_share"
+		app:showAsAction="ifRoom"/>
+
+</menu>

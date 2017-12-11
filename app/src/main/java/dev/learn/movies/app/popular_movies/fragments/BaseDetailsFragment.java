@@ -165,9 +165,13 @@ public abstract class BaseDetailsFragment extends Fragment implements
                 showBookmarkToast(mediaDetail.isBookmarked());
                 return true;
             case R.id.action_share:
-                URL shareURL = isMovieDetailFragment ? HTTPHelper.buildTMDBMovieURL(String.valueOf(mResourceId)) :
-                        HTTPHelper.buildTMDBTVShowURL(String.valueOf(mResourceId));
-                DisplayUtils.shareURL(getActivity(), mResourceTitle, shareURL);
+                if(HTTPHelper.isNetworkEnabled(mContext)) {
+                    URL shareURL = isMovieDetailFragment ? HTTPHelper.buildTMDBMovieURL(String.valueOf(mResourceId)) :
+                            HTTPHelper.buildTMDBTVShowURL(String.valueOf(mResourceId));
+                    DisplayUtils.shareURL(getActivity(), mResourceTitle, shareURL);
+                } else {
+
+                }
                 return true;
             case R.id.action_watch_trailer:
                 URL videosURL = isMovieDetailFragment ? HTTPHelper.buildMovieTrailersURL(String.valueOf(mResourceId)) :
