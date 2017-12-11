@@ -1,19 +1,11 @@
 
 package dev.learn.movies.app.popular_movies.common.tv_show;
 
-import android.content.ContentValues;
-import android.database.Cursor;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
-import static dev.learn.movies.app.popular_movies.data.DataContract.SeasonEntry.COLUMN_AIR_DATE;
-import static dev.learn.movies.app.popular_movies.data.DataContract.SeasonEntry.COLUMN_EPISODE_COUNT;
-import static dev.learn.movies.app.popular_movies.data.DataContract.SeasonEntry.COLUMN_MEDIA_ID;
-import static dev.learn.movies.app.popular_movies.data.DataContract.SeasonEntry.COLUMN_POSTER_PATH;
-import static dev.learn.movies.app.popular_movies.data.DataContract.SeasonEntry.COLUMN_SEASON_NUMBER;
 
 public class Season implements Parcelable {
 
@@ -108,28 +100,5 @@ public class Season implements Parcelable {
         dest.writeLong(id);
         dest.writeString(posterPath);
         dest.writeLong(seasonNumber);
-    }
-
-    public static ContentValues toContentValues(Season season, long mediaId) {
-        ContentValues cv = new ContentValues();
-        if (season != null) {
-            cv.put(COLUMN_SEASON_NUMBER, season.getSeasonNumber());
-            cv.put(COLUMN_EPISODE_COUNT, season.getEpisodeCount());
-            cv.put(COLUMN_POSTER_PATH, season.getPosterPath());
-            cv.put(COLUMN_AIR_DATE, season.getAirDate());
-            cv.put(COLUMN_MEDIA_ID, mediaId);
-        }
-        return cv;
-    }
-
-    public static Season fromCursor(Cursor cursor) {
-        Season season = new Season();
-        if (cursor.moveToFirst()) {
-            season.setSeasonNumber(cursor.getLong(cursor.getColumnIndex(COLUMN_SEASON_NUMBER)));
-            season.setEpisodeCount(cursor.getLong(cursor.getColumnIndex(COLUMN_EPISODE_COUNT)));
-            season.setPosterPath(cursor.getString(cursor.getColumnIndex(COLUMN_POSTER_PATH)));
-            season.setAirDate(cursor.getString(cursor.getColumnIndex(COLUMN_AIR_DATE)));
-        }
-        return season;
     }
 }

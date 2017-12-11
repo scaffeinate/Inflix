@@ -18,6 +18,10 @@ public class DataContract {
 
     public static final String MEDIA_AUTHORITY = "dev.learn.movies.app.popular_movies.media";
 
+    public static final String CASTS_AUTHORITY = "dev.learn.movies.app.popular_movies.casts";
+
+    public static final String SEASONS_AUTHORITY = "dev.learn.movies.app.popular_movies.seasons";
+
     public static final String MOVIES = "movies";
 
     public static final String TV_SHOWS = "tv_shows";
@@ -27,6 +31,10 @@ public class DataContract {
     public static final String FAVORITES_PATH = "favorites";
 
     public static final String BOOKMARKS_PATH = "bookmarks";
+
+    public static final String CASTS_PATH = "casts";
+
+    public static final String SEASONS_PATH = "seasons";
 
     public static final Uri FAVORITES_CONTENT_URI = Uri.parse("content://" + FAVORITES_AUTHORITY)
             .buildUpon()
@@ -69,24 +77,6 @@ public class DataContract {
         public static final String COLUMN_EPISODE_RUN_TIME = "episode_run_time";
         public static final String COLUMN_CREATED_BY = "created_by";
         public static final String COLUMN_HOMEPAGE = "homepage";
-    }
-
-    public static class CastEntry implements BaseColumns {
-        public static final String TABLE_NAME = "casts";
-        public static final String COLUMN_NAME = "name";
-        public static final String COLUMN_GENDER = "gender";
-        public static final String COLUMN_ORDER = "cast_order";
-        public static final String COLUMN_CHARACTER = "character";
-        public static final String COLUMN_PROFILE_PATH = "profile_path";
-        public static final String COLUMN_MEDIA_ID = "media_id";
-    }
-
-    public static class SeasonEntry implements BaseColumns {
-        public static final String TABLE_NAME = "seasons";
-        public static final String COLUMN_SEASON_NUMBER = "season_number";
-        public static final String COLUMN_EPISODE_COUNT = "episode_count";
-        public static final String COLUMN_POSTER_PATH = "poster_path";
-        public static final String COLUMN_AIR_DATE = "air_date";
-        public static final String COLUMN_MEDIA_ID = "media_id";
+        public static final String COLUMN_SEASONS_JSON = "seasons_json";
     }
 }

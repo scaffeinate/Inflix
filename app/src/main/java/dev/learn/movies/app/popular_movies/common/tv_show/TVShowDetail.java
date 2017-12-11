@@ -6,8 +6,10 @@ import android.database.Cursor;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,6 +32,7 @@ import static dev.learn.movies.app.popular_movies.data.DataContract.MediaEntry.C
 import static dev.learn.movies.app.popular_movies.data.DataContract.MediaEntry.COLUMN_NUM_SEASONS;
 import static dev.learn.movies.app.popular_movies.data.DataContract.MediaEntry.COLUMN_OVERVIEW;
 import static dev.learn.movies.app.popular_movies.data.DataContract.MediaEntry.COLUMN_POSTER_PATH;
+import static dev.learn.movies.app.popular_movies.data.DataContract.MediaEntry.COLUMN_SEASONS_JSON;
 import static dev.learn.movies.app.popular_movies.data.DataContract.MediaEntry.COLUMN_STATUS;
 import static dev.learn.movies.app.popular_movies.data.DataContract.MediaEntry.COLUMN_TITLE;
 import static dev.learn.movies.app.popular_movies.data.DataContract.MediaEntry.COLUMN_VOTE_AVG;
@@ -70,6 +73,8 @@ public class TVShowDetail extends MediaDetail implements Parcelable {
     @SerializedName("seasons")
     @Expose
     private List<Season> seasons = null;
+
+    private static final Gson gson = new Gson();
 
     public TVShowDetail() {
     }
@@ -253,6 +258,7 @@ public class TVShowDetail extends MediaDetail implements Parcelable {
         }
         cv.put(COLUMN_CREATED_BY, builder.toString());
         cv.put(COLUMN_HOMEPAGE, tvShowDetail.getHomepage());
+        cv.put(COLUMN_SEASONS_JSON, gson.toJson(tvShowDetail.getSeasons()));
         return cv;
     }
 
@@ -290,6 +296,10 @@ public class TVShowDetail extends MediaDetail implements Parcelable {
             }
             tvShowDetail.setCreatedBy(createdByList);
             tvShowDetail.setHomepage(cursor.getString(cursor.getColumnIndex(COLUMN_HOMEPAGE)));
+            List<Season> seasonList = gson.fromJson(cursor.getString(cursor.getColumnIndex(COLUMN_SEASONS_JSON)),
+                    new TypeToken<List<Season>>() {
+                    }.getType());
+            tvShowDetail.setSeasons(seasonList);
         }
         return tvShowDetail;
     }
