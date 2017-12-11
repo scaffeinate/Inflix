@@ -14,7 +14,7 @@ import dev.learn.movies.app.popular_movies.R;
 import dev.learn.movies.app.popular_movies.databinding.ActivityDetailBinding;
 import dev.learn.movies.app.popular_movies.fragments.MovieDetailsFragment;
 import dev.learn.movies.app.popular_movies.fragments.TVShowDetailsFragment;
-import dev.learn.movies.app.popular_movies.util.DisplayUtils;
+import dev.learn.movies.app.popular_movies.utils.DisplayUtils;
 
 import static dev.learn.movies.app.popular_movies.data.DataContract.MOVIES;
 import static dev.learn.movies.app.popular_movies.data.DataContract.TV_SHOWS;

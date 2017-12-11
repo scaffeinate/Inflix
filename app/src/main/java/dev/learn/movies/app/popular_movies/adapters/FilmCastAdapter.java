@@ -13,8 +13,8 @@ import java.util.List;
 
 import dev.learn.movies.app.popular_movies.R;
 import dev.learn.movies.app.popular_movies.common.cast.Cast;
-import dev.learn.movies.app.popular_movies.util.DisplayUtils;
-import dev.learn.movies.app.popular_movies.util.HTTPHelper;
+import dev.learn.movies.app.popular_movies.utils.DisplayUtils;
+import dev.learn.movies.app.popular_movies.utils.URIBuilderUtils;
 
 /**
  * Created by sudharti on 11/26/17.
@@ -73,7 +73,7 @@ public class FilmCastAdapter extends RecyclerView.Adapter<FilmCastAdapter.FilmCa
 
                 if (profilePath != null) {
                     DisplayUtils.fitImageInto(mProfilePicImageView,
-                            HTTPHelper.buildImageResourceUri(profilePath, HTTPHelper.IMAGE_SIZE_SMALL));
+                            URIBuilderUtils.buildImageResourceUri(profilePath, URIBuilderUtils.IMAGE_SIZE_SMALL));
                 }
 
                 if (!TextUtils.isEmpty(actorName)) {

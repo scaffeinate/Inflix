@@ -14,8 +14,8 @@ import java.util.List;
 
 import dev.learn.movies.app.popular_movies.R;
 import dev.learn.movies.app.popular_movies.common.tv_show.Season;
-import dev.learn.movies.app.popular_movies.util.DisplayUtils;
-import dev.learn.movies.app.popular_movies.util.HTTPHelper;
+import dev.learn.movies.app.popular_movies.utils.DisplayUtils;
+import dev.learn.movies.app.popular_movies.utils.URIBuilderUtils;
 
 /**
  * Created by sudhar on 12/10/17.
@@ -76,7 +76,7 @@ public class SeasonsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             Season season = mSeasonList.get(position);
             if (season != null) {
                 if (season.getPosterPath() != null) {
-                    Uri posterUri = HTTPHelper.buildImageResourceUri(season.getPosterPath(), HTTPHelper.IMAGE_SIZE_MEDIUM);
+                    Uri posterUri = URIBuilderUtils.buildImageResourceUri(season.getPosterPath(), URIBuilderUtils.IMAGE_SIZE_MEDIUM);
                     DisplayUtils.fitImageInto(mSeasonPicImageView, posterUri);
                 }
 

@@ -30,9 +30,10 @@ import dev.learn.movies.app.popular_movies.common.movies.Movie;
 import dev.learn.movies.app.popular_movies.common.movies.MoviesResult;
 import dev.learn.movies.app.popular_movies.databinding.FragmentMoviesBinding;
 import dev.learn.movies.app.popular_movies.loaders.NetworkLoader;
-import dev.learn.movies.app.popular_movies.util.DisplayUtils;
+import dev.learn.movies.app.popular_movies.utils.DisplayUtils;
+import dev.learn.movies.app.popular_movies.utils.HTTPLoaderUtil;
+import dev.learn.movies.app.popular_movies.utils.URIBuilderUtils;
 import dev.learn.movies.app.popular_movies.views.EndlessRecyclerViewScrollListener;
-import dev.learn.movies.app.popular_movies.util.HTTPHelper;
 
 import static dev.learn.movies.app.popular_movies.data.DataContract.MOVIES;
 import static dev.learn.movies.app.popular_movies.Inflix.DEFAULT_GRID_COUNT;
@@ -212,41 +213,44 @@ public class MoviesFragment extends Fragment implements NetworkLoader.NetworkLoa
      * Fetches Movies for the requested page
      */
     private void fetchMovies() {
-        if (HTTPHelper.isNetworkEnabled(mContext)) {
-            URL url = null;
-            switch (mType) {
-                case NOW_PLAYING:
-                    url = HTTPHelper.buildNowPlayingURL(mPage);
-                    break;
-                case UPCOMING:
-                    url = HTTPHelper.buildUpcomingURL(mPage);
-                    break;
-                case MOST_POPULAR:
-                    url = HTTPHelper.buildMostPopularURL(mPage);
-                    break;
-                case TOP_RATED:
-                    url = HTTPHelper.builTopRatedURL(mPage);
-                    break;
-            }
+        HTTPLoaderUtil.with(mContext).tryCall(new HTTPLoaderUtil.HTTPBlock() {
+            @Override
+            public void run() {
+                URL url = null;
+                switch (mType) {
+                    case NOW_PLAYING:
+                        url = URIBuilderUtils.buildNowPlayingURL(mPage);
+                        break;
+                    case UPCOMING:
+                        url = URIBuilderUtils.buildUpcomingURL(mPage);
+                        break;
+                    case MOST_POPULAR:
+                        url = URIBuilderUtils.buildMostPopularURL(mPage);
+                        break;
+                    case TOP_RATED:
+                        url = URIBuilderUtils.builTopRatedURL(mPage);
+                        break;
+                }
 
-            Bundle args = new Bundle();
-            args.putSerializable(NetworkLoader.URL_EXTRA, url);
-            if (getActivity().getSupportLoaderManager() != null) {
-                getActivity().getSupportLoaderManager().restartLoader(MOVIES_LOADER_ID, args, mNetworkLoader);
+                Bundle args = new Bundle();
+                args.putSerializable(NetworkLoader.URL_EXTRA, url);
+                if (getActivity().getSupportLoaderManager() != null) {
+                    getActivity().getSupportLoaderManager().restartLoader(MOVIES_LOADER_ID, args, mNetworkLoader);
+                }
             }
-
-        } else {
-            // If network is unavailable for the first request show the error textview
-            // Otherview show Toast message
-            if (mPage == START_PAGE) {
-                DisplayUtils.setNoNetworkConnectionMessage(mContext, mBinding.tvErrorMessageDisplay);
-                showErrorMessage();
-            } else {
-                Toast.makeText(mContext, getResources().getString(R.string.no_network_connection_error_message), Toast.LENGTH_SHORT).show();
-                mAdapter.showLoading(false);
-                mAdapter.notifyDataSetChanged();
+        }).onNoNetwork(new HTTPLoaderUtil.HTTPBlock() {
+            @Override
+            public void run() {
+                if (mPage == START_PAGE) {
+                    DisplayUtils.setNoNetworkConnectionMessage(mContext, mBinding.tvErrorMessageDisplay);
+                    showErrorMessage();
+                } else {
+                    Toast.makeText(mContext, getResources().getString(R.string.no_network_connection_error_message), Toast.LENGTH_SHORT).show();
+                    mAdapter.showLoading(false);
+                    mAdapter.notifyDataSetChanged();
+                }
             }
-        }
+        }).execute();
     }
 
     /**

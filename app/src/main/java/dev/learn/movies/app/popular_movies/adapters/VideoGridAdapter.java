@@ -11,8 +11,8 @@ import java.util.List;
 
 import dev.learn.movies.app.popular_movies.R;
 import dev.learn.movies.app.popular_movies.common.Video;
-import dev.learn.movies.app.popular_movies.util.DisplayUtils;
-import dev.learn.movies.app.popular_movies.util.HTTPHelper;
+import dev.learn.movies.app.popular_movies.utils.DisplayUtils;
+import dev.learn.movies.app.popular_movies.utils.URIBuilderUtils;
 
 /**
  * Created by sudharti on 11/27/17.
@@ -65,7 +65,7 @@ public class VideoGridAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         private void bind(int position) {
             Video video = mVideoList.get(position);
             if (video != null && video.getKey() != null) {
-                DisplayUtils.fitImageInto(mVideoThumbImageView, HTTPHelper.buildYouTubeThumbURI(video.getKey()));
+                DisplayUtils.fitImageInto(mVideoThumbImageView, URIBuilderUtils.buildYouTubeThumbURI(video.getKey()));
             }
         }
 

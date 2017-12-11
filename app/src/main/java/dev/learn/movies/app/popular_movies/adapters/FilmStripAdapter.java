@@ -2,7 +2,6 @@ package dev.learn.movies.app.popular_movies.adapters;
 
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +15,8 @@ import dev.learn.movies.app.popular_movies.R;
 import dev.learn.movies.app.popular_movies.common.Media;
 import dev.learn.movies.app.popular_movies.common.movies.Movie;
 import dev.learn.movies.app.popular_movies.common.tv_show.TVShow;
-import dev.learn.movies.app.popular_movies.util.DisplayUtils;
-import dev.learn.movies.app.popular_movies.util.HTTPHelper;
+import dev.learn.movies.app.popular_movies.utils.DisplayUtils;
+import dev.learn.movies.app.popular_movies.utils.URIBuilderUtils;
 
 
 /**
@@ -78,14 +77,14 @@ public class FilmStripAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 Movie movie = (Movie) mFilmStripList.get(position); //Or TVShow
                 String posterURL;
                 if (movie != null && (posterURL = movie.getPosterPath()) != null) {
-                    Uri posterUri = HTTPHelper.buildImageResourceUri(posterURL, HTTPHelper.IMAGE_SIZE_MEDIUM);
+                    Uri posterUri = URIBuilderUtils.buildImageResourceUri(posterURL, URIBuilderUtils.IMAGE_SIZE_MEDIUM);
                     DisplayUtils.fitImageInto(mPosterImageView, posterUri);
                 }
             } else if (media instanceof TVShow) {
                 TVShow tvShow = (TVShow) mFilmStripList.get(position); //Or TVShow
                 String posterURL;
                 if (tvShow != null && (posterURL = tvShow.getPosterPath()) != null) {
-                    Uri posterUri = HTTPHelper.buildImageResourceUri(posterURL, HTTPHelper.IMAGE_SIZE_MEDIUM);
+                    Uri posterUri = URIBuilderUtils.buildImageResourceUri(posterURL, URIBuilderUtils.IMAGE_SIZE_MEDIUM);
                     DisplayUtils.fitImageInto(mPosterImageView, posterUri);
                 }
             }

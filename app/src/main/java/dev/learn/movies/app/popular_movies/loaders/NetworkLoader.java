@@ -11,7 +11,8 @@ import android.util.Log;
 import java.io.IOException;
 import java.net.URL;
 
-import dev.learn.movies.app.popular_movies.util.HTTPHelper;
+import dev.learn.movies.app.popular_movies.utils.HTTPUtils;
+import dev.learn.movies.app.popular_movies.utils.URIBuilderUtils;
 
 /**
  * NetworkLoader - Generic Loader class which implements LoaderCallbacks
@@ -52,7 +53,7 @@ public class NetworkLoader implements LoaderManager.LoaderCallbacks<String> {
                 if (url != null) {
                     try {
                         Log.i(TAG, "Requesting Data From: " + url.toString());
-                        return HTTPHelper.getHTTPResponse(url);
+                        return HTTPUtils.getHTTPResponse(url);
                     } catch (IOException e) {
                         Log.e(TAG, e.getMessage());
                     }

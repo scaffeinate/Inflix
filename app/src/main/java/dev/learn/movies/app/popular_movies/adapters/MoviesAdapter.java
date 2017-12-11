@@ -12,8 +12,8 @@ import java.util.List;
 
 import dev.learn.movies.app.popular_movies.R;
 import dev.learn.movies.app.popular_movies.common.movies.Movie;
-import dev.learn.movies.app.popular_movies.util.DisplayUtils;
-import dev.learn.movies.app.popular_movies.util.HTTPHelper;
+import dev.learn.movies.app.popular_movies.utils.DisplayUtils;
+import dev.learn.movies.app.popular_movies.utils.URIBuilderUtils;
 
 /**
  * MoviesAdapter - RecyclerView Adapter for Movies
@@ -71,7 +71,7 @@ public class MoviesAdapter extends LoadMoreAdapter {
             Movie movie = mMovieList.get(position);
             String posterURL;
             if (movie != null && (posterURL = movie.getPosterPath()) != null) {
-                Uri posterUri = HTTPHelper.buildImageResourceUri(posterURL, HTTPHelper.IMAGE_SIZE_MEDIUM);
+                Uri posterUri = URIBuilderUtils.buildImageResourceUri(posterURL, URIBuilderUtils.IMAGE_SIZE_MEDIUM);
                 DisplayUtils.fitImageInto(mPosterImageView, posterUri);
             }
         }

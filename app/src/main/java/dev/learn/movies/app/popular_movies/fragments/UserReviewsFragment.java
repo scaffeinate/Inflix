@@ -27,9 +27,10 @@ import dev.learn.movies.app.popular_movies.common.movies.MovieReview;
 import dev.learn.movies.app.popular_movies.common.movies.MovieReviewsResult;
 import dev.learn.movies.app.popular_movies.databinding.FragmentUserReviewsBinding;
 import dev.learn.movies.app.popular_movies.loaders.NetworkLoader;
-import dev.learn.movies.app.popular_movies.util.DisplayUtils;
+import dev.learn.movies.app.popular_movies.utils.DisplayUtils;
+import dev.learn.movies.app.popular_movies.utils.HTTPLoaderUtil;
 import dev.learn.movies.app.popular_movies.views.EndlessRecyclerViewScrollListener;
-import dev.learn.movies.app.popular_movies.util.HTTPHelper;
+import dev.learn.movies.app.popular_movies.utils.URIBuilderUtils;
 
 import static dev.learn.movies.app.popular_movies.Inflix.MOVIE_ID;
 import static dev.learn.movies.app.popular_movies.Inflix.MOVIE_REVIEWS;
@@ -133,26 +134,34 @@ public class UserReviewsFragment extends Fragment implements NetworkLoader.Netwo
         }
     }
 
-    private void fetchMovieReviews(long movieId) {
-        if (HTTPHelper.isNetworkEnabled(mContext)) {
-            loadMovieReviewsFromNetwork(movieId);
-        } else {
-            if (mPage == START_PAGE) {
-                DisplayUtils.setNoNetworkConnectionMessage(mContext, mBinding.tvReviewsErrorMessageDisplay);
-                showReviewsErrorMessage();
-            } else {
-                Toast.makeText(mContext, getResources().getString(R.string.no_network_connection_error_message), Toast.LENGTH_SHORT).show();
-                mAdapter.showLoading(false);
-                mAdapter.notifyDataSetChanged();
-            }
-        }
+    private void fetchMovieReviews(final long movieId) {
+        HTTPLoaderUtil.with(mContext)
+                .tryCall(new HTTPLoaderUtil.HTTPBlock() {
+                    @Override
+                    public void run() {
+                        loadMovieReviewsFromNetwork(movieId);
+                    }
+                })
+                .onNoNetwork(new HTTPLoaderUtil.HTTPBlock() {
+                    @Override
+                    public void run() {
+                        if (mPage == START_PAGE) {
+                            DisplayUtils.setNoNetworkConnectionMessage(mContext, mBinding.tvReviewsErrorMessageDisplay);
+                            showReviewsErrorMessage();
+                        } else {
+                            Toast.makeText(mContext, getResources().getString(R.string.no_network_connection_error_message), Toast.LENGTH_SHORT).show();
+                            mAdapter.showLoading(false);
+                            mAdapter.notifyDataSetChanged();
+                        }
+                    }
+                }).execute();
     }
 
     /**
      * Loads movie reviews from Network
      */
     private void loadMovieReviewsFromNetwork(long movieId) {
-        URL url = HTTPHelper.buildMovieReviewsURL(String.valueOf(movieId), mPage);
+        URL url = URIBuilderUtils.buildMovieReviewsURL(String.valueOf(movieId), mPage);
         Bundle args = new Bundle();
         args.putSerializable(NetworkLoader.URL_EXTRA, url);
         getActivity().getSupportLoaderManager().restartLoader(MOVIE_REVIEWS_LOADER_ID, args, mNetworkLoader);

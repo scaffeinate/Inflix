@@ -40,9 +40,10 @@ import dev.learn.movies.app.popular_movies.common.tv_show.TVShowDetail;
 import dev.learn.movies.app.popular_movies.data.DataContract;
 import dev.learn.movies.app.popular_movies.loaders.ContentLoader;
 import dev.learn.movies.app.popular_movies.loaders.NetworkLoader;
-import dev.learn.movies.app.popular_movies.util.DisplayUtils;
-import dev.learn.movies.app.popular_movies.util.HTTPHelper;
-import dev.learn.movies.app.popular_movies.util.LoadingContentUtil;
+import dev.learn.movies.app.popular_movies.utils.DisplayUtils;
+import dev.learn.movies.app.popular_movies.utils.HTTPLoaderUtil;
+import dev.learn.movies.app.popular_movies.utils.URIBuilderUtils;
+import dev.learn.movies.app.popular_movies.utils.ContentLoadingUtil;
 import dev.learn.movies.app.popular_movies.views.VideoGridDialog;
 
 import static dev.learn.movies.app.popular_movies.data.DataContract.MOVIES;
@@ -89,9 +90,9 @@ public abstract class BaseDetailsFragment extends Fragment implements
     protected VideoGridDialog mVideoGridDialog;
     protected MenuItem mBookmarkMenuItem;
 
-    protected LoadingContentUtil mContentLoadingUtil;
-    protected LoadingContentUtil mSimilarLoadingUtil;
-    protected LoadingContentUtil mCastLoadingUtil;
+    protected ContentLoadingUtil mContentLoadingUtil;
+    protected ContentLoadingUtil mSimilarLoadingUtil;
+    protected ContentLoadingUtil mCastLoadingUtil;
 
     private NetworkLoader mNetworkLoader;
     private ContentLoader mContentLoader;
@@ -115,9 +116,9 @@ public abstract class BaseDetailsFragment extends Fragment implements
         setHasOptionsMenu(true);
 
         mVideoGridDialog = VideoGridDialog.with(mContext);
-        mContentLoadingUtil = LoadingContentUtil.with(mContext);
-        mSimilarLoadingUtil = LoadingContentUtil.with(mContext);
-        mCastLoadingUtil = LoadingContentUtil.with(mContext);
+        mContentLoadingUtil = ContentLoadingUtil.with(mContext);
+        mSimilarLoadingUtil = ContentLoadingUtil.with(mContext);
+        mCastLoadingUtil = ContentLoadingUtil.with(mContext);
 
         isMovieDetailFragment = (this instanceof MovieDetailsFragment);
     }
@@ -136,11 +137,6 @@ public abstract class BaseDetailsFragment extends Fragment implements
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (!HTTPHelper.isNetworkEnabled(mContext)) {
-            Toast.makeText(mContext, getResources().getString(R.string.no_network_connection_error_message), Toast.LENGTH_SHORT).show();
-            return false;
-        }
-
         switch (item.getItemId()) {
             case R.id.action_bookmark:
                 String type = (this instanceof MovieDetailsFragment) ? MOVIES : TV_SHOWS;
@@ -165,19 +161,28 @@ public abstract class BaseDetailsFragment extends Fragment implements
                 showBookmarkToast(mediaDetail.isBookmarked());
                 return true;
             case R.id.action_share:
-                if(HTTPHelper.isNetworkEnabled(mContext)) {
-                    URL shareURL = isMovieDetailFragment ? HTTPHelper.buildTMDBMovieURL(String.valueOf(mResourceId)) :
-                            HTTPHelper.buildTMDBTVShowURL(String.valueOf(mResourceId));
-                    DisplayUtils.shareURL(getActivity(), mResourceTitle, shareURL);
-                } else {
-
-                }
+                HTTPLoaderUtil.with(mContext)
+                        .tryCall(new HTTPLoaderUtil.HTTPBlock() {
+                            @Override
+                            public void run() {
+                                URL shareURL = isMovieDetailFragment ? URIBuilderUtils.buildTMDBMovieURL(String.valueOf(mResourceId)) :
+                                        URIBuilderUtils.buildTMDBTVShowURL(String.valueOf(mResourceId));
+                                DisplayUtils.shareURL(getActivity(), mResourceTitle, shareURL);
+                            }
+                        })
+                        .execute();
                 return true;
             case R.id.action_watch_trailer:
-                URL videosURL = isMovieDetailFragment ? HTTPHelper.buildMovieTrailersURL(String.valueOf(mResourceId)) :
-                        HTTPHelper.buildTVShowTrailersURL(String.valueOf(mResourceId));
-                int loaderId = isMovieDetailFragment ? MOVIE_TRAILERS_LOADER_ID : TV_SHOWS_TRAILERS_LOADER_ID;
-                buildVideoGrid(videosURL, loaderId);
+                HTTPLoaderUtil.with(mContext)
+                        .tryCall(new HTTPLoaderUtil.HTTPBlock() {
+                            @Override
+                            public void run() {
+                                URL videosURL = isMovieDetailFragment ? URIBuilderUtils.buildMovieTrailersURL(String.valueOf(mResourceId)) :
+                                        URIBuilderUtils.buildTVShowTrailersURL(String.valueOf(mResourceId));
+                                int loaderId = isMovieDetailFragment ? MOVIE_TRAILERS_LOADER_ID : TV_SHOWS_TRAILERS_LOADER_ID;
+                                buildVideoGrid(videosURL, loaderId);
+                            }
+                        }).execute();
                 return true;
 
         }
@@ -235,13 +240,21 @@ public abstract class BaseDetailsFragment extends Fragment implements
         getActivity().getSupportLoaderManager().restartLoader(loaderId, args, mContentLoader);
     }
 
-    protected void lazyLoadAdditionalInfoFromNetwork(Runnable runnable) {
-        if (HTTPHelper.isNetworkEnabled(mContext)) {
-            new Handler().postDelayed(runnable, ACTIVITY_DETAIL_LAZY_LOAD_DELAY_IN_MS);
-        } else {
-            mCastLoadingUtil.error();
-            mSimilarLoadingUtil.error();
-        }
+    protected void lazyLoadAdditionalInfoFromNetwork(final Runnable runnable) {
+        HTTPLoaderUtil.with(mContext)
+                .tryCall(new HTTPLoaderUtil.HTTPBlock() {
+                    @Override
+                    public void run() {
+                        new Handler().postDelayed(runnable, ACTIVITY_DETAIL_LAZY_LOAD_DELAY_IN_MS);
+                    }
+                })
+                .onNoNetwork(new HTTPLoaderUtil.HTTPBlock() {
+                    @Override
+                    public void run() {
+                        mCastLoadingUtil.error();
+                        mSimilarLoadingUtil.error();
+                    }
+                }).execute();
     }
 
     protected void updateBookmarkBtn(boolean isBookmarked) {

@@ -9,8 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import dev.learn.movies.app.popular_movies.R;
-import dev.learn.movies.app.popular_movies.util.DisplayUtils;
-import dev.learn.movies.app.popular_movies.util.HTTPHelper;
+import dev.learn.movies.app.popular_movies.utils.DisplayUtils;
+import dev.learn.movies.app.popular_movies.utils.URIBuilderUtils;
 
 import static dev.learn.movies.app.popular_movies.data.DataContract.MediaEntry.COLUMN_POSTER_PATH;
 
@@ -79,7 +79,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.View
             mCursor.moveToPosition(position);
             String posterURL = mCursor.getString(mCursor.getColumnIndex(COLUMN_POSTER_PATH));
             if (posterURL != null) {
-                Uri posterUri = HTTPHelper.buildImageResourceUri(posterURL, HTTPHelper.IMAGE_SIZE_MEDIUM);
+                Uri posterUri = URIBuilderUtils.buildImageResourceUri(posterURL, URIBuilderUtils.IMAGE_SIZE_MEDIUM);
                 DisplayUtils.fitImageInto(mPosterImageView, posterUri);
             }
         }

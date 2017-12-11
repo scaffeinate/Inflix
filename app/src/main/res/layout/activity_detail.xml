@@ -13,7 +13,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
-            app:layout_behavior="dev.learn.movies.app.popular_movies.util.FixAppBarLayoutBehavior"
+            app:layout_behavior="dev.learn.movies.app.popular_movies.views.FixAppBarLayoutBehavior"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
             <android.support.design.widget.CollapsingToolbarLayout

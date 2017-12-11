@@ -30,8 +30,10 @@ import dev.learn.movies.app.popular_movies.common.movies.MovieDetail;
 import dev.learn.movies.app.popular_movies.common.movies.MoviesResult;
 import dev.learn.movies.app.popular_movies.data.DataContract;
 import dev.learn.movies.app.popular_movies.databinding.FragmentMovieDetailsBinding;
-import dev.learn.movies.app.popular_movies.util.DisplayUtils;
-import dev.learn.movies.app.popular_movies.util.HTTPHelper;
+import dev.learn.movies.app.popular_movies.utils.DisplayUtils;
+import dev.learn.movies.app.popular_movies.utils.HTTPLoaderUtil;
+import dev.learn.movies.app.popular_movies.utils.HTTPUtils;
+import dev.learn.movies.app.popular_movies.utils.URIBuilderUtils;
 
 import static dev.learn.movies.app.popular_movies.Inflix.ADDITIONAL_INFO_ACTIVITY_FRAGMENT_TYPE_REVIEWS;
 import static dev.learn.movies.app.popular_movies.Inflix.LOCAL_MOVIE_DETAILS_LOADER_ID;
@@ -114,8 +116,8 @@ public class MovieDetailsFragment extends BaseDetailsFragment implements View.On
             mResourceTitle = getArguments().getString(RESOURCE_TITLE, "");
 
             if (mResourceId != 0) {
-                final URL similarURL = HTTPHelper.buildSimilarMoviesURL(String.valueOf(mResourceId));
-                final URL castsURL = HTTPHelper.buildMovieCastURL(String.valueOf(mResourceId));
+                final URL similarURL = URIBuilderUtils.buildSimilarMoviesURL(String.valueOf(mResourceId));
+                final URL castsURL = URIBuilderUtils.buildMovieCastURL(String.valueOf(mResourceId));
                 Uri uri = DataContract.MEDIA_CONTENT_URI
                         .buildUpon()
                         .appendPath(String.valueOf(mResourceId))
@@ -159,17 +161,26 @@ public class MovieDetailsFragment extends BaseDetailsFragment implements View.On
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (!HTTPHelper.isNetworkEnabled(mContext)) {
-            Toast.makeText(mContext, getResources().getString(R.string.no_network_connection_error_message), Toast.LENGTH_SHORT).show();
-            return false;
-        }
-
         switch (item.getItemId()) {
             case R.id.action_user_reviews:
-                goToReviews();
+                HTTPLoaderUtil.with(mContext)
+                        .tryCall(new HTTPLoaderUtil.HTTPBlock() {
+                            @Override
+                            public void run() {
+                                goToReviews();
+                            }
+                        })
+                        .execute();
                 return true;
             case R.id.action_imdb:
-                DisplayUtils.openIMDB(mContext, mMovieDetail.getImdbId());
+                HTTPLoaderUtil.with(mContext)
+                        .tryCall(new HTTPLoaderUtil.HTTPBlock() {
+                            @Override
+                            public void run() {
+                                DisplayUtils.openIMDB(mContext, mMovieDetail.getImdbId());
+                            }
+                        })
+                        .execute();
                 return true;
 
         }
@@ -240,13 +251,22 @@ public class MovieDetailsFragment extends BaseDetailsFragment implements View.On
     @Override
     public void onLoadFinished(Loader loader, Cursor cursor) {
         if (cursor == null || !cursor.moveToFirst()) {
-            if (HTTPHelper.isNetworkEnabled(mContext)) {
-                loadFromNetwork(HTTPHelper.buildMovieDetailsURL(String.valueOf(mResourceId)), MOVIE_DETAILS_LOADER_ID);
-            } else {
-                DisplayUtils.setNoNetworkConnectionMessage(mContext, mBinding.textViewErrorMessageDisplay);
-                mContentLoadingUtil.error();
-                mCallbacks.hideFavBtn();
-            }
+            HTTPLoaderUtil.with(mContext)
+                    .tryCall(new HTTPLoaderUtil.HTTPBlock() {
+                        @Override
+                        public void run() {
+                            loadFromNetwork(URIBuilderUtils.buildMovieDetailsURL(String.valueOf(mResourceId)), MOVIE_DETAILS_LOADER_ID);
+                        }
+                    })
+                    .onNoNetwork(new HTTPLoaderUtil.HTTPBlock() {
+                        @Override
+                        public void run() {
+                            DisplayUtils.setNoNetworkConnectionMessage(mContext, mBinding.textViewErrorMessageDisplay);
+                            mContentLoadingUtil.error();
+                            mCallbacks.hideFavBtn();
+                        }
+                    }).execute();
+
         } else {
             switch (loader.getId()) {
                 case LOCAL_MOVIE_DETAILS_LOADER_ID:
@@ -281,12 +301,12 @@ public class MovieDetailsFragment extends BaseDetailsFragment implements View.On
         List<Genre> genres = mMovieDetail.getGenres();
 
         if (backdropURL != null) {
-            Uri backdropUri = HTTPHelper.buildImageResourceUri(backdropURL, HTTPHelper.IMAGE_SIZE_XLARGE);
+            Uri backdropUri = URIBuilderUtils.buildImageResourceUri(backdropURL, URIBuilderUtils.IMAGE_SIZE_XLARGE);
             mCallbacks.updateBackdrop(backdropUri);
         }
 
         if (posterURL != null) {
-            Uri posterUri = HTTPHelper.buildImageResourceUri(posterURL, HTTPHelper.IMAGE_SIZE_SMALL);
+            Uri posterUri = URIBuilderUtils.buildImageResourceUri(posterURL, URIBuilderUtils.IMAGE_SIZE_SMALL);
             DisplayUtils.fitImageInto(mBinding.layoutMovieInfo.layoutPoster.imageViewPoster, posterUri);
         }
 
@@ -335,18 +355,20 @@ public class MovieDetailsFragment extends BaseDetailsFragment implements View.On
     }
 
     private void goToReviews() {
-        if (HTTPHelper.isNetworkEnabled(mContext)) {
-            Intent additionalIntent = new Intent(mContext, AdditionalInfoActivity.class);
+        HTTPLoaderUtil.with(mContext)
+                .tryCall(new HTTPLoaderUtil.HTTPBlock() {
+                    @Override
+                    public void run() {
+                        Intent additionalIntent = new Intent(mContext, AdditionalInfoActivity.class);
 
-            Bundle extras = new Bundle();
-            extras.putLong(RESOURCE_ID, mResourceId);
-            extras.putString(RESOURCE_TITLE, mResourceTitle);
-            extras.putString(RESOURCE_TYPE, ADDITIONAL_INFO_ACTIVITY_FRAGMENT_TYPE_REVIEWS);
-            additionalIntent.putExtras(extras);
+                        Bundle extras = new Bundle();
+                        extras.putLong(RESOURCE_ID, mResourceId);
+                        extras.putString(RESOURCE_TITLE, mResourceTitle);
+                        extras.putString(RESOURCE_TYPE, ADDITIONAL_INFO_ACTIVITY_FRAGMENT_TYPE_REVIEWS);
+                        additionalIntent.putExtras(extras);
 
-            startActivity(additionalIntent);
-        } else {
-            Toast.makeText(mContext, getResources().getString(R.string.no_network_connection_error_message), Toast.LENGTH_SHORT).show();
-        }
+                        startActivity(additionalIntent);
+                    }
+                }).execute();
     }
 }
