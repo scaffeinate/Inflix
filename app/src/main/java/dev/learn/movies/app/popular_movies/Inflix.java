@@ -55,8 +55,6 @@ public final class Inflix {
 
     public static final String TOP_RATED = "top_rated";
 
-    public static final String RECOMMENDATIONS = "recommendations";
-
     public static final String SIMILAR = "similar";
 
     public static final String CREDITS = "credits";
@@ -72,10 +70,6 @@ public final class Inflix {
     public static final String FAVORITES = "favorites";
 
     public static final String BOOKMARKS = "bookmarks";
-
-    public static final String MOVIE_ID = "movie_id";
-
-    public static final String MOVIE_NAME = "movie_name";
 
     public static final String MOVIE_REVIEWS = "movie_reviews";
 

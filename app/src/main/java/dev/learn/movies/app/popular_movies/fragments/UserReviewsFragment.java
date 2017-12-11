@@ -32,9 +32,9 @@ import dev.learn.movies.app.popular_movies.utils.HTTPLoaderUtil;
 import dev.learn.movies.app.popular_movies.utils.URIBuilderUtils;
 import dev.learn.movies.app.popular_movies.views.EndlessRecyclerViewScrollListener;
 
-import static dev.learn.movies.app.popular_movies.Inflix.MOVIE_ID;
 import static dev.learn.movies.app.popular_movies.Inflix.MOVIE_REVIEWS;
 import static dev.learn.movies.app.popular_movies.Inflix.MOVIE_REVIEWS_LOADER_ID;
+import static dev.learn.movies.app.popular_movies.Inflix.RESOURCE_ID;
 import static dev.learn.movies.app.popular_movies.Inflix.START_PAGE;
 
 /**
@@ -45,7 +45,7 @@ public class UserReviewsFragment extends Fragment implements NetworkLoader.Netwo
 
     private final Gson gson = new Gson();
     private Context mContext;
-    private long mMovieId;
+    private long mResourceId;
     private FragmentUserReviewsBinding mBinding;
     private NetworkLoader mNetworkLoader;
 
@@ -56,11 +56,11 @@ public class UserReviewsFragment extends Fragment implements NetworkLoader.Netwo
     private EndlessRecyclerViewScrollListener mEndlessScollListener;
     private int mPage = START_PAGE;
 
-    public static UserReviewsFragment newInstance(long movieId) {
+    public static UserReviewsFragment newInstance(long resourceId) {
         UserReviewsFragment userReviewsFragment = new UserReviewsFragment();
 
         Bundle args = new Bundle();
-        args.putLong(MOVIE_ID, movieId);
+        args.putLong(RESOURCE_ID, resourceId);
         userReviewsFragment.setArguments(args);
 
         return userReviewsFragment;
@@ -81,7 +81,7 @@ public class UserReviewsFragment extends Fragment implements NetworkLoader.Netwo
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 mPage = page;
                 mAdapter.showLoading(true);
-                fetchMovieReviews(mMovieId);
+                fetchMovieReviews(mResourceId);
             }
         };
     }
@@ -100,10 +100,10 @@ public class UserReviewsFragment extends Fragment implements NetworkLoader.Netwo
         mBinding.rvUserReviews.addItemDecoration(itemDecoration);
 
         if (savedInstanceState == null) {
-            mMovieId = getArguments().getLong(MOVIE_ID, 0);
+            mResourceId = getArguments().getLong(RESOURCE_ID, 0);
 
-            if (mMovieId != 0) {
-                fetchMovieReviews(mMovieId);
+            if (mResourceId != 0) {
+                fetchMovieReviews(mResourceId);
             }
         } else {
             List<MovieReview> movieReviewList = savedInstanceState.getParcelableArrayList(MOVIE_REVIEWS);
@@ -116,7 +116,7 @@ public class UserReviewsFragment extends Fragment implements NetworkLoader.Netwo
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putLong(MOVIE_ID, mMovieId);
+        outState.putLong(RESOURCE_ID, mResourceId);
         outState.putParcelableArrayList(MOVIE_REVIEWS, (ArrayList<? extends Parcelable>) mReviewsList);
     }
 
