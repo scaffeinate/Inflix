@@ -20,8 +20,8 @@ import dev.learn.movies.app.popular_movies.utils.URIBuilderUtils;
  */
 public class MoviesAdapter extends LoadMoreAdapter {
 
-    private List<Movie> mMovieList;
     private final OnItemClickHandler mHandler;
+    private List<Movie> mMovieList;
 
     public MoviesAdapter(OnItemClickHandler handler) {
         mMovieList = new ArrayList<>();

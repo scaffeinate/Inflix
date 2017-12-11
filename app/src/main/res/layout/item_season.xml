@@ -25,27 +25,27 @@
 					android:layout_height="wrap_content"
 					android:layout_gravity="center"
 					android:contentDescription="@string/placeholder_image"
-					app:srcCompat="@drawable/ic_movie_roll_grey600_48dp" />
+					app:srcCompat="@drawable/ic_movie_roll_grey600_48dp"/>
 
 				<ImageView
 					android:id="@+id/image_view_season_pic"
 					android:layout_width="match_parent"
 					android:layout_height="match_parent"
 					android:contentDescription="@string/poster_image"
-					android:foreground="?selectableItemBackground" />
+					android:foreground="?selectableItemBackground"/>
 			</FrameLayout>
 
 			<TextView
 				android:id="@+id/text_view_season_number"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:layout_centerHorizontal="true"
 				android:layout_below="@+id/layout_season_pic"
+				android:layout_centerHorizontal="true"
 				android:layout_marginTop="10dp"
 				android:ellipsize="end"
 				android:maxLines="1"
 				android:textAppearance="@style/BodyBold"
-				tools:text="@string/season_1" />
+				tools:text="@string/season_1"/>
 		</RelativeLayout>
 	</android.support.v7.widget.CardView>
 </layout>

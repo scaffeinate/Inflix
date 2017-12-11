@@ -1,9 +1,9 @@
-
 package dev.learn.movies.app.popular_movies.common.cast;
 
-import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
 
 public class CastsResult {
 

@@ -31,10 +31,10 @@ import dev.learn.movies.app.popular_movies.common.tv_show.TVShowDetail;
 import dev.learn.movies.app.popular_movies.common.tv_show.TVShowsResult;
 import dev.learn.movies.app.popular_movies.data.DataContract;
 import dev.learn.movies.app.popular_movies.databinding.FragmentTvShowDetailsBinding;
+import dev.learn.movies.app.popular_movies.utils.ContentLoadingUtil;
 import dev.learn.movies.app.popular_movies.utils.DisplayUtils;
 import dev.learn.movies.app.popular_movies.utils.HTTPLoaderUtil;
 import dev.learn.movies.app.popular_movies.utils.URIBuilderUtils;
-import dev.learn.movies.app.popular_movies.utils.ContentLoadingUtil;
 
 import static dev.learn.movies.app.popular_movies.Inflix.LOCAL_TV_SHOW_DETAILS_LOADER_ID;
 import static dev.learn.movies.app.popular_movies.Inflix.RESOURCE_ID;
@@ -50,9 +50,8 @@ import static dev.learn.movies.app.popular_movies.Inflix.TV_SHOWS_TRAILERS_LOADE
 
 public class TVShowDetailsFragment extends BaseDetailsFragment {
 
-    private FragmentTvShowDetailsBinding mBinding;
-
     protected RecyclerView.LayoutManager mSeasonsLayoutManager;
+    private FragmentTvShowDetailsBinding mBinding;
     private ContentLoadingUtil mSeasonLoadingUtil;
     private SeasonsAdapter mSeasonsAdapter;
 

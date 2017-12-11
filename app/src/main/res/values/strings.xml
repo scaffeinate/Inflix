@@ -1,90 +1,90 @@
 <resources>
-    <string name="app_name">Inflix</string>
-    <string name="app_name_caps">INFLIX</string>
+	<string name="app_name">Inflix</string>
+	<string name="app_name_caps">INFLIX</string>
 
-    <string name="open">Open</string>
-    <string name="close">Close</string>
+	<string name="open">Open</string>
+	<string name="close">Close</string>
 
-    <string name="nav_sub_header_movies">MOVIES</string>
-    <string name="action_now_playing">Now playing</string>
-    <string name="action_popular">Popular</string>
-    <string name="action_top_rated">Top Rated</string>
-    <string name="action_latest">Latest</string>
-    <string name="action_upcoming">Upcoming</string>
+	<string name="nav_sub_header_movies">MOVIES</string>
+	<string name="action_now_playing">Now playing</string>
+	<string name="action_popular">Popular</string>
+	<string name="action_top_rated">Top Rated</string>
+	<string name="action_latest">Latest</string>
+	<string name="action_upcoming">Upcoming</string>
 
-    <string name="nav_sub_header_tv">TV</string>
-    <string name="action_tv_airing_today">Airing Today</string>
-    <string name="action_tv_on_the_air">On The Air</string>
-    <string name="action_tv_latest">Latest</string>
-    <string name="action_tv_popular">Popular</string>
-    <string name="action_tv_top_rated">Top Rated</string>
+	<string name="nav_sub_header_tv">TV</string>
+	<string name="action_tv_airing_today">Airing Today</string>
+	<string name="action_tv_on_the_air">On The Air</string>
+	<string name="action_tv_latest">Latest</string>
+	<string name="action_tv_popular">Popular</string>
+	<string name="action_tv_top_rated">Top Rated</string>
 
-    <string name="nav_sub_header_other">OTHER</string>
-    <string name="action_favorites">Favorites</string>
-    <string name="action_bookmarks">Bookmarks</string>
+	<string name="nav_sub_header_other">OTHER</string>
+	<string name="action_favorites">Favorites</string>
+	<string name="action_bookmarks">Bookmarks</string>
 
-    <string name="action_search">Search</string>
-    <string name="action_save_offline">Save Offline</string>
-    <string name="action_bookmark">Bookmark</string>
-    <string name="action_share">Share</string>
-    <string name="action_watch_trailer">Watch Trailer</string>
-    <string name="action_imdb">Open IMDB</string>
-    <string name="action_user_reviews">User Reviews</string>
+	<string name="action_search">Search</string>
+	<string name="action_save_offline">Save Offline</string>
+	<string name="action_bookmark">Bookmark</string>
+	<string name="action_share">Share</string>
+	<string name="action_watch_trailer">Watch Trailer</string>
+	<string name="action_imdb">Open IMDB</string>
+	<string name="action_user_reviews">User Reviews</string>
 
-    <string name="no_movies_found_error_message">No movies found.</string>
-    <string name="couldnt_load_movie_info_error_message">Couldn\'t load movie info :(</string>
-    <string name="couldnt_load_tv_show_info_error_message">Couldn\'t load TV Show info :(</string>
-    <string name="no_user_reviews_error_message">No user reviews.</string>
-    <string name="no_network_connection_error_message">No network connection :(</string>
-    <string name="no_tagline_error_message">No Tagline.</string>
-    <string name="imdb_link_not_available">IMDB Link not available.</string>
-    <string name="no_recommendations_error_message">No Recommendations.</string>
-    <string name="no_trailers_error_message">No trailers found.</string>
-
-
-    <string name="plot">Plot</string>
-    <string name="tagline">Tagline</string>
-    <string name="user_reviews">User Reviews</string>
-    <string name="genres">Genres</string>
-    <string name="budget">Budget</string>
-    <string name="revenue">Revenue</string>
-    <string name="first_air_date">First Aired</string>
-    <string name="last_air_date">Last Aired</string>
-    <string name="created_by">Created By</string>
-
-    <string name="recommendations">Recommendations</string>
-    <string name="recommended">Recommended</string>
-    <string name="similar_movies">Similar Movies</string>
-    <string name="similar_tv_shows">Similar TV Shows</string>
-    <string name="cast">Cast</string>
-    <string name="seasons">Seasons</string>
-
-    <string name="trailer_1">Trailer 1</string>
-    <string name="added_to_favorites">Added to Favorites</string>
-    <string name="removed_from_favorites">Removed from Favorites</string>
-    <string name="added_to_bookmarks">Added to Bookmarks</string>
-    <string name="removed_from_bookmarks">Removed from Bookmarks</string>
-    <string name="out_of_10">/10</string>
-
-    <string name="placeholder_image">Placeholder when image load fails.</string>
-    <string name="backdrop_image">Backdrop Image in activity_detail</string>
-    <string name="poster_image">Poster Image shown in activity_detail and ImageGrid</string>
+	<string name="no_movies_found_error_message">No movies found.</string>
+	<string name="couldnt_load_movie_info_error_message">Couldn\'t load movie info :(</string>
+	<string name="couldnt_load_tv_show_info_error_message">Couldn\'t load TV Show info :(</string>
+	<string name="no_user_reviews_error_message">No user reviews.</string>
+	<string name="no_network_connection_error_message">No network connection :(</string>
+	<string name="no_tagline_error_message">No Tagline.</string>
+	<string name="imdb_link_not_available">IMDB Link not available.</string>
+	<string name="no_recommendations_error_message">No Recommendations.</string>
+	<string name="no_trailers_error_message">No trailers found.</string>
 
 
-    <string name="hundred_min">100 min</string>
-    <string name="seven_point_five">7.5</string>
-    <string name="ten_thousand">(10000)</string>
-    <string name="lorem_ipsum">Lorem Ipsum</string>
-    <string name="tag">Tag</string>
-    <string name="user">User</string>
-    <string name="released">Released</string>
-    <string name="random_budget">$63000000</string>
-    <string name="actor_name">Christian Bale</string>
-    <string name="character_name">Bruce Wayne</string>
-    <string name="five_seasons">5 Seasons</string>
-    <string name="fifty_episodes">50 Episodes</string>
-    <string name="first_air_date_random">2011-04-17</string>
-    <string name="last_air_date_random">2017-07-16</string>
-    <string name="created_by_random">David Benioff &amp; D. B. Weiss</string>
-    <string name="season_1">Season 1</string>
+	<string name="plot">Plot</string>
+	<string name="tagline">Tagline</string>
+	<string name="user_reviews">User Reviews</string>
+	<string name="genres">Genres</string>
+	<string name="budget">Budget</string>
+	<string name="revenue">Revenue</string>
+	<string name="first_air_date">First Aired</string>
+	<string name="last_air_date">Last Aired</string>
+	<string name="created_by">Created By</string>
+
+	<string name="recommendations">Recommendations</string>
+	<string name="recommended">Recommended</string>
+	<string name="similar_movies">Similar Movies</string>
+	<string name="similar_tv_shows">Similar TV Shows</string>
+	<string name="cast">Cast</string>
+	<string name="seasons">Seasons</string>
+
+	<string name="trailer_1">Trailer 1</string>
+	<string name="added_to_favorites">Added to Favorites</string>
+	<string name="removed_from_favorites">Removed from Favorites</string>
+	<string name="added_to_bookmarks">Added to Bookmarks</string>
+	<string name="removed_from_bookmarks">Removed from Bookmarks</string>
+	<string name="out_of_10">/10</string>
+
+	<string name="placeholder_image">Placeholder when image load fails.</string>
+	<string name="backdrop_image">Backdrop Image in activity_detail</string>
+	<string name="poster_image">Poster Image shown in activity_detail and ImageGrid</string>
+
+
+	<string name="hundred_min">100 min</string>
+	<string name="seven_point_five">7.5</string>
+	<string name="ten_thousand">(10000)</string>
+	<string name="lorem_ipsum">Lorem Ipsum</string>
+	<string name="tag">Tag</string>
+	<string name="user">User</string>
+	<string name="released">Released</string>
+	<string name="random_budget">$63000000</string>
+	<string name="actor_name">Christian Bale</string>
+	<string name="character_name">Bruce Wayne</string>
+	<string name="five_seasons">5 Seasons</string>
+	<string name="fifty_episodes">50 Episodes</string>
+	<string name="first_air_date_random">2011-04-17</string>
+	<string name="last_air_date_random">2017-07-16</string>
+	<string name="created_by_random">David Benioff &amp; D. B. Weiss</string>
+	<string name="season_1">Season 1</string>
 </resources>

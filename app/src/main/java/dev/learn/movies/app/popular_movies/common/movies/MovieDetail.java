@@ -89,6 +89,59 @@ public class MovieDetail extends MediaDetail implements Parcelable {
         isBookmarked = (in.readByte() != 0);
     }
 
+    public static ContentValues toContentValues(MovieDetail movieDetail) {
+        ContentValues cv = new ContentValues();
+        cv.put(COLUMN_MEDIA_ID, movieDetail.getId());
+        cv.put(COLUMN_OVERVIEW, movieDetail.getOverview());
+        cv.put(COLUMN_POSTER_PATH, movieDetail.getPosterPath());
+        cv.put(COLUMN_BACKDROP_PATH, movieDetail.getBackdropPath());
+        cv.put(COLUMN_VOTE_AVG, movieDetail.getVoteAverage());
+        cv.put(COLUMN_VOTE_COUNT, movieDetail.getVoteCount());
+        StringBuilder builder = new StringBuilder();
+        List<Genre> genreList = movieDetail.getGenres();
+        if (genreList != null && !genreList.isEmpty()) {
+            for (Genre genre : genreList) {
+                builder.append(genre.getName()).append(",");
+            }
+        }
+        cv.put(COLUMN_GENRES, builder.toString());
+        cv.put(COLUMN_STATUS, movieDetail.getStatus());
+        cv.put(COLUMN_IS_FAVORED, movieDetail.isFavored() ? 1 : 0);
+        cv.put(COLUMN_IS_BOOKMARKED, movieDetail.isBookmarked() ? 1 : 0);
+        cv.put(COLUMN_TITLE, movieDetail.getTitle());
+        cv.put(COLUMN_TAGLINE, movieDetail.getTagline());
+        cv.put(COLUMN_RELEASE_DATE, movieDetail.getReleaseDate());
+        cv.put(COLUMN_RUNTIME, movieDetail.getRuntime());
+        return cv;
+    }
+
+    public static MovieDetail fromCursor(Cursor cursor) {
+        MovieDetail movieDetail = new MovieDetail();
+        if (cursor.moveToFirst()) {
+            movieDetail.setId(cursor.getLong(cursor.getColumnIndex(COLUMN_MEDIA_ID)));
+            movieDetail.setOverview(cursor.getString(cursor.getColumnIndex(COLUMN_OVERVIEW)));
+            movieDetail.setPosterPath(cursor.getString(cursor.getColumnIndex(COLUMN_POSTER_PATH)));
+            movieDetail.setBackdropPath(cursor.getString(cursor.getColumnIndex(COLUMN_BACKDROP_PATH)));
+            movieDetail.setVoteAverage(cursor.getDouble(cursor.getColumnIndex(COLUMN_VOTE_AVG)));
+            movieDetail.setVoteCount(cursor.getLong(cursor.getColumnIndex(COLUMN_VOTE_COUNT)));
+            String genresStr = cursor.getString(cursor.getColumnIndex(COLUMN_GENRES));
+            List<Genre> genreList = new ArrayList<>();
+            String[] genresArr = genresStr.split(",");
+            for (String genre : genresArr) {
+                genreList.add(new Genre(0, genre));
+            }
+            movieDetail.setGenres(genreList);
+            movieDetail.setStatus(cursor.getString(cursor.getColumnIndex(COLUMN_STATUS)));
+            movieDetail.setFavored(cursor.getInt(cursor.getColumnIndex(COLUMN_IS_FAVORED)) == 1);
+            movieDetail.setBookmarked(cursor.getInt(cursor.getColumnIndex(COLUMN_IS_BOOKMARKED)) == 1);
+            movieDetail.setTitle(cursor.getString(cursor.getColumnIndex(COLUMN_TITLE)));
+            movieDetail.setTagline(cursor.getString(cursor.getColumnIndex(COLUMN_TAGLINE)));
+            movieDetail.setReleaseDate(cursor.getString(cursor.getColumnIndex(COLUMN_RELEASE_DATE)));
+            movieDetail.setRuntime(cursor.getLong(cursor.getColumnIndex(COLUMN_RUNTIME)));
+        }
+        return movieDetail;
+    }
+
     public String getReleaseDate() {
         return releaseDate;
     }
@@ -168,58 +221,5 @@ public class MovieDetail extends MediaDetail implements Parcelable {
         parcel.writeLong(revenue);
         parcel.writeByte((byte) (isFavored ? 1 : 0));
         parcel.writeByte((byte) (isBookmarked ? 1 : 0));
-    }
-
-    public static ContentValues toContentValues(MovieDetail movieDetail) {
-        ContentValues cv = new ContentValues();
-        cv.put(COLUMN_MEDIA_ID, movieDetail.getId());
-        cv.put(COLUMN_OVERVIEW, movieDetail.getOverview());
-        cv.put(COLUMN_POSTER_PATH, movieDetail.getPosterPath());
-        cv.put(COLUMN_BACKDROP_PATH, movieDetail.getBackdropPath());
-        cv.put(COLUMN_VOTE_AVG, movieDetail.getVoteAverage());
-        cv.put(COLUMN_VOTE_COUNT, movieDetail.getVoteCount());
-        StringBuilder builder = new StringBuilder();
-        List<Genre> genreList = movieDetail.getGenres();
-        if (genreList != null && !genreList.isEmpty()) {
-            for (Genre genre : genreList) {
-                builder.append(genre.getName()).append(",");
-            }
-        }
-        cv.put(COLUMN_GENRES, builder.toString());
-        cv.put(COLUMN_STATUS, movieDetail.getStatus());
-        cv.put(COLUMN_IS_FAVORED, movieDetail.isFavored() ? 1 : 0);
-        cv.put(COLUMN_IS_BOOKMARKED, movieDetail.isBookmarked() ? 1 : 0);
-        cv.put(COLUMN_TITLE, movieDetail.getTitle());
-        cv.put(COLUMN_TAGLINE, movieDetail.getTagline());
-        cv.put(COLUMN_RELEASE_DATE, movieDetail.getReleaseDate());
-        cv.put(COLUMN_RUNTIME, movieDetail.getRuntime());
-        return cv;
-    }
-
-    public static MovieDetail fromCursor(Cursor cursor) {
-        MovieDetail movieDetail = new MovieDetail();
-        if (cursor.moveToFirst()) {
-            movieDetail.setId(cursor.getLong(cursor.getColumnIndex(COLUMN_MEDIA_ID)));
-            movieDetail.setOverview(cursor.getString(cursor.getColumnIndex(COLUMN_OVERVIEW)));
-            movieDetail.setPosterPath(cursor.getString(cursor.getColumnIndex(COLUMN_POSTER_PATH)));
-            movieDetail.setBackdropPath(cursor.getString(cursor.getColumnIndex(COLUMN_BACKDROP_PATH)));
-            movieDetail.setVoteAverage(cursor.getDouble(cursor.getColumnIndex(COLUMN_VOTE_AVG)));
-            movieDetail.setVoteCount(cursor.getLong(cursor.getColumnIndex(COLUMN_VOTE_COUNT)));
-            String genresStr = cursor.getString(cursor.getColumnIndex(COLUMN_GENRES));
-            List<Genre> genreList = new ArrayList<>();
-            String[] genresArr = genresStr.split(",");
-            for (String genre : genresArr) {
-                genreList.add(new Genre(0, genre));
-            }
-            movieDetail.setGenres(genreList);
-            movieDetail.setStatus(cursor.getString(cursor.getColumnIndex(COLUMN_STATUS)));
-            movieDetail.setFavored(cursor.getInt(cursor.getColumnIndex(COLUMN_IS_FAVORED)) == 1);
-            movieDetail.setBookmarked(cursor.getInt(cursor.getColumnIndex(COLUMN_IS_BOOKMARKED)) == 1);
-            movieDetail.setTitle(cursor.getString(cursor.getColumnIndex(COLUMN_TITLE)));
-            movieDetail.setTagline(cursor.getString(cursor.getColumnIndex(COLUMN_TAGLINE)));
-            movieDetail.setReleaseDate(cursor.getString(cursor.getColumnIndex(COLUMN_RELEASE_DATE)));
-            movieDetail.setRuntime(cursor.getLong(cursor.getColumnIndex(COLUMN_RUNTIME)));
-        }
-        return movieDetail;
     }
 }

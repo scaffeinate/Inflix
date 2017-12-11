@@ -16,11 +16,11 @@ import dev.learn.movies.app.popular_movies.fragments.MovieDetailsFragment;
 import dev.learn.movies.app.popular_movies.fragments.TVShowDetailsFragment;
 import dev.learn.movies.app.popular_movies.utils.DisplayUtils;
 
-import static dev.learn.movies.app.popular_movies.data.DataContract.MOVIES;
-import static dev.learn.movies.app.popular_movies.data.DataContract.TV_SHOWS;
 import static dev.learn.movies.app.popular_movies.Inflix.RESOURCE_ID;
 import static dev.learn.movies.app.popular_movies.Inflix.RESOURCE_TITLE;
 import static dev.learn.movies.app.popular_movies.Inflix.RESOURCE_TYPE;
+import static dev.learn.movies.app.popular_movies.data.DataContract.MOVIES;
+import static dev.learn.movies.app.popular_movies.data.DataContract.TV_SHOWS;
 
 /**
  * DetailActivity - Movie Details Screen

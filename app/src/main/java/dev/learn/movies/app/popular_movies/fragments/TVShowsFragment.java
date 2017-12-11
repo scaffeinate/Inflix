@@ -34,7 +34,6 @@ import dev.learn.movies.app.popular_movies.utils.HTTPLoaderUtil;
 import dev.learn.movies.app.popular_movies.utils.URIBuilderUtils;
 import dev.learn.movies.app.popular_movies.views.EndlessRecyclerViewScrollListener;
 
-import static dev.learn.movies.app.popular_movies.data.DataContract.TV_SHOWS;
 import static dev.learn.movies.app.popular_movies.Inflix.DEFAULT_GRID_COUNT;
 import static dev.learn.movies.app.popular_movies.Inflix.DISCOVER;
 import static dev.learn.movies.app.popular_movies.Inflix.RESOURCE_ID;
@@ -47,6 +46,7 @@ import static dev.learn.movies.app.popular_movies.Inflix.TV_ON_THE_AIR;
 import static dev.learn.movies.app.popular_movies.Inflix.TV_POPULAR;
 import static dev.learn.movies.app.popular_movies.Inflix.TV_SHOWS_LOADER_ID;
 import static dev.learn.movies.app.popular_movies.Inflix.TV_TOP_RATED;
+import static dev.learn.movies.app.popular_movies.data.DataContract.TV_SHOWS;
 
 /**
  * Created by sudharti on 11/12/17.

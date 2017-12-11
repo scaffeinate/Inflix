@@ -9,6 +9,17 @@ import com.google.gson.annotations.SerializedName;
 @SuppressWarnings("ALL")
 public class MovieReview implements Parcelable {
 
+    public static final Creator<MovieReview> CREATOR = new Creator<MovieReview>() {
+        @Override
+        public MovieReview createFromParcel(Parcel in) {
+            return new MovieReview(in);
+        }
+
+        @Override
+        public MovieReview[] newArray(int size) {
+            return new MovieReview[size];
+        }
+    };
     @SerializedName("id")
     @Expose
     private String id;
@@ -28,18 +39,6 @@ public class MovieReview implements Parcelable {
         content = in.readString();
         url = in.readString();
     }
-
-    public static final Creator<MovieReview> CREATOR = new Creator<MovieReview>() {
-        @Override
-        public MovieReview createFromParcel(Parcel in) {
-            return new MovieReview(in);
-        }
-
-        @Override
-        public MovieReview[] newArray(int size) {
-            return new MovieReview[size];
-        }
-    };
 
     public String getId() {
         return id;

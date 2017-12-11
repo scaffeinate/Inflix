@@ -40,20 +40,20 @@ import dev.learn.movies.app.popular_movies.common.tv_show.TVShowDetail;
 import dev.learn.movies.app.popular_movies.data.DataContract;
 import dev.learn.movies.app.popular_movies.loaders.ContentLoader;
 import dev.learn.movies.app.popular_movies.loaders.NetworkLoader;
+import dev.learn.movies.app.popular_movies.utils.ContentLoadingUtil;
 import dev.learn.movies.app.popular_movies.utils.DisplayUtils;
 import dev.learn.movies.app.popular_movies.utils.HTTPLoaderUtil;
 import dev.learn.movies.app.popular_movies.utils.URIBuilderUtils;
-import dev.learn.movies.app.popular_movies.utils.ContentLoadingUtil;
 import dev.learn.movies.app.popular_movies.views.VideoGridDialog;
 
-import static dev.learn.movies.app.popular_movies.data.DataContract.MOVIES;
-import static dev.learn.movies.app.popular_movies.data.DataContract.TV_SHOWS;
-import static dev.learn.movies.app.popular_movies.loaders.ContentLoader.URI_EXTRA;
 import static dev.learn.movies.app.popular_movies.Inflix.ACTIVITY_DETAIL_LAZY_LOAD_DELAY_IN_MS;
 import static dev.learn.movies.app.popular_movies.Inflix.MOVIE_TRAILERS_LOADER_ID;
 import static dev.learn.movies.app.popular_movies.Inflix.RESOURCE_ID;
 import static dev.learn.movies.app.popular_movies.Inflix.RESOURCE_TITLE;
 import static dev.learn.movies.app.popular_movies.Inflix.TV_SHOWS_TRAILERS_LOADER_ID;
+import static dev.learn.movies.app.popular_movies.data.DataContract.MOVIES;
+import static dev.learn.movies.app.popular_movies.data.DataContract.TV_SHOWS;
+import static dev.learn.movies.app.popular_movies.loaders.ContentLoader.URI_EXTRA;
 
 /**
  * Created by sudhar on 12/9/17.
@@ -68,11 +68,9 @@ public abstract class BaseDetailsFragment extends Fragment implements
     protected static final String DETAILS = "details";
     protected static final String SIMILAR = "similar";
     protected static final String CAST = "cast";
-
+    protected final Gson gson = new Gson();
     protected Context mContext;
     protected DetailActivityCallbacks mCallbacks;
-
-    protected final Gson gson = new Gson();
     protected long mResourceId = 0L;
     protected String mResourceTitle;
 

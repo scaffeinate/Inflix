@@ -23,8 +23,8 @@ import dev.learn.movies.app.popular_movies.utils.URIBuilderUtils;
  * Created by sudhar on 11/15/17.
  */
 public class FilmStripAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private List<? extends Media> mFilmStripList;
     private final OnItemClickHandler mHandler;
+    private List<? extends Media> mFilmStripList;
 
     public FilmStripAdapter(OnItemClickHandler handler) {
         mFilmStripList = new ArrayList<>();

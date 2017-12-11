@@ -9,6 +9,17 @@ import com.google.gson.annotations.SerializedName;
 @SuppressWarnings("ALL")
 public class Video implements Parcelable {
 
+    public static final Creator<Video> CREATOR = new Creator<Video>() {
+        @Override
+        public Video createFromParcel(Parcel in) {
+            return new Video(in);
+        }
+
+        @Override
+        public Video[] newArray(int size) {
+            return new Video[size];
+        }
+    };
     @SerializedName("id")
     @Expose
     private String id;
@@ -44,18 +55,6 @@ public class Video implements Parcelable {
         size = in.readLong();
         type = in.readString();
     }
-
-    public static final Creator<Video> CREATOR = new Creator<Video>() {
-        @Override
-        public Video createFromParcel(Parcel in) {
-            return new Video(in);
-        }
-
-        @Override
-        public Video[] newArray(int size) {
-            return new Video[size];
-        }
-    };
 
     public String getId() {
         return id;

@@ -11,10 +11,6 @@ import dev.learn.movies.app.popular_movies.common.Media;
 @SuppressWarnings("ALL")
 public class Movie extends Media implements Parcelable {
 
-    @SerializedName("title")
-    @Expose
-    private String title;
-
     public static final Creator<Movie> CREATOR = new Creator<Movie>() {
         @Override
         public Movie createFromParcel(Parcel in) {
@@ -26,6 +22,9 @@ public class Movie extends Media implements Parcelable {
             return new Movie[size];
         }
     };
+    @SerializedName("title")
+    @Expose
+    private String title;
 
     protected Movie(Parcel in) {
         id = in.readLong();

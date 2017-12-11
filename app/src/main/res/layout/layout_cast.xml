@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+	<RelativeLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/text_view_cast_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:text="@string/cast"
-            android:textAppearance="@style/SubHeading" />
+		<TextView
+			android:id="@+id/text_view_cast_title"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignParentTop="true"
+			android:text="@string/cast"
+			android:textAppearance="@style/SubHeading"/>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_view_cast"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/text_view_cast_title"
-            android:layout_marginTop="@dimen/layout_recommendations_rv_margin_top"
-            android:visibility="invisible" />
+		<android.support.v7.widget.RecyclerView
+			android:id="@+id/recycler_view_cast"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:layout_below="@+id/text_view_cast_title"
+			android:layout_marginTop="@dimen/layout_recommendations_rv_margin_top"
+			android:visibility="invisible"/>
 
-        <ProgressBar
-            android:id="@+id/progress_bar_cast"
-            android:layout_width="@dimen/progressbar_size"
-            android:layout_height="@dimen/progressbar_size"
-            android:layout_below="@+id/text_view_cast_title"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/layout_recommendations_rv_margin_top" />
-    </RelativeLayout>
+		<ProgressBar
+			android:id="@+id/progress_bar_cast"
+			android:layout_width="@dimen/progressbar_size"
+			android:layout_height="@dimen/progressbar_size"
+			android:layout_below="@+id/text_view_cast_title"
+			android:layout_centerHorizontal="true"
+			android:layout_marginTop="@dimen/layout_recommendations_rv_margin_top"/>
+	</RelativeLayout>
 </layout>

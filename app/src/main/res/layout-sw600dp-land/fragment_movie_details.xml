@@ -46,7 +46,7 @@
 				app:layout_constraintLeft_toLeftOf="parent"
 				app:layout_constraintRight_toRightOf="parent"
 				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@+id/layout_content" />
+				app:layout_constraintTop_toBottomOf="@+id/layout_content"/>
 
 			<include
 				android:id="@+id/layout_movie_similar"
@@ -59,7 +59,7 @@
 				app:layout_constraintLeft_toLeftOf="parent"
 				app:layout_constraintRight_toRightOf="parent"
 				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@+id/layout_cast" />
+				app:layout_constraintTop_toBottomOf="@+id/layout_cast"/>
 		</android.support.constraint.ConstraintLayout>
 
 		<TextView

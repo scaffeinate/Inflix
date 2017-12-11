@@ -29,8 +29,8 @@ import dev.learn.movies.app.popular_movies.databinding.FragmentUserReviewsBindin
 import dev.learn.movies.app.popular_movies.loaders.NetworkLoader;
 import dev.learn.movies.app.popular_movies.utils.DisplayUtils;
 import dev.learn.movies.app.popular_movies.utils.HTTPLoaderUtil;
-import dev.learn.movies.app.popular_movies.views.EndlessRecyclerViewScrollListener;
 import dev.learn.movies.app.popular_movies.utils.URIBuilderUtils;
+import dev.learn.movies.app.popular_movies.views.EndlessRecyclerViewScrollListener;
 
 import static dev.learn.movies.app.popular_movies.Inflix.MOVIE_ID;
 import static dev.learn.movies.app.popular_movies.Inflix.MOVIE_REVIEWS;
@@ -43,13 +43,10 @@ import static dev.learn.movies.app.popular_movies.Inflix.START_PAGE;
 
 public class UserReviewsFragment extends Fragment implements NetworkLoader.NetworkLoaderCallback {
 
-    private Context mContext;
-
-    private long mMovieId;
-
-    private FragmentUserReviewsBinding mBinding;
-
     private final Gson gson = new Gson();
+    private Context mContext;
+    private long mMovieId;
+    private FragmentUserReviewsBinding mBinding;
     private NetworkLoader mNetworkLoader;
 
     private RecyclerView.LayoutManager mLayoutManager;

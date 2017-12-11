@@ -15,7 +15,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import java.net.URL;
 import java.util.List;
@@ -32,7 +31,6 @@ import dev.learn.movies.app.popular_movies.data.DataContract;
 import dev.learn.movies.app.popular_movies.databinding.FragmentMovieDetailsBinding;
 import dev.learn.movies.app.popular_movies.utils.DisplayUtils;
 import dev.learn.movies.app.popular_movies.utils.HTTPLoaderUtil;
-import dev.learn.movies.app.popular_movies.utils.HTTPUtils;
 import dev.learn.movies.app.popular_movies.utils.URIBuilderUtils;
 
 import static dev.learn.movies.app.popular_movies.Inflix.ADDITIONAL_INFO_ACTIVITY_FRAGMENT_TYPE_REVIEWS;

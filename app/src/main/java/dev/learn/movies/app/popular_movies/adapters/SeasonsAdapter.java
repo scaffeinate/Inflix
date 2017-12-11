@@ -23,8 +23,8 @@ import dev.learn.movies.app.popular_movies.utils.URIBuilderUtils;
 
 public class SeasonsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private List<Season> mSeasonList;
     private final OnItemClickHandler mHandler;
+    private List<Season> mSeasonList;
 
     public SeasonsAdapter(OnItemClickHandler handler) {
         mSeasonList = new ArrayList<>();

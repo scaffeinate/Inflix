@@ -1,43 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="iv_logo_size">80dp</dimen>
+	<dimen name="iv_logo_size">80dp</dimen>
 
-    <dimen name="progressbar_size">42dp</dimen>
-    <dimen name="toolbar_padding_right">30dp</dimen>
+	<dimen name="progressbar_size">42dp</dimen>
+	<dimen name="toolbar_padding_right">30dp</dimen>
 
-    <dimen name="nav_drawer_width">285dp</dimen>
-    <dimen name="nav_drawer_header_height">125dp</dimen>
+	<dimen name="nav_drawer_width">285dp</dimen>
+	<dimen name="nav_drawer_header_height">125dp</dimen>
 
-    <dimen name="activity_detail_padding">15dp</dimen>
-    <dimen name="activity_detail_margin_top">30dp</dimen>
-    <dimen name="actvity_detail_section_margin_top">20dp</dimen>
-    <dimen name="actvity_detail_section_margin_left">0dp</dimen>
-    <dimen name="activity_detail_btn_fav_margin">16dp</dimen>
+	<dimen name="activity_detail_padding">15dp</dimen>
+	<dimen name="activity_detail_margin_top">30dp</dimen>
+	<dimen name="actvity_detail_section_margin_top">20dp</dimen>
+	<dimen name="actvity_detail_section_margin_left">0dp</dimen>
+	<dimen name="activity_detail_btn_fav_margin">16dp</dimen>
 
-    <dimen name="layout_movie_info_title_margin_left">15dp</dimen>
-    <dimen name="layout_movie_info_field_margin_top">15dp</dimen>
-    <dimen name="layout_movie_info_rating_out_of_margin_left">4dp</dimen>
-    <dimen name="layout_movie_info_rating_num_margin_left">8dp</dimen>
+	<dimen name="layout_movie_info_title_margin_left">15dp</dimen>
+	<dimen name="layout_movie_info_field_margin_top">15dp</dimen>
+	<dimen name="layout_movie_info_rating_out_of_margin_left">4dp</dimen>
+	<dimen name="layout_movie_info_rating_num_margin_left">8dp</dimen>
 
-    <dimen name="layout_content_field_margin_top">10dp</dimen>
-    <dimen name="layout_content_tag_horizontal_spacing">10dp</dimen>
-    <dimen name="layout_content_tag_vertical_spacing">10dp</dimen>
+	<dimen name="layout_content_field_margin_top">10dp</dimen>
+	<dimen name="layout_content_tag_horizontal_spacing">10dp</dimen>
+	<dimen name="layout_content_tag_vertical_spacing">10dp</dimen>
 
-    <dimen name="layout_recommendations_rv_margin_top">10dp</dimen>
+	<dimen name="layout_recommendations_rv_margin_top">10dp</dimen>
 
-    <dimen name="layout_user_reviews_field_margin_top">10dp</dimen>
-    <dimen name="layout_user_reviews_error_message_margin">20dp</dimen>
+	<dimen name="layout_user_reviews_field_margin_top">10dp</dimen>
+	<dimen name="layout_user_reviews_error_message_margin">20dp</dimen>
 
-    <dimen name="item_user_review_card_elevation">5dp</dimen>
-    <dimen name="item_user_review_card_padding">20dp</dimen>
-    <dimen name="item_user_review_margin_top">10dp</dimen>
+	<dimen name="item_user_review_card_elevation">5dp</dimen>
+	<dimen name="item_user_review_card_padding">20dp</dimen>
+	<dimen name="item_user_review_margin_top">10dp</dimen>
 
-    <dimen name="item_footer_loader_padding">12dp</dimen>
+	<dimen name="item_footer_loader_padding">12dp</dimen>
 
-    <dimen name="font_size_display">32dp</dimen>
-    <dimen name="font_size_title">20sp</dimen>
-    <dimen name="font_size_subheading">16sp</dimen>
-    <dimen name="font_size_caption">16sp</dimen>
-    <dimen name="font_size_body">15sp</dimen>
-    <dimen name="font_size_button">13sp</dimen>
+	<dimen name="font_size_display">32dp</dimen>
+	<dimen name="font_size_title">20sp</dimen>
+	<dimen name="font_size_subheading">16sp</dimen>
+	<dimen name="font_size_caption">16sp</dimen>
+	<dimen name="font_size_body">15sp</dimen>
+	<dimen name="font_size_button">13sp</dimen>
 </resources>

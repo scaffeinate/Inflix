@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.net.URL;
 
 import dev.learn.movies.app.popular_movies.utils.HTTPUtils;
-import dev.learn.movies.app.popular_movies.utils.URIBuilderUtils;
 
 /**
  * NetworkLoader - Generic Loader class which implements LoaderCallbacks

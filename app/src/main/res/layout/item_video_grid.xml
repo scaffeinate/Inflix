@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <FrameLayout
-        android:id="@+id/layout_video_thumb"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_margin="10dp"
-        android:layout_alignParentTop="true"
-        android:background="@color/posterBgColor">
+	<FrameLayout
+		android:id="@+id/layout_video_thumb"
+		android:layout_width="match_parent"
+		android:layout_height="100dp"
+		android:layout_alignParentTop="true"
+		android:layout_margin="10dp"
+		android:background="@color/posterBgColor">
 
-        <ImageView
-            android:id="@+id/image_view_video_thumb"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:contentDescription="@string/poster_image"
-            android:foreground="?selectableItemBackground" />
+		<ImageView
+			android:id="@+id/image_view_video_thumb"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:contentDescription="@string/poster_image"
+			android:foreground="?selectableItemBackground"/>
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:contentDescription="@string/placeholder_image"
-            android:src="@drawable/ic_youtube_play_white_36dp" />
-    </FrameLayout>
+		<ImageView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center"
+			android:contentDescription="@string/placeholder_image"
+			android:src="@drawable/ic_youtube_play_white_36dp"/>
+	</FrameLayout>
 </layout>

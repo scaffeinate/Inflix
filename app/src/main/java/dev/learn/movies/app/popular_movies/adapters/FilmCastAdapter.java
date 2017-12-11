@@ -22,8 +22,8 @@ import dev.learn.movies.app.popular_movies.utils.URIBuilderUtils;
 
 public class FilmCastAdapter extends RecyclerView.Adapter<FilmCastAdapter.FilmCastHolder> {
 
-    private List<Cast> mFilmCastList;
     private final OnItemClickHandler mHandler;
+    private List<Cast> mFilmCastList;
 
     public FilmCastAdapter(OnItemClickHandler handler) {
         mFilmCastList = new ArrayList<>();

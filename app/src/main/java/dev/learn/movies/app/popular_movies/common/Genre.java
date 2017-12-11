@@ -9,6 +9,17 @@ import com.google.gson.annotations.SerializedName;
 @SuppressWarnings("unused")
 public class Genre implements Parcelable {
 
+    public static final Creator<Genre> CREATOR = new Creator<Genre>() {
+        @Override
+        public Genre createFromParcel(Parcel in) {
+            return new Genre(in);
+        }
+
+        @Override
+        public Genre[] newArray(int size) {
+            return new Genre[size];
+        }
+    };
     @SerializedName("id")
     @Expose
     private long id;
@@ -28,18 +39,6 @@ public class Genre implements Parcelable {
         id = in.readLong();
         name = in.readString();
     }
-
-    public static final Creator<Genre> CREATOR = new Creator<Genre>() {
-        @Override
-        public Genre createFromParcel(Parcel in) {
-            return new Genre(in);
-        }
-
-        @Override
-        public Genre[] newArray(int size) {
-            return new Genre[size];
-        }
-    };
 
     public long getId() {
         return id;

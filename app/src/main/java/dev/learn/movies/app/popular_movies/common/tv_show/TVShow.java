@@ -1,4 +1,3 @@
-
 package dev.learn.movies.app.popular_movies.common.tv_show;
 
 import android.os.Parcel;
@@ -11,16 +10,6 @@ import dev.learn.movies.app.popular_movies.common.Media;
 
 public class TVShow extends Media implements Parcelable {
 
-    @SerializedName("name")
-    @Expose
-    private String name;
-
-    protected TVShow(Parcel in) {
-        id = in.readLong();
-        posterPath = in.readString();
-        name = in.readString();
-    }
-
     public static final Creator<TVShow> CREATOR = new Creator<TVShow>() {
         @Override
         public TVShow createFromParcel(Parcel in) {
@@ -32,6 +21,15 @@ public class TVShow extends Media implements Parcelable {
             return new TVShow[size];
         }
     };
+    @SerializedName("name")
+    @Expose
+    private String name;
+
+    protected TVShow(Parcel in) {
+        id = in.readLong();
+        posterPath = in.readString();
+        name = in.readString();
+    }
 
     public String getName() {
         return name;

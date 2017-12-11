@@ -24,9 +24,6 @@ import dev.learn.movies.app.popular_movies.data.DataContract;
 import dev.learn.movies.app.popular_movies.databinding.FragmentMoviesBinding;
 import dev.learn.movies.app.popular_movies.loaders.ContentLoader;
 
-import static dev.learn.movies.app.popular_movies.data.DataContract.MediaEntry.COLUMN_MEDIA_ID;
-import static dev.learn.movies.app.popular_movies.data.DataContract.MediaEntry.COLUMN_MEDIA_TYPE;
-import static dev.learn.movies.app.popular_movies.data.DataContract.MediaEntry.COLUMN_TITLE;
 import static dev.learn.movies.app.popular_movies.Inflix.BOOKMARKS;
 import static dev.learn.movies.app.popular_movies.Inflix.BOOKMARKS_LOADER_ID;
 import static dev.learn.movies.app.popular_movies.Inflix.DEFAULT_GRID_COUNT;
@@ -36,6 +33,9 @@ import static dev.learn.movies.app.popular_movies.Inflix.RESOURCE_ID;
 import static dev.learn.movies.app.popular_movies.Inflix.RESOURCE_TITLE;
 import static dev.learn.movies.app.popular_movies.Inflix.RESOURCE_TYPE;
 import static dev.learn.movies.app.popular_movies.Inflix.TABLET_GRID_COUNT;
+import static dev.learn.movies.app.popular_movies.data.DataContract.MediaEntry.COLUMN_MEDIA_ID;
+import static dev.learn.movies.app.popular_movies.data.DataContract.MediaEntry.COLUMN_MEDIA_TYPE;
+import static dev.learn.movies.app.popular_movies.data.DataContract.MediaEntry.COLUMN_TITLE;
 
 /**
  * LocalMoviesFragment - Fetch and show favored movies from content provider
