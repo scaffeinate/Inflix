@@ -19,9 +19,11 @@
 	<string name="action_tv_popular">Popular</string>
 	<string name="action_tv_top_rated">Top Rated</string>
 
-	<string name="nav_sub_header_other">OTHER</string>
+	<string name="nav_sub_header_saved">SAVED</string>
 	<string name="action_favorites">Favorites</string>
 	<string name="action_bookmarks">Bookmarks</string>
+
+	<string name="nav_sub_header_version">VERSION</string>
 
 	<string name="action_search">Search</string>
 	<string name="action_save_offline">Save Offline</string>
@@ -30,6 +32,8 @@
 	<string name="action_watch_trailer">Watch Trailer</string>
 	<string name="action_imdb">Open IMDB</string>
 	<string name="action_user_reviews">User Reviews</string>
+	<string name="action_rate_us">Rate Us</string>
+	<string name="action_version">v1.0</string>
 
 	<string name="no_movies_found_error_message">No movies found.</string>
 	<string name="couldnt_load_movie_info_error_message">Couldn\'t load movie info :(</string>

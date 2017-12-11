@@ -41,6 +41,8 @@ public final class Inflix {
 
     public static final int ACTIVITY_DETAIL_LAZY_LOAD_DELAY_IN_MS = 250;
 
+    public static final int ACTIVITY_SPLASH_DELAY_IN_MS = 500;
+
     public static final int ENDLESS_PAGINATION_THRESHOLD = 1;
 
     public static final int START_PAGE = 1;
