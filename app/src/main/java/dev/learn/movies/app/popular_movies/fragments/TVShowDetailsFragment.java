@@ -115,12 +115,6 @@ public class TVShowDetailsFragment extends BaseDetailsFragment {
                 .setContent(mBinding.layoutCast.recyclerViewCast)
                 .setProgress(mBinding.layoutCast.progressBarCast)
                 .hideParentOnError();
-        new Handler().post(new Runnable() {
-            @Override
-            public void run() {
-                mCallbacks.scrollToTop();
-            }
-        });
 
         adjustPosterSize(mBinding.layoutTvShowInfo.layoutPoster.getRoot());
         return view;
@@ -183,10 +177,13 @@ public class TVShowDetailsFragment extends BaseDetailsFragment {
         switch (parent.getId()) {
             case R.id.recycler_view_similar:
                 TVShow tvShow = (TVShow) mSimilarList.get(position);
-                getActivity().getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.layout_outlet, TVShowDetailsFragment.newInstance(tvShow.getId(), tvShow.getName()))
-                        .commit();
+                if (tvShow != null) {
+                    getActivity().getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.layout_outlet, TVShowDetailsFragment.newInstance(tvShow.getId(), tvShow.getName()))
+                            .commit();
+                    mCallbacks.scrollToTop();
+                }
                 break;
             case R.id.recycler_view_seasons:
                 //TODO: Handle this in future release

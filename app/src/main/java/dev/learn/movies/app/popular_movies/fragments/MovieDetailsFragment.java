@@ -95,13 +95,6 @@ public class MovieDetailsFragment extends BaseDetailsFragment implements View.On
                 .setProgress(mBinding.layoutCast.progressBarCast)
                 .hideParentOnError();
 
-        new Handler().post(new Runnable() {
-            @Override
-            public void run() {
-                mCallbacks.scrollToTop();
-            }
-        });
-
         adjustPosterSize(mBinding.layoutMovieInfo.layoutPoster.getRoot());
         return view;
     }
@@ -196,18 +189,17 @@ public class MovieDetailsFragment extends BaseDetailsFragment implements View.On
 
     @Override
     public void onItemClicked(ViewGroup parent, View view, int position) {
-        Movie movie = null;
         switch (parent.getId()) {
             case R.id.recycler_view_similar:
-                movie = (Movie) mSimilarList.get(position);
+                Movie movie = (Movie) mSimilarList.get(position);
+                if (movie != null) {
+                    getActivity().getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.layout_outlet, MovieDetailsFragment.newInstance(movie.getId(), movie.getTitle()))
+                            .commit();
+                    mCallbacks.scrollToTop();
+                }
                 break;
-        }
-
-        if (movie != null) {
-            getActivity().getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.layout_outlet, MovieDetailsFragment.newInstance(movie.getId(), movie.getTitle()))
-                    .commit();
         }
     }
 
