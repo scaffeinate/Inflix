@@ -147,6 +147,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     break;
                 case R.id.action_bookmarks:
                     fragment = LocalMoviesFragment.newInstance(BOOKMARKS);
+                    break;
+                case R.id.action_share:
+                    return;
+                case R.id.action_rate_us:
+                    return;
+                case R.id.action_version:
+                    return;
             }
 
             if (fragment != null) {

@@ -276,7 +276,7 @@ public class TVShowDetailsFragment extends BaseDetailsFragment {
         String voteCount = "(" + mTVShowDetail.getVoteCount() + ")";
         String plot = mTVShowDetail.getOverview();
         String numEpisodes = mTVShowDetail.getNumberOfEpisodes() + " Episodes";
-        String numSeasons = mTVShowDetail.getNumberOfSeasons() + " Seasons";
+        String numSeasons = (mTVShowDetail.getNumberOfSeasons() + 1) + " Seasons";
         String firstAired = mTVShowDetail.getFirstAirDate();
         String lastAired = mTVShowDetail.getLastAirDate();
         List<Genre> genres = mTVShowDetail.getGenres();
@@ -331,9 +331,17 @@ public class TVShowDetailsFragment extends BaseDetailsFragment {
             mBinding.layoutTvShowContent.textViewTvShowPlot.setText(plot);
         }
 
-        mBinding.layoutTvShowContent.textViewFirstAirDate.setText(DisplayUtils.formatDate(firstAired));
+        if (!TextUtils.isEmpty(firstAired)) {
+            mBinding.layoutTvShowContent.textViewFirstAirDate.setText(DisplayUtils.formatDate(firstAired));
+        } else {
+            mBinding.layoutTvShowContent.textViewFirstAirDate.setText("N/A");
+        }
 
-        mBinding.layoutTvShowContent.textViewLastAirDate.setText(DisplayUtils.formatDate(lastAired));
+        if (!TextUtils.isEmpty(lastAired)) {
+            mBinding.layoutTvShowContent.textViewLastAirDate.setText(DisplayUtils.formatDate(lastAired));
+        } else {
+            mBinding.layoutTvShowContent.textViewLastAirDate.setText("N/A");
+        }
 
         if (seasonList != null && !seasonList.isEmpty()) {
             mSeasonsAdapter.setSeasonList(seasonList);

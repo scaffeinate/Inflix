@@ -58,7 +58,7 @@ public class SeasonsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         notifyDataSetChanged();
     }
 
-    class SeasonsHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    private class SeasonsHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private final ViewGroup mParent;
         private final ImageView mSeasonPicImageView;
@@ -80,7 +80,7 @@ public class SeasonsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     DisplayUtils.fitImageInto(mSeasonPicImageView, posterUri);
                 }
 
-                mSeasonNumberTextView.setText("Season " + (season.getSeasonNumber() + 1));
+                mSeasonNumberTextView.setText("Season " + (position + 1));
             }
         }
 
