@@ -3,14 +3,17 @@ package dev.learn.movies.app.popular_movies.activities;
 import android.app.SearchManager;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.ShareCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -161,10 +164,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     fragment = LocalMoviesFragment.newInstance(BOOKMARKS);
                     break;
                 case R.id.action_share:
+                    String mimeType = "text/plain";
+                    String title = "Share Inflix";
+                    ShareCompat.IntentBuilder.from(this)
+                            .setType(mimeType)
+                            .setChooserTitle(title)
+                            .setText("Discover Movies using Inflix! Visit " +
+                                    "http://play.google.com/store/apps/details?id=dev.learn.movies.app.popular_movies")
+                            .startChooser();
+                    closeDrawer();
                     return;
                 case R.id.action_rate_us:
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse("http://play.google.com/store/apps/details?id=dev.learn.movies.app.popular_movies"));
+                    startActivity(intent);
+                    closeDrawer();
                     return;
                 case R.id.action_version:
+                    closeDrawer();
                     return;
             }
 
@@ -179,15 +196,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             setToolbarTitle(item.getTitle().toString());
         }
 
+        closeDrawer();
+    }
+
+    private void setToolbarTitle(String title) {
+        mBinding.toolbar.tvToolbarTitle.setText(title);
+    }
+
+    private void closeDrawer() {
         new Handler().post(new Runnable() {
             @Override
             public void run() {
                 mBinding.drawerLayout.closeDrawer(GravityCompat.START);
             }
         });
-    }
-
-    private void setToolbarTitle(String title) {
-        mBinding.toolbar.tvToolbarTitle.setText(title);
     }
 }
