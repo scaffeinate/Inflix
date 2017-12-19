@@ -44,9 +44,9 @@ import static dev.learn.movies.app.popular_movies.Inflix.TABLET_GRID_COUNT;
 import static dev.learn.movies.app.popular_movies.Inflix.TV_AIRING_TODAY;
 import static dev.learn.movies.app.popular_movies.Inflix.TV_ON_THE_AIR;
 import static dev.learn.movies.app.popular_movies.Inflix.TV_POPULAR;
+import static dev.learn.movies.app.popular_movies.Inflix.TV_SHOWS;
 import static dev.learn.movies.app.popular_movies.Inflix.TV_SHOWS_LOADER_ID;
 import static dev.learn.movies.app.popular_movies.Inflix.TV_TOP_RATED;
-import static dev.learn.movies.app.popular_movies.data.DataContract.TV_SHOWS;
 
 /**
  * Created by sudharti on 11/12/17.

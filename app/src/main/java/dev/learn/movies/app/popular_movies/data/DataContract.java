@@ -18,23 +18,11 @@ public class DataContract {
 
     public static final String MEDIA_AUTHORITY = "dev.learn.movies.app.popular_movies.media";
 
-    public static final String CASTS_AUTHORITY = "dev.learn.movies.app.popular_movies.casts";
-
-    public static final String SEASONS_AUTHORITY = "dev.learn.movies.app.popular_movies.seasons";
-
-    public static final String MOVIES = "movies";
-
-    public static final String TV_SHOWS = "tv_shows";
-
     public static final String MEDIA_PATH = "media";
 
     public static final String FAVORITES_PATH = "favorites";
 
     public static final String BOOKMARKS_PATH = "bookmarks";
-
-    public static final String CASTS_PATH = "casts";
-
-    public static final String SEASONS_PATH = "seasons";
 
     public static final Uri FAVORITES_CONTENT_URI = Uri.parse("content://" + FAVORITES_AUTHORITY)
             .buildUpon()

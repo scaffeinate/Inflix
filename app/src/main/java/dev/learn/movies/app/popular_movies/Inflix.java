@@ -83,4 +83,8 @@ public final class Inflix {
 
     public static final String ADDITIONAL_INFO_ACTIVITY_FRAGMENT_TYPE_REVIEWS = "reviews";
 
+    public static final String MOVIES = "movies";
+
+    public static final String TV_SHOWS = "tv_shows";
+
 }

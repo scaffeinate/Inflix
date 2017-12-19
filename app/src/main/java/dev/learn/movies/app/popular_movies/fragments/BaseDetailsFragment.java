@@ -47,12 +47,12 @@ import dev.learn.movies.app.popular_movies.utils.URIBuilderUtils;
 import dev.learn.movies.app.popular_movies.views.VideoGridDialog;
 
 import static dev.learn.movies.app.popular_movies.Inflix.ACTIVITY_DETAIL_LAZY_LOAD_DELAY_IN_MS;
+import static dev.learn.movies.app.popular_movies.Inflix.MOVIES;
 import static dev.learn.movies.app.popular_movies.Inflix.MOVIE_TRAILERS_LOADER_ID;
 import static dev.learn.movies.app.popular_movies.Inflix.RESOURCE_ID;
 import static dev.learn.movies.app.popular_movies.Inflix.RESOURCE_TITLE;
+import static dev.learn.movies.app.popular_movies.Inflix.TV_SHOWS;
 import static dev.learn.movies.app.popular_movies.Inflix.TV_SHOWS_TRAILERS_LOADER_ID;
-import static dev.learn.movies.app.popular_movies.data.DataContract.MOVIES;
-import static dev.learn.movies.app.popular_movies.data.DataContract.TV_SHOWS;
 import static dev.learn.movies.app.popular_movies.loaders.ContentLoader.URI_EXTRA;
 
 /**

@@ -27,11 +27,14 @@ public class Media implements Parcelable {
     @Expose
     private String name;
 
+    private String mediaType;
+
     protected Media(Parcel in) {
         id = in.readLong();
         posterPath = in.readString();
         title = in.readString();
         name = in.readString();
+        mediaType = in.readString();
     }
 
     public static final Creator<Media> CREATOR = new Creator<Media>() {
@@ -62,6 +65,14 @@ public class Media implements Parcelable {
         return name;
     }
 
+    public String getMediaType() {
+        return mediaType;
+    }
+
+    public void setMediaType(String mediaType) {
+        this.mediaType = mediaType;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -73,5 +84,6 @@ public class Media implements Parcelable {
         dest.writeString(posterPath);
         dest.writeString(title);
         dest.writeString(name);
+        dest.writeString(mediaType);
     }
 }

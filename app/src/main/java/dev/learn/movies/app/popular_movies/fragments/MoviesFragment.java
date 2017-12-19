@@ -38,6 +38,7 @@ import dev.learn.movies.app.popular_movies.views.EndlessRecyclerViewScrollListen
 import static dev.learn.movies.app.popular_movies.Inflix.DEFAULT_GRID_COUNT;
 import static dev.learn.movies.app.popular_movies.Inflix.DISCOVER;
 import static dev.learn.movies.app.popular_movies.Inflix.MOST_POPULAR;
+import static dev.learn.movies.app.popular_movies.Inflix.MOVIES;
 import static dev.learn.movies.app.popular_movies.Inflix.MOVIES_LOADER_ID;
 import static dev.learn.movies.app.popular_movies.Inflix.NOW_PLAYING;
 import static dev.learn.movies.app.popular_movies.Inflix.RESOURCE_ID;
@@ -47,7 +48,6 @@ import static dev.learn.movies.app.popular_movies.Inflix.START_PAGE;
 import static dev.learn.movies.app.popular_movies.Inflix.TABLET_GRID_COUNT;
 import static dev.learn.movies.app.popular_movies.Inflix.TOP_RATED;
 import static dev.learn.movies.app.popular_movies.Inflix.UPCOMING;
-import static dev.learn.movies.app.popular_movies.data.DataContract.MOVIES;
 
 /**
  * MoviesFragment - Fetch and show Movies Grid from API
