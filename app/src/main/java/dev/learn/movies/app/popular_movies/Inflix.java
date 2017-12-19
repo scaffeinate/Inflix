@@ -39,6 +39,10 @@ public final class Inflix {
 
     public static final int TV_SHOWS_CAST_LOADER_ID = 701;
 
+    public static final int MOVIES_SEARCH_LOADER_ID = 801;
+
+    public static final int TV_SHOWS_SEARCH_LOADER_ID = 802;
+
     public static final int ACTIVITY_DETAIL_LAZY_LOAD_DELAY_IN_MS = 250;
 
     public static final int ACTIVITY_SPLASH_DELAY_IN_MS = 500;

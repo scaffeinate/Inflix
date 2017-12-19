@@ -46,9 +46,9 @@ public final class URIBuilderUtils {
 
     private static final String SEPARATOR = "/";
 
-    private static final String MOVIE_DETAIL_PATH = "movie";
+    private static final String MOVIE_PATH = "movie";
 
-    private static final String TV_SHOW_DETAIL_PATH = "tv";
+    private static final String TV_SHOW_PATH = "tv";
 
     private static final String MOVIE_REVIEWS_PATH = "reviews";
 
@@ -56,25 +56,25 @@ public final class URIBuilderUtils {
 
     private static final String SEARCH_PATH = "search";
 
-    private static final String MULTI_PATH = "multi";
+    private static final String NOW_PLAYING_PATH = MOVIE_PATH + SEPARATOR + NOW_PLAYING;
 
-    private static final String NOW_PLAYING_PATH = MOVIE_DETAIL_PATH + SEPARATOR + NOW_PLAYING;
+    private static final String MOST_POPULAR_PATH = MOVIE_PATH + SEPARATOR + MOST_POPULAR;
 
-    private static final String MOST_POPULAR_PATH = MOVIE_DETAIL_PATH + SEPARATOR + MOST_POPULAR;
+    private static final String TOP_RATED_PATH = MOVIE_PATH + SEPARATOR + TOP_RATED;
 
-    private static final String TOP_RATED_PATH = MOVIE_DETAIL_PATH + SEPARATOR + TOP_RATED;
+    private static final String UPCOMING_PATH = MOVIE_PATH + SEPARATOR + UPCOMING;
 
-    private static final String UPCOMING_PATH = MOVIE_DETAIL_PATH + SEPARATOR + UPCOMING;
+    private static final String TV_AIRING_TODAY_PATH = TV_SHOW_PATH + SEPARATOR + TV_AIRING_TODAY;
 
-    private static final String TV_AIRING_TODAY_PATH = TV_SHOW_DETAIL_PATH + SEPARATOR + TV_AIRING_TODAY;
+    private static final String TV_ON_THE_AIR_PATH = TV_SHOW_PATH + SEPARATOR + TV_ON_THE_AIR;
 
-    private static final String TV_ON_THE_AIR_PATH = TV_SHOW_DETAIL_PATH + SEPARATOR + TV_ON_THE_AIR;
+    private static final String TV_POPULAR_PATH = TV_SHOW_PATH + SEPARATOR + TV_POPULAR;
 
-    private static final String TV_POPULAR_PATH = TV_SHOW_DETAIL_PATH + SEPARATOR + TV_POPULAR;
+    private static final String TV_TOP_RATED_PATH = TV_SHOW_PATH + SEPARATOR + TV_TOP_RATED;
 
-    private static final String TV_TOP_RATED_PATH = TV_SHOW_DETAIL_PATH + SEPARATOR + TV_TOP_RATED;
+    private static final String MOVIE_SEARCH_PATH = SEARCH_PATH + SEPARATOR + MOVIE_PATH;
 
-    private static final String MULTI_SEARCH_PATH = SEARCH_PATH + SEPARATOR + MULTI_PATH;
+    private static final String TV_SHOW_SEARCH_PATH = SEARCH_PATH + SEPARATOR + TV_SHOW_PATH;
 
     private static final String EN_US = "en-US";
 
@@ -171,7 +171,7 @@ public final class URIBuilderUtils {
      * @return movieDetail URL
      */
     public static URL buildMovieDetailsURL(String movieId) {
-        return buildTMDBURL(MOVIE_DETAIL_PATH + SEPARATOR + movieId, -1);
+        return buildTMDBURL(MOVIE_PATH + SEPARATOR + movieId, -1);
     }
 
     /**
@@ -181,7 +181,7 @@ public final class URIBuilderUtils {
      * @return movieReviews URL
      */
     public static URL buildMovieReviewsURL(String movieId, int page) {
-        String path = MOVIE_DETAIL_PATH + SEPARATOR + movieId + SEPARATOR + MOVIE_REVIEWS_PATH;
+        String path = MOVIE_PATH + SEPARATOR + movieId + SEPARATOR + MOVIE_REVIEWS_PATH;
         return buildTMDBURL(path, page);
     }
 
@@ -192,17 +192,17 @@ public final class URIBuilderUtils {
      * @return movieTrailers URL
      */
     public static URL buildMovieTrailersURL(String movieId) {
-        String path = MOVIE_DETAIL_PATH + SEPARATOR + movieId + SEPARATOR + VIDEOS_PATH;
+        String path = MOVIE_PATH + SEPARATOR + movieId + SEPARATOR + VIDEOS_PATH;
         return buildTMDBURL(path, -1);
     }
 
     public static URL buildSimilarMoviesURL(String movieId) {
-        String path = MOVIE_DETAIL_PATH + SEPARATOR + movieId + SEPARATOR + SIMILAR;
+        String path = MOVIE_PATH + SEPARATOR + movieId + SEPARATOR + SIMILAR;
         return buildTMDBURL(path, -1);
     }
 
     public static URL buildMovieCastURL(String movieId) {
-        String path = MOVIE_DETAIL_PATH + SEPARATOR + movieId + SEPARATOR + CREDITS;
+        String path = MOVIE_PATH + SEPARATOR + movieId + SEPARATOR + CREDITS;
         return buildTMDBURL(path, -1);
     }
 
@@ -213,7 +213,7 @@ public final class URIBuilderUtils {
      * @return tvShowDetail URL
      */
     public static URL buildTVShowDetailsURL(String tvShowId) {
-        return buildTMDBURL(TV_SHOW_DETAIL_PATH + SEPARATOR + tvShowId, -1);
+        return buildTMDBURL(TV_SHOW_PATH + SEPARATOR + tvShowId, -1);
     }
 
     /**
@@ -223,26 +223,47 @@ public final class URIBuilderUtils {
      * @return tvShowTrailers URL
      */
     public static URL buildTVShowTrailersURL(String tvShowId) {
-        String path = TV_SHOW_DETAIL_PATH + SEPARATOR + tvShowId + SEPARATOR + VIDEOS_PATH;
+        String path = TV_SHOW_PATH + SEPARATOR + tvShowId + SEPARATOR + VIDEOS_PATH;
         return buildTMDBURL(path, -1);
     }
 
     public static URL buildSimilarTVShowsURL(String tvShowId) {
-        String path = TV_SHOW_DETAIL_PATH + SEPARATOR + tvShowId + SEPARATOR + SIMILAR;
+        String path = TV_SHOW_PATH + SEPARATOR + tvShowId + SEPARATOR + SIMILAR;
         return buildTMDBURL(path, -1);
     }
 
     public static URL buildTVShowCastURL(String movieId) {
-        String path = TV_SHOW_DETAIL_PATH + SEPARATOR + movieId + SEPARATOR + CREDITS;
+        String path = TV_SHOW_PATH + SEPARATOR + movieId + SEPARATOR + CREDITS;
         return buildTMDBURL(path, -1);
     }
 
-    public static URL buildMultiSearchURL(String query, int page) {
+    public static URL buildMovieSearchURL(String query, int page) {
         Uri.Builder uriBuilder = new Uri.Builder()
                 .scheme(SCHEME)
                 .appendEncodedPath(API_BASE_PATH)
                 .appendEncodedPath(API_VERSION)
-                .appendEncodedPath(MULTI_SEARCH_PATH)
+                .appendEncodedPath(MOVIE_SEARCH_PATH)
+                .appendQueryParameter(API_KEY_PARAM, API_KEY)
+                .appendQueryParameter(LANGUAGE_PARAM, EN_US)
+                .appendQueryParameter(QUERY_PARAM, query)
+                .appendQueryParameter(PAGE_PARAM, String.valueOf(page));
+
+        Uri uri = uriBuilder.build();
+        try {
+            return new URL(uri.toString());
+        } catch (MalformedURLException e) {
+            Log.e(TAG, e.getMessage());
+        }
+
+        return null;
+    }
+
+    public static URL buildTVShowSearchURL(String query, int page) {
+        Uri.Builder uriBuilder = new Uri.Builder()
+                .scheme(SCHEME)
+                .appendEncodedPath(API_BASE_PATH)
+                .appendEncodedPath(API_VERSION)
+                .appendEncodedPath(TV_SHOW_SEARCH_PATH)
                 .appendQueryParameter(API_KEY_PARAM, API_KEY)
                 .appendQueryParameter(LANGUAGE_PARAM, EN_US)
                 .appendQueryParameter(QUERY_PARAM, query)
@@ -314,7 +335,7 @@ public final class URIBuilderUtils {
         Uri uri = new Uri.Builder()
                 .scheme(SCHEME)
                 .appendEncodedPath(TMDB_BASE_PATH)
-                .appendEncodedPath(MOVIE_DETAIL_PATH)
+                .appendEncodedPath(MOVIE_PATH)
                 .appendEncodedPath(movieId)
                 .build();
 
@@ -331,7 +352,7 @@ public final class URIBuilderUtils {
         Uri uri = new Uri.Builder()
                 .scheme(SCHEME)
                 .appendEncodedPath(TMDB_BASE_PATH)
-                .appendEncodedPath(TV_SHOW_DETAIL_PATH)
+                .appendEncodedPath(TV_SHOW_PATH)
                 .appendEncodedPath(tvShowId)
                 .build();
 

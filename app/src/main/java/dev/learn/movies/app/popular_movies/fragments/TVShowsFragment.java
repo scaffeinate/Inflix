@@ -174,8 +174,8 @@ public class TVShowsFragment extends Fragment implements NetworkLoader.NetworkLo
     public void onLoadFinished(Loader loader, String s) {
         switch (loader.getId()) {
             case TV_SHOWS_LOADER_ID:
-                TVShowsResult TVShowsResult = (s == null) ? null : gson.fromJson(s, TVShowsResult.class);
-                if (TVShowsResult == null || TVShowsResult.getResults() == null || TVShowsResult.getResults().isEmpty()) {
+                TVShowsResult tvShowsResult = (s == null) ? null : gson.fromJson(s, TVShowsResult.class);
+                if (tvShowsResult == null || tvShowsResult.getResults() == null || tvShowsResult.getResults().isEmpty()) {
                     // If the first request failed then show error message hiding the content
                     // Otherwise stop loading further
                     if (mMediaList.isEmpty()) {
@@ -189,7 +189,7 @@ public class TVShowsFragment extends Fragment implements NetworkLoader.NetworkLo
                     if (mMediaList.isEmpty()) {
                         showRecyclerView();
                     }
-                    this.mMediaList.addAll(TVShowsResult.getResults());
+                    this.mMediaList.addAll(tvShowsResult.getResults());
                     mAdapter.setMediaList(mMediaList);
                 }
                 break;
