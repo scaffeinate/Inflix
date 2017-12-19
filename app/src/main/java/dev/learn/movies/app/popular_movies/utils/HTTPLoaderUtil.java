@@ -49,6 +49,6 @@ public class HTTPLoaderUtil {
     }
 
     public interface HTTPBlock {
-        public void run();
+        void run();
     }
 }

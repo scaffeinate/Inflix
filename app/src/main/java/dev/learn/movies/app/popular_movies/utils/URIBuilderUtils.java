@@ -38,7 +38,12 @@ public final class URIBuilderUtils {
     private static final String API_VERSION = "3";
 
     private static final String IMAGE_BASE_PATH = "/image.tmdb.org/t/p";
+
     private static final String API_KEY_PARAM = "api_key";
+    private static final String QUERY_PARAM = "query";
+    private static final String PAGE_PARAM = "page";
+    private static final String LANGUAGE_PARAM = "language";
+
     private static final String SEPARATOR = "/";
 
     private static final String MOVIE_DETAIL_PATH = "movie";
@@ -48,6 +53,10 @@ public final class URIBuilderUtils {
     private static final String MOVIE_REVIEWS_PATH = "reviews";
 
     private static final String VIDEOS_PATH = "videos";
+
+    private static final String SEARCH_PATH = "search";
+
+    private static final String MULTI_PATH = "multi";
 
     private static final String NOW_PLAYING_PATH = MOVIE_DETAIL_PATH + SEPARATOR + NOW_PLAYING;
 
@@ -65,11 +74,9 @@ public final class URIBuilderUtils {
 
     private static final String TV_TOP_RATED_PATH = TV_SHOW_DETAIL_PATH + SEPARATOR + TV_TOP_RATED;
 
-    private static final String LANGUAGE = "language";
+    private static final String MULTI_SEARCH_PATH = SEARCH_PATH + SEPARATOR + MULTI_PATH;
 
     private static final String EN_US = "en-US";
-
-    private static final String PAGE = "page";
 
     private static final String YOUTUBE_BASE_PATH = "/youtube.com";
 
@@ -230,6 +237,27 @@ public final class URIBuilderUtils {
         return buildTMDBURL(path, -1);
     }
 
+    public static URL buildMultiSearchURL(String query, int page) {
+        Uri.Builder uriBuilder = new Uri.Builder()
+                .scheme(SCHEME)
+                .appendEncodedPath(API_BASE_PATH)
+                .appendEncodedPath(API_VERSION)
+                .appendEncodedPath(MULTI_SEARCH_PATH)
+                .appendQueryParameter(API_KEY_PARAM, API_KEY)
+                .appendQueryParameter(LANGUAGE_PARAM, EN_US)
+                .appendQueryParameter(QUERY_PARAM, query)
+                .appendQueryParameter(PAGE_PARAM, String.valueOf(page));
+
+        Uri uri = uriBuilder.build();
+        try {
+            return new URL(uri.toString());
+        } catch (MalformedURLException e) {
+            Log.e(TAG, e.getMessage());
+        }
+
+        return null;
+    }
+
     /**
      * Builds YouTube url given the key
      *
@@ -344,10 +372,10 @@ public final class URIBuilderUtils {
                 .appendEncodedPath(API_VERSION)
                 .appendEncodedPath(path)
                 .appendQueryParameter(API_KEY_PARAM, API_KEY)
-                .appendQueryParameter(LANGUAGE, EN_US);
+                .appendQueryParameter(LANGUAGE_PARAM, EN_US);
 
         if (page != -1) {
-            uriBuilder.appendQueryParameter(PAGE, String.valueOf(page));
+            uriBuilder.appendQueryParameter(PAGE_PARAM, String.valueOf(page));
         }
 
         Uri uri = uriBuilder.build();
