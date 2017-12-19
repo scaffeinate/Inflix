@@ -22,6 +22,11 @@
 		<item name="android:textSize">@dimen/font_size_caption</item>
 	</style>
 
+	<style name="Toolbar" parent="Base.ThemeOverlay.AppCompat.Dark.ActionBar">
+		<item name="android:editTextColor">@color/textColorLight</item>
+		<item name="android:fontFamily">@font/lato_regular</item>
+	</style>
+
 	<style name="Display">
 		<item name="android:textSize">@dimen/font_size_display</item>
 		<item name="android:textStyle">bold</item>
