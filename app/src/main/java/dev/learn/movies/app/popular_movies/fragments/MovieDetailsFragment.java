@@ -22,9 +22,9 @@ import java.util.List;
 import dev.learn.movies.app.popular_movies.R;
 import dev.learn.movies.app.popular_movies.activities.AdditionalInfoActivity;
 import dev.learn.movies.app.popular_movies.common.Genre;
+import dev.learn.movies.app.popular_movies.common.Media;
 import dev.learn.movies.app.popular_movies.common.VideosResult;
 import dev.learn.movies.app.popular_movies.common.cast.CastsResult;
-import dev.learn.movies.app.popular_movies.common.movies.Movie;
 import dev.learn.movies.app.popular_movies.common.movies.MovieDetail;
 import dev.learn.movies.app.popular_movies.common.movies.MoviesResult;
 import dev.learn.movies.app.popular_movies.data.DataContract;
@@ -191,11 +191,11 @@ public class MovieDetailsFragment extends BaseDetailsFragment implements View.On
     public void onItemClicked(ViewGroup parent, View view, int position) {
         switch (parent.getId()) {
             case R.id.recycler_view_similar:
-                Movie movie = (Movie) mSimilarList.get(position);
-                if (movie != null) {
+                Media media = mSimilarList.get(position);
+                if (media != null) {
                     getActivity().getSupportFragmentManager()
                             .beginTransaction()
-                            .replace(R.id.layout_outlet, MovieDetailsFragment.newInstance(movie.getId(), movie.getTitle()))
+                            .replace(R.id.layout_outlet, MovieDetailsFragment.newInstance(media.getId(), media.getTitle()))
                             .commit();
                     mCallbacks.scrollToTop();
                 }

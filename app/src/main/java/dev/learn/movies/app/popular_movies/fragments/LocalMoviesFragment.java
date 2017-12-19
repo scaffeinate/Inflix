@@ -115,7 +115,7 @@ public class LocalMoviesFragment extends Fragment implements ContentLoader.Conte
     }
 
     /**
-     * Overrides onItemClicked(position) from MoviesAdapter.OnItemClickHandler
+     * Overrides onItemClicked(position) from MediaAdapter.OnItemClickHandler
      *
      * @param position Position
      */

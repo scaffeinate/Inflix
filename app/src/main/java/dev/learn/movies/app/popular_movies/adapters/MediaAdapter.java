@@ -11,20 +11,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dev.learn.movies.app.popular_movies.R;
-import dev.learn.movies.app.popular_movies.common.movies.Movie;
+import dev.learn.movies.app.popular_movies.common.Media;
 import dev.learn.movies.app.popular_movies.utils.DisplayUtils;
 import dev.learn.movies.app.popular_movies.utils.URIBuilderUtils;
 
 /**
- * MoviesAdapter - RecyclerView Adapter for Movies
+ * MediaAdapter - RecyclerView Adapter for Movies
  */
-public class MoviesAdapter extends LoadMoreAdapter {
+public class MediaAdapter extends LoadMoreAdapter {
 
     private final OnItemClickHandler mHandler;
-    private List<Movie> mMovieList;
+    private List<Media> mMediaList;
 
-    public MoviesAdapter(OnItemClickHandler handler) {
-        mMovieList = new ArrayList<>();
+    public MediaAdapter(OnItemClickHandler handler) {
+        mMediaList = new ArrayList<>();
         mHandler = handler;
     }
 
@@ -46,11 +46,11 @@ public class MoviesAdapter extends LoadMoreAdapter {
 
     @Override
     public int getItemCount() {
-        return mMovieList.size() + 1;
+        return mMediaList.size() + 1;
     }
 
-    public void setMovieList(List<Movie> movieList) {
-        this.mMovieList = movieList;
+    public void setMediaList(List<Media> mediaList) {
+        this.mMediaList = mediaList;
         notifyDataSetChanged();
     }
 
@@ -68,7 +68,7 @@ public class MoviesAdapter extends LoadMoreAdapter {
 
         @Override
         public void bind(int position) {
-            Movie movie = mMovieList.get(position);
+            Media movie = mMediaList.get(position);
             String posterURL;
             if (movie != null && (posterURL = movie.getPosterPath()) != null) {
                 Uri posterUri = URIBuilderUtils.buildImageResourceUri(posterURL, URIBuilderUtils.IMAGE_SIZE_MEDIUM);

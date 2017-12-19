@@ -23,7 +23,7 @@ public abstract class LoadMoreAdapter extends RecyclerView.Adapter<RecyclerView.
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof LoaderViewHolder) {
             ((LoaderViewHolder) holder).bind(mShowLoading);
-        } else if (holder instanceof MoviesAdapter.ContentViewHolder) {
+        } else if (holder instanceof MediaAdapter.ContentViewHolder) {
             ((ContentViewHolder) holder).bind(position);
         }
     }

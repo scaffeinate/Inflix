@@ -22,11 +22,11 @@ import java.util.List;
 import dev.learn.movies.app.popular_movies.R;
 import dev.learn.movies.app.popular_movies.adapters.SeasonsAdapter;
 import dev.learn.movies.app.popular_movies.common.Genre;
+import dev.learn.movies.app.popular_movies.common.Media;
 import dev.learn.movies.app.popular_movies.common.VideosResult;
 import dev.learn.movies.app.popular_movies.common.cast.CastsResult;
 import dev.learn.movies.app.popular_movies.common.tv_show.CreatedBy;
 import dev.learn.movies.app.popular_movies.common.tv_show.Season;
-import dev.learn.movies.app.popular_movies.common.tv_show.TVShow;
 import dev.learn.movies.app.popular_movies.common.tv_show.TVShowDetail;
 import dev.learn.movies.app.popular_movies.common.tv_show.TVShowsResult;
 import dev.learn.movies.app.popular_movies.data.DataContract;
@@ -176,11 +176,11 @@ public class TVShowDetailsFragment extends BaseDetailsFragment {
     public void onItemClicked(ViewGroup parent, View view, int position) {
         switch (parent.getId()) {
             case R.id.recycler_view_similar:
-                TVShow tvShow = (TVShow) mSimilarList.get(position);
-                if (tvShow != null) {
+                Media media = mSimilarList.get(position);
+                if (media != null) {
                     getActivity().getSupportFragmentManager()
                             .beginTransaction()
-                            .replace(R.id.layout_outlet, TVShowDetailsFragment.newInstance(tvShow.getId(), tvShow.getName()))
+                            .replace(R.id.layout_outlet, TVShowDetailsFragment.newInstance(media.getId(), media.getName()))
                             .commit();
                     mCallbacks.scrollToTop();
                 }

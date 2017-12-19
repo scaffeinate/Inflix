@@ -24,9 +24,9 @@ import java.util.List;
 
 import dev.learn.movies.app.popular_movies.R;
 import dev.learn.movies.app.popular_movies.activities.DetailActivity;
-import dev.learn.movies.app.popular_movies.adapters.MoviesAdapter;
+import dev.learn.movies.app.popular_movies.adapters.MediaAdapter;
 import dev.learn.movies.app.popular_movies.adapters.OnItemClickHandler;
-import dev.learn.movies.app.popular_movies.common.movies.Movie;
+import dev.learn.movies.app.popular_movies.common.Media;
 import dev.learn.movies.app.popular_movies.common.movies.MoviesResult;
 import dev.learn.movies.app.popular_movies.databinding.FragmentMoviesBinding;
 import dev.learn.movies.app.popular_movies.loaders.NetworkLoader;
@@ -64,8 +64,8 @@ public class MoviesFragment extends Fragment implements NetworkLoader.NetworkLoa
     private int mGridCount = DEFAULT_GRID_COUNT;
 
     private GridLayoutManager mLayoutManager;
-    private MoviesAdapter mAdapter;
-    private List<Movie> mMovieList;
+    private MediaAdapter mAdapter;
+    private List<Media> mMediaList;
     private int mPage = START_PAGE;
 
     private EndlessRecyclerViewScrollListener mEndlessScollListener;
@@ -87,7 +87,7 @@ public class MoviesFragment extends Fragment implements NetworkLoader.NetworkLoa
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = getContext();
-        mMovieList = new ArrayList<>();
+        mMediaList = new ArrayList<>();
         mNetworkLoader = new NetworkLoader(mContext, this);
         boolean isTablet = getResources().getBoolean(R.bool.is_tablet);
         mGridCount = isTablet ? TABLET_GRID_COUNT : DEFAULT_GRID_COUNT;
@@ -129,7 +129,7 @@ public class MoviesFragment extends Fragment implements NetworkLoader.NetworkLoa
         mBinding.recyclerViewMovies.setHasFixedSize(true);
         mBinding.recyclerViewMovies.setLayoutManager(mLayoutManager);
 
-        mAdapter = new MoviesAdapter(this);
+        mAdapter = new MediaAdapter(this);
         mBinding.recyclerViewMovies.setAdapter(mAdapter);
         mBinding.recyclerViewMovies.addOnScrollListener(mEndlessScollListener);
 
@@ -140,8 +140,8 @@ public class MoviesFragment extends Fragment implements NetworkLoader.NetworkLoa
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (savedInstanceState != null && savedInstanceState.containsKey(RESPONSE)) {
-            mMovieList = savedInstanceState.getParcelableArrayList(RESPONSE);
-            mAdapter.setMovieList(mMovieList);
+            mMediaList = savedInstanceState.getParcelableArrayList(RESPONSE);
+            mAdapter.setMediaList(mMediaList);
             showRecyclerView();
         } else {
             fetchMovies();
@@ -151,26 +151,26 @@ public class MoviesFragment extends Fragment implements NetworkLoader.NetworkLoa
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        if (!mMovieList.isEmpty()) {
+        if (!mMediaList.isEmpty()) {
             outState.putInt(PAGE, mPage);
-            outState.putParcelableArrayList(RESPONSE, (ArrayList<? extends Parcelable>) mMovieList);
+            outState.putParcelableArrayList(RESPONSE, (ArrayList<? extends Parcelable>) mMediaList);
         }
     }
 
     /**
-     * Implement onClick(position) from MoviesAdapter.OnItemClickHandler
+     * Implement onClick(position) from MediaAdapter.OnItemClickHandler
      *
      * @param position Position
      */
     @Override
     public void onItemClicked(ViewGroup parent, View view, int position) {
-        if (position >= 0 && position < this.mMovieList.size()) {
+        if (position >= 0 && position < this.mMediaList.size()) {
             // Starts DetailActivity with movieId passed in a bundle.
-            Movie movie = mMovieList.get(position);
+            Media media = mMediaList.get(position);
 
             Intent detailActivityIntent = new Intent(mContext, DetailActivity.class);
-            detailActivityIntent.putExtra(RESOURCE_ID, movie.getId());
-            detailActivityIntent.putExtra(RESOURCE_TITLE, movie.getTitle());
+            detailActivityIntent.putExtra(RESOURCE_ID, media.getId());
+            detailActivityIntent.putExtra(RESOURCE_TITLE, media.getTitle());
             detailActivityIntent.putExtra(RESOURCE_TYPE, MOVIES);
 
             startActivity(detailActivityIntent);
@@ -202,8 +202,8 @@ public class MoviesFragment extends Fragment implements NetworkLoader.NetworkLoa
                     if (mPage == START_PAGE) {
                         showRecyclerView();
                     }
-                    this.mMovieList.addAll(moviesResult.getResults());
-                    mAdapter.setMovieList(mMovieList);
+                    this.mMediaList.addAll(moviesResult.getResults());
+                    mAdapter.setMediaList(mMediaList);
                 }
                 break;
         }

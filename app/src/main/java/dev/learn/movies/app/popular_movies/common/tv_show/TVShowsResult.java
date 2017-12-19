@@ -5,6 +5,8 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+import dev.learn.movies.app.popular_movies.common.Media;
+
 public class TVShowsResult {
 
     @SerializedName("page")
@@ -12,7 +14,7 @@ public class TVShowsResult {
     private long page;
     @SerializedName("results")
     @Expose
-    private List<TVShow> results = null;
+    private List<Media> results = null;
     @SerializedName("total_results")
     @Expose
     private long totalResults;
@@ -28,11 +30,11 @@ public class TVShowsResult {
         this.page = page;
     }
 
-    public List<TVShow> getResults() {
+    public List<Media> getResults() {
         return results;
     }
 
-    public void setResults(List<TVShow> results) {
+    public void setResults(List<Media> results) {
         this.results = results;
     }
 
