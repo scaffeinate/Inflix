@@ -169,15 +169,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     ShareCompat.IntentBuilder.from(this)
                             .setType(mimeType)
                             .setChooserTitle(title)
-                            .setText("Discover Movies using Inflix! Visit " +
-                                    "http://play.google.com/store/apps/details?id=dev.learn.movies.app.popular_movies")
+                            .setText("Discover Movies using Inflix! Google Play Link: " +
+                                    "http://play.google.com/store/apps/details?id=" + getPackageName())
                             .startChooser();
                     closeDrawer();
                     return;
                 case R.id.action_rate_us:
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setData(Uri.parse("http://play.google.com/store/apps/details?id=dev.learn.movies.app.popular_movies"));
-                    startActivity(intent);
+                    Uri uri = Uri.parse("market://details?id=" + getPackageName());
+                    Intent myAppLinkToMarket = new Intent(Intent.ACTION_VIEW, uri);
+                    try {
+                        startActivity(myAppLinkToMarket);
+                    } catch (ActivityNotFoundException e) {
+                        Toast.makeText(this, "Unable to find Google Play store", Toast.LENGTH_LONG).show();
+                    }
                     closeDrawer();
                     return;
                 case R.id.action_version:
