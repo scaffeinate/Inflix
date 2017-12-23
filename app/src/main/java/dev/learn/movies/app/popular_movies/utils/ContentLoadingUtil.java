@@ -66,6 +66,12 @@ public final class ContentLoadingUtil {
         }
     }
 
+    public void inProgress() {
+        show(mProgress);
+        hide(mContent);
+        hide(mError);
+    }
+
     private void show(View view) {
         if (view != null) {
             view.setVisibility(View.VISIBLE);

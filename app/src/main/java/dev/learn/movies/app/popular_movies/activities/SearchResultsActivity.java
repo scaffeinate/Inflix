@@ -1,6 +1,7 @@
 package dev.learn.movies.app.popular_movies.activities;
 
 import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -10,6 +11,8 @@ import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -27,6 +30,7 @@ import dev.learn.movies.app.popular_movies.common.movies.MoviesResult;
 import dev.learn.movies.app.popular_movies.common.tv_show.TVShowsResult;
 import dev.learn.movies.app.popular_movies.databinding.ActivitySearchResultsBinding;
 import dev.learn.movies.app.popular_movies.loaders.NetworkLoader;
+import dev.learn.movies.app.popular_movies.utils.ContentLoadingUtil;
 import dev.learn.movies.app.popular_movies.utils.HTTPLoaderUtil;
 import dev.learn.movies.app.popular_movies.utils.URIBuilderUtils;
 import dev.learn.movies.app.popular_movies.views.EndlessRecyclerViewScrollListener;
@@ -46,7 +50,7 @@ import static dev.learn.movies.app.popular_movies.Inflix.TV_SHOWS_SEARCH_LOADER_
  * Created by sudhar on 12/18/17.
  */
 
-public class SearchResultsActivity extends AppCompatActivity implements NetworkLoader.NetworkLoaderCallback, OnItemClickHandler {
+public class SearchResultsActivity extends AppCompatActivity implements NetworkLoader.NetworkLoaderCallback, OnItemClickHandler, SearchView.OnQueryTextListener {
 
     private static final String PAGE = "page";
     private static final String RESPONSE = "response";
@@ -65,11 +69,18 @@ public class SearchResultsActivity extends AppCompatActivity implements NetworkL
     private String mQuery;
 
     private ActivitySearchResultsBinding mBinding;
+    private ContentLoadingUtil mContentLoadingUtil;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_search_results);
+        mContentLoadingUtil = ContentLoadingUtil.with(this)
+                .setContent(mBinding.recyclerViewMovies)
+                .setError(mBinding.tvErrorMessageDisplay)
+                .setProgress(mBinding.pbLoadingIndicator);
+
         mMediaList = new ArrayList<>();
         mNetworkLoader = new NetworkLoader(this, this);
         boolean isTablet = getResources().getBoolean(R.bool.is_tablet);
@@ -103,12 +114,11 @@ public class SearchResultsActivity extends AppCompatActivity implements NetworkL
             mPage = savedInstanceState.getInt(PAGE, START_PAGE);
             mMediaList = savedInstanceState.getParcelableArrayList(RESPONSE);
             mAdapter.setMediaList(mMediaList);
-            showRecyclerView();
+            mContentLoadingUtil.success();
         } else {
             handleIntent(getIntent());
         }
 
-        //onScrollListener to handle endless pagination
         mEndlessScollListener = new EndlessRecyclerViewScrollListener(mPage, mLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
@@ -137,6 +147,18 @@ public class SearchResultsActivity extends AppCompatActivity implements NetworkL
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        SearchManager searchManager =
+                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView =
+                (SearchView) menu.findItem(R.id.action_search).getActionView();
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setOnQueryTextListener(this);
+        return true;
+    }
+
+    @Override
     public void onLoadFinished(Loader loader, String s) {
         switch (loader.getId()) {
             case MOVIES_SEARCH_LOADER_ID:
@@ -161,12 +183,12 @@ public class SearchResultsActivity extends AppCompatActivity implements NetworkL
                 }
 
                 if (mMediaList.isEmpty()) {
-                    showErrorMessage();
+                    mContentLoadingUtil.error();
                 } else if (mLastKnownSize == mMediaList.size()) {
                     mAdapter.showLoading(false);
                     mAdapter.notifyDataSetChanged();
                 } else {
-                    showRecyclerView();
+                    mContentLoadingUtil.success();
                     mAdapter.setMediaList(mMediaList);
                 }
 
@@ -180,6 +202,7 @@ public class SearchResultsActivity extends AppCompatActivity implements NetworkL
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
             mQuery = query;
+            setTitle(query);
             searchMovies();
         }
     }
@@ -212,24 +235,6 @@ public class SearchResultsActivity extends AppCompatActivity implements NetworkL
         }).execute();
     }
 
-    /**
-     * Shows RecyclerView, Hides ProgressBar and ErrorMessage
-     */
-    private void showRecyclerView() {
-        mBinding.recyclerViewMovies.setVisibility(View.VISIBLE);
-        mBinding.pbLoadingIndicator.setVisibility(View.INVISIBLE);
-        mBinding.tvErrorMessageDisplay.setVisibility(View.INVISIBLE);
-    }
-
-    /**
-     * Shows ErrorMessage, Hides ProgressBar and RecyclerView
-     */
-    private void showErrorMessage() {
-        mBinding.tvErrorMessageDisplay.setVisibility(View.VISIBLE);
-        mBinding.pbLoadingIndicator.setVisibility(View.INVISIBLE);
-        mBinding.recyclerViewMovies.setVisibility(View.INVISIBLE);
-    }
-
     @Override
     public void onItemClicked(ViewGroup parent, View view, int position) {
         if (position >= 0 && position < this.mMediaList.size()) {
@@ -244,5 +249,32 @@ public class SearchResultsActivity extends AppCompatActivity implements NetworkL
                 startActivity(detailActivityIntent);
             }
         }
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        reset();
+        mQuery = query;
+        setTitle(query);
+        mContentLoadingUtil.inProgress();
+        searchMovies();
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        return false;
+    }
+
+    private void setTitle(String title) {
+        mBinding.toolbar.tvToolbarTitle.setText(title);
+    }
+
+    private void reset() {
+        mEndlessScollListener.reset();
+        mPage = START_PAGE;
+        mLastKnownSize = 0;
+        mMediaList = new ArrayList<>();
+        invalidateOptionsMenu();
     }
 }

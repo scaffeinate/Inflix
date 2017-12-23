@@ -1,7 +1,7 @@
 package dev.learn.movies.app.popular_movies.activities;
 
 import android.app.SearchManager;
-import android.content.ComponentName;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -21,6 +21,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import dev.learn.movies.app.popular_movies.R;
 import dev.learn.movies.app.popular_movies.databinding.ActivityMainBinding;
@@ -95,9 +96,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView =
                 (SearchView) menu.findItem(R.id.action_search).getActionView();
-        searchView.setSearchableInfo(
-                searchManager.getSearchableInfo(new ComponentName(this, SearchResultsActivity.class)));
-        searchView.setQueryHint(getResources().getString(R.string.search_hint));
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
 
         return true;
     }
