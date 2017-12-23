@@ -23,6 +23,7 @@ import dev.learn.movies.app.popular_movies.adapters.OnItemClickHandler;
 import dev.learn.movies.app.popular_movies.data.DataContract;
 import dev.learn.movies.app.popular_movies.databinding.FragmentMoviesBinding;
 import dev.learn.movies.app.popular_movies.loaders.ContentLoader;
+import dev.learn.movies.app.popular_movies.utils.ContentLoadingUtil;
 
 import static dev.learn.movies.app.popular_movies.Inflix.BOOKMARKS;
 import static dev.learn.movies.app.popular_movies.Inflix.BOOKMARKS_LOADER_ID;
@@ -55,6 +56,7 @@ public class LocalMoviesFragment extends Fragment implements ContentLoader.Conte
 
     private ContentLoader mContentLoader;
     private FragmentMoviesBinding mBinding;
+    private ContentLoadingUtil mContentLoadingUtil;
 
     public static LocalMoviesFragment newInstance(String type) {
         LocalMoviesFragment localMoviesFragment = new LocalMoviesFragment();
@@ -84,6 +86,10 @@ public class LocalMoviesFragment extends Fragment implements ContentLoader.Conte
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_movies, container, false);
+        mContentLoadingUtil = ContentLoadingUtil.with(mContext)
+                .setContent(mBinding.recyclerViewMovies)
+                .setProgress(mBinding.pbLoadingIndicator)
+                .setError(mBinding.tvErrorMessageDisplay);
         View view = mBinding.getRoot();
 
         if (getArguments() != null) {
@@ -149,21 +155,21 @@ public class LocalMoviesFragment extends Fragment implements ContentLoader.Conte
         switch (loader.getId()) {
             case FAVORITES_LOADER_ID:
                 if (cursor == null || cursor.getCount() == 0) {
-                    showErrorMessage();
+                    mContentLoadingUtil.error();
                 } else {
                     mCursor = cursor;
                     mAdapter.swapCursor(mCursor);
-                    showRecyclerView();
+                    mContentLoadingUtil.success();
                     restoreState();
                 }
                 break;
             case BOOKMARKS_LOADER_ID:
                 if (cursor == null || !cursor.moveToFirst()) {
-                    showErrorMessage();
+                    mContentLoadingUtil.error();
                 } else {
                     mCursor = cursor;
                     mAdapter.swapCursor(mCursor);
-                    showRecyclerView();
+                    mContentLoadingUtil.success();
                     restoreState();
                 }
                 break;
@@ -200,23 +206,5 @@ public class LocalMoviesFragment extends Fragment implements ContentLoader.Conte
         if (mSavedState != null) {
             mLayoutManager.onRestoreInstanceState(mSavedState);
         }
-    }
-
-    /**
-     * Shows RecyclerView, Hides ProgressBar and ErrorMessage
-     */
-    private void showRecyclerView() {
-        mBinding.recyclerViewMovies.setVisibility(View.VISIBLE);
-        mBinding.pbLoadingIndicator.setVisibility(View.INVISIBLE);
-        mBinding.tvErrorMessageDisplay.setVisibility(View.INVISIBLE);
-    }
-
-    /**
-     * Shows ErrorMessage, Hides ProgressBar and RecyclerView
-     */
-    private void showErrorMessage() {
-        mBinding.tvErrorMessageDisplay.setVisibility(View.VISIBLE);
-        mBinding.pbLoadingIndicator.setVisibility(View.INVISIBLE);
-        mBinding.recyclerViewMovies.setVisibility(View.INVISIBLE);
     }
 }

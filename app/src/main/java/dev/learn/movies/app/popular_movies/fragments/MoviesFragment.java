@@ -30,6 +30,7 @@ import dev.learn.movies.app.popular_movies.common.Media;
 import dev.learn.movies.app.popular_movies.common.movies.MoviesResult;
 import dev.learn.movies.app.popular_movies.databinding.FragmentMoviesBinding;
 import dev.learn.movies.app.popular_movies.loaders.NetworkLoader;
+import dev.learn.movies.app.popular_movies.utils.ContentLoadingUtil;
 import dev.learn.movies.app.popular_movies.utils.DisplayUtils;
 import dev.learn.movies.app.popular_movies.utils.HTTPLoaderUtil;
 import dev.learn.movies.app.popular_movies.utils.URIBuilderUtils;
@@ -70,6 +71,7 @@ public class MoviesFragment extends Fragment implements NetworkLoader.NetworkLoa
 
     private EndlessRecyclerViewScrollListener mEndlessScollListener;
     private NetworkLoader mNetworkLoader;
+    private ContentLoadingUtil mContentLoadingUitl;
 
     private FragmentMoviesBinding mBinding;
 
@@ -120,6 +122,10 @@ public class MoviesFragment extends Fragment implements NetworkLoader.NetworkLoa
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_movies, container, false);
+        mContentLoadingUitl = ContentLoadingUtil.with(mContext)
+                .setContent(mBinding.recyclerViewMovies)
+                .setProgress(mBinding.pbLoadingIndicator)
+                .setError(mBinding.tvErrorMessageDisplay);
         View view = mBinding.getRoot();
 
         if (getArguments() != null) {
@@ -142,7 +148,7 @@ public class MoviesFragment extends Fragment implements NetworkLoader.NetworkLoa
         if (savedInstanceState != null && savedInstanceState.containsKey(RESPONSE)) {
             mMediaList = savedInstanceState.getParcelableArrayList(RESPONSE);
             mAdapter.setMediaList(mMediaList);
-            showRecyclerView();
+            mContentLoadingUitl.success();
         } else {
             fetchMovies();
         }
@@ -192,7 +198,7 @@ public class MoviesFragment extends Fragment implements NetworkLoader.NetworkLoa
                     // If the first request failed then show error message hiding the content
                     // Otherwise stop loading further
                     if (mPage == START_PAGE) {
-                        showErrorMessage();
+                        mContentLoadingUitl.error();
                     } else {
                         mAdapter.showLoading(false);
                         mAdapter.notifyDataSetChanged();
@@ -200,7 +206,7 @@ public class MoviesFragment extends Fragment implements NetworkLoader.NetworkLoa
                 } else {
                     // For the first request change visibility of recyclerview
                     if (mPage == START_PAGE) {
-                        showRecyclerView();
+                        mContentLoadingUitl.success();
                     }
                     this.mMediaList.addAll(moviesResult.getResults());
                     mAdapter.setMediaList(mMediaList);
@@ -243,7 +249,7 @@ public class MoviesFragment extends Fragment implements NetworkLoader.NetworkLoa
             public void run() {
                 if (mPage == START_PAGE) {
                     DisplayUtils.setNoNetworkConnectionMessage(mContext, mBinding.tvErrorMessageDisplay);
-                    showErrorMessage();
+                    mContentLoadingUitl.error();
                 } else {
                     Toast.makeText(mContext, getResources().getString(R.string.no_network_connection_error_message), Toast.LENGTH_SHORT).show();
                     mAdapter.showLoading(false);
@@ -251,23 +257,5 @@ public class MoviesFragment extends Fragment implements NetworkLoader.NetworkLoa
                 }
             }
         }).execute();
-    }
-
-    /**
-     * Shows RecyclerView, Hides ProgressBar and ErrorMessage
-     */
-    private void showRecyclerView() {
-        mBinding.recyclerViewMovies.setVisibility(View.VISIBLE);
-        mBinding.pbLoadingIndicator.setVisibility(View.INVISIBLE);
-        mBinding.tvErrorMessageDisplay.setVisibility(View.INVISIBLE);
-    }
-
-    /**
-     * Shows ErrorMessage, Hides ProgressBar and RecyclerView
-     */
-    private void showErrorMessage() {
-        mBinding.tvErrorMessageDisplay.setVisibility(View.VISIBLE);
-        mBinding.pbLoadingIndicator.setVisibility(View.INVISIBLE);
-        mBinding.recyclerViewMovies.setVisibility(View.INVISIBLE);
     }
 }

@@ -29,6 +29,7 @@ import dev.learn.movies.app.popular_movies.common.Media;
 import dev.learn.movies.app.popular_movies.common.tv_show.TVShowsResult;
 import dev.learn.movies.app.popular_movies.databinding.FragmentMoviesBinding;
 import dev.learn.movies.app.popular_movies.loaders.NetworkLoader;
+import dev.learn.movies.app.popular_movies.utils.ContentLoadingUtil;
 import dev.learn.movies.app.popular_movies.utils.DisplayUtils;
 import dev.learn.movies.app.popular_movies.utils.HTTPLoaderUtil;
 import dev.learn.movies.app.popular_movies.utils.URIBuilderUtils;
@@ -72,6 +73,7 @@ public class TVShowsFragment extends Fragment implements NetworkLoader.NetworkLo
     private NetworkLoader mNetworkLoader;
 
     private FragmentMoviesBinding mBinding;
+    private ContentLoadingUtil mContentLoadingUtil;
 
     public static TVShowsFragment newInstance(String type) {
         TVShowsFragment TVShowsFragment = new TVShowsFragment();
@@ -119,6 +121,10 @@ public class TVShowsFragment extends Fragment implements NetworkLoader.NetworkLo
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_movies, container, false);
+        mContentLoadingUtil = ContentLoadingUtil.with(mContext)
+                .setContent(mBinding.recyclerViewMovies)
+                .setProgress(mBinding.pbLoadingIndicator)
+                .setError(mBinding.tvErrorMessageDisplay);
         View view = mBinding.getRoot();
 
         if (getArguments() != null) {
@@ -141,7 +147,7 @@ public class TVShowsFragment extends Fragment implements NetworkLoader.NetworkLo
         if (savedInstanceState != null && savedInstanceState.containsKey(RESPONSE)) {
             mMediaList = savedInstanceState.getParcelableArrayList(RESPONSE);
             mAdapter.setMediaList(mMediaList);
-            showRecyclerView();
+            mContentLoadingUtil.success();
         } else {
             fetchTVShows(START_PAGE);
         }
@@ -178,16 +184,16 @@ public class TVShowsFragment extends Fragment implements NetworkLoader.NetworkLo
                 if (tvShowsResult == null || tvShowsResult.getResults() == null || tvShowsResult.getResults().isEmpty()) {
                     // If the first request failed then show error message hiding the content
                     // Otherwise stop loading further
-                    if (mMediaList.isEmpty()) {
-                        showErrorMessage();
+                    if (mPage == START_PAGE) {
+                        mContentLoadingUtil.error();
                     } else {
                         mAdapter.showLoading(false);
                         mAdapter.notifyDataSetChanged();
                     }
                 } else {
                     // For the first request change visibility of recyclerview
-                    if (mMediaList.isEmpty()) {
-                        showRecyclerView();
+                    if (mPage == START_PAGE) {
+                        mContentLoadingUtil.success();
                     }
                     this.mMediaList.addAll(tvShowsResult.getResults());
                     mAdapter.setMediaList(mMediaList);
@@ -231,7 +237,7 @@ public class TVShowsFragment extends Fragment implements NetworkLoader.NetworkLo
                         // Otherview show Toast message
                         if (page == START_PAGE) {
                             DisplayUtils.setNoNetworkConnectionMessage(mContext, mBinding.tvErrorMessageDisplay);
-                            showErrorMessage();
+                            mContentLoadingUtil.error();
                         } else {
                             Toast.makeText(mContext, getResources().getString(R.string.no_network_connection_error_message), Toast.LENGTH_SHORT).show();
                             mAdapter.showLoading(false);
@@ -239,23 +245,5 @@ public class TVShowsFragment extends Fragment implements NetworkLoader.NetworkLo
                         }
                     }
                 }).execute();
-    }
-
-    /**
-     * Shows RecyclerView, Hides ProgressBar and ErrorMessage
-     */
-    private void showRecyclerView() {
-        mBinding.recyclerViewMovies.setVisibility(View.VISIBLE);
-        mBinding.pbLoadingIndicator.setVisibility(View.INVISIBLE);
-        mBinding.tvErrorMessageDisplay.setVisibility(View.INVISIBLE);
-    }
-
-    /**
-     * Shows ErrorMessage, Hides ProgressBar and RecyclerView
-     */
-    private void showErrorMessage() {
-        mBinding.tvErrorMessageDisplay.setVisibility(View.VISIBLE);
-        mBinding.pbLoadingIndicator.setVisibility(View.INVISIBLE);
-        mBinding.recyclerViewMovies.setVisibility(View.INVISIBLE);
     }
 }

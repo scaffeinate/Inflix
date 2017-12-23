@@ -27,6 +27,7 @@ import dev.learn.movies.app.popular_movies.common.movies.MovieReview;
 import dev.learn.movies.app.popular_movies.common.movies.MovieReviewsResult;
 import dev.learn.movies.app.popular_movies.databinding.FragmentUserReviewsBinding;
 import dev.learn.movies.app.popular_movies.loaders.NetworkLoader;
+import dev.learn.movies.app.popular_movies.utils.ContentLoadingUtil;
 import dev.learn.movies.app.popular_movies.utils.DisplayUtils;
 import dev.learn.movies.app.popular_movies.utils.HTTPLoaderUtil;
 import dev.learn.movies.app.popular_movies.utils.URIBuilderUtils;
@@ -46,7 +47,6 @@ public class UserReviewsFragment extends Fragment implements NetworkLoader.Netwo
     private final Gson gson = new Gson();
     private Context mContext;
     private long mResourceId;
-    private FragmentUserReviewsBinding mBinding;
     private NetworkLoader mNetworkLoader;
 
     private RecyclerView.LayoutManager mLayoutManager;
@@ -55,6 +55,9 @@ public class UserReviewsFragment extends Fragment implements NetworkLoader.Netwo
 
     private EndlessRecyclerViewScrollListener mEndlessScollListener;
     private int mPage = START_PAGE;
+
+    private FragmentUserReviewsBinding mBinding;
+    private ContentLoadingUtil mContentLoadingUtil;
 
     public static UserReviewsFragment newInstance(long resourceId) {
         UserReviewsFragment userReviewsFragment = new UserReviewsFragment();
@@ -90,6 +93,10 @@ public class UserReviewsFragment extends Fragment implements NetworkLoader.Netwo
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_user_reviews, container, false);
+        mContentLoadingUtil = ContentLoadingUtil.with(mContext)
+                .setContent(mBinding.rvUserReviews)
+                .setProgress(mBinding.pbUserReviews)
+                .setError(mBinding.tvReviewsErrorMessageDisplay);
 
         mBinding.rvUserReviews.setLayoutManager(mLayoutManager);
         mBinding.rvUserReviews.setHasFixedSize(true);
@@ -144,7 +151,7 @@ public class UserReviewsFragment extends Fragment implements NetworkLoader.Netwo
                     public void run() {
                         if (mPage == START_PAGE) {
                             DisplayUtils.setNoNetworkConnectionMessage(mContext, mBinding.tvReviewsErrorMessageDisplay);
-                            showReviewsErrorMessage();
+                            mContentLoadingUtil.error();
                         } else {
                             Toast.makeText(mContext, getResources().getString(R.string.no_network_connection_error_message), Toast.LENGTH_SHORT).show();
                             mAdapter.showLoading(false);
@@ -170,36 +177,18 @@ public class UserReviewsFragment extends Fragment implements NetworkLoader.Netwo
     private void updateReviewsUI(List<MovieReview> movieReviewList) {
         if (movieReviewList == null || movieReviewList.isEmpty()) {
             if (mPage == START_PAGE) {
-                showReviewsErrorMessage();
+                mContentLoadingUtil.error();
             } else {
                 mAdapter.showLoading(false);
                 mAdapter.notifyDataSetChanged();
             }
         } else {
             if (mPage == START_PAGE) {
-                showReviews();
+                mContentLoadingUtil.success();
             }
 
             mReviewsList.addAll(movieReviewList);
             mAdapter.setReviewList(mReviewsList);
         }
-    }
-
-    /**
-     * Shows MovieDetailLayout, Hides ProgressBar and ErrorMessage
-     */
-    private void showReviews() {
-        mBinding.rvUserReviews.setVisibility(View.VISIBLE);
-        mBinding.pbUserReviews.setVisibility(View.INVISIBLE);
-        mBinding.tvReviewsErrorMessageDisplay.setVisibility(View.INVISIBLE);
-    }
-
-    /**
-     * Shows ErrorMessage, Hides ProgressBar and MovieDetailLayout
-     */
-    private void showReviewsErrorMessage() {
-        mBinding.tvReviewsErrorMessageDisplay.setVisibility(View.VISIBLE);
-        mBinding.pbUserReviews.setVisibility(View.INVISIBLE);
-        mBinding.rvUserReviews.setVisibility(View.INVISIBLE);
     }
 }
