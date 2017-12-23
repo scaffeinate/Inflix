@@ -14,19 +14,19 @@
         android:orientation="vertical">
 
         <ImageView
-            android:id="@+id/iv_logo"
-            android:layout_width="@dimen/iv_logo_size"
-            android:layout_height="@dimen/iv_logo_size"
+            android:id="@+id/image_view_logo"
+            android:layout_width="@dimen/activity_splash_logo_size"
+            android:layout_height="@dimen/activity_splash_logo_size"
             android:layout_gravity="center_horizontal"
             android:tint="@android:color/white"
             app:srcCompat="@drawable/ic_popcorn" />
 
         <TextView
-            android:id="@+id/tv_app_name"
+            android:id="@+id/text_view_app_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="@dimen/activity_splash_app_name_margin_top"
             android:fontFamily="@font/lato_black"
             android:text="@string/app_name"
             android:textAlignment="center"
@@ -36,12 +36,12 @@
     </LinearLayout>
 
     <ImageView
-        android:id="@+id/iv_powered_by"
-        android:layout_width="135dp"
-        android:layout_height="50dp"
+        android:id="@+id/image_view_powered_by"
+        android:layout_width="@dimen/activity_splash_powered_by_width"
+        android:layout_height="@dimen/activity_splash_powered_by_height"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="@dimen/activity_splash_powered_by_margin_bottom"
         android:scaleType="fitXY"
         app:srcCompat="@drawable/ic_powered_by_tmdb" />
 </RelativeLayout>
