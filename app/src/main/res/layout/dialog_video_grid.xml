@@ -4,16 +4,16 @@
 	<FrameLayout
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:padding="15dp">
+		android:padding="@dimen/dialog_video_grid_padding">
 
 		<android.support.v7.widget.RecyclerView
-			android:id="@+id/rv_video_grid"
+			android:id="@+id/recycler_view_video_grid"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
 			android:visibility="invisible"/>
 
 		<TextView
-			android:id="@+id/tv_video_grid_error_message"
+			android:id="@+id/text_view_video_grid_error_message"
 			style="@style/Caption"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
@@ -22,9 +22,9 @@
 			android:visibility="invisible"/>
 
 		<ProgressBar
-			android:id="@+id/pb_video_grid"
-			android:layout_width="@dimen/progressbar_size"
-			android:layout_height="@dimen/progressbar_size"
+			android:id="@+id/progress_bar_grid_loading"
+			android:layout_width="@dimen/progress_bar_size"
+			android:layout_height="@dimen/progress_bar_size"
 			android:layout_gravity="center"/>
 	</FrameLayout>
 </layout>

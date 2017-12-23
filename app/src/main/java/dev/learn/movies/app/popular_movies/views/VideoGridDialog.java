@@ -45,8 +45,8 @@ public class VideoGridDialog implements OnItemClickHandler {
         mBinding = DataBindingUtil.inflate(LayoutInflater.from(mContext), R.layout.dialog_video_grid, null, false);
         mBuilder.setView(mBinding.getRoot());
         mAdapter = new VideoGridAdapter(this);
-        mBinding.rvVideoGrid.setLayoutManager(mLayoutManager);
-        mBinding.rvVideoGrid.setAdapter(mAdapter);
+        mBinding.recyclerViewVideoGrid.setLayoutManager(mLayoutManager);
+        mBinding.recyclerViewVideoGrid.setAdapter(mAdapter);
     }
 
     public static VideoGridDialog with(Context context) {
@@ -88,15 +88,15 @@ public class VideoGridDialog implements OnItemClickHandler {
     }
 
     private void showVideos() {
-        mBinding.rvVideoGrid.setVisibility(View.VISIBLE);
-        mBinding.pbVideoGrid.setVisibility(View.GONE);
-        mBinding.tvVideoGridErrorMessage.setVisibility(View.GONE);
+        mBinding.recyclerViewVideoGrid.setVisibility(View.VISIBLE);
+        mBinding.progressBarGridLoading.setVisibility(View.GONE);
+        mBinding.textViewVideoGridErrorMessage.setVisibility(View.GONE);
     }
 
     private void showErrorMessage() {
-        mBinding.tvVideoGridErrorMessage.setVisibility(View.VISIBLE);
-        mBinding.rvVideoGrid.setVisibility(View.GONE);
-        mBinding.pbVideoGrid.setVisibility(View.GONE);
+        mBinding.textViewVideoGridErrorMessage.setVisibility(View.VISIBLE);
+        mBinding.recyclerViewVideoGrid.setVisibility(View.GONE);
+        mBinding.progressBarGridLoading.setVisibility(View.GONE);
     }
 
     public void build() {

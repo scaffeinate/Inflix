@@ -78,8 +78,8 @@ public class SearchResultsActivity extends AppCompatActivity implements NetworkL
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_search_results);
         mContentLoadingUtil = ContentLoadingUtil.with(this)
                 .setContent(mBinding.recyclerViewMovies)
-                .setError(mBinding.tvErrorMessageDisplay)
-                .setProgress(mBinding.pbLoadingIndicator);
+                .setError(mBinding.textViewErrorMessage)
+                .setProgress(mBinding.progressBarLoading);
 
         mMediaList = new ArrayList<>();
         mNetworkLoader = new NetworkLoader(this, this);
