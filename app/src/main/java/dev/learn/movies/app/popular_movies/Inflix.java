@@ -7,7 +7,9 @@ public final class Inflix {
 
     public static final int DEFAULT_GRID_COUNT = 2;
 
-    public static final int TABLET_GRID_COUNT = 3;
+    public static final int TABLET_GRID_COUNT = 2;
+
+    public static final int LANDSCAPE_TABLET_GRID_COUNT = 3;
 
     public static final int LOCAL_MOVIE_DETAILS_LOADER_ID = 11;
 

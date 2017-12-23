@@ -38,6 +38,7 @@ import dev.learn.movies.app.popular_movies.views.EndlessRecyclerViewScrollListen
 
 import static dev.learn.movies.app.popular_movies.Inflix.DEFAULT_GRID_COUNT;
 import static dev.learn.movies.app.popular_movies.Inflix.DISCOVER;
+import static dev.learn.movies.app.popular_movies.Inflix.LANDSCAPE_TABLET_GRID_COUNT;
 import static dev.learn.movies.app.popular_movies.Inflix.MOST_POPULAR;
 import static dev.learn.movies.app.popular_movies.Inflix.MOVIES;
 import static dev.learn.movies.app.popular_movies.Inflix.MOVIES_LOADER_ID;
@@ -92,7 +93,8 @@ public class MoviesFragment extends Fragment implements NetworkLoader.NetworkLoa
         mMediaList = new ArrayList<>();
         mNetworkLoader = new NetworkLoader(mContext, this);
         boolean isTablet = getResources().getBoolean(R.bool.is_tablet);
-        mGridCount = isTablet ? TABLET_GRID_COUNT : DEFAULT_GRID_COUNT;
+        boolean isLand = getResources().getBoolean(R.bool.is_land);
+        mGridCount = ((isTablet && isLand) ? LANDSCAPE_TABLET_GRID_COUNT : (isTablet ? TABLET_GRID_COUNT : DEFAULT_GRID_COUNT));
 
         mLayoutManager = new GridLayoutManager(mContext, mGridCount);
         mLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {

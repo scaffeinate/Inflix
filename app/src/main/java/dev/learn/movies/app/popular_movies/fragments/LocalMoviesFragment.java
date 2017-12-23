@@ -30,6 +30,7 @@ import static dev.learn.movies.app.popular_movies.Inflix.BOOKMARKS_LOADER_ID;
 import static dev.learn.movies.app.popular_movies.Inflix.DEFAULT_GRID_COUNT;
 import static dev.learn.movies.app.popular_movies.Inflix.FAVORITES;
 import static dev.learn.movies.app.popular_movies.Inflix.FAVORITES_LOADER_ID;
+import static dev.learn.movies.app.popular_movies.Inflix.LANDSCAPE_TABLET_GRID_COUNT;
 import static dev.learn.movies.app.popular_movies.Inflix.RESOURCE_ID;
 import static dev.learn.movies.app.popular_movies.Inflix.RESOURCE_TITLE;
 import static dev.learn.movies.app.popular_movies.Inflix.RESOURCE_TYPE;
@@ -74,7 +75,8 @@ public class LocalMoviesFragment extends Fragment implements ContentLoader.Conte
         mContext = getContext();
         mContentLoader = new ContentLoader(mContext, this);
         boolean isTablet = getResources().getBoolean(R.bool.is_tablet);
-        int mGridCount = isTablet ? TABLET_GRID_COUNT : DEFAULT_GRID_COUNT;
+        boolean isLand = getResources().getBoolean(R.bool.is_land);
+        int mGridCount = ((isTablet && isLand) ? LANDSCAPE_TABLET_GRID_COUNT : (isTablet ? TABLET_GRID_COUNT : DEFAULT_GRID_COUNT));
         mLayoutManager = new GridLayoutManager(mContext, mGridCount);
 
         if (savedInstanceState != null) {
