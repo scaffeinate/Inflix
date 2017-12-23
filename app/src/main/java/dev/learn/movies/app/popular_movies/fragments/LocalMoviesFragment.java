@@ -87,7 +87,7 @@ public class LocalMoviesFragment extends Fragment implements ContentLoader.Conte
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_movies, container, false);
+        mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_media_grid, container, false);
         mContentLoadingUtil = ContentLoadingUtil.with(mContext)
                 .setContent(mBinding.recyclerViewMovies)
                 .setProgress(mBinding.pbLoadingIndicator)
