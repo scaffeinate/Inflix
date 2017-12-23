@@ -310,9 +310,7 @@ public class MovieDetailsFragment extends BaseDetailsFragment implements View.On
             mBinding.layoutMovieInfo.textViewMovieStatus.setVisibility(View.GONE);
         }
 
-        if (genres != null && !genres.isEmpty()) {
-            DisplayUtils.addGenres(genres, mBinding.layoutContent.layoutGenres, mContext);
-        } else {
+        if (DisplayUtils.addGenres(genres, mBinding.layoutContent.layoutGenres, mContext) == 0) {
             mBinding.layoutContent.textViewMovieGenresTitle.setVisibility(View.GONE);
             mBinding.layoutContent.layoutGenres.setVisibility(View.GONE);
         }
@@ -329,8 +327,10 @@ public class MovieDetailsFragment extends BaseDetailsFragment implements View.On
 
         mBinding.layoutContent.textViewRevenue.setText(DisplayUtils.formatCurrency(revenue));
 
-        if (moviePlot != null && !moviePlot.isEmpty()) {
+        if (!TextUtils.isEmpty(moviePlot)) {
             mBinding.layoutContent.textViewMoviePlot.setText(moviePlot);
+        } else {
+            mBinding.layoutContent.textViewMoviePlot.setText(getString(R.string.no_plot_available));
         }
 
         mCallbacks.updateFavBtn(mMovieDetail.isFavored());

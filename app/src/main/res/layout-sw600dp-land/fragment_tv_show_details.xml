@@ -13,7 +13,7 @@
             android:layout_height="match_parent"
             android:descendantFocusability="blocksDescendants"
             android:padding="@dimen/activity_detail_padding"
-            android:visibility="visible">
+            android:visibility="invisible">
 
             <include
                 android:id="@+id/layout_tv_show_info"

@@ -5,12 +5,11 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ShareCompat;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -117,12 +116,19 @@ public final class DisplayUtils {
      *
      * @param genres List of Genres
      */
-    public static void addGenres(List<Genre> genres, ViewGroup parent, Context context) {
-        for (int i = 0; i < genres.size(); i++) {
-            TextView tagView = (TextView) LayoutInflater.from(context).inflate(R.layout.layout_tag, parent, false);
-            tagView.setText(genres.get(i).getName());
-            parent.addView(tagView);
+    public static int addGenres(List<Genre> genres, ViewGroup parent, Context context) {
+        int numValidGenres = 0;
+        if (genres != null) {
+            for (int i = 0; i < genres.size(); i++) {
+                if (genres.get(i) != null && !TextUtils.isEmpty(genres.get(i).getName())) {
+                    TextView tagView = (TextView) LayoutInflater.from(context).inflate(R.layout.layout_tag, parent, false);
+                    tagView.setText(genres.get(i).getName());
+                    parent.addView(tagView);
+                    numValidGenres++;
+                }
+            }
         }
+        return numValidGenres;
     }
 
     /**
@@ -130,12 +136,19 @@ public final class DisplayUtils {
      *
      * @param createdByList List of CreatedBy
      */
-    public static void addCreatedBy(List<CreatedBy> createdByList, ViewGroup parent, Context context) {
-        for (int i = 0; i < createdByList.size(); i++) {
-            TextView tagView = (TextView) LayoutInflater.from(context).inflate(R.layout.layout_tag, parent, false);
-            tagView.setText(createdByList.get(i).getName());
-            parent.addView(tagView);
+    public static int addCreatedBy(List<CreatedBy> createdByList, ViewGroup parent, Context context) {
+        int numValidCreatedBy = 0;
+        if (createdByList != null) {
+            for (int i = 0; i < createdByList.size(); i++) {
+                if (createdByList.get(i) != null && !TextUtils.isEmpty(createdByList.get(i).getName())) {
+                    TextView tagView = (TextView) LayoutInflater.from(context).inflate(R.layout.layout_tag, parent, false);
+                    tagView.setText(createdByList.get(i).getName());
+                    parent.addView(tagView);
+                    numValidCreatedBy++;
+                }
+            }
         }
+        return numValidCreatedBy;
     }
 
     /**

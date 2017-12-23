@@ -5,6 +5,7 @@ import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
@@ -307,16 +308,12 @@ public class TVShowDetailsFragment extends BaseDetailsFragment {
             mBinding.layoutTvShowInfo.textViewTvShowStatus.setVisibility(View.GONE);
         }
 
-        if (genres != null && !genres.isEmpty()) {
-            DisplayUtils.addGenres(genres, mBinding.layoutTvShowContent.layoutGenres, mContext);
-        } else {
+        if (DisplayUtils.addGenres(genres, mBinding.layoutTvShowContent.layoutGenres, mContext) == 0) {
             mBinding.layoutTvShowContent.textViewMovieGenresTitle.setVisibility(View.GONE);
             mBinding.layoutTvShowContent.layoutGenres.setVisibility(View.GONE);
         }
 
-        if (createdByList != null && !createdByList.isEmpty()) {
-            DisplayUtils.addCreatedBy(createdByList, mBinding.layoutTvShowContent.layoutCreatedBy, mContext);
-        } else {
+        if (DisplayUtils.addCreatedBy(createdByList, mBinding.layoutTvShowContent.layoutCreatedBy, mContext) == 0) {
             mBinding.layoutTvShowContent.textViewCreatedByTitle.setVisibility(View.GONE);
             mBinding.layoutTvShowContent.layoutCreatedBy.setVisibility(View.GONE);
         }
@@ -329,6 +326,8 @@ public class TVShowDetailsFragment extends BaseDetailsFragment {
 
         if (!TextUtils.isEmpty(plot)) {
             mBinding.layoutTvShowContent.textViewTvShowPlot.setText(plot);
+        } else {
+            mBinding.layoutTvShowContent.textViewTvShowPlot.setText(getString(R.string.no_plot_available));
         }
 
         if (!TextUtils.isEmpty(firstAired)) {

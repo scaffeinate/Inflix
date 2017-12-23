@@ -42,6 +42,7 @@
 	<string name="no_user_reviews_error_message">No user reviews.</string>
 	<string name="no_network_connection_error_message">No network connection :(</string>
 	<string name="no_tagline_error_message">No Tagline.</string>
+	<string name="no_plot_available">No Plot Available.</string>
 	<string name="imdb_link_not_available">IMDB Link not available.</string>
 	<string name="no_recommendations_error_message">No Recommendations.</string>
 	<string name="no_trailers_error_message">No trailers found.</string>
