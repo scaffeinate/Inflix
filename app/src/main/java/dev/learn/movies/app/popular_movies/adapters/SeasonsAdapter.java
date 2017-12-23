@@ -1,5 +1,6 @@
 package dev.learn.movies.app.popular_movies.adapters;
 
+import android.app.Activity;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -25,22 +26,21 @@ public class SeasonsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     private final OnItemClickHandler mHandler;
     private List<Season> mSeasonList;
+    private int minScreenSize, maxScreenSize;
 
-    public SeasonsAdapter(OnItemClickHandler handler) {
+    public SeasonsAdapter(Activity activity, OnItemClickHandler handler) {
         mSeasonList = new ArrayList<>();
-        mHandler = handler;
+        this.mHandler = handler;
+        int[] screen = DisplayUtils.getScreenMetrics(activity);
+        minScreenSize = Math.min(screen[0], screen[1]);
+        maxScreenSize = Math.max(screen[0], screen[1]);
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(R.layout.item_season, parent, false);
-
-        int width = parent.getMeasuredWidth();
-        SeasonsHolder viewHolder = new SeasonsHolder(parent, view);
-        viewHolder.adjustPosterHeight(width);
-
-        return viewHolder;
+        return new SeasonsHolder(parent, view);
     }
 
     @Override
@@ -70,6 +70,7 @@ public class SeasonsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             mSeasonNumberTextView = itemView.findViewById(R.id.text_view_season_number);
             itemView.setOnClickListener(this);
             mParent = parent;
+            adjustPosterSize();
         }
 
         public void bind(int position) {
@@ -89,8 +90,9 @@ public class SeasonsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             mHandler.onItemClicked(mParent, view, getAdapterPosition());
         }
 
-        public void adjustPosterHeight(int width) {
-            mSeasonPicImageView.setLayoutParams(new FrameLayout.LayoutParams((int) (width / 2.5), (width / 2)));
+        private void adjustPosterSize() {
+            mSeasonPicImageView.setLayoutParams(new FrameLayout.LayoutParams((minScreenSize / 3),
+                    (int) (maxScreenSize / 3.15)));
         }
     }
 }

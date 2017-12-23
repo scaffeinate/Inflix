@@ -1,5 +1,6 @@
 package dev.learn.movies.app.popular_movies.adapters;
 
+import android.app.Activity;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -21,25 +22,23 @@ import dev.learn.movies.app.popular_movies.utils.URIBuilderUtils;
  * Created by sudhar on 11/15/17.
  */
 public class FilmStripAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
     private final OnItemClickHandler mHandler;
     private List<? extends Media> mFilmStripList;
+    private int minScreenSize, maxScreenSize;
 
-    public FilmStripAdapter(OnItemClickHandler handler) {
+    public FilmStripAdapter(Activity activity, OnItemClickHandler handler) {
         mFilmStripList = new ArrayList<>();
         mHandler = handler;
+        int[] screen = DisplayUtils.getScreenMetrics(activity);
+        minScreenSize = Math.min(screen[0], screen[1]);
+        maxScreenSize = Math.max(screen[0], screen[1]);
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-
-        View view = layoutInflater.inflate(R.layout.item_film_strip, parent, false);
-
-        int width = parent.getMeasuredWidth();
-        FilmStripHolder viewHolder = new FilmStripHolder(parent, view);
-        viewHolder.adjustPosterHeight(width);
-
-        return viewHolder;
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_film_strip, parent, false);
+        return new FilmStripHolder(parent, view);
     }
 
     @Override
@@ -67,6 +66,7 @@ public class FilmStripAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             mPosterImageView = itemView.findViewById(R.id.image_view_poster);
             mPosterImageView.setOnClickListener(this);
             mParent = parent;
+            adjusPosterSize();
         }
 
         public void bind(int position) {
@@ -83,8 +83,9 @@ public class FilmStripAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             mHandler.onItemClicked(mParent, view, getAdapterPosition());
         }
 
-        public void adjustPosterHeight(int width) {
-            mPosterImageView.setLayoutParams(new FrameLayout.LayoutParams((int) (width / 2.5), (width / 2)));
+        private void adjusPosterSize() {
+            mPosterImageView.setLayoutParams(new FrameLayout.LayoutParams((minScreenSize / 3),
+                    (int) (maxScreenSize / 3.15)));
         }
     }
 }

@@ -1,10 +1,12 @@
 package dev.learn.movies.app.popular_movies.adapters;
 
+import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,16 +26,20 @@ public class FilmCastAdapter extends RecyclerView.Adapter<FilmCastAdapter.FilmCa
 
     private final OnItemClickHandler mHandler;
     private List<Cast> mFilmCastList;
+    private int minScreenSize, maxScreenSize;
 
-    public FilmCastAdapter(OnItemClickHandler handler) {
+    public FilmCastAdapter(Activity activity, OnItemClickHandler handler) {
         mFilmCastList = new ArrayList<>();
         mHandler = handler;
+        int[] screen = DisplayUtils.getScreenMetrics(activity);
+        minScreenSize = Math.min(screen[0], screen[1]);
+        maxScreenSize = Math.max(screen[0], screen[1]);
     }
 
     @Override
     public FilmCastHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        return new FilmCastHolder(layoutInflater.inflate(R.layout.item_film_cast, parent, false));
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_film_cast, parent, false);
+        return new FilmCastHolder(view);
     }
 
     @Override
@@ -62,6 +68,7 @@ public class FilmCastAdapter extends RecyclerView.Adapter<FilmCastAdapter.FilmCa
             mActorNameTextView = itemView.findViewById(R.id.tv_actor_name);
             mCharacterNameTextView = itemView.findViewById(R.id.tv_character_name);
             mProfilePicImageView = itemView.findViewById(R.id.image_view_profile_pic);
+            adjusPosterSize();
         }
 
         public void bind(int position) {
@@ -84,6 +91,11 @@ public class FilmCastAdapter extends RecyclerView.Adapter<FilmCastAdapter.FilmCa
                     mCharacterNameTextView.setText(characterName);
                 }
             }
+        }
+
+        private void adjusPosterSize() {
+            mProfilePicImageView.setLayoutParams(new FrameLayout.LayoutParams((minScreenSize / 3),
+                    (int) (maxScreenSize / 3.15)));
         }
     }
 }
