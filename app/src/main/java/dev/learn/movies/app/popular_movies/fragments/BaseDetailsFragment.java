@@ -13,6 +13,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -102,10 +103,10 @@ public abstract class BaseDetailsFragment extends Fragment implements
         super.onCreate(savedInstanceState);
         mContext = getContext();
 
-        mFilmCastAdapter = new FilmCastAdapter(this);
+        mFilmCastAdapter = new FilmCastAdapter(getActivity(), this);
         mFilmCastLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
 
-        mSimilarAdapter = new FilmStripAdapter(this);
+        mSimilarAdapter = new FilmStripAdapter(getActivity(), this);
         mSimilarLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
 
         mNetworkLoader = new NetworkLoader(mContext, this);

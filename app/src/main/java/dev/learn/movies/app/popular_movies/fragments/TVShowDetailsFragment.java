@@ -69,7 +69,7 @@ public class TVShowDetailsFragment extends BaseDetailsFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mSeasonsAdapter = new SeasonsAdapter(this);
+        mSeasonsAdapter = new SeasonsAdapter(getActivity(), this);
         mSeasonsLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
     }
 
