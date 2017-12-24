@@ -8,9 +8,9 @@
     tools:ignore="Overdraw">
 
     <ImageView
-        android:id="@+id/iv_logo"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:id="@+id/image_view_logo"
+        android:layout_width="@dimen/layout_drawer_header_image_view_logo_size"
+        android:layout_height="@dimen/layout_drawer_header_image_view_logo_size"
         android:layout_centerInParent="true"
         android:layout_gravity="center"
         android:scaleType="centerCrop"

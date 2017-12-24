@@ -1,22 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Common -->
+    <!-- common -->
     <dimen name="progress_bar_size">62dp</dimen>
     <dimen name="toolbar_padding_right">30dp</dimen>
 
-    <!-- NavDrawer -->
+    <!-- nav_drawer -->
     <dimen name="nav_drawer_width">425dp</dimen>
     <dimen name="nav_drawer_header_height">200dp</dimen>
 
-    <!-- SplashActivity -->
+    <!-- layout_drawer_header -->
+    <dimen name="layout_drawer_header_image_view_logo_size">75dp</dimen>
+
+    <!-- activity_splash -->
     <dimen name="activity_splash_logo_size">120dp</dimen>
     <dimen name="activity_splash_app_name_margin_top">25dp</dimen>
     <dimen name="activity_splash_powered_by_width">145dp</dimen>
     <dimen name="activity_splash_powered_by_height">55dp</dimen>
     <dimen name="activity_splash_powered_by_margin_bottom">30dp</dimen>
 
-    <!-- DetailActivity -->
+    <!-- activity_detail -->
     <dimen name="activity_detail_image_view_backdrop_height">400dp</dimen>
     <dimen name="activity_detail_btn_fav_margin">24dp</dimen>
     <dimen name="activity_detail_nested_scroll_view_margin_top">45dp</dimen>
@@ -27,8 +30,44 @@
     <!--<dimen name="actvity_detail_section_margin_left">30dp</dimen>-->
     <!---->
 
-    <!-- VideoGridDialog -->
+    <!-- layout_cast -->
+    <dimen name="layout_cast_recycler_view_cast_margin_top">15dp</dimen>
+    <dimen name="layout_cast_progress_bar_cast_margin_top">15dp</dimen>
+
+    <!-- layout_seasons -->
+    <dimen name="layout_seasons_recycler_view_margin_top">15dp</dimen>
+    <dimen name="layout_seasons_progress_bar_margin_top">15dp</dimen>
+
+    <!-- layout_similar -->
+    <dimen name="layout_similar_recycler_view_margin_top">15dp</dimen>
+    <dimen name="layout_similar_progress_bar_margin_top">15dp</dimen>
+
+    <!-- dialog_video_grid -->
     <dimen name="dialog_video_grid_padding">30dp</dimen>
+
+    <!-- item_film_cast -->
+    <dimen name="item_film_cast_card_view_margin">10dp</dimen>
+    <dimen name="item_film_cast_card_view_padding">10dp</dimen>
+    <dimen name="item_film_cast_cast_name_margin_top">10dp</dimen>
+
+    <!-- item_film_strip -->
+    <dimen name="item_film_strip_layout_margin">12dp</dimen>
+
+    <!-- item_footer_loader -->
+    <dimen name="item_footer_loader_padding">20dp</dimen>
+
+    <!-- item_season -->
+    <dimen name="item_season_card_view_margin">10dp</dimen>
+    <dimen name="item_season_card_view_padding">10dp</dimen>
+    <dimen name="item_season_season_number_margin_top">15dp</dimen>
+
+    <!-- item_user_review -->
+    <dimen name="item_user_review_padding">30dp</dimen>
+    <dimen name="item_user_review_text_view_margin_top">20dp</dimen>
+
+    <!-- item_video_grid -->
+    <dimen name="item_video_grid_layout_video_height">100dp</dimen>
+    <dimen name="item_video_grid_layout_margin">10dp</dimen>
 
     <dimen name="layout_movie_info_title_margin_left">30dp</dimen>
     <dimen name="layout_movie_info_field_margin_top">20dp</dimen>
@@ -41,12 +80,6 @@
 
     <dimen name="layout_user_reviews_field_margin_top">25dp</dimen>
     <dimen name="layout_user_reviews_error_message_margin">30dp</dimen>
-
-    <dimen name="item_user_review_card_elevation">5dp</dimen>
-    <dimen name="item_user_review_card_padding">30dp</dimen>
-    <dimen name="item_user_review_margin_top">20dp</dimen>
-
-    <dimen name="item_footer_loader_padding">20dp</dimen>
 
     <dimen name="font_size_display">34dp</dimen>
     <dimen name="font_size_title">24sp</dimen>

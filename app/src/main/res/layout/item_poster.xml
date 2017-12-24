@@ -1,25 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-		xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-	<FrameLayout
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:background="@color/posterBgColor">
+    <FrameLayout
+        android:id="@+id/layout_poster"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/posterBgColor">
 
-		<ImageView
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_gravity="center"
-			android:contentDescription="@string/placeholder_image"
-			app:srcCompat="@drawable/ic_movie_roll_grey600_48dp"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:contentDescription="@string/placeholder_image"
+            app:srcCompat="@drawable/ic_movie_roll_grey600_48dp" />
 
-		<ImageView
-			android:id="@+id/image_view_poster"
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:clickable="true"
-			android:contentDescription="@string/poster_image"
-			android:foreground="?selectableItemBackground"/>
-	</FrameLayout>
+        <ImageView
+            android:id="@+id/image_view_poster"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:contentDescription="@string/poster_image"
+            android:foreground="?selectableItemBackground" />
+    </FrameLayout>
 </layout>

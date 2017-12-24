@@ -4,8 +4,8 @@
     <FrameLayout
         android:id="@+id/layout_video_thumb"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_margin="10dp"
+        android:layout_height="@dimen/item_video_grid_layout_video_height"
+        android:layout_margin="@dimen/item_video_grid_layout_margin"
         android:background="@color/posterBgColor">
 
         <ImageView

@@ -5,7 +5,7 @@
 	<FrameLayout
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_margin="7dp"
+		android:layout_margin="@dimen/item_film_strip_layout_margin"
 		android:background="@color/posterBgColor">
 
 		<ImageView
