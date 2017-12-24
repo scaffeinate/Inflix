@@ -21,14 +21,28 @@
 
 
     <!-- activity_detail -->
-	<dimen name="activity_detail_image_view_backdrop_height">250dp</dimen>
+    <dimen name="activity_detail_image_view_backdrop_height">250dp</dimen>
     <dimen name="activity_detail_btn_fav_margin">16dp</dimen>
     <dimen name="activity_detail_nested_scroll_view_margin_top">30dp</dimen>
-    <!--<dimen name="activity_detail_padding">15dp</dimen>-->
-	<!--<dimen name="activity_detail_margin_top">30dp</dimen>-->
-	<!--<dimen name="actvity_detail_section_margin_top">20dp</dimen>-->
-	<!--<dimen name="actvity_detail_section_margin_left">0dp</dimen>-->
-	<!---->
+
+    <!-- fragment_movie_details -->
+    <dimen name="fragment_movie_details_layout_movie_detail_padding">15dp</dimen>
+    <dimen name="fragment_movie_details_layout_content_margin_top">20dp</dimen>
+    <dimen name="fragment_movie_details_layout_cast_margin_top">20dp</dimen>
+    <dimen name="fragment_movie_details_layout_similar_margin_top">20dp</dimen>
+    <dimen name="fragment_movie_details_text_view_error_message_margin_top">30dp</dimen>
+    <dimen name="fragment_movie_details_progress_bar_margin_top">30dp</dimen>
+    <dimen name="fragment_movie_details_layout_content_margin_left">0dp</dimen>
+
+    <!-- fragment_tv_show_details -->
+    <dimen name="fragment_tv_show_details_layout_tv_show_detail_padding">15dp</dimen>
+    <dimen name="fragment_tv_show_details_layout_seasons_margin_top">20dp</dimen>
+    <dimen name="fragment_tv_show_details_layout_content_margin_top">20dp</dimen>
+    <dimen name="fragment_tv_show_details_layout_cast_margin_top">20dp</dimen>
+    <dimen name="fragment_tv_show_details_layout_similar_margin_top">20dp</dimen>
+    <dimen name="fragment_tv_show_details_text_view_error_message_margin_top">30dp</dimen>
+    <dimen name="fragment_tv_show_details_progress_bar_margin_top">30dp</dimen>
+    <dimen name="fragment_tv_show_details_layout_content_margin_left">0dp</dimen>
 
     <!-- layout_cast -->
     <dimen name="layout_cast_recycler_view_cast_margin_top">10dp</dimen>
@@ -70,7 +84,6 @@
     <dimen name="layout_tv_show_info_text_view_margin_top">20dp</dimen>
     <dimen name="layout_tv_show_info_text_view_margin_left">5dp</dimen>
 
-
     <!-- dialog_video_grid -->
     <dimen name="dialog_video_grid_padding">20dp</dimen>
 
@@ -98,10 +111,10 @@
     <dimen name="item_video_grid_layout_video_height">100dp</dimen>
     <dimen name="item_video_grid_layout_margin">10dp</dimen>
 
-	<dimen name="font_size_display">32dp</dimen>
-	<dimen name="font_size_title">20sp</dimen>
-	<dimen name="font_size_subheading">16sp</dimen>
-	<dimen name="font_size_caption">16sp</dimen>
-	<dimen name="font_size_body">15sp</dimen>
-	<dimen name="font_size_button">13sp</dimen>
+    <dimen name="font_size_display">32dp</dimen>
+    <dimen name="font_size_title">20sp</dimen>
+    <dimen name="font_size_subheading">16sp</dimen>
+    <dimen name="font_size_caption">16sp</dimen>
+    <dimen name="font_size_body">15sp</dimen>
+    <dimen name="font_size_button">13sp</dimen>
 </resources>

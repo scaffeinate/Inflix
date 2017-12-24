@@ -11,7 +11,7 @@
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
 			android:descendantFocusability="blocksDescendants"
-			android:padding="@dimen/activity_detail_padding"
+			android:padding="@dimen/fragment_movie_details_layout_movie_detail_padding"
 			android:visibility="invisible">
 
 			<include
@@ -28,7 +28,7 @@
 				layout="@layout/layout_movie_content"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
-				android:layout_marginStart="@dimen/actvity_detail_section_margin_left"
+				android:layout_marginStart="@dimen/fragment_movie_details_layout_content_margin_left"
 				app:layout_constraintEnd_toEndOf="parent"
 				app:layout_constraintLeft_toRightOf="@+id/layout_movie_info"
 				app:layout_constraintRight_toRightOf="parent"
@@ -40,7 +40,7 @@
 				layout="@layout/layout_cast"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
-				android:layout_marginTop="15dp"
+				android:layout_marginTop="@dimen/fragment_movie_details_layout_content_margin_top"
 				android:clipToPadding="false"
 				app:layout_constraintEnd_toEndOf="parent"
 				app:layout_constraintLeft_toLeftOf="parent"
@@ -49,11 +49,11 @@
 				app:layout_constraintTop_toBottomOf="@+id/layout_content"/>
 
 			<include
-				android:id="@+id/layout_movie_similar"
+				android:id="@+id/layout_similar"
 				layout="@layout/layout_similar"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
-				android:layout_marginTop="22dp"
+				android:layout_marginTop="@dimen/fragment_movie_details_layout_content_margin_top"
 				android:clipToPadding="false"
 				app:layout_constraintEnd_toEndOf="parent"
 				app:layout_constraintLeft_toLeftOf="parent"
@@ -63,21 +63,21 @@
 		</android.support.constraint.ConstraintLayout>
 
 		<TextView
-			android:id="@+id/text_view_error_message_display"
+			android:id="@+id/text_view_error_message"
 			style="@style/Caption"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_gravity="top|center_horizontal"
-			android:layout_marginTop="@dimen/activity_detail_margin_top"
+			android:layout_marginTop="@dimen/fragment_movie_details_text_view_error_message_margin_top"
 			android:text="@string/couldnt_load_movie_info_error_message"
 			android:visibility="invisible"/>
 
 		<ProgressBar
-			android:id="@+id/progress_bar_movie_details"
-			android:layout_width="@dimen/progressbar_size"
-			android:layout_height="@dimen/progressbar_size"
+			android:id="@+id/progress_bar"
+			android:layout_width="@dimen/progress_bar_size"
+			android:layout_height="@dimen/progress_bar_size"
 			android:layout_gravity="top|center_horizontal"
-			android:layout_marginTop="@dimen/activity_detail_margin_top"
+			android:layout_marginTop="@dimen/fragment_movie_details_progress_bar_margin_top"
 			android:visibility="visible"/>
 	</FrameLayout>
 </layout>

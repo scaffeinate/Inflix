@@ -23,12 +23,25 @@
     <dimen name="activity_detail_image_view_backdrop_height">400dp</dimen>
     <dimen name="activity_detail_btn_fav_margin">24dp</dimen>
     <dimen name="activity_detail_nested_scroll_view_margin_top">45dp</dimen>
-    <!--<dimen name="activity_detail_padding">35dp</dimen>-->
-    <!--<dimen name="activity_detail_margin_top">45dp</dimen>-->
-    <!--<dimen name="actvity_detail_section_margin_top">30dp</dimen>-->
-    <!--<dimen name="actvity_detail_user_reviews_margin_top">125dp</dimen>-->
-    <!--<dimen name="actvity_detail_section_margin_left">30dp</dimen>-->
-    <!---->
+
+    <!-- fragment_movie_details -->
+    <dimen name="fragment_movie_details_layout_movie_detail_padding">35dp</dimen>
+    <dimen name="fragment_movie_details_layout_content_margin_top">30dp</dimen>
+    <dimen name="fragment_movie_details_layout_cast_margin_top">30dp</dimen>
+    <dimen name="fragment_movie_details_layout_similar_margin_top">30dp</dimen>
+    <dimen name="fragment_movie_details_text_view_error_message_margin_top">45dp</dimen>
+    <dimen name="fragment_movie_details_progress_bar_margin_top">45dp</dimen>
+    <dimen name="fragment_movie_details_layout_content_margin_left">30dp</dimen>
+
+    <!-- fragment_tv_show_details -->
+    <dimen name="fragment_tv_show_details_layout_tv_show_detail_padding">35dp</dimen>
+    <dimen name="fragment_tv_show_details_layout_seasons_margin_top">30dp</dimen>
+    <dimen name="fragment_tv_show_details_layout_content_margin_top">30dp</dimen>
+    <dimen name="fragment_tv_show_details_layout_cast_margin_top">30dp</dimen>
+    <dimen name="fragment_tv_show_details_layout_similar_margin_top">30dp</dimen>
+    <dimen name="fragment_tv_show_details_text_view_error_message_margin_top">45dp</dimen>
+    <dimen name="fragment_tv_show_details_progress_bar_margin_top">45dp</dimen>
+    <dimen name="fragment_tv_show_details_layout_content_margin_left">30dp</dimen>
 
     <!-- layout_cast -->
     <dimen name="layout_cast_recycler_view_cast_margin_top">15dp</dimen>
