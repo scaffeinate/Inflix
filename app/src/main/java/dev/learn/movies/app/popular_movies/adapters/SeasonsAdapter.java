@@ -78,10 +78,8 @@ public class SeasonsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public void bind(int position) {
             Season season = mSeasonList.get(position);
             if (season != null) {
-                if (season.getPosterPath() != null) {
-                    Uri posterUri = URIBuilderUtils.buildImageResourceUri(season.getPosterPath(), URIBuilderUtils.IMAGE_SIZE_MEDIUM);
-                    DisplayUtils.fitImageInto(mSeasonPicImageView, posterUri);
-                }
+                Uri posterUri = URIBuilderUtils.buildImageResourceUri(season.getPosterPath(), URIBuilderUtils.IMAGE_SIZE_MEDIUM);
+                DisplayUtils.fitImageInto(mSeasonPicImageView, posterUri);
 
                 String seasonNumber = mActivity.getString(R.string.season) + " " + (position + 1);
                 mSeasonNumberTextView.setText(seasonNumber);

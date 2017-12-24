@@ -45,7 +45,7 @@ public final class DisplayUtils {
      * @param uri       URI of the image
      */
     public static void fitImageInto(ImageView imageView, Uri uri) {
-        if (imageView != null && uri != null) {
+        if (imageView != null) {
             Log.i(TAG, "Loading Image from: " + uri);
             Picasso.with(imageView.getContext()).load(uri)
                     .fit().centerCrop()

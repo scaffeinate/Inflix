@@ -371,6 +371,7 @@ public final class URIBuilderUtils {
      * @return image URL
      */
     public static Uri buildImageResourceUri(String imgFile, String imageSize) {
+        if(imgFile == null) return null;
         return new Uri.Builder()
                 .scheme(SCHEME)
                 .appendEncodedPath(IMAGE_BASE_PATH)

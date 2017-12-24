@@ -71,8 +71,8 @@ public class FilmStripAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         public void bind(int position) {
             Media media = mFilmStripList.get(position);
-            String posterURL;
-            if (media != null && (posterURL = media.getPosterPath()) != null) {
+            if (media != null) {
+                String posterURL = media.getPosterPath();
                 Uri posterUri = URIBuilderUtils.buildImageResourceUri(posterURL, URIBuilderUtils.IMAGE_SIZE_MEDIUM);
                 DisplayUtils.fitImageInto(mPosterImageView, posterUri);
             }

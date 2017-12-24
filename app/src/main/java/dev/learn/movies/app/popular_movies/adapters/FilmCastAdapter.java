@@ -78,10 +78,8 @@ public class FilmCastAdapter extends RecyclerView.Adapter<FilmCastAdapter.FilmCa
                 String characterName = cast.getCharacter();
                 String actorName = cast.getName();
 
-                if (profilePath != null) {
-                    DisplayUtils.fitImageInto(mProfilePicImageView,
-                            URIBuilderUtils.buildImageResourceUri(profilePath, URIBuilderUtils.IMAGE_SIZE_SMALL));
-                }
+                DisplayUtils.fitImageInto(mProfilePicImageView,
+                        URIBuilderUtils.buildImageResourceUri(profilePath, URIBuilderUtils.IMAGE_SIZE_SMALL));
 
                 if (!TextUtils.isEmpty(actorName)) {
                     mActorNameTextView.setText(actorName);
