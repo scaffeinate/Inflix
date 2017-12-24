@@ -84,7 +84,7 @@
 			layout="@layout/layout_rating"
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
-			android:layout_marginTop="@dimen/layout_tv_show_info_text_view_margin_top"
+			android:layout_marginTop="@dimen/layout_tv_show_info_layout_rating_margin_top"
 			app:layout_constraintEnd_toEndOf="parent"
 			app:layout_constraintLeft_toLeftOf="@+id/text_view_tv_show_num_seasons"
 			app:layout_constraintRight_toRightOf="parent"
