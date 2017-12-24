@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- fonts -->
+    <dimen name="font_size_display">30dp</dimen>
+    <dimen name="font_size_title">19sp</dimen>
+    <dimen name="font_size_subheading">17sp</dimen>
+    <dimen name="font_size_caption">16sp</dimen>
+    <dimen name="font_size_body">15sp</dimen>
+    <dimen name="font_size_button">15sp</dimen>
+
     <!-- common -->
     <dimen name="progress_bar_size">62dp</dimen>
     <dimen name="toolbar_padding_right">30dp</dimen>
@@ -112,11 +120,4 @@
     <!-- item_video_grid -->
     <dimen name="item_video_grid_layout_video_height">100dp</dimen>
     <dimen name="item_video_grid_layout_margin">10dp</dimen>
-
-    <dimen name="font_size_display">34dp</dimen>
-    <dimen name="font_size_title">24sp</dimen>
-    <dimen name="font_size_subheading">20sp</dimen>
-    <dimen name="font_size_caption">18sp</dimen>
-    <dimen name="font_size_body">17sp</dimen>
-    <dimen name="font_size_button">15sp</dimen>
 </resources>
