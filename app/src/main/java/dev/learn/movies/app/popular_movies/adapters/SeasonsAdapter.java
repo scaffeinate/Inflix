@@ -19,18 +19,20 @@ import dev.learn.movies.app.popular_movies.utils.DisplayUtils;
 import dev.learn.movies.app.popular_movies.utils.URIBuilderUtils;
 
 /**
- * Created by sudhar on 12/10/17.
+ * SeasonsAdapter - RecyclerView Adapter for Seasons
  */
 
 public class SeasonsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final OnItemClickHandler mHandler;
+    private final int minScreenSize, maxScreenSize;
+    private final Activity mActivity;
     private List<Season> mSeasonList;
-    private int minScreenSize, maxScreenSize;
 
     public SeasonsAdapter(Activity activity, OnItemClickHandler handler) {
         mSeasonList = new ArrayList<>();
         this.mHandler = handler;
+        this.mActivity = activity;
         int[] screen = DisplayUtils.getScreenMetrics(activity);
         minScreenSize = Math.min(screen[0], screen[1]);
         maxScreenSize = Math.max(screen[0], screen[1]);
@@ -81,7 +83,8 @@ public class SeasonsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     DisplayUtils.fitImageInto(mSeasonPicImageView, posterUri);
                 }
 
-                mSeasonNumberTextView.setText("Season " + (position + 1));
+                String seasonNumber = mActivity.getString(R.string.season) + " " + (position + 1);
+                mSeasonNumberTextView.setText(seasonNumber);
             }
         }
 

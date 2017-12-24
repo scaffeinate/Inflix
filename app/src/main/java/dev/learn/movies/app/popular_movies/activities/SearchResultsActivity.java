@@ -47,7 +47,7 @@ import static dev.learn.movies.app.popular_movies.Inflix.TV_SHOWS;
 import static dev.learn.movies.app.popular_movies.Inflix.TV_SHOWS_SEARCH_LOADER_ID;
 
 /**
- * Created by sudhar on 12/18/17.
+ * SearchResultsActivity - Search Results Page
  */
 
 public class SearchResultsActivity extends AppCompatActivity implements NetworkLoader.NetworkLoaderCallback, OnItemClickHandler, SearchView.OnQueryTextListener {
@@ -107,8 +107,10 @@ public class SearchResultsActivity extends AppCompatActivity implements NetworkL
         mBinding.toolbar.textViewToolbarTitle.setText(getString(R.string.action_search));
 
         setSupportActionBar(mBinding.toolbar.toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
 
         if (savedInstanceState != null && savedInstanceState.containsKey(RESPONSE)) {
             mPage = savedInstanceState.getInt(PAGE, START_PAGE);
@@ -153,8 +155,10 @@ public class SearchResultsActivity extends AppCompatActivity implements NetworkL
                 (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView =
                 (SearchView) menu.findItem(R.id.action_search).getActionView();
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        searchView.setOnQueryTextListener(this);
+        if (searchManager != null && searchView != null) {
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+            searchView.setOnQueryTextListener(this);
+        }
         return true;
     }
 

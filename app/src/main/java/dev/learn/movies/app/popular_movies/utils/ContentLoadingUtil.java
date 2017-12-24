@@ -4,7 +4,7 @@ import android.content.Context;
 import android.view.View;
 
 /**
- * Created by sudhar on 12/9/17.
+ * ContentLoadingUtil - Hide/Show content with Loading bar and Error Message support
  */
 
 public final class ContentLoadingUtil {
@@ -21,8 +21,7 @@ public final class ContentLoadingUtil {
     }
 
     public static ContentLoadingUtil with(Context context) {
-        ContentLoadingUtil contentLoadingUtil = new ContentLoadingUtil(context);
-        return contentLoadingUtil;
+        return new ContentLoadingUtil(context);
     }
 
     public ContentLoadingUtil setParent(View parent) {

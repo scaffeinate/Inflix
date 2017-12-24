@@ -11,7 +11,7 @@ import java.net.URL;
 import java.util.Scanner;
 
 /**
- * Created by sudhar on 12/11/17.
+ * HTTPUtils - HTTP Helper Methods
  */
 
 public class HTTPUtils {
@@ -49,7 +49,7 @@ public class HTTPUtils {
      */
     public static boolean isNetworkEnabled(Context context) {
         ConnectivityManager manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = manager.getActiveNetworkInfo();
+        NetworkInfo networkInfo = (manager != null) ? manager.getActiveNetworkInfo() : null;
         return networkInfo != null && networkInfo.isConnectedOrConnecting();
     }
 }

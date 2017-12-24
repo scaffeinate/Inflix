@@ -15,13 +15,13 @@ import dev.learn.movies.app.popular_movies.utils.DisplayUtils;
 import dev.learn.movies.app.popular_movies.utils.URIBuilderUtils;
 
 /**
- * Created by sudharti on 11/27/17.
+ * VideoGridAdapter - RecyclerView Adapter for Video Dialog Grid
  */
 
 public class VideoGridAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    private final OnItemClickHandler mOnItemClickHandler;
     private List<Video> mVideoList;
-    private OnItemClickHandler mOnItemClickHandler;
 
     public VideoGridAdapter(OnItemClickHandler onItemClickHandler) {
         mVideoList = new ArrayList<>();

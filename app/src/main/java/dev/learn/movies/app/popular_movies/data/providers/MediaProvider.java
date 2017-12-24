@@ -17,7 +17,7 @@ import dev.learn.movies.app.popular_movies.data.DataContract.MediaEntry;
 import dev.learn.movies.app.popular_movies.data.DbHelper;
 
 /**
- * Created by sudharti on 11/30/17.
+ * MediaProvider - Media Content Provider
  */
 
 public class MediaProvider extends ContentProvider {

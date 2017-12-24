@@ -5,6 +5,7 @@ import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
@@ -45,12 +46,12 @@ import static dev.learn.movies.app.popular_movies.Inflix.TV_SHOWS_SIMILAR_LOADER
 import static dev.learn.movies.app.popular_movies.Inflix.TV_SHOWS_TRAILERS_LOADER_ID;
 
 /**
- * Created by sudharti on 11/13/17.
+ * TVShowDetailsFragment - TVShowDetails Fragment
  */
 
 public class TVShowDetailsFragment extends BaseDetailsFragment {
 
-    protected RecyclerView.LayoutManager mSeasonsLayoutManager;
+    private RecyclerView.LayoutManager mSeasonsLayoutManager;
     private FragmentTvShowDetailsBinding mBinding;
     private ContentLoadingUtil mSeasonLoadingUtil;
     private SeasonsAdapter mSeasonsAdapter;
@@ -75,7 +76,7 @@ public class TVShowDetailsFragment extends BaseDetailsFragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_tv_show_details, container, false);
         View view = mBinding.getRoot();
 
@@ -124,6 +125,7 @@ public class TVShowDetailsFragment extends BaseDetailsFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (savedInstanceState == null) {
+            //noinspection ConstantConditions
             mResourceId = getArguments().getLong(RESOURCE_ID, 0);
             mResourceTitle = getArguments().getString(RESOURCE_TITLE, "");
 
@@ -177,7 +179,7 @@ public class TVShowDetailsFragment extends BaseDetailsFragment {
         switch (parent.getId()) {
             case R.id.recycler_view_similar:
                 Media media = mSimilarList.get(position);
-                if (media != null) {
+                if (media != null && getActivity() != null && getActivity().getSupportFragmentManager() != null) {
                     getActivity().getSupportFragmentManager()
                             .beginTransaction()
                             .replace(R.id.layout_outlet, TVShowDetailsFragment.newInstance(media.getId(), media.getName()))

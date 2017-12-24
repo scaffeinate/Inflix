@@ -19,13 +19,13 @@ import dev.learn.movies.app.popular_movies.utils.URIBuilderUtils;
 
 
 /**
- * Created by sudhar on 11/15/17.
+ * FilmStripAdapter - RecyclerView Adapter for showing film strip
  */
 public class FilmStripAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final OnItemClickHandler mHandler;
+    private final int minScreenSize, maxScreenSize;
     private List<? extends Media> mFilmStripList;
-    private int minScreenSize, maxScreenSize;
 
     public FilmStripAdapter(Activity activity, OnItemClickHandler handler) {
         mFilmStripList = new ArrayList<>();

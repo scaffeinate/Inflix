@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 /**
- * Created by sudhar on 12/9/17.
+ * MediaDetail
  */
 
 public class MediaDetail {

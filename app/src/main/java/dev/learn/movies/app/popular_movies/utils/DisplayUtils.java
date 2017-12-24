@@ -190,8 +190,7 @@ public final class DisplayUtils {
 
         NumberFormat numberFormat = NumberFormat.getCurrencyInstance(Locale.getDefault());
         numberFormat.setMinimumFractionDigits(0);
-        String result = numberFormat.format(amount);
-        return result;
+        return numberFormat.format(amount);
     }
 
     /**
@@ -214,14 +213,12 @@ public final class DisplayUtils {
     public static void shareURL(Activity activity, String title, URL url) {
         if (url != null) {
             String mimeType = "text/plain";
-            if (url != null) {
-                ShareCompat.IntentBuilder
-                        .from(activity)
-                        .setType(mimeType)
-                        .setChooserTitle("Share " + title)
-                        .setText(url.toString())
-                        .startChooser();
-            }
+            ShareCompat.IntentBuilder
+                    .from(activity)
+                    .setType(mimeType)
+                    .setChooserTitle("Share " + title)
+                    .setText(url.toString())
+                    .startChooser();
         }
     }
 

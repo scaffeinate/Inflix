@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<color name="colorPrimary">#e53935</color>
-	<color name="colorPrimaryDark">#c62828</color>
-	<color name="colorAccent">#F9A825</color>
-	<color name="textColorDark">#202020</color>
-	<color name="textColorLight">#FFF</color>
-	<color name="textColorAlternate">#606060</color>
-	<color name="posterBgColor">#f0f0f0</color>
-	<color name="tagColor">#1565c0</color>
-	<color name="ratingColor">@color/colorAccent</color>
-	<color name="ratingBgColor">#707070</color>
-	<color name="navDrawerListItemSelected">#F5F5F5</color>
+    <color name="colorPrimary">#e53935</color>
+    <color name="colorPrimaryDark">#c62828</color>
+    <color name="colorAccent">#F9A825</color>
+    <color name="textColorDark">#202020</color>
+    <color name="textColorLight">#FFF</color>
+    <color name="textColorAlternate">#606060</color>
+    <color name="posterBgColor">#f0f0f0</color>
+    <color name="tagColor">#1565c0</color>
+    <color name="ratingColor">@color/colorAccent</color>
+    <color name="ratingBgColor">#707070</color>
+    <color name="navDrawerListItemSelected">#F5F5F5</color>
 </resources>

@@ -28,7 +28,6 @@
             android:layout_alignBaseline="@+id/text_view_rating"
             android:layout_marginStart="@dimen/layout_rating_text_view_out_of_margin_left"
             android:layout_toEndOf="@+id/text_view_rating"
-            android:layout_toRightOf="@+id/text_view_rating"
             android:text="@string/out_of_10"
             android:textAppearance="@style/SubHeading" />
 
@@ -39,7 +38,6 @@
             android:layout_alignBaseline="@+id/text_view_rating_out_of"
             android:layout_marginStart="@dimen/layout_rating_text_view_num_margin_left"
             android:layout_toEndOf="@+id/text_view_rating_out_of"
-            android:layout_toRightOf="@+id/text_view_rating_out_of"
             android:textAppearance="@style/SubHeading"
             tools:text="@string/ten_thousand" />
     </RelativeLayout>

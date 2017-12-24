@@ -1,12 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 27
     buildToolsVersion "27.0.1"
     defaultConfig {
         applicationId "dev.learn.movies.app.popularmovies_udacity"
         minSdkVersion 19
-        targetSdkVersion 26
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -32,13 +32,18 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    //noinspection GradleDependency
     compile "com.android.support:appcompat-v7:${supportLibVersion}"
+    //noinspection GradleDependency
     compile "com.android.support:recyclerview-v7:${supportLibVersion}"
+    //noinspection GradleDependency
     compile "com.android.support:design:${supportLibVersion}"
+    //noinspection GradleDependency
     compile "com.android.support:cardview-v7:${supportLibVersion}"
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'com.google.code.gson:gson:2.7'
+    compile 'com.google.code.gson:gson:2.8.0'
     compile 'com.nex3z:flow-layout:1.0.0'
+    compile 'com.facebook.stetho:stetho:1.5.0'
     testCompile 'junit:junit:4.12'
 }

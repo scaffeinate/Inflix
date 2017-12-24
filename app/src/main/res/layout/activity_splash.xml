@@ -11,13 +11,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:ignore="UseCompoundDrawables">
 
         <ImageView
             android:id="@+id/image_view_logo"
             android:layout_width="@dimen/activity_splash_logo_size"
             android:layout_height="@dimen/activity_splash_logo_size"
             android:layout_gravity="center_horizontal"
+            android:contentDescription="@string/logo_image"
             android:tint="@android:color/white"
             app:srcCompat="@drawable/ic_popcorn" />
 
@@ -42,6 +44,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="@dimen/activity_splash_powered_by_margin_bottom"
+        android:contentDescription="@string/powered_by_image"
         android:scaleType="fitXY"
         app:srcCompat="@drawable/ic_powered_by_tmdb" />
 </RelativeLayout>

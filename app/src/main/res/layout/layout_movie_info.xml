@@ -47,7 +47,7 @@
             style="@style/TagStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/layout_movie_info_text_view_margin_left"
+            android:layout_marginStart="@dimen/layout_movie_info_text_view_margin_left"
             android:layout_marginTop="@dimen/layout_movie_info_text_view_margin_top"
             android:background="@color/tagColor"
             app:layout_constraintBaseline_toBaselineOf="@+id/text_view_movie_runtime"

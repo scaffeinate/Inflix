@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.Loader;
@@ -51,7 +52,7 @@ import static dev.learn.movies.app.popular_movies.Inflix.TV_SHOWS_LOADER_ID;
 import static dev.learn.movies.app.popular_movies.Inflix.TV_TOP_RATED;
 
 /**
- * Created by sudharti on 11/12/17.
+ * TVShowsFragment - TVShows grid
  */
 
 public class TVShowsFragment extends Fragment implements NetworkLoader.NetworkLoaderCallback, OnItemClickHandler {
@@ -121,7 +122,7 @@ public class TVShowsFragment extends Fragment implements NetworkLoader.NetworkLo
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_media_grid, container, false);
         mContentLoadingUtil = ContentLoadingUtil.with(mContext)
                 .setContent(mBinding.recyclerViewMediaList)
@@ -156,7 +157,7 @@ public class TVShowsFragment extends Fragment implements NetworkLoader.NetworkLo
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         if (!mMediaList.isEmpty()) {
             outState.putInt(PAGE, mPage);
@@ -227,7 +228,7 @@ public class TVShowsFragment extends Fragment implements NetworkLoader.NetworkLo
 
                         Bundle args = new Bundle();
                         args.putSerializable(NetworkLoader.URL_EXTRA, url);
-                        if (getActivity().getSupportLoaderManager() != null) {
+                        if (getActivity() != null && getActivity().getSupportLoaderManager() != null) {
                             getActivity().getSupportLoaderManager().restartLoader(TV_SHOWS_LOADER_ID, args, mNetworkLoader);
                         }
                     }

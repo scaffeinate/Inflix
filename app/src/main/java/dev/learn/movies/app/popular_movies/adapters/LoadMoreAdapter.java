@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 
 
 /**
- * Created by sudhar on 11/14/17.
+ * LoadMoreAdapter - RecyclerView Adapter with Progress bar support
  */
 
 public abstract class LoadMoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {

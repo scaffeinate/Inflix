@@ -1,9 +1,5 @@
 package dev.learn.movies.app.popular_movies.adapters;
 
-/**
- * Created by sudhar on 11/14/17.
- */
-
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 

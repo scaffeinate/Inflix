@@ -7,36 +7,10 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Created by sudhar on 12/9/17.
+ * Media
  */
 
 public class Media implements Parcelable {
-    @SerializedName("id")
-    @Expose
-    private long id;
-
-    @SerializedName("poster_path")
-    @Expose
-    private String posterPath;
-
-    @SerializedName("title")
-    @Expose
-    private String title;
-
-    @SerializedName("name")
-    @Expose
-    private String name;
-
-    private String mediaType;
-
-    protected Media(Parcel in) {
-        id = in.readLong();
-        posterPath = in.readString();
-        title = in.readString();
-        name = in.readString();
-        mediaType = in.readString();
-    }
-
     public static final Creator<Media> CREATOR = new Creator<Media>() {
         @Override
         public Media createFromParcel(Parcel in) {
@@ -48,6 +22,27 @@ public class Media implements Parcelable {
             return new Media[size];
         }
     };
+    @SerializedName("id")
+    @Expose
+    private long id;
+    @SerializedName("poster_path")
+    @Expose
+    private String posterPath;
+    @SerializedName("title")
+    @Expose
+    private String title;
+    @SerializedName("name")
+    @Expose
+    private String name;
+    private String mediaType;
+
+    protected Media(Parcel in) {
+        id = in.readLong();
+        posterPath = in.readString();
+        title = in.readString();
+        name = in.readString();
+        mediaType = in.readString();
+    }
 
     public long getId() {
         return id;

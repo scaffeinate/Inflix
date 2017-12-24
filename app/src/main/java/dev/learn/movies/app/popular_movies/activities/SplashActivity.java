@@ -11,7 +11,7 @@ import dev.learn.movies.app.popular_movies.R;
 import static dev.learn.movies.app.popular_movies.Inflix.ACTIVITY_SPLASH_DELAY_IN_MS;
 
 /**
- * Created by sudharti on 11/8/17.
+ * SplashActivity - Splash Activity
  */
 
 public class SplashActivity extends AppCompatActivity {

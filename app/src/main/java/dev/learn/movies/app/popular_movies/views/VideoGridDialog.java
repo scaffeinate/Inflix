@@ -21,25 +21,26 @@ import dev.learn.movies.app.popular_movies.databinding.DialogVideoGridBinding;
 import static dev.learn.movies.app.popular_movies.Inflix.DEFAULT_GRID_COUNT;
 
 /**
- * Created by sudharti on 11/28/17.
+ * VideoGridDialog - Video grid Dialog
  */
 
 public class VideoGridDialog implements OnItemClickHandler {
 
-    private Context mContext;
-    private AlertDialog.Builder mBuilder;
+    private final Context mContext;
+    private final AlertDialog.Builder mBuilder;
+    private final RecyclerView.LayoutManager mLayoutManager;
+    private final VideoGridAdapter mAdapter;
+    private final DialogVideoGridBinding mBinding;
     private AlertDialog mDialog;
-    private String mTitle = "Videos";
+    private String mTitle;
     private boolean mCancelable = true;
-    private RecyclerView.LayoutManager mLayoutManager;
-    private VideoGridAdapter mAdapter;
     private List<Video> mVideoList;
     private OnVideoSelectedListener mOnVideoSelectedListener;
     private DialogInterface.OnShowListener mOnShowListener;
-    private DialogVideoGridBinding mBinding;
 
     private VideoGridDialog(Context context) {
         mContext = context;
+        mTitle = mContext.getString(R.string.videos);
         mBuilder = new AlertDialog.Builder(context);
         mLayoutManager = new GridLayoutManager(context, DEFAULT_GRID_COUNT);
         mBinding = DataBindingUtil.inflate(LayoutInflater.from(mContext), R.layout.dialog_video_grid, null, false);

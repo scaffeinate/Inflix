@@ -17,7 +17,7 @@ import static dev.learn.movies.app.popular_movies.Inflix.RESOURCE_TITLE;
 import static dev.learn.movies.app.popular_movies.Inflix.RESOURCE_TYPE;
 
 /**
- * Created by sudharti on 11/14/17.
+ * AdditionalInfoActivity - Addition Info Activity
  */
 
 public class AdditionalInfoActivity extends AppCompatActivity {
@@ -32,8 +32,10 @@ public class AdditionalInfoActivity extends AppCompatActivity {
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_additional_info);
 
         setSupportActionBar(mBinding.toolbar.toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
 
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();

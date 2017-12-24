@@ -3,7 +3,7 @@ package dev.learn.movies.app.popular_movies.activities;
 import android.net.Uri;
 
 /**
- * Created by sudharti on 11/12/17.
+ * DetailActivityCallbacks - DetailActivity Callbacks
  */
 public interface DetailActivityCallbacks {
 

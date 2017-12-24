@@ -303,15 +303,13 @@ public final class URIBuilderUtils {
     }
 
     public static Uri buildYouTubeThumbURI(String key) {
-        Uri uri = new Uri.Builder()
+        return new Uri.Builder()
                 .scheme(SCHEME)
                 .appendEncodedPath(YOUTUBE_IMAGE_BASE_PATH)
                 .appendEncodedPath(YOUTUBE_VI)
                 .appendEncodedPath(key)
                 .appendEncodedPath(IMG_0_JPG)
                 .build();
-
-        return uri;
     }
 
     public static URL buildIMDBURL(String imdbId) {

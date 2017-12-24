@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
@@ -56,7 +57,7 @@ import static dev.learn.movies.app.popular_movies.Inflix.TV_SHOWS_TRAILERS_LOADE
 import static dev.learn.movies.app.popular_movies.loaders.ContentLoader.URI_EXTRA;
 
 /**
- * Created by sudhar on 12/9/17.
+ * BaseDetailFragment - Common Fragment for MoviesDetailFragment and TVShowsDetailFragment
  */
 
 public abstract class BaseDetailsFragment extends Fragment implements
@@ -144,13 +145,15 @@ public abstract class BaseDetailsFragment extends Fragment implements
                         .appendPath(String.valueOf(mResourceId))
                         .build();
                 MediaDetail mediaDetail = isMovieDetailFragment ? mMovieDetail : mTVShowDetail;
-                if (mediaDetail == null || type == null) break;
+                if (mediaDetail == null) break;
 
                 if (mediaDetail.isBookmarked()) {
-                    getActivity().getContentResolver().delete(uri, null, null);
+                    if (getActivity() != null && getActivity().getContentResolver() != null) {
+                        getActivity().getContentResolver().delete(uri, null, null);
+                    }
                 } else {
                     ContentValues cv = isMovieDetailFragment ? MovieDetail.toContentValues(mMovieDetail) : TVShowDetail.toContentValues(mTVShowDetail);
-                    if (cv != null) {
+                    if (cv != null && getActivity() != null && getActivity().getContentResolver() != null) {
                         getActivity().getContentResolver().insert(uri, cv);
                     }
                 }
@@ -187,8 +190,9 @@ public abstract class BaseDetailsFragment extends Fragment implements
         return super.onOptionsItemSelected(item);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putLong(RESOURCE_ID, mResourceId);
         outState.putString(RESOURCE_TITLE, mResourceTitle);
@@ -205,7 +209,7 @@ public abstract class BaseDetailsFragment extends Fragment implements
     public void onFavBtnClicked(View v) {
         MediaDetail mediaDetail = isMovieDetailFragment ? mMovieDetail : mTVShowDetail;
         String type = isMovieDetailFragment ? MOVIES : TV_SHOWS;
-        if (mediaDetail == null || type == null) return;
+        if (mediaDetail == null) return;
 
         Uri uri = DataContract.FAVORITES_CONTENT_URI
                 .buildUpon()
@@ -213,10 +217,12 @@ public abstract class BaseDetailsFragment extends Fragment implements
                 .appendPath(String.valueOf(mResourceId))
                 .build();
         if (mediaDetail.isFavored()) {
-            getActivity().getContentResolver().delete(uri, null, null);
+            if (getActivity() != null && getActivity().getContentResolver() != null) {
+                getActivity().getContentResolver().delete(uri, null, null);
+            }
         } else {
             ContentValues cv = isMovieDetailFragment ? MovieDetail.toContentValues(mMovieDetail) : TVShowDetail.toContentValues(mTVShowDetail);
-            if (cv != null) {
+            if (cv != null && getActivity() != null && getActivity().getContentResolver() != null) {
                 getActivity().getContentResolver().insert(uri, cv);
             }
         }
@@ -229,13 +235,17 @@ public abstract class BaseDetailsFragment extends Fragment implements
     protected void loadFromNetwork(final URL url, final int loaderId) {
         Bundle args = new Bundle();
         args.putSerializable(NetworkLoader.URL_EXTRA, url);
-        getActivity().getSupportLoaderManager().restartLoader(loaderId, args, mNetworkLoader);
+        if (getActivity() != null && getActivity().getSupportLoaderManager() != null) {
+            getActivity().getSupportLoaderManager().restartLoader(loaderId, args, mNetworkLoader);
+        }
     }
 
     protected void loadFromDatabase(final Uri uri, final int loaderId) {
         Bundle args = new Bundle();
         args.putParcelable(URI_EXTRA, uri);
-        getActivity().getSupportLoaderManager().restartLoader(loaderId, args, mContentLoader);
+        if (getActivity() != null && getActivity().getSupportLoaderManager() != null) {
+            getActivity().getSupportLoaderManager().restartLoader(loaderId, args, mContentLoader);
+        }
     }
 
     protected void lazyLoadAdditionalInfoFromNetwork(final Runnable runnable) {

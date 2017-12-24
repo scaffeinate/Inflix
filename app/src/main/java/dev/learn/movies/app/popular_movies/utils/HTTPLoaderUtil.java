@@ -6,12 +6,12 @@ import android.widget.Toast;
 import dev.learn.movies.app.popular_movies.R;
 
 /**
- * Created by sudhar on 12/11/17.
+ * HTTPLoaderUtil - HTTP Loader helper
  */
 
 public class HTTPLoaderUtil {
 
-    private Context mContext;
+    private final Context mContext;
     private HTTPBlock mTryCallBlock;
     private HTTPBlock mNoNetworkBlock;
 
@@ -20,8 +20,7 @@ public class HTTPLoaderUtil {
     }
 
     public static HTTPLoaderUtil with(Context context) {
-        HTTPLoaderUtil httpLoaderUtil = new HTTPLoaderUtil(context);
-        return httpLoaderUtil;
+        return new HTTPLoaderUtil(context);
     }
 
     public HTTPLoaderUtil tryCall(HTTPBlock tryCallBlock) {

@@ -13,6 +13,7 @@
         android:layout_height="@dimen/layout_drawer_header_image_view_logo_size"
         android:layout_centerInParent="true"
         android:layout_gravity="center"
+        android:contentDescription="@string/logo_image"
         android:scaleType="centerCrop"
         android:tint="@android:color/white"
         app:srcCompat="@drawable/ic_popcorn" />

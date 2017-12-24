@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-	<style name="RatingBarStyle" parent="Base.Widget.AppCompat.RatingBar.Small">
-		<item name="android:isIndicator">true</item>
-		<item name="android:numStars">10</item>
-		<item name="android:progressBackgroundTint">@color/ratingBgColor</item>
-		<item name="android:progressTint">@color/ratingColor</item>
-		<item name="android:scaleX">1.20</item>
-		<item name="android:scaleY">1.35</item>
-		<item name="android:stepSize">0.1</item>
-		<item name="android:padding">0dp</item>
-		<item name="android:transformPivotX">0dp</item>
-		<item name="android:transformPivotY">0dp</item>
-	</style>
+    <style name="RatingBarStyle" parent="Base.Widget.AppCompat.RatingBar.Small">
+        <item name="android:isIndicator">true</item>
+        <item name="android:numStars">10</item>
+        <item name="android:progressBackgroundTint">@color/ratingBgColor</item>
+        <item name="android:progressTint">@color/ratingColor</item>
+        <item name="android:scaleX">1.20</item>
+        <item name="android:scaleY">1.35</item>
+        <item name="android:stepSize">0.1</item>
+        <item name="android:padding">0dp</item>
+        <item name="android:transformPivotX">0dp</item>
+        <item name="android:transformPivotY">0dp</item>
+    </style>
 </resources>

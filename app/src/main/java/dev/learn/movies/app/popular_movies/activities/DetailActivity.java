@@ -41,8 +41,10 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         mFragmentManager = getSupportFragmentManager();
 
         setSupportActionBar(mBinding.toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
 
         if (savedInstanceState == null) {
             String resourceType = getIntent().getStringExtra(RESOURCE_TYPE);

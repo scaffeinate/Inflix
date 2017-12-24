@@ -19,7 +19,7 @@ import dev.learn.movies.app.popular_movies.data.DataContract.MediaEntry;
 import dev.learn.movies.app.popular_movies.data.DbHelper;
 
 /**
- * Created by sudharti on 11/30/17.
+ * BookmarksProvider - Bookmarks Content Provider
  */
 
 public class BookmarksProvider extends ContentProvider {
@@ -29,6 +29,12 @@ public class BookmarksProvider extends ContentProvider {
     private static final int BOOKMARKS_WITH_ID = 201;
 
     private static final UriMatcher sUriMatcher = builderUriMatcher();
+
+    private static final String PARAM = " ? ";
+
+    private static final String EQUAL_TO = " = ";
+
+    private static final String AND = " AND ";
 
     private Context mContext;
     private DbHelper mDbHelper;
@@ -84,16 +90,18 @@ public class BookmarksProvider extends ContentProvider {
                     String type = pathSegments.get(1);
                     String id = pathSegments.get(2);
 
-                    values.put(MediaEntry.COLUMN_IS_BOOKMARKED, 1);
-                    values.put(MediaEntry.COLUMN_MEDIA_TYPE, type);
+                    if (values != null) {
+                        values.put(MediaEntry.COLUMN_IS_BOOKMARKED, 1);
+                        values.put(MediaEntry.COLUMN_MEDIA_TYPE, type);
 
-                    int numRows = db.update(MediaEntry.TABLE_NAME, values,
-                            MediaEntry.COLUMN_MEDIA_TYPE + " = ? AND " +
-                                    MediaEntry.COLUMN_MEDIA_ID + " = ? ", new String[]{type, id});
-                    if (numRows <= 0) {
-                        res = db.insert(MediaEntry.TABLE_NAME, null, values);
-                        if (res == -1) {
-                            throw new SQLiteException("Failed to insert record: " + uri);
+                        int numRows = db.update(MediaEntry.TABLE_NAME, values,
+                                MediaEntry.COLUMN_MEDIA_TYPE + " = ? AND " +
+                                        MediaEntry.COLUMN_MEDIA_ID + " = ? ", new String[]{type, id});
+                        if (numRows <= 0) {
+                            res = db.insert(MediaEntry.TABLE_NAME, null, values);
+                            if (res == -1) {
+                                throw new SQLiteException("Failed to insert record: " + uri);
+                            }
                         }
                     }
                 }
@@ -116,7 +124,7 @@ public class BookmarksProvider extends ContentProvider {
                     String type = pathSegments.get(1);
                     String id = pathSegments.get(2);
                     db.execSQL("UPDATE " + MediaEntry.TABLE_NAME + " SET " + MediaEntry.COLUMN_IS_BOOKMARKED + " = 0 WHERE " +
-                            MediaEntry.COLUMN_MEDIA_TYPE + " = ? AND " + MediaEntry.COLUMN_MEDIA_ID + " = ? ", new String[]{type, id});
+                            MediaEntry.COLUMN_MEDIA_TYPE + EQUAL_TO + PARAM + AND + MediaEntry.COLUMN_MEDIA_ID + EQUAL_TO + PARAM, new String[]{type, id});
                 }
                 break;
             default:

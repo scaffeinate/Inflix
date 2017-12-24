@@ -115,7 +115,7 @@ public class LocalMoviesFragment extends Fragment implements ContentLoader.Conte
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         if (mLayoutManager != null) {
             outState.putParcelable(SAVED_STATE, mLayoutManager.onSaveInstanceState());
@@ -186,13 +186,13 @@ public class LocalMoviesFragment extends Fragment implements ContentLoader.Conte
         switch (mType) {
             case FAVORITES:
                 args.putParcelable(ContentLoader.URI_EXTRA, DataContract.FAVORITES_CONTENT_URI);
-                if (getActivity().getSupportLoaderManager() != null) {
+                if (getActivity() != null && getActivity().getSupportLoaderManager() != null) {
                     getActivity().getSupportLoaderManager().restartLoader(FAVORITES_LOADER_ID, args, mContentLoader);
                 }
                 break;
             case BOOKMARKS:
                 args.putParcelable(ContentLoader.URI_EXTRA, DataContract.BOOKMARKS_CONTENT_URI);
-                if (getActivity().getSupportLoaderManager() != null) {
+                if (getActivity() != null && getActivity().getSupportLoaderManager() != null) {
                     getActivity().getSupportLoaderManager().restartLoader(BOOKMARKS_LOADER_ID, args, mContentLoader);
                 }
                 break;

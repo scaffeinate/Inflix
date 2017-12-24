@@ -157,7 +157,7 @@ public class MoviesFragment extends Fragment implements NetworkLoader.NetworkLoa
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         if (!mMediaList.isEmpty()) {
             outState.putInt(PAGE, mPage);
@@ -242,7 +242,7 @@ public class MoviesFragment extends Fragment implements NetworkLoader.NetworkLoa
 
                 Bundle args = new Bundle();
                 args.putSerializable(NetworkLoader.URL_EXTRA, url);
-                if (getActivity().getSupportLoaderManager() != null) {
+                if (getActivity() != null && getActivity().getSupportLoaderManager() != null) {
                     getActivity().getSupportLoaderManager().restartLoader(MOVIES_LOADER_ID, args, mNetworkLoader);
                 }
             }

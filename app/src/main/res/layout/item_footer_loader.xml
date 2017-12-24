@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-			  android:layout_width="match_parent"
-			  android:layout_height="wrap_content"
-			  android:orientation="vertical"
-			  android:padding="@dimen/item_footer_loader_padding">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="@dimen/item_footer_loader_padding">
 
-	<ProgressBar
-		android:id="@+id/progress_bar_footer_loader"
-		style="@style/Base.Widget.AppCompat.ProgressBar"
-		android:layout_width="@dimen/progress_bar_size"
-		android:layout_height="@dimen/progress_bar_size"
-		android:layout_gravity="center"/>
+    <ProgressBar
+        android:id="@+id/progress_bar_footer_loader"
+        style="@style/Base.Widget.AppCompat.ProgressBar"
+        android:layout_width="@dimen/progress_bar_size"
+        android:layout_height="@dimen/progress_bar_size"
+        android:layout_gravity="center" />
 </LinearLayout>

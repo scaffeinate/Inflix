@@ -4,6 +4,7 @@ import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.Loader;
@@ -39,7 +40,7 @@ import static dev.learn.movies.app.popular_movies.Inflix.RESOURCE_ID;
 import static dev.learn.movies.app.popular_movies.Inflix.START_PAGE;
 
 /**
- * Created by sudhar on 11/14/17.
+ * UserReviewsFragment - User Reviews Page
  */
 
 public class UserReviewsFragment extends Fragment implements NetworkLoader.NetworkLoaderCallback {
@@ -91,7 +92,7 @@ public class UserReviewsFragment extends Fragment implements NetworkLoader.Netwo
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_user_reviews, container, false);
         mContentLoadingUtil = ContentLoadingUtil.with(mContext)
                 .setContent(mBinding.recyclerViewUserReviews)
@@ -107,6 +108,7 @@ public class UserReviewsFragment extends Fragment implements NetworkLoader.Netwo
         mBinding.recyclerViewUserReviews.addItemDecoration(itemDecoration);
 
         if (savedInstanceState == null) {
+            //noinspection ConstantConditions
             mResourceId = getArguments().getLong(RESOURCE_ID, 0);
 
             if (mResourceId != 0) {
@@ -121,7 +123,7 @@ public class UserReviewsFragment extends Fragment implements NetworkLoader.Netwo
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putLong(RESOURCE_ID, mResourceId);
         outState.putParcelableArrayList(MOVIE_REVIEWS, (ArrayList<? extends Parcelable>) mReviewsList);
@@ -168,7 +170,9 @@ public class UserReviewsFragment extends Fragment implements NetworkLoader.Netwo
         URL url = URIBuilderUtils.buildMovieReviewsURL(String.valueOf(movieId), mPage);
         Bundle args = new Bundle();
         args.putSerializable(NetworkLoader.URL_EXTRA, url);
-        getActivity().getSupportLoaderManager().restartLoader(MOVIE_REVIEWS_LOADER_ID, args, mNetworkLoader);
+        if (getActivity() != null && getActivity().getSupportLoaderManager() != null) {
+            getActivity().getSupportLoaderManager().restartLoader(MOVIE_REVIEWS_LOADER_ID, args, mNetworkLoader);
+        }
     }
 
     /**

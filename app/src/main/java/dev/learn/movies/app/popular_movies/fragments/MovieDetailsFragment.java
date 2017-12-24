@@ -6,6 +6,7 @@ import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.Loader;
 import android.text.TextUtils;
@@ -44,7 +45,7 @@ import static dev.learn.movies.app.popular_movies.Inflix.RESOURCE_TITLE;
 import static dev.learn.movies.app.popular_movies.Inflix.RESOURCE_TYPE;
 
 /**
- * Created by sudharti on 11/12/17.
+ * MovieDetailsFragment - Movie Details Fragment
  */
 
 public class MovieDetailsFragment extends BaseDetailsFragment implements View.OnClickListener {
@@ -64,7 +65,7 @@ public class MovieDetailsFragment extends BaseDetailsFragment implements View.On
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_movie_details, container, false);
         View view = mBinding.getRoot();
 
@@ -103,6 +104,7 @@ public class MovieDetailsFragment extends BaseDetailsFragment implements View.On
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (savedInstanceState == null) {
+            //noinspection ConstantConditions
             mResourceId = getArguments().getLong(RESOURCE_ID, 0);
             mResourceTitle = getArguments().getString(RESOURCE_TITLE, "");
 
@@ -192,7 +194,7 @@ public class MovieDetailsFragment extends BaseDetailsFragment implements View.On
         switch (parent.getId()) {
             case R.id.recycler_view_similar:
                 Media media = mSimilarList.get(position);
-                if (media != null) {
+                if (media != null && getActivity() != null && getActivity().getSupportFragmentManager() != null) {
                     getActivity().getSupportFragmentManager()
                             .beginTransaction()
                             .replace(R.id.layout_outlet, MovieDetailsFragment.newInstance(media.getId(), media.getTitle()))

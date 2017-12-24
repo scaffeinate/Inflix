@@ -19,14 +19,14 @@ import dev.learn.movies.app.popular_movies.utils.DisplayUtils;
 import dev.learn.movies.app.popular_movies.utils.URIBuilderUtils;
 
 /**
- * Created by sudharti on 11/26/17.
+ * FilmCastAdapter - RecyclerView Adapter for Film casts
  */
 
 public class FilmCastAdapter extends RecyclerView.Adapter<FilmCastAdapter.FilmCastHolder> {
 
     private final OnItemClickHandler mHandler;
+    private final int minScreenSize, maxScreenSize;
     private List<Cast> mFilmCastList;
-    private int minScreenSize, maxScreenSize;
 
     public FilmCastAdapter(Activity activity, OnItemClickHandler handler) {
         mFilmCastList = new ArrayList<>();

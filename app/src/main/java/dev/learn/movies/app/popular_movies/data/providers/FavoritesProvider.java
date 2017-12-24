@@ -29,6 +29,12 @@ public class FavoritesProvider extends ContentProvider {
 
     private static final UriMatcher sUriMatcher = builderUriMatcher();
 
+    private static final String PARAM = " ? ";
+
+    private static final String EQUAL_TO = " = ";
+
+    private static final String AND = " AND ";
+
     private Context mContext;
     private DbHelper mDbHelper;
 
@@ -84,15 +90,17 @@ public class FavoritesProvider extends ContentProvider {
                     String type = pathSegments.get(1);
                     String id = pathSegments.get(2);
 
-                    values.put(MediaEntry.COLUMN_IS_FAVORED, 1);
-                    values.put(MediaEntry.COLUMN_MEDIA_TYPE, type);
-                    int numRows = db.update(MediaEntry.TABLE_NAME, values,
-                            MediaEntry.COLUMN_MEDIA_TYPE + " = ? AND " +
-                                    MediaEntry.COLUMN_MEDIA_ID + " = ? ", new String[]{type, id});
-                    if (numRows <= 0) {
-                        res = db.insert(MediaEntry.TABLE_NAME, null, values);
-                        if (res == -1) {
-                            throw new SQLiteException("Failed to insert record: " + uri);
+                    if (values != null) {
+                        values.put(MediaEntry.COLUMN_IS_FAVORED, 1);
+                        values.put(MediaEntry.COLUMN_MEDIA_TYPE, type);
+                        int numRows = db.update(MediaEntry.TABLE_NAME, values,
+                                MediaEntry.COLUMN_MEDIA_TYPE + " = ? AND " +
+                                        MediaEntry.COLUMN_MEDIA_ID + " = ? ", new String[]{type, id});
+                        if (numRows <= 0) {
+                            res = db.insert(MediaEntry.TABLE_NAME, null, values);
+                            if (res == -1) {
+                                throw new SQLiteException("Failed to insert record: " + uri);
+                            }
                         }
                     }
                 }
@@ -115,7 +123,7 @@ public class FavoritesProvider extends ContentProvider {
                     String type = pathSegments.get(1);
                     String id = pathSegments.get(2);
                     db.execSQL("UPDATE " + MediaEntry.TABLE_NAME + " SET " + MediaEntry.COLUMN_IS_FAVORED + " = 0 WHERE " +
-                            MediaEntry.COLUMN_MEDIA_TYPE + " = ? AND " + MediaEntry.COLUMN_MEDIA_ID + " = ? ", new String[]{type, id});
+                            MediaEntry.COLUMN_MEDIA_TYPE + EQUAL_TO + PARAM + AND + MediaEntry.COLUMN_MEDIA_ID + EQUAL_TO + PARAM, new String[]{type, id});
                 }
                 break;
             default:
