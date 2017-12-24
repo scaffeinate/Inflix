@@ -75,7 +75,7 @@ public class AdditionalInfoActivity extends AppCompatActivity {
 
     private void setToolbarTitle() {
         if (!TextUtils.isEmpty(mTitle)) {
-            mBinding.toolbar.tvToolbarTitle.setText(mTitle);
+            mBinding.toolbar.textViewToolbarTitle.setText(mTitle);
         }
     }
 }

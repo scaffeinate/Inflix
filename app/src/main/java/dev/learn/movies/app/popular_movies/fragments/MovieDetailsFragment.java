@@ -68,26 +68,26 @@ public class MovieDetailsFragment extends BaseDetailsFragment implements View.On
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_movie_details, container, false);
         View view = mBinding.getRoot();
 
-        mBinding.layoutMovieInfo.layoutRating.getRoot().setOnClickListener(this);
+        mBinding.layoutInfo.layoutRating.getRoot().setOnClickListener(this);
 
-        mBinding.layoutMovieSimilar.recyclerViewSimilar.setLayoutManager(mSimilarLayoutManager);
-        mBinding.layoutMovieSimilar.recyclerViewSimilar.setAdapter(mSimilarAdapter);
-        mBinding.layoutMovieSimilar.recyclerViewSimilar.setNestedScrollingEnabled(false);
+        mBinding.layoutSimilar.recyclerViewSimilar.setLayoutManager(mSimilarLayoutManager);
+        mBinding.layoutSimilar.recyclerViewSimilar.setAdapter(mSimilarAdapter);
+        mBinding.layoutSimilar.recyclerViewSimilar.setNestedScrollingEnabled(false);
 
         mBinding.layoutCast.recyclerViewCast.setLayoutManager(mFilmCastLayoutManager);
         mBinding.layoutCast.recyclerViewCast.setAdapter(mFilmCastAdapter);
         mBinding.layoutCast.recyclerViewCast.setNestedScrollingEnabled(false);
 
-        mBinding.layoutMovieSimilar.textViewSimilarTitle.setText(getString(R.string.similar_movies));
+        mBinding.layoutSimilar.textViewSimilarTitle.setText(getString(R.string.similar_movies));
 
         mContentLoadingUtil.setContent(mBinding.layoutMovieDetail)
-                .setError(mBinding.textViewErrorMessageDisplay)
-                .setProgress(mBinding.progressBarMovieDetails);
+                .setError(mBinding.textViewErrorMessage)
+                .setProgress(mBinding.progressBar);
 
         mSimilarLoadingUtil
-                .setParent(mBinding.layoutMovieSimilar.getRoot())
-                .setContent(mBinding.layoutMovieSimilar.recyclerViewSimilar)
-                .setProgress(mBinding.layoutMovieSimilar.progressBarSimilar)
+                .setParent(mBinding.layoutSimilar.getRoot())
+                .setContent(mBinding.layoutSimilar.recyclerViewSimilar)
+                .setProgress(mBinding.layoutSimilar.progressBarSimilar)
                 .hideParentOnError();
 
         mCastLoadingUtil.setParent(mBinding.layoutCast.getRoot())
@@ -95,7 +95,7 @@ public class MovieDetailsFragment extends BaseDetailsFragment implements View.On
                 .setProgress(mBinding.layoutCast.progressBarCast)
                 .hideParentOnError();
 
-        adjustPosterSize(mBinding.layoutMovieInfo.layoutPoster.getRoot());
+        adjustPosterSize(mBinding.layoutInfo.layoutPoster.getRoot());
         return view;
     }
 
@@ -251,7 +251,7 @@ public class MovieDetailsFragment extends BaseDetailsFragment implements View.On
                     .onNoNetwork(new HTTPLoaderUtil.HTTPBlock() {
                         @Override
                         public void run() {
-                            DisplayUtils.setNoNetworkConnectionMessage(mContext, mBinding.textViewErrorMessageDisplay);
+                            DisplayUtils.setNoNetworkConnectionMessage(mContext, mBinding.textViewErrorMessage);
                             mContentLoadingUtil.error();
                             mCallbacks.hideFavBtn();
                         }
@@ -297,17 +297,17 @@ public class MovieDetailsFragment extends BaseDetailsFragment implements View.On
 
         if (posterURL != null) {
             Uri posterUri = URIBuilderUtils.buildImageResourceUri(posterURL, URIBuilderUtils.IMAGE_SIZE_SMALL);
-            DisplayUtils.fitImageInto(mBinding.layoutMovieInfo.layoutPoster.imageViewPoster, posterUri);
+            DisplayUtils.fitImageInto(mBinding.layoutInfo.layoutPoster.imageViewPoster, posterUri);
         }
 
-        mBinding.layoutMovieInfo.textViewMovieTitle.setText(DisplayUtils.formatTitle(title, year));
+        mBinding.layoutInfo.textViewMovieTitle.setText(DisplayUtils.formatTitle(title, year));
 
-        mBinding.layoutMovieInfo.textViewMovieRuntime.setText(runningTime);
+        mBinding.layoutInfo.textViewMovieRuntime.setText(runningTime);
 
         if (!TextUtils.isEmpty(status)) {
-            mBinding.layoutMovieInfo.textViewMovieStatus.setText(status);
+            mBinding.layoutInfo.textViewMovieStatus.setText(status);
         } else {
-            mBinding.layoutMovieInfo.textViewMovieStatus.setVisibility(View.GONE);
+            mBinding.layoutInfo.textViewMovieStatus.setVisibility(View.GONE);
         }
 
         if (DisplayUtils.addGenres(genres, mBinding.layoutContent.layoutGenres, mContext) == 0) {
@@ -315,11 +315,11 @@ public class MovieDetailsFragment extends BaseDetailsFragment implements View.On
             mBinding.layoutContent.layoutGenres.setVisibility(View.GONE);
         }
 
-        mBinding.layoutMovieInfo.layoutRating.ratingBarRating.setRating((float) voteAverage);
+        mBinding.layoutInfo.layoutRating.ratingBar.setRating((float) voteAverage);
 
-        mBinding.layoutMovieInfo.layoutRating.textViewRating.setText(rating);
+        mBinding.layoutInfo.layoutRating.textViewRating.setText(rating);
 
-        mBinding.layoutMovieInfo.layoutRating.textViewRatingNum.setText(voteCount);
+        mBinding.layoutInfo.layoutRating.textViewRatingNum.setText(voteCount);
 
         mBinding.layoutContent.textViewMovieTagline.setText(DisplayUtils.formatTagline(mContext, tagline));
 

@@ -104,7 +104,7 @@ public class SearchResultsActivity extends AppCompatActivity implements NetworkL
             mPage = savedInstanceState.getInt(PAGE, START_PAGE);
         }
 
-        mBinding.toolbar.tvToolbarTitle.setText(getString(R.string.action_search));
+        mBinding.toolbar.textViewToolbarTitle.setText(getString(R.string.action_search));
 
         setSupportActionBar(mBinding.toolbar.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -267,7 +267,7 @@ public class SearchResultsActivity extends AppCompatActivity implements NetworkL
     }
 
     private void setTitle(String title) {
-        mBinding.toolbar.tvToolbarTitle.setText(title);
+        mBinding.toolbar.textViewToolbarTitle.setText(title);
     }
 
     private void reset() {

@@ -28,7 +28,7 @@ import dev.learn.movies.app.popular_movies.adapters.MediaAdapter;
 import dev.learn.movies.app.popular_movies.adapters.OnItemClickHandler;
 import dev.learn.movies.app.popular_movies.common.Media;
 import dev.learn.movies.app.popular_movies.common.movies.MoviesResult;
-import dev.learn.movies.app.popular_movies.databinding.FragmentMoviesBinding;
+import dev.learn.movies.app.popular_movies.databinding.FragmentMediaGridBinding;
 import dev.learn.movies.app.popular_movies.loaders.NetworkLoader;
 import dev.learn.movies.app.popular_movies.utils.ContentLoadingUtil;
 import dev.learn.movies.app.popular_movies.utils.DisplayUtils;
@@ -74,7 +74,7 @@ public class MoviesFragment extends Fragment implements NetworkLoader.NetworkLoa
     private NetworkLoader mNetworkLoader;
     private ContentLoadingUtil mContentLoadingUitl;
 
-    private FragmentMoviesBinding mBinding;
+    private FragmentMediaGridBinding mBinding;
 
     public static MoviesFragment newInstance(String type) {
         MoviesFragment moviesFragment = new MoviesFragment();
@@ -125,21 +125,21 @@ public class MoviesFragment extends Fragment implements NetworkLoader.NetworkLoa
 
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_media_grid, container, false);
         mContentLoadingUitl = ContentLoadingUtil.with(mContext)
-                .setContent(mBinding.recyclerViewMovies)
-                .setProgress(mBinding.pbLoadingIndicator)
-                .setError(mBinding.tvErrorMessageDisplay);
+                .setContent(mBinding.recyclerViewMediaList)
+                .setProgress(mBinding.progressBarLoading)
+                .setError(mBinding.textViewErrorMessage);
         View view = mBinding.getRoot();
 
         if (getArguments() != null) {
             mType = getArguments().getString(TYPE, DISCOVER);
         }
 
-        mBinding.recyclerViewMovies.setHasFixedSize(true);
-        mBinding.recyclerViewMovies.setLayoutManager(mLayoutManager);
+        mBinding.recyclerViewMediaList.setHasFixedSize(true);
+        mBinding.recyclerViewMediaList.setLayoutManager(mLayoutManager);
 
         mAdapter = new MediaAdapter(this);
-        mBinding.recyclerViewMovies.setAdapter(mAdapter);
-        mBinding.recyclerViewMovies.addOnScrollListener(mEndlessScollListener);
+        mBinding.recyclerViewMediaList.setAdapter(mAdapter);
+        mBinding.recyclerViewMediaList.addOnScrollListener(mEndlessScollListener);
 
         return view;
     }
@@ -250,7 +250,7 @@ public class MoviesFragment extends Fragment implements NetworkLoader.NetworkLoa
             @Override
             public void run() {
                 if (mPage == START_PAGE) {
-                    DisplayUtils.setNoNetworkConnectionMessage(mContext, mBinding.tvErrorMessageDisplay);
+                    DisplayUtils.setNoNetworkConnectionMessage(mContext, mBinding.textViewErrorMessage);
                     mContentLoadingUitl.error();
                 } else {
                     Toast.makeText(mContext, getResources().getString(R.string.no_network_connection_error_message), Toast.LENGTH_SHORT).show();

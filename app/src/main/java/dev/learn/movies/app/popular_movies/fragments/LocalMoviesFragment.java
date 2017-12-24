@@ -21,7 +21,7 @@ import dev.learn.movies.app.popular_movies.activities.DetailActivity;
 import dev.learn.movies.app.popular_movies.adapters.FavoritesAdapter;
 import dev.learn.movies.app.popular_movies.adapters.OnItemClickHandler;
 import dev.learn.movies.app.popular_movies.data.DataContract;
-import dev.learn.movies.app.popular_movies.databinding.FragmentMoviesBinding;
+import dev.learn.movies.app.popular_movies.databinding.FragmentMediaGridBinding;
 import dev.learn.movies.app.popular_movies.loaders.ContentLoader;
 import dev.learn.movies.app.popular_movies.utils.ContentLoadingUtil;
 
@@ -56,7 +56,7 @@ public class LocalMoviesFragment extends Fragment implements ContentLoader.Conte
     private Parcelable mSavedState = null;
 
     private ContentLoader mContentLoader;
-    private FragmentMoviesBinding mBinding;
+    private FragmentMediaGridBinding mBinding;
     private ContentLoadingUtil mContentLoadingUtil;
 
     public static LocalMoviesFragment newInstance(String type) {
@@ -89,20 +89,20 @@ public class LocalMoviesFragment extends Fragment implements ContentLoader.Conte
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_media_grid, container, false);
         mContentLoadingUtil = ContentLoadingUtil.with(mContext)
-                .setContent(mBinding.recyclerViewMovies)
-                .setProgress(mBinding.pbLoadingIndicator)
-                .setError(mBinding.tvErrorMessageDisplay);
+                .setContent(mBinding.recyclerViewMediaList)
+                .setProgress(mBinding.progressBarLoading)
+                .setError(mBinding.textViewErrorMessage);
         View view = mBinding.getRoot();
 
         if (getArguments() != null) {
             mType = getArguments().getString(TYPE, FAVORITES);
         }
 
-        mBinding.recyclerViewMovies.setHasFixedSize(true);
-        mBinding.recyclerViewMovies.setLayoutManager(mLayoutManager);
+        mBinding.recyclerViewMediaList.setHasFixedSize(true);
+        mBinding.recyclerViewMediaList.setLayoutManager(mLayoutManager);
 
         mAdapter = new FavoritesAdapter(this);
-        mBinding.recyclerViewMovies.setAdapter(mAdapter);
+        mBinding.recyclerViewMediaList.setAdapter(mAdapter);
 
         return view;
     }

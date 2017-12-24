@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString(SELECTED_TITLE, mBinding.toolbar.tvToolbarTitle.getText().toString());
+        outState.putString(SELECTED_TITLE, mBinding.toolbar.textViewToolbarTitle.getText().toString());
         outState.putInt(SELECTED_NAV_ITEM, selectedNavItem);
     }
 
@@ -203,7 +203,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void setToolbarTitle(String title) {
-        mBinding.toolbar.tvToolbarTitle.setText(title);
+        mBinding.toolbar.textViewToolbarTitle.setText(title);
     }
 
     private void closeDrawer() {

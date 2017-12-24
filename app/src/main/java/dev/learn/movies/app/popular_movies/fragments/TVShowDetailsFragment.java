@@ -5,7 +5,6 @@ import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
@@ -103,8 +102,8 @@ public class TVShowDetailsFragment extends BaseDetailsFragment {
                 .hideParentOnError();
 
         mContentLoadingUtil.setContent(mBinding.layoutTvShowDetail)
-                .setError(mBinding.textViewErrorMessageDisplay)
-                .setProgress(mBinding.progressBarTvShowDetails);
+                .setError(mBinding.textViewErrorMessage)
+                .setProgress(mBinding.progressBarDetails);
 
         mSimilarLoadingUtil
                 .setParent(mBinding.layoutSimilar.getRoot())
@@ -117,7 +116,7 @@ public class TVShowDetailsFragment extends BaseDetailsFragment {
                 .setProgress(mBinding.layoutCast.progressBarCast)
                 .hideParentOnError();
 
-        adjustPosterSize(mBinding.layoutTvShowInfo.layoutPoster.getRoot());
+        adjustPosterSize(mBinding.layoutInfo.layoutPoster.getRoot());
         return view;
     }
 
@@ -241,7 +240,7 @@ public class TVShowDetailsFragment extends BaseDetailsFragment {
                     .onNoNetwork(new HTTPLoaderUtil.HTTPBlock() {
                         @Override
                         public void run() {
-                            DisplayUtils.setNoNetworkConnectionMessage(mContext, mBinding.textViewErrorMessageDisplay);
+                            DisplayUtils.setNoNetworkConnectionMessage(mContext, mBinding.textViewErrorMessage);
                             mContentLoadingUtil.error();
                             mCallbacks.hideFavBtn();
                         }
@@ -291,55 +290,55 @@ public class TVShowDetailsFragment extends BaseDetailsFragment {
 
         if (posterURL != null) {
             Uri posterUri = URIBuilderUtils.buildImageResourceUri(posterURL, URIBuilderUtils.IMAGE_SIZE_SMALL);
-            DisplayUtils.fitImageInto(mBinding.layoutTvShowInfo.layoutPoster.imageViewPoster, posterUri);
+            DisplayUtils.fitImageInto(mBinding.layoutInfo.layoutPoster.imageViewPoster, posterUri);
         }
 
-        mBinding.layoutTvShowInfo.textViewTvShowTitle.setText(title);
+        mBinding.layoutInfo.textViewTvShowTitle.setText(title);
 
-        mBinding.layoutTvShowInfo.textViewTvShowRuntime.setText(episodeRunningTime);
+        mBinding.layoutInfo.textViewTvShowRuntime.setText(episodeRunningTime);
 
-        mBinding.layoutTvShowInfo.textViewTvShowNumSeasons.setText(numSeasons);
+        mBinding.layoutInfo.textViewTvShowNumSeasons.setText(numSeasons);
 
-        mBinding.layoutTvShowInfo.textViewTvShowNumEpisodes.setText(numEpisodes);
+        mBinding.layoutInfo.textViewTvShowNumEpisodes.setText(numEpisodes);
 
         if (!TextUtils.isEmpty(status)) {
-            mBinding.layoutTvShowInfo.textViewTvShowStatus.setText(status);
+            mBinding.layoutInfo.textViewTvShowStatus.setText(status);
         } else {
-            mBinding.layoutTvShowInfo.textViewTvShowStatus.setVisibility(View.GONE);
+            mBinding.layoutInfo.textViewTvShowStatus.setVisibility(View.GONE);
         }
 
-        if (DisplayUtils.addGenres(genres, mBinding.layoutTvShowContent.layoutGenres, mContext) == 0) {
-            mBinding.layoutTvShowContent.textViewMovieGenresTitle.setVisibility(View.GONE);
-            mBinding.layoutTvShowContent.layoutGenres.setVisibility(View.GONE);
+        if (DisplayUtils.addGenres(genres, mBinding.layoutContent.layoutGenres, mContext) == 0) {
+            mBinding.layoutContent.textViewMovieGenresTitle.setVisibility(View.GONE);
+            mBinding.layoutContent.layoutGenres.setVisibility(View.GONE);
         }
 
-        if (DisplayUtils.addCreatedBy(createdByList, mBinding.layoutTvShowContent.layoutCreatedBy, mContext) == 0) {
-            mBinding.layoutTvShowContent.textViewCreatedByTitle.setVisibility(View.GONE);
-            mBinding.layoutTvShowContent.layoutCreatedBy.setVisibility(View.GONE);
+        if (DisplayUtils.addCreatedBy(createdByList, mBinding.layoutContent.layoutCreatedBy, mContext) == 0) {
+            mBinding.layoutContent.textViewCreatedByTitle.setVisibility(View.GONE);
+            mBinding.layoutContent.layoutCreatedBy.setVisibility(View.GONE);
         }
 
-        mBinding.layoutTvShowInfo.layoutRating.ratingBarRating.setRating((float) voteAverage);
+        mBinding.layoutInfo.layoutRating.ratingBar.setRating((float) voteAverage);
 
-        mBinding.layoutTvShowInfo.layoutRating.textViewRating.setText(rating);
+        mBinding.layoutInfo.layoutRating.textViewRating.setText(rating);
 
-        mBinding.layoutTvShowInfo.layoutRating.textViewRatingNum.setText(voteCount);
+        mBinding.layoutInfo.layoutRating.textViewRatingNum.setText(voteCount);
 
         if (!TextUtils.isEmpty(plot)) {
-            mBinding.layoutTvShowContent.textViewTvShowPlot.setText(plot);
+            mBinding.layoutContent.textViewTvShowPlot.setText(plot);
         } else {
-            mBinding.layoutTvShowContent.textViewTvShowPlot.setText(getString(R.string.no_plot_available));
+            mBinding.layoutContent.textViewTvShowPlot.setText(getString(R.string.no_plot_available));
         }
 
         if (!TextUtils.isEmpty(firstAired)) {
-            mBinding.layoutTvShowContent.textViewFirstAirDate.setText(DisplayUtils.formatDate(firstAired));
+            mBinding.layoutContent.textViewFirstAirDate.setText(DisplayUtils.formatDate(firstAired));
         } else {
-            mBinding.layoutTvShowContent.textViewFirstAirDate.setText("N/A");
+            mBinding.layoutContent.textViewFirstAirDate.setText("N/A");
         }
 
         if (!TextUtils.isEmpty(lastAired)) {
-            mBinding.layoutTvShowContent.textViewLastAirDate.setText(DisplayUtils.formatDate(lastAired));
+            mBinding.layoutContent.textViewLastAirDate.setText(DisplayUtils.formatDate(lastAired));
         } else {
-            mBinding.layoutTvShowContent.textViewLastAirDate.setText("N/A");
+            mBinding.layoutContent.textViewLastAirDate.setText("N/A");
         }
 
         if (seasonList != null && !seasonList.isEmpty()) {

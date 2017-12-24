@@ -65,9 +65,9 @@ public class FilmCastAdapter extends RecyclerView.Adapter<FilmCastAdapter.FilmCa
 
         public FilmCastHolder(View itemView) {
             super(itemView);
-            mActorNameTextView = itemView.findViewById(R.id.tv_actor_name);
-            mCharacterNameTextView = itemView.findViewById(R.id.tv_character_name);
-            mProfilePicImageView = itemView.findViewById(R.id.image_view_profile_pic);
+            mActorNameTextView = itemView.findViewById(R.id.text_view_cast_name);
+            mCharacterNameTextView = itemView.findViewById(R.id.text_view_character_name);
+            mProfilePicImageView = itemView.findViewById(R.id.image_view_cast_photo);
             adjusPosterSize();
         }
 

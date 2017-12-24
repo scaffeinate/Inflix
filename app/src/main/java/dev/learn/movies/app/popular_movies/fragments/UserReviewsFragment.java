@@ -94,17 +94,17 @@ public class UserReviewsFragment extends Fragment implements NetworkLoader.Netwo
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_user_reviews, container, false);
         mContentLoadingUtil = ContentLoadingUtil.with(mContext)
-                .setContent(mBinding.rvUserReviews)
-                .setProgress(mBinding.pbUserReviews)
-                .setError(mBinding.tvReviewsErrorMessageDisplay);
+                .setContent(mBinding.recyclerViewUserReviews)
+                .setProgress(mBinding.progressBarLoading)
+                .setError(mBinding.textViewErrorMessage);
 
-        mBinding.rvUserReviews.setLayoutManager(mLayoutManager);
-        mBinding.rvUserReviews.setHasFixedSize(true);
-        mBinding.rvUserReviews.setAdapter(mAdapter);
-        mBinding.rvUserReviews.addOnScrollListener(mEndlessScollListener);
+        mBinding.recyclerViewUserReviews.setLayoutManager(mLayoutManager);
+        mBinding.recyclerViewUserReviews.setHasFixedSize(true);
+        mBinding.recyclerViewUserReviews.setAdapter(mAdapter);
+        mBinding.recyclerViewUserReviews.addOnScrollListener(mEndlessScollListener);
 
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL);
-        mBinding.rvUserReviews.addItemDecoration(itemDecoration);
+        mBinding.recyclerViewUserReviews.addItemDecoration(itemDecoration);
 
         if (savedInstanceState == null) {
             mResourceId = getArguments().getLong(RESOURCE_ID, 0);
@@ -150,7 +150,7 @@ public class UserReviewsFragment extends Fragment implements NetworkLoader.Netwo
                     @Override
                     public void run() {
                         if (mPage == START_PAGE) {
-                            DisplayUtils.setNoNetworkConnectionMessage(mContext, mBinding.tvReviewsErrorMessageDisplay);
+                            DisplayUtils.setNoNetworkConnectionMessage(mContext, mBinding.textViewErrorMessage);
                             mContentLoadingUtil.error();
                         } else {
                             Toast.makeText(mContext, getResources().getString(R.string.no_network_connection_error_message), Toast.LENGTH_SHORT).show();
