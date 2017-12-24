@@ -1,70 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-		xmlns:app="http://schemas.android.com/apk/res-auto"
-		xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-	<android.support.constraint.ConstraintLayout
-		android:layout_width="match_parent"
-		android:layout_height="match_parent">
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-		<include
-			android:id="@+id/layout_poster"
-			layout="@layout/item_poster"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			app:layout_constraintLeft_toLeftOf="parent"
-			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintTop_toTopOf="parent"/>
+        <include
+            android:id="@+id/layout_poster"
+            layout="@layout/item_poster"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-		<TextView
-			android:id="@+id/text_view_movie_title"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_marginStart="@dimen/layout_movie_info_title_margin_left"
-			android:maxLines="3"
-			android:textAppearance="@style/Title"
-			app:layout_constraintEnd_toEndOf="parent"
-			app:layout_constraintLeft_toRightOf="@+id/layout_poster"
-			app:layout_constraintRight_toRightOf="parent"
-			app:layout_constraintStart_toEndOf="@+id/layout_poster"
-			app:layout_constraintTop_toTopOf="@+id/layout_poster"
-			tools:text="@string/app_name"/>
+        <TextView
+            android:id="@+id/text_view_movie_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/layout_movie_info_text_view_margin_left"
+            android:maxLines="3"
+            android:textAppearance="@style/Title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/layout_poster"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/layout_poster"
+            app:layout_constraintTop_toTopOf="@+id/layout_poster"
+            tools:text="@string/app_name" />
 
-		<TextView
-			android:id="@+id/text_view_movie_runtime"
-			style="@style/TagStyle"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_marginTop="@dimen/layout_movie_info_field_margin_top"
-			android:background="@color/colorPrimary"
-			app:layout_constraintLeft_toLeftOf="@+id/text_view_movie_title"
-			app:layout_constraintStart_toStartOf="@+id/text_view_movie_title"
-			app:layout_constraintTop_toBottomOf="@+id/text_view_movie_title"
-			tools:text="@string/hundred_min"/>
+        <TextView
+            android:id="@+id/text_view_movie_runtime"
+            style="@style/TagStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/layout_movie_info_text_view_margin_top"
+            android:background="@color/colorPrimary"
+            app:layout_constraintLeft_toLeftOf="@+id/text_view_movie_title"
+            app:layout_constraintStart_toStartOf="@+id/text_view_movie_title"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_movie_title"
+            tools:text="@string/hundred_min" />
 
-		<TextView
-			android:id="@+id/text_view_movie_status"
-			style="@style/TagStyle"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_marginLeft="5dp"
-			android:layout_marginTop="@dimen/layout_movie_info_field_margin_top"
-			android:background="@color/tagColor"
-			app:layout_constraintBaseline_toBaselineOf="@+id/text_view_movie_runtime"
-			app:layout_constraintLeft_toRightOf="@+id/text_view_movie_runtime"
-			app:layout_constraintStart_toEndOf="@+id/text_view_movie_runtime"
-			tools:text="@string/released"/>
+        <TextView
+            android:id="@+id/text_view_movie_status"
+            style="@style/TagStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/layout_movie_info_text_view_margin_left"
+            android:layout_marginTop="@dimen/layout_movie_info_text_view_margin_top"
+            android:background="@color/tagColor"
+            app:layout_constraintBaseline_toBaselineOf="@+id/text_view_movie_runtime"
+            app:layout_constraintLeft_toRightOf="@+id/text_view_movie_runtime"
+            app:layout_constraintStart_toEndOf="@+id/text_view_movie_runtime"
+            tools:text="@string/released" />
 
-		<include
-			android:id="@+id/layout_rating"
-			layout="@layout/layout_rating"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_marginTop="@dimen/layout_movie_info_field_margin_top"
-			app:layout_constraintEnd_toEndOf="parent"
-			app:layout_constraintLeft_toLeftOf="@+id/text_view_movie_runtime"
-			app:layout_constraintRight_toRightOf="parent"
-			app:layout_constraintStart_toStartOf="@+id/text_view_movie_runtime"
-			app:layout_constraintTop_toBottomOf="@+id/text_view_movie_runtime"/>
-	</android.support.constraint.ConstraintLayout>
+        <include
+            android:id="@+id/layout_rating"
+            layout="@layout/layout_rating"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/layout_movie_info_layout_rating_margin_top"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintLeft_toLeftOf="@+id/text_view_movie_runtime"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/text_view_movie_runtime"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_movie_runtime" />
+    </android.support.constraint.ConstraintLayout>
 </layout>

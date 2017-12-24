@@ -47,6 +47,18 @@
     <dimen name="layout_rating_text_view_out_of_margin_left">4dp</dimen>
     <dimen name="layout_rating_text_view_num_margin_left">8dp</dimen>
 
+    <!-- layout_movie_content -->
+    <dimen name="layout_movie_content_text_view_margin_top">20dp</dimen>
+    <dimen name="layout_movie_content_flow_layout_margin_top">20dp</dimen>
+    <dimen name="layout_movie_content_flow_layout_padding_bottom">10dp</dimen>
+    <dimen name="layout_movie_content_tag_horizontal_spacing">10dp</dimen>
+    <dimen name="layout_movie_content_tag_vertical_spacing">10dp</dimen>
+
+    <!-- layout_movie_info -->
+    <dimen name="layout_movie_info_text_view_margin_top">20dp</dimen>
+    <dimen name="layout_movie_info_layout_rating_margin_top">10dp</dimen>
+    <dimen name="layout_movie_info_text_view_margin_left">5dp</dimen>
+
     <!-- layout_tv_show_content -->
     <dimen name="layout_tv_show_content_text_view_margin_top">20dp</dimen>
     <dimen name="layout_tv_show_content_tag_horizontal_spacing">10dp</dimen>
@@ -85,20 +97,6 @@
     <!-- item_video_grid -->
     <dimen name="item_video_grid_layout_video_height">100dp</dimen>
     <dimen name="item_video_grid_layout_margin">10dp</dimen>
-
-	<dimen name="layout_movie_info_title_margin_left">15dp</dimen>
-	<dimen name="layout_movie_info_field_margin_top">15dp</dimen>
-	<dimen name="layout_movie_info_rating_out_of_margin_left">4dp</dimen>
-	<dimen name="layout_movie_info_rating_num_margin_left">8dp</dimen>
-
-	<dimen name="layout_content_field_margin_top">10dp</dimen>
-	<dimen name="layout_content_tag_horizontal_spacing">10dp</dimen>
-	<dimen name="layout_content_tag_vertical_spacing">10dp</dimen>
-
-	<dimen name="layout_recommendations_rv_margin_top">10dp</dimen>
-
-	<dimen name="layout_user_reviews_field_margin_top">10dp</dimen>
-	<dimen name="layout_user_reviews_error_message_margin">20dp</dimen>
 
 	<dimen name="font_size_display">32dp</dimen>
 	<dimen name="font_size_title">20sp</dimen>

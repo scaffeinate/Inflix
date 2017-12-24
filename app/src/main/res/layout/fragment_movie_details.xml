@@ -28,7 +28,7 @@
 
 			<include
 				android:id="@+id/layout_content"
-				layout="@layout/layout_content"
+				layout="@layout/layout_movie_content"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_marginTop="@dimen/actvity_detail_section_margin_top"
