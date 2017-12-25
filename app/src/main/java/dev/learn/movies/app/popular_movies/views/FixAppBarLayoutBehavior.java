@@ -1,6 +1,7 @@
 package dev.learn.movies.app.popular_movies.views;
 
 import android.content.Context;
+import android.support.annotation.Keep;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.ViewCompat;
@@ -15,6 +16,7 @@ import android.view.View;
  * <p>
  * Change the package name as you wish.
  */
+@Keep
 public class FixAppBarLayoutBehavior extends AppBarLayout.Behavior {
 
     public FixAppBarLayoutBehavior(Context context, AttributeSet attrs) {

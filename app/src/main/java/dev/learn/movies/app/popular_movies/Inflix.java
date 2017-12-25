@@ -1,8 +1,11 @@
 package dev.learn.movies.app.popular_movies;
 
+import android.support.annotation.Keep;
+
 /**
  * Inflix - Store all the app constants here
  */
+@Keep
 public final class Inflix {
 
     public static final int DEFAULT_GRID_COUNT = 2;
