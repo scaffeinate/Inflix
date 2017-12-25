@@ -24,3 +24,5 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 -dontwarn com.squareup.picasso.**
+-keep class android.support.** { *; }
+-keep interface android.support.** { *; }

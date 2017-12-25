@@ -7,7 +7,7 @@ android {
         applicationId "dev.learn.movies.app.popularmovies_udacity"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 2
+        versionCode 3
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "API_KEY", API_KEY)
