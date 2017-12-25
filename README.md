@@ -1,7 +1,9 @@
 # Popular-Movies:
 ![web_hi_res_512](https://user-images.githubusercontent.com/1825853/31562656-3a7311d2-b02a-11e7-87e6-bdbb5a1ff874.png)
 
-Popular Movies App for the  Udacity Android Nanodegree Program.
+Inflix - Discover movies and TV Shows. Powered by TMDb(themoviedb.org). Developed for Udacity Android Nanodegree Program.
+
+Google Play: https://play.google.com/store/apps/details?id=dev.learn.movies.app.popularmovies_udacity
 
 ### Setup: 
 - Clone the project. ```git clone https://github.com/scaffeinate/Popular-Movies-Android.git```
@@ -13,14 +15,21 @@ Popular Movies App for the  Udacity Android Nanodegree Program.
 ![screenshot_3](https://github.com/scaffeinate/Popular-Movies-Android/blob/master/screenshots/screenshot_merged_2.jpg?raw=true)
 
 ### Changelog:
-#### V2:
+#### V1.0:
+- Added support to discover Movies & TV Shows.
+- Brand New UI.
+- Added Search functionality.
+- Show Additional Details.
+- Published to Google Play.
+
+#### V1.0-alpha-2:
 - Allow users to view and play trailers ( either in the youtube app or a web browser).
 - Allow users to read reviews of a selected movie.
 - Allow users to mark a movie as a favorite in the details view by tapping a button(star).
 - Create a database and content provider to store the names and ids of the user's favorite movies (and optionally, the rest of the information needed to display their favorites collection while offline).
 - Modify the existing sorting criteria for the main view to include an additional pivot to show their favorites collection.
 
-#### V1:
+#### V1.0-alpha-1:
 - Present the user with a grid arrangement of movie posters upon launch.
    - Allow your user to change sort order via a setting:
    - The sort order can be by most popular or by highest-rated
