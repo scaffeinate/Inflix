@@ -243,21 +243,19 @@ public class MovieDetailsFragment extends BaseDetailsFragment implements View.On
     @Override
     public void onLoadFinished(Loader loader, Cursor cursor) {
         if (cursor == null || !cursor.moveToFirst()) {
-            HTTPLoaderUtil.with(mContext)
-                    .tryCall(new HTTPLoaderUtil.HTTPBlock() {
-                        @Override
-                        public void run() {
-                            loadFromNetwork(URIBuilderUtils.buildMovieDetailsURL(String.valueOf(mResourceId)), MOVIE_DETAILS_LOADER_ID);
-                        }
-                    })
-                    .onNoNetwork(new HTTPLoaderUtil.HTTPBlock() {
-                        @Override
-                        public void run() {
-                            DisplayUtils.setNoNetworkConnectionMessage(mContext, mBinding.textViewErrorMessage);
-                            mContentLoadingUtil.error();
-                            mCallbacks.hideFavBtn();
-                        }
-                    }).execute();
+            HTTPLoaderUtil.with(mContext).tryCall(new HTTPLoaderUtil.HTTPBlock() {
+                @Override
+                public void run() {
+                    loadFromNetwork(URIBuilderUtils.buildMovieDetailsURL(String.valueOf(mResourceId)), MOVIE_DETAILS_LOADER_ID);
+                }
+            }).onNoNetwork(new HTTPLoaderUtil.HTTPBlock() {
+                @Override
+                public void run() {
+                    DisplayUtils.setNoNetworkConnectionMessage(mContext, mBinding.textViewErrorMessage);
+                    mContentLoadingUtil.error();
+                    mCallbacks.hideFavBtn();
+                }
+            }).execute();
 
         } else {
             switch (loader.getId()) {
@@ -347,20 +345,19 @@ public class MovieDetailsFragment extends BaseDetailsFragment implements View.On
     }
 
     private void goToReviews() {
-        HTTPLoaderUtil.with(mContext)
-                .tryCall(new HTTPLoaderUtil.HTTPBlock() {
-                    @Override
-                    public void run() {
-                        Intent additionalIntent = new Intent(mContext, AdditionalInfoActivity.class);
+        HTTPLoaderUtil.with(mContext).tryCall(new HTTPLoaderUtil.HTTPBlock() {
+            @Override
+            public void run() {
+                Intent additionalIntent = new Intent(mContext, AdditionalInfoActivity.class);
 
-                        Bundle extras = new Bundle();
-                        extras.putLong(RESOURCE_ID, mResourceId);
-                        extras.putString(RESOURCE_TITLE, mResourceTitle);
-                        extras.putString(RESOURCE_TYPE, ADDITIONAL_INFO_ACTIVITY_FRAGMENT_TYPE_REVIEWS);
-                        additionalIntent.putExtras(extras);
+                Bundle extras = new Bundle();
+                extras.putLong(RESOURCE_ID, mResourceId);
+                extras.putString(RESOURCE_TITLE, mResourceTitle);
+                extras.putString(RESOURCE_TYPE, ADDITIONAL_INFO_ACTIVITY_FRAGMENT_TYPE_REVIEWS);
+                additionalIntent.putExtras(extras);
 
-                        startActivity(additionalIntent);
-                    }
-                }).execute();
+                startActivity(additionalIntent);
+            }
+        }).execute();
     }
 }

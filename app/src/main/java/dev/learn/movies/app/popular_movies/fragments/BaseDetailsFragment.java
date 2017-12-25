@@ -174,31 +174,28 @@ public abstract class BaseDetailsFragment extends Fragment implements
                 showBookmarkToast(mediaDetail.isBookmarked());
                 return true;
             case R.id.action_share:
-                HTTPLoaderUtil.with(mContext)
-                        .tryCall(new HTTPLoaderUtil.HTTPBlock() {
-                            @Override
-                            public void run() {
-                                URL shareURL = isMovieDetailFragment ? URIBuilderUtils.buildTMDBMovieURL(String.valueOf(mResourceId)) :
-                                        URIBuilderUtils.buildTMDBTVShowURL(String.valueOf(mResourceId));
-                                if (shareURL != null) {
-                                    String shareText = mResourceTitle + " - " + shareURL.toString();
-                                    DisplayUtils.shareText(getActivity(), mResourceTitle, shareText);
-                                }
-                            }
-                        })
-                        .execute();
+                HTTPLoaderUtil.with(mContext).tryCall(new HTTPLoaderUtil.HTTPBlock() {
+                    @Override
+                    public void run() {
+                        URL shareURL = isMovieDetailFragment ? URIBuilderUtils.buildTMDBMovieURL(String.valueOf(mResourceId)) :
+                                URIBuilderUtils.buildTMDBTVShowURL(String.valueOf(mResourceId));
+                        if (shareURL != null) {
+                            String shareText = mResourceTitle + " - " + shareURL.toString();
+                            DisplayUtils.shareText(getActivity(), mResourceTitle, shareText);
+                        }
+                    }
+                }).execute();
                 return true;
             case R.id.action_watch_trailer:
-                HTTPLoaderUtil.with(mContext)
-                        .tryCall(new HTTPLoaderUtil.HTTPBlock() {
-                            @Override
-                            public void run() {
-                                URL videosURL = isMovieDetailFragment ? URIBuilderUtils.buildMovieTrailersURL(String.valueOf(mResourceId)) :
-                                        URIBuilderUtils.buildTVShowTrailersURL(String.valueOf(mResourceId));
-                                int loaderId = isMovieDetailFragment ? MOVIE_TRAILERS_LOADER_ID : TV_SHOWS_TRAILERS_LOADER_ID;
-                                buildVideoGrid(videosURL, loaderId);
-                            }
-                        }).execute();
+                HTTPLoaderUtil.with(mContext).tryCall(new HTTPLoaderUtil.HTTPBlock() {
+                    @Override
+                    public void run() {
+                        URL videosURL = isMovieDetailFragment ? URIBuilderUtils.buildMovieTrailersURL(String.valueOf(mResourceId)) :
+                                URIBuilderUtils.buildTVShowTrailersURL(String.valueOf(mResourceId));
+                        int loaderId = isMovieDetailFragment ? MOVIE_TRAILERS_LOADER_ID : TV_SHOWS_TRAILERS_LOADER_ID;
+                        buildVideoGrid(videosURL, loaderId);
+                    }
+                }).execute();
                 return true;
 
         }

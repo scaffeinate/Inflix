@@ -206,47 +206,45 @@ public class TVShowsFragment extends Fragment implements NetworkLoader.NetworkLo
     }
 
     private void fetchTVShows(final int page) {
-        HTTPLoaderUtil.with(mContext)
-                .tryCall(new HTTPLoaderUtil.HTTPBlock() {
-                    @Override
-                    public void run() {
-                        URL url = null;
-                        switch (mType) {
-                            case TV_AIRING_TODAY:
-                                url = URIBuilderUtils.buildTVAiringTodayURL(page);
-                                break;
-                            case TV_ON_THE_AIR:
-                                url = URIBuilderUtils.buildTVOnTheAirURL(page);
-                                break;
-                            case TV_POPULAR:
-                                url = URIBuilderUtils.builldTVPopularURL(page);
-                                break;
-                            case TV_TOP_RATED:
-                                url = URIBuilderUtils.buildTVTopRatedURL(page);
-                                break;
-                        }
+        HTTPLoaderUtil.with(mContext).tryCall(new HTTPLoaderUtil.HTTPBlock() {
+            @Override
+            public void run() {
+                URL url = null;
+                switch (mType) {
+                    case TV_AIRING_TODAY:
+                        url = URIBuilderUtils.buildTVAiringTodayURL(page);
+                        break;
+                    case TV_ON_THE_AIR:
+                        url = URIBuilderUtils.buildTVOnTheAirURL(page);
+                        break;
+                    case TV_POPULAR:
+                        url = URIBuilderUtils.builldTVPopularURL(page);
+                        break;
+                    case TV_TOP_RATED:
+                        url = URIBuilderUtils.buildTVTopRatedURL(page);
+                        break;
+                }
 
-                        Bundle args = new Bundle();
-                        args.putSerializable(NetworkLoader.URL_EXTRA, url);
-                        if (getActivity() != null && getActivity().getSupportLoaderManager() != null) {
-                            getActivity().getSupportLoaderManager().restartLoader(TV_SHOWS_LOADER_ID, args, mNetworkLoader);
-                        }
-                    }
-                })
-                .onNoNetwork(new HTTPLoaderUtil.HTTPBlock() {
-                    @Override
-                    public void run() {
-                        // If network is unavailable for the first request show the error textview
-                        // Otherview show Toast message
-                        if (page == START_PAGE) {
-                            DisplayUtils.setNoNetworkConnectionMessage(mContext, mBinding.textViewErrorMessage);
-                            mContentLoadingUtil.error();
-                        } else {
-                            Toast.makeText(mContext, getResources().getString(R.string.no_network_connection_error_message), Toast.LENGTH_SHORT).show();
-                            mAdapter.showLoading(false);
-                            mAdapter.notifyDataSetChanged();
-                        }
-                    }
-                }).execute();
+                Bundle args = new Bundle();
+                args.putSerializable(NetworkLoader.URL_EXTRA, url);
+                if (getActivity() != null && getActivity().getSupportLoaderManager() != null) {
+                    getActivity().getSupportLoaderManager().restartLoader(TV_SHOWS_LOADER_ID, args, mNetworkLoader);
+                }
+            }
+        }).onNoNetwork(new HTTPLoaderUtil.HTTPBlock() {
+            @Override
+            public void run() {
+                // If network is unavailable for the first request show the error textview
+                // Otherview show Toast message
+                if (page == START_PAGE) {
+                    DisplayUtils.setNoNetworkConnectionMessage(mContext, mBinding.textViewErrorMessage);
+                    mContentLoadingUtil.error();
+                } else {
+                    Toast.makeText(mContext, getResources().getString(R.string.no_network_connection_error_message), Toast.LENGTH_SHORT).show();
+                    mAdapter.showLoading(false);
+                    mAdapter.notifyDataSetChanged();
+                }
+            }
+        }).execute();
     }
 }

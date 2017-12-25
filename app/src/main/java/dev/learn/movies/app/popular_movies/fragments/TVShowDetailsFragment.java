@@ -231,22 +231,20 @@ public class TVShowDetailsFragment extends BaseDetailsFragment {
     @Override
     public void onLoadFinished(Loader loader, Cursor cursor) {
         if (cursor == null || !cursor.moveToFirst()) {
-            HTTPLoaderUtil.with(mContext)
-                    .tryCall(new HTTPLoaderUtil.HTTPBlock() {
-                        @Override
-                        public void run() {
-                            loadFromNetwork(URIBuilderUtils.buildTVShowDetailsURL(String.valueOf(mResourceId)),
-                                    TV_SHOWS_DETAILS_LOADER_ID);
-                        }
-                    })
-                    .onNoNetwork(new HTTPLoaderUtil.HTTPBlock() {
-                        @Override
-                        public void run() {
-                            DisplayUtils.setNoNetworkConnectionMessage(mContext, mBinding.textViewErrorMessage);
-                            mContentLoadingUtil.error();
-                            mCallbacks.hideFavBtn();
-                        }
-                    }).execute();
+            HTTPLoaderUtil.with(mContext).tryCall(new HTTPLoaderUtil.HTTPBlock() {
+                @Override
+                public void run() {
+                    loadFromNetwork(URIBuilderUtils.buildTVShowDetailsURL(String.valueOf(mResourceId)),
+                            TV_SHOWS_DETAILS_LOADER_ID);
+                }
+            }).onNoNetwork(new HTTPLoaderUtil.HTTPBlock() {
+                @Override
+                public void run() {
+                    DisplayUtils.setNoNetworkConnectionMessage(mContext, mBinding.textViewErrorMessage);
+                    mContentLoadingUtil.error();
+                    mCallbacks.hideFavBtn();
+                }
+            }).execute();
         } else {
             switch (loader.getId()) {
                 case LOCAL_TV_SHOW_DETAILS_LOADER_ID:

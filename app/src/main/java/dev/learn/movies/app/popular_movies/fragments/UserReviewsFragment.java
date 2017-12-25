@@ -141,26 +141,24 @@ public class UserReviewsFragment extends Fragment implements NetworkLoader.Netwo
     }
 
     private void fetchMovieReviews(final long movieId) {
-        HTTPLoaderUtil.with(mContext)
-                .tryCall(new HTTPLoaderUtil.HTTPBlock() {
-                    @Override
-                    public void run() {
-                        loadMovieReviewsFromNetwork(movieId);
-                    }
-                })
-                .onNoNetwork(new HTTPLoaderUtil.HTTPBlock() {
-                    @Override
-                    public void run() {
-                        if (mPage == START_PAGE) {
-                            DisplayUtils.setNoNetworkConnectionMessage(mContext, mBinding.textViewErrorMessage);
-                            mContentLoadingUtil.error();
-                        } else {
-                            Toast.makeText(mContext, getResources().getString(R.string.no_network_connection_error_message), Toast.LENGTH_SHORT).show();
-                            mAdapter.showLoading(false);
-                            mAdapter.notifyDataSetChanged();
-                        }
-                    }
-                }).execute();
+        HTTPLoaderUtil.with(mContext).tryCall(new HTTPLoaderUtil.HTTPBlock() {
+            @Override
+            public void run() {
+                loadMovieReviewsFromNetwork(movieId);
+            }
+        }).onNoNetwork(new HTTPLoaderUtil.HTTPBlock() {
+            @Override
+            public void run() {
+                if (mPage == START_PAGE) {
+                    DisplayUtils.setNoNetworkConnectionMessage(mContext, mBinding.textViewErrorMessage);
+                    mContentLoadingUtil.error();
+                } else {
+                    Toast.makeText(mContext, getResources().getString(R.string.no_network_connection_error_message), Toast.LENGTH_SHORT).show();
+                    mAdapter.showLoading(false);
+                    mAdapter.notifyDataSetChanged();
+                }
+            }
+        }).execute();
     }
 
     /**
