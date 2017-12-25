@@ -10,9 +10,9 @@ Google Play: https://play.google.com/store/apps/details?id=dev.learn.movies.app.
 - Obtain an api key from [The Movie DB(TMDB)](https://www.themoviedb.org/documentation/api) and add **API_KEY=<YOUR_API_KEY>** to the gradle.properties(Create one if it doesn't exist already) file.
 
 ### Screenshots:
-![screenshot_1](https://github.com/scaffeinate/Popular-Movies-Android/blob/master/screenshots/screenshot_merged_0.jpg?raw=true)
-![screenshot_2](https://github.com/scaffeinate/Popular-Movies-Android/blob/master/screenshots/screenshot_merged_1.jpg?raw=true)
-![screenshot_3](https://github.com/scaffeinate/Popular-Movies-Android/blob/master/screenshots/screenshot_merged_2.jpg?raw=true)
+![screenshot_1](https://github.com/scaffeinate/Inflix/blob/master/screenshots/phone/phone_collage.jpg?raw=true)
+![screenshot_2](https://github.com/scaffeinate/Inflix/blob/master/screenshots/7-tablet/tablet-collage.jpg?raw=true)
+![screenshot_3](https://github.com/scaffeinate/Inflix/blob/master/screenshots/10-tablet/10-tablet-collage.jpg?raw=true)
 
 ### Changelog:
 #### V1.0:
