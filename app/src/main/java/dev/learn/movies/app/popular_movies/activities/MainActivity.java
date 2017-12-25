@@ -163,11 +163,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     break;
                 case R.id.action_share:
                     String mimeType = "text/plain";
-                    String title = "Share Inflix";
+                    String title = getString(R.string.share_inflix);
                     ShareCompat.IntentBuilder.from(this)
                             .setType(mimeType)
                             .setChooserTitle(title)
-                            .setText("Discover Movies using Inflix! Google Play Link: " +
+                            .setText(getString(R.string.app_short_description) +
                                     "http://play.google.com/store/apps/details?id=" + getPackageName())
                             .startChooser();
                     closeDrawer();
@@ -178,7 +178,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     try {
                         startActivity(myAppLinkToMarket);
                     } catch (ActivityNotFoundException e) {
-                        Toast.makeText(this, "Unable to find Google Play store", Toast.LENGTH_LONG).show();
+                        Toast.makeText(this, getString(R.string.google_play_store_not_found), Toast.LENGTH_LONG).show();
                     }
                     closeDrawer();
                     return;

@@ -106,7 +106,7 @@ public final class DisplayUtils {
         }
 
         if (year != -1) {
-            builder.append(" (").append(year).append(")");
+            builder.append(" ").append("(").append(year).append(")");
         }
         return builder.toString();
     }
@@ -210,14 +210,14 @@ public final class DisplayUtils {
         }
     }
 
-    public static void shareURL(Activity activity, String title, URL url) {
-        if (url != null) {
+    public static void shareText(Activity activity, String title, String text) {
+        if (text != null) {
             String mimeType = "text/plain";
             ShareCompat.IntentBuilder
                     .from(activity)
                     .setType(mimeType)
                     .setChooserTitle("Share " + title)
-                    .setText(url.toString())
+                    .setText(text)
                     .startChooser();
         }
     }

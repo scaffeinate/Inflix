@@ -269,16 +269,16 @@ public class TVShowDetailsFragment extends BaseDetailsFragment {
         String backdropURL = mTVShowDetail.getBackdropPath();
         String posterURL = mTVShowDetail.getPosterPath();
         String title = mTVShowDetail.getName();
-        String episodeRunningTime = "0 min";
+        String episodeRunningTime = 0 + " " + getString(R.string.min);
         if (mTVShowDetail.getEpisodeRunTime() != null && !mTVShowDetail.getEpisodeRunTime().isEmpty()) {
-            episodeRunningTime = mTVShowDetail.getEpisodeRunTime().get(0) + " min";
+            episodeRunningTime = mTVShowDetail.getEpisodeRunTime().get(0) + " " + getString(R.string.min);
         }
         String status = mTVShowDetail.getStatus();
         String rating = String.valueOf(voteAverage);
         String voteCount = "(" + mTVShowDetail.getVoteCount() + ")";
         String plot = mTVShowDetail.getOverview();
-        String numEpisodes = mTVShowDetail.getNumberOfEpisodes() + " Episodes";
-        String numSeasons = (mTVShowDetail.getNumberOfSeasons() + 1) + " Seasons";
+        String numEpisodes = mTVShowDetail.getNumberOfEpisodes() + " " + getString(R.string.episodes);
+        String numSeasons = (mTVShowDetail.getNumberOfSeasons() + 1) + " " + getString(R.string.seasons);
         String firstAired = mTVShowDetail.getFirstAirDate();
         String lastAired = mTVShowDetail.getLastAirDate();
         List<Genre> genres = mTVShowDetail.getGenres();
@@ -334,13 +334,13 @@ public class TVShowDetailsFragment extends BaseDetailsFragment {
         if (!TextUtils.isEmpty(firstAired)) {
             mBinding.layoutContent.textViewFirstAirDate.setText(DisplayUtils.formatDate(firstAired));
         } else {
-            mBinding.layoutContent.textViewFirstAirDate.setText("N/A");
+            mBinding.layoutContent.textViewFirstAirDate.setText(getString(R.string.not_available));
         }
 
         if (!TextUtils.isEmpty(lastAired)) {
             mBinding.layoutContent.textViewLastAirDate.setText(DisplayUtils.formatDate(lastAired));
         } else {
-            mBinding.layoutContent.textViewLastAirDate.setText("N/A");
+            mBinding.layoutContent.textViewLastAirDate.setText(getString(R.string.not_available));
         }
 
         if (seasonList != null && !seasonList.isEmpty()) {

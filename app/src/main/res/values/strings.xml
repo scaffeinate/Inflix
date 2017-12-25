@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Inflix</string>
+    <string name="app_short_description"> Discover Movies &amp; TVShows using Inflix! Google Play Link: </string>
 
     <string name="open">Open</string>
     <string name="close">Close</string>
@@ -56,6 +57,9 @@
     <string name="cast">Cast</string>
     <string name="seasons">Seasons</string>
     <string name="season">Season</string>
+    <string name="episodes">Episodes</string>
+    <string name="min">min</string>
+    <string name="not_available">N/A</string>
 
     <string name="added_to_favorites">Added to Favorites</string>
     <string name="removed_from_favorites">Removed from Favorites</string>
@@ -63,6 +67,8 @@
     <string name="removed_from_bookmarks">Removed from Bookmarks</string>
     <string name="out_of_10">/10</string>
     <string name="videos">Videos</string>
+    <string name="share_inflix">Share Inflix</string>
+    <string name="google_play_store_not_found">Unable to find Google Play store</string>
 
     <string name="placeholder_image">Placeholder when image load fails.</string>
     <string name="backdrop_image">Backdrop Image in activity_detail</string>

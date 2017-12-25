@@ -282,7 +282,7 @@ public class MovieDetailsFragment extends BaseDetailsFragment implements View.On
         String backdropURL = mMovieDetail.getBackdropPath();
         String posterURL = mMovieDetail.getPosterPath();
         String title = mMovieDetail.getTitle();
-        String runningTime = mMovieDetail.getRuntime() + " min";
+        String runningTime = mMovieDetail.getRuntime() + " " + getString(R.string.min);
         String status = mMovieDetail.getStatus();
         String rating = String.valueOf(voteAverage);
         String voteCount = "(" + mMovieDetail.getVoteCount() + ")";

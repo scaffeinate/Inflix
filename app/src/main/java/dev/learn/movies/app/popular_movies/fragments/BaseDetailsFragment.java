@@ -168,7 +168,10 @@ public abstract class BaseDetailsFragment extends Fragment implements
                             public void run() {
                                 URL shareURL = isMovieDetailFragment ? URIBuilderUtils.buildTMDBMovieURL(String.valueOf(mResourceId)) :
                                         URIBuilderUtils.buildTMDBTVShowURL(String.valueOf(mResourceId));
-                                DisplayUtils.shareURL(getActivity(), mResourceTitle, shareURL);
+                                if(shareURL != null) {
+                                    String shareText = mResourceTitle + " - " + shareURL.toString();
+                                    DisplayUtils.shareText(getActivity(), mResourceTitle, shareText);
+                                }
                             }
                         })
                         .execute();
