@@ -7,7 +7,7 @@ android {
         applicationId "dev.learn.movies.app.popularmovies_udacity"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 1
+        versionCode 2
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "API_KEY", API_KEY)
@@ -50,6 +50,5 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.google.code.gson:gson:2.8.0'
     compile 'com.nex3z:flow-layout:1.0.0'
-    compile 'com.facebook.stetho:stetho:1.5.0'
     testCompile 'junit:junit:4.12'
 }

@@ -216,7 +216,7 @@ public final class DisplayUtils {
             ShareCompat.IntentBuilder
                     .from(activity)
                     .setType(mimeType)
-                    .setChooserTitle("Share " + title)
+                    .setChooserTitle("Share: " + title)
                     .setText(text)
                     .startChooser();
         }

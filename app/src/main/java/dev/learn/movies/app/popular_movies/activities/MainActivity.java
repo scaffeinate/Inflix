@@ -163,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     break;
                 case R.id.action_share:
                     String mimeType = "text/plain";
-                    String title = getString(R.string.share_inflix);
+                    String title = getString(R.string.spread_the_word);
                     ShareCompat.IntentBuilder.from(this)
                             .setType(mimeType)
                             .setChooserTitle(title)

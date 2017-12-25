@@ -40,7 +40,7 @@
                 layout="@layout/layout_cast"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/fragment_movie_details_layout_content_margin_top"
+                android:layout_marginTop="@dimen/fragment_movie_details_layout_cast_margin_top"
                 android:clipToPadding="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"

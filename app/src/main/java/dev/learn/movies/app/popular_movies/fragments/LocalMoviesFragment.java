@@ -157,6 +157,7 @@ public class LocalMoviesFragment extends Fragment implements ContentLoader.Conte
         switch (loader.getId()) {
             case FAVORITES_LOADER_ID:
                 if (cursor == null || cursor.getCount() == 0) {
+                    mBinding.textViewErrorMessage.setText(getString(R.string.no_favorites_found));
                     mContentLoadingUtil.error();
                 } else {
                     mCursor = cursor;
@@ -167,6 +168,7 @@ public class LocalMoviesFragment extends Fragment implements ContentLoader.Conte
                 break;
             case BOOKMARKS_LOADER_ID:
                 if (cursor == null || !cursor.moveToFirst()) {
+                    mBinding.textViewErrorMessage.setText(getString(R.string.no_bookmarks_found));
                     mContentLoadingUtil.error();
                 } else {
                     mCursor = cursor;

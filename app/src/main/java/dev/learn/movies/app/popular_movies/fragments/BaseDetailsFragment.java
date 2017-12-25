@@ -3,6 +3,7 @@ package dev.learn.movies.app.popular_movies.fragments;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.database.sqlite.SQLiteException;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,6 +15,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -65,6 +67,8 @@ public abstract class BaseDetailsFragment extends Fragment implements
         OnItemClickHandler,
         NetworkLoader.NetworkLoaderCallback,
         ContentLoader.ContentLoaderCallback {
+
+    private static final String TAG = BaseDetailsFragment.class.getSimpleName();
 
     protected static final String DETAILS = "details";
     protected static final String SIMILAR = "similar";
@@ -149,12 +153,20 @@ public abstract class BaseDetailsFragment extends Fragment implements
 
                 if (mediaDetail.isBookmarked()) {
                     if (getActivity() != null && getActivity().getContentResolver() != null) {
-                        getActivity().getContentResolver().delete(uri, null, null);
+                        try {
+                            getActivity().getContentResolver().delete(uri, null, null);
+                        } catch (UnsupportedOperationException e) {
+                            Log.e(TAG, " Exception occurred while removing bookmark from media item: " + e.getMessage());
+                        }
                     }
                 } else {
                     ContentValues cv = isMovieDetailFragment ? MovieDetail.toContentValues(mMovieDetail) : TVShowDetail.toContentValues(mTVShowDetail);
                     if (cv != null && getActivity() != null && getActivity().getContentResolver() != null) {
-                        getActivity().getContentResolver().insert(uri, cv);
+                        try {
+                            getActivity().getContentResolver().insert(uri, cv);
+                        } catch (UnsupportedOperationException | SQLiteException e) {
+                            Log.e(TAG, " Exception occurred while bookmarking media item: " + e.getMessage());
+                        }
                     }
                 }
                 mediaDetail.setBookmarked(!mediaDetail.isBookmarked());
@@ -168,7 +180,7 @@ public abstract class BaseDetailsFragment extends Fragment implements
                             public void run() {
                                 URL shareURL = isMovieDetailFragment ? URIBuilderUtils.buildTMDBMovieURL(String.valueOf(mResourceId)) :
                                         URIBuilderUtils.buildTMDBTVShowURL(String.valueOf(mResourceId));
-                                if(shareURL != null) {
+                                if (shareURL != null) {
                                     String shareText = mResourceTitle + " - " + shareURL.toString();
                                     DisplayUtils.shareText(getActivity(), mResourceTitle, shareText);
                                 }
@@ -221,12 +233,20 @@ public abstract class BaseDetailsFragment extends Fragment implements
                 .build();
         if (mediaDetail.isFavored()) {
             if (getActivity() != null && getActivity().getContentResolver() != null) {
-                getActivity().getContentResolver().delete(uri, null, null);
+                try {
+                    getActivity().getContentResolver().delete(uri, null, null);
+                } catch (UnsupportedOperationException e) {
+                    Log.e(TAG, " Exception occurred while unfavoring media item: " + e.getMessage());
+                }
             }
         } else {
             ContentValues cv = isMovieDetailFragment ? MovieDetail.toContentValues(mMovieDetail) : TVShowDetail.toContentValues(mTVShowDetail);
             if (cv != null && getActivity() != null && getActivity().getContentResolver() != null) {
-                getActivity().getContentResolver().insert(uri, cv);
+                try {
+                    getActivity().getContentResolver().insert(uri, cv);
+                } catch (UnsupportedOperationException | SQLiteException e) {
+                    Log.e(TAG, " Exception occurred while favoring media item: " + e.getMessage());
+                }
             }
         }
 

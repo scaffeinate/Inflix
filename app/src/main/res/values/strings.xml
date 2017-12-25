@@ -42,6 +42,8 @@
     <string name="no_plot_available">No Plot Available.</string>
     <string name="imdb_link_not_available">IMDB Link not available.</string>
     <string name="no_trailers_error_message">No trailers found.</string>
+    <string name="no_favorites_found">No favorites found.</string>
+    <string name="no_bookmarks_found">No bookmarks found.</string>
 
     <string name="plot">Plot</string>
     <string name="tagline">Tagline</string>
@@ -67,7 +69,7 @@
     <string name="removed_from_bookmarks">Removed from Bookmarks</string>
     <string name="out_of_10">/10</string>
     <string name="videos">Videos</string>
-    <string name="share_inflix">Share Inflix</string>
+    <string name="spread_the_word">Spread the word!</string>
     <string name="google_play_store_not_found">Unable to find Google Play store</string>
 
     <string name="placeholder_image">Placeholder when image load fails.</string>
