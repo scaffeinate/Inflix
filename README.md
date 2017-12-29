@@ -15,6 +15,11 @@ Google Play: https://play.google.com/store/apps/details?id=dev.learn.movies.app.
 ![screenshot_3](https://github.com/scaffeinate/Inflix/blob/master/screenshots/10-tablet/10-tablet-collage.jpg?raw=true)
 
 ### Changelog:
+#### V1.1 [TODO]:
+- Search for Movies, TV Shows & Actors separately and show results using a ViewPager.
+- Cast Detail Fragment
+- SeasonDetails in AdditionInfoActivity
+- Reviews Page UI changes.
 #### V1.0:
 - Added support to discover Movies & TV Shows.
 - Brand New UI.
