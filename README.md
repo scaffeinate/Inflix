@@ -1,4 +1,4 @@
-# Popular-Movies:
+# Inflix:
 ![web_hi_res_512](https://user-images.githubusercontent.com/1825853/31562656-3a7311d2-b02a-11e7-87e6-bdbb5a1ff874.png)
 
 Inflix - Discover movies and TV Shows. Powered by TMDb(themoviedb.org). Developed for Udacity Android Nanodegree Program.
